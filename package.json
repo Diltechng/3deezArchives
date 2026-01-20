@@ -12,6 +12,7 @@
   },
   "type": "module",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.3",
     "drizzle-orm": "^0.45.1",
@@ -27,6 +28,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/bcrypt": "^6.0.0",
     "@types/node": "^20",
     "@types/pg": "^8.16.0",
     "@types/react": "^19",
