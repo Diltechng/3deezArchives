@@ -17,3 +17,10 @@ export const users = pgTable("users", {
   isActive: boolean("is_active").default(true),
   ...timestamps,
 });
+
+export const verificationTokens = pgTable("verification_tokens", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  tokenHash: text("token_hash").notNull().unique(),
+  userId: uuid("user_id").references(() => users.id),
+  ...timestamps,
+});
