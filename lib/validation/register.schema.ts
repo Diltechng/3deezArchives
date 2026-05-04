@@ -20,7 +20,7 @@ export function validateRegisterInput(data: RegisterInput) {
   if (!validated.success) {
     const flattenedError = z.flattenError(validated.error).fieldErrors;
 
-    throw new ValidationError("Validation Error", {
+    throw new ValidationError("Invalid or malformed registration credentials", {
       details: flattenedError
     });
   }
