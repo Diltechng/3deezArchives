@@ -2,15 +2,13 @@ import z from "zod";
 import { ValidationError } from "../errors";
 
 
-interface VerifyEmailInput {
-  token: string;
-}
+const verifyEmailInputSchema = z.object({
+  token: z.string("Please enter a valid token").trim().max(255, "Token is too long")
+});
 
-export const validateVerifyEmailInput = (data: VerifyEmailInput) => {
-  const verifyEmailInputSchema = z.object({
-    token: z.string("Please enter a valid token").trim().max(255, "Token is too long")
-  });
+export type VerifyEmailInput = z.infer<typeof verifyEmailInputSchema>;
 
+export const validateVerifyEmailInput = (data: unknown) => {
   const validated = verifyEmailInputSchema.safeParse(data);
 
   if (!validated.success) {

@@ -1,20 +1,17 @@
 import z from "zod";
 import { ValidationError } from "../errors";
 
-interface RegisterInput {
-  email: string;
-  fullName: string;
-}
 
+const registerInputSchema = z.object({
+  email: z.email("Please enter a valid email"),
+  fullName: z.string("Please enter a valid name")
+    .min(6, "Full name must be at least 6 characters long")
+    .max(255, "Full name is too long")
+});
 
-export function validateRegisterInput(data: RegisterInput) {
-  const registerInputSchema = z.object({
-    email: z.email("Please enter a valid email"),
-    fullName: z.string("Please enter a valid name")
-      .min(6, "Full name must be at least 6 characters long")
-      .max(255, "Full name is too long")
-  });
+export type RegisterInput = z.infer<typeof registerInputSchema>;
 
+export function validateRegisterInput(data: unknown) {
   const validated = registerInputSchema.safeParse(data);
 
   if (!validated.success) {
