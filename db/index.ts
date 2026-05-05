@@ -1,6 +1,7 @@
 import "server-only";
-import { drizzle } from "drizzle-orm/node-postgres";
+import { drizzle, NodePgDatabase } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
+import { DbSchema, schema } from "./schema";
 
 const globalForDb = globalThis as unknown as {
   pool: Pool | undefined;
@@ -16,4 +17,4 @@ if (process.env.NODE_ENV !== "production") {
   globalForDb.pool = pool;
 }
 
-export const db = drizzle(pool);
+export const db: NodePgDatabase<DbSchema> = drizzle(pool, { schema });

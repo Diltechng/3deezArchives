@@ -8,6 +8,34 @@
       "when": 1767963353671,
       "tag": "0000_faithful_winter_soldier",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1777927837080,
+      "tag": "0001_perpetual_reaper",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1777928087202,
+      "tag": "0002_even_prism",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1777968713576,
+      "tag": "0003_mysterious_speed_demon",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1777969370847,
+      "tag": "0004_colossal_emma_frost",
+      "breakpoints": true
     }
   ]
 }
