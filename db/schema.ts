@@ -22,5 +22,6 @@ export const verificationTokens = pgTable("verification_tokens", {
   id: uuid("id").defaultRandom().primaryKey(),
   tokenHash: text("token_hash").notNull().unique(),
   userId: uuid("user_id").references(() => users.id),
+  expiresAt: timestamp("expires_at").notNull(),
   ...timestamps,
 });
