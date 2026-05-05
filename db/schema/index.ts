@@ -1,12 +1,11 @@
-import { users, verificationTokens } from './users'
+import { users, verificationTokens } from "./users";
 
-export * as users from './users'
-export * as verificationTokens from './users'
-export * from './users'
+export * as users from "./users";
+export * from "./users";
 
 export const schema = {
-  ...users,
-  ...verificationTokens
-} as const
+  users,
+  verificationTokens,
+} as const;
 
-export type DbSchema = typeof schema
+export type DbSchema = typeof schema;
