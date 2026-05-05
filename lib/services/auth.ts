@@ -47,7 +47,6 @@ export async function verifyEmail(userId: string, data: VerifyEmailInput) {
     const verificationToken = record.verificationTokens;
 
     if (verificationToken.expiresAt >= new Date()) {
-      throw new VerificationError("Verification Token has expired");
     }
 
     await tx
