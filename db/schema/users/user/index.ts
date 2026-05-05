@@ -1,12 +1,10 @@
 import { pgTable, uuid, text, timestamp, boolean } from "drizzle-orm/pg-core";
+import { timestamps } from "../../shared";
+import { schema } from "../..";
 
 /**
  * Users table
  */
-const timestamps = {
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow()
-}
 
 export const users = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -15,13 +13,5 @@ export const users = pgTable("users", {
   passwordHash: text("password_hash"),
   isVerified: boolean("is_verified").default(false),
   isActive: boolean("is_active").default(true),
-  ...timestamps,
-});
-
-export const verificationTokens = pgTable("verification_tokens", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  tokenHash: text("token_hash").notNull().unique(),
-  userId: uuid("user_id").references(() => users.id),
-  expiresAt: timestamp("expires_at").notNull(),
   ...timestamps,
 });

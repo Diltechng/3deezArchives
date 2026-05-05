@@ -34,3 +34,23 @@ export class ValidationError extends AppError {
     });
   }
 }
+
+export class VerificationError extends AppError {
+  constructor(message: string, options?: ErrorOptions) {
+    super(message, {
+      statusCode: 400,
+      code: options?.code,
+      details: options?.details
+    });
+  }
+}
+
+export class TokenExpiredError extends AppError {
+  constructor(message: string, options?: ErrorOptions) {
+    super(message, {
+      statusCode: 410,
+      code: options?.code,
+      details: options?.details
+    });
+  }
+}
