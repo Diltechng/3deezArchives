@@ -1,20 +1,25 @@
-import { registerUser } from "@/lib/services/auth";
-import { sendVerificationEmail } from "@/lib/services/mail";
-import { validateRegisterInput } from "@/lib/validation/register.schema";
+import { authService } from "@/features/auth";
+import { validateRegisterInput } from "@/features/auth";
 import { NextRequest, NextResponse } from "next/server";
-
+import { mailService } from "@/features/mailing";
 
 export const POST = async (req: NextRequest) => {
   const body = await req.json();
 
   const validatedData = validateRegisterInput(body);
 
-  const verificationToken = await registerUser(validatedData);
+  const registered = await authService.registerUser(validatedData);
 
-  await sendVerificationEmail({ email: validatedData.email, token: verificationToken });
+  await mailService.sendVerificationEmail({
+    email: validatedData.email,
+    token: registered.token
+  });
 
   return NextResponse.json({
     success: true,
-    message: "User registered succuessfully"
+    message: "User registered succuessfully",
+    data: {
+      userId: registered.userId
+    }
   });
 }

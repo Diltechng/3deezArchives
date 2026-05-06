@@ -1,10 +1,7 @@
-import { db } from "@/db";
-import { users, verificationTokens } from "@/db/schema/users/user";
-import { validateVerifyEmailInput } from "@/lib/validation/verify-email.schema";
-import { generateHash } from "@/lib/crypto";
-import { eq } from "drizzle-orm";
+import { validateVerifyEmailInput } from "@/features/mailing";
 import { NextRequest, NextResponse } from "next/server";
-import { verifyEmail } from "@/lib/services/auth";
+import { cookies } from "next/headers";
+import { authService } from "@/features/auth";
 
 
 export const PATCH = async (req: NextRequest) => {
@@ -12,7 +9,9 @@ export const PATCH = async (req: NextRequest) => {
 
   const validatedData = validateVerifyEmailInput(body);
 
-  await verifyEmail(validatedData);
+  await authService.verifyEmail(validatedData);
+
+  await cookies()
 
   return NextResponse.json({
     success: true,
