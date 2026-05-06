@@ -1,6 +1,5 @@
 import { users, verificationTokens } from "./users";
 
-export * as users from "./users";
 export * from "./users";
 
 export const schema = {
