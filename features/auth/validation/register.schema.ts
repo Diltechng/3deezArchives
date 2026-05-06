@@ -1,6 +1,5 @@
 import z from "zod";
-import { ValidationError } from "../errors";
-
+import { ValidationError } from "@/features/errors";
 
 const registerInputSchema = z.object({
   email: z.email("Please enter a valid email"),

@@ -5,6 +5,6 @@ export function generateHash(data: string) {
 }
 
 
-export function generateRandomString() {
-  return crypto.randomBytes(32).toString("base64url");
+export function generateOTP() {
+  return crypto.randomInt(100000, 1000000).toString();
 }
