@@ -1,0 +1,61 @@
+import { ApiErrorCode, ExpiredError, InternalServerError, VerificationError } from "@/lib/errors";
+import jwt from "jsonwebtoken";
+import crypto from "crypto";
+import { db } from "@/db";
+import { sessions, users } from "@/db/schema";
+import { sha256Hash } from "@/lib/crypto";
+import { days } from "@/utils/time";
+import { eq } from "drizzle-orm";
+
+class TokenService {
+  signJwt(payload: any) {
+    const secret = process.env.JWT_SECRET;
+
+    if (!secret)
+      throw new InternalServerError();
+
+    const token = jwt.sign(payload, secret, {
+      expiresIn: "1h"
+    });
+
+    return token;
+  }
+
+  async createSession(userId: string) {
+    const refresToken = "rt-v1_" + crypto.randomBytes(32).toString("base64url");
+    const tokenHash = sha256Hash(refresToken);
+    const expiresAt = new Date(Date.now() + days(7));
+
+    await db.insert(sessions).values({
+      userId,
+      tokenHash,
+      expiresAt
+    });
+
+    return refresToken;
+  }
+
+  async verifySession(token: string) {
+    const tokenHash = sha256Hash(token);
+
+    const [record] = await db.select().from(sessions)
+      .innerJoin(users, eq(sessions.userId, users.id))
+      .where(eq(sessions.tokenHash, tokenHash));
+
+    if (!record)
+      throw new VerificationError("Invalid or expired auth session", {
+        code: ApiErrorCode.INVALID_AUTH_SESSION
+      });
+
+    if (Date.now() >= record.sessions.expiresAt.getTime())
+      throw new ExpiredError("Auth session has expired", {
+        code: ApiErrorCode.EXPIRED_AUTH_SESSION
+      });
+
+    return {
+      userId: record.users.id
+    }
+  }
+}
+
+export const tokenService = new TokenService();
