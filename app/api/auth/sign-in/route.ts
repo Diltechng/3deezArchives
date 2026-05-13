@@ -28,4 +28,4 @@ export const POST = handleError(async req => {
     message: "You have been signed in successfully",
     data: { accessToken }
   });
-})
+});

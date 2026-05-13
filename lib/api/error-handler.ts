@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ApiError, ApiErrorCode } from "../errors";
+import { ApiResponse } from "./types";
 
 export type ResponseData = {
   success: boolean;
@@ -12,10 +13,10 @@ export type ResponseData = {
   }
 };
 
-export function handleError(apiFn: (req: NextRequest) => Promise<NextResponse> | NextResponse) {
+export function handleError(handler: (req: NextRequest) => ApiResponse) {
   return async (req: NextRequest) => {
     try {
-      return await apiFn(req);
+      return await handler(req);
     } catch (error) {
       console.error(error);
       if (error instanceof ApiError) {

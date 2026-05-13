@@ -70,10 +70,6 @@ export const AuthProvider = ({ children }: Readonly<{
     refresh();
   }, [router]);
   
-  useEffect(() => {
-    console.log("This is the auth context.\nYour token is:", accessToken);
-  }, [accessToken]);
-  
   const value = {
     accessToken,
     refreshAccessToken,

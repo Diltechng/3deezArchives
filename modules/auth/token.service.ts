@@ -21,6 +21,17 @@ class TokenService {
     return token;
   }
 
+  verifyJwt(token: string) {
+    const secret = process.env.JWT_SECRET;
+
+    if (!secret)
+      throw new InternalServerError();
+
+    const payload = jwt.verify(token, secret);
+    
+    return payload;
+  }
+
   async createSession(userId: string) {
     const refresToken = "rt-v1_" + crypto.randomBytes(32).toString("base64url");
     const tokenHash = sha256Hash(refresToken);

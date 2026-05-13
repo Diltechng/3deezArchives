@@ -1,22 +1,21 @@
 "use client"
 import { useAuthFetch } from "@/hooks/useAuthFetch";
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 const page = () => {
   const authFetch = useAuthFetch();
+  const [info, setInfo] = useState<string>();
 
   async function makeRequest() {
-    await authFetch("/api/home");
+    const response = await authFetch("/api/me");
+    const body = await response.json();
+    setInfo(`Email ${body.data.user.email} Count ${body.data.count}`);
   }
-
-  useEffect(() => {
-
-    makeRequest();
-  }, []);
 
   return (
     <div>
-      <p>Home</p>
+      <h1>Home</h1>
+      {info && <p>{info}</p>}
       <button onClick={makeRequest}>click me</button>
     </div>
   )
