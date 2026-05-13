@@ -1,24 +1,47 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Company Events Archive
 
-First, run the development server:
+A web application for storing, organizing, and viewing company event records and photos in one centralized platform.
+
+## Installation
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/Diltechng/3deezArchives.git
+```
+
+2. Navigate to the project folder
+
+```bash
+cd 3deezArchives
+```
+
+3. Install dependencies
+
+```bash
+npm install
+```
+
+4. Start the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create a `.env` file in the root directory and add:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+DATABASE_URL=your_postgresql_connection
+
+GOOGLE_MAIL_USER=your_gmail
+GOOGLE_APP_PASSWORD=your_gmail_app_password
+
+JWT_SECRET=your_secret_key
+```
 
 ## Learn More
 
