@@ -43,6 +43,13 @@
       "when": 1777978415768,
       "tag": "0005_ambiguous_doctor_faustus",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1778654250607,
+      "tag": "0006_next_vengeance",
+      "breakpoints": true
     }
   ]
 }
