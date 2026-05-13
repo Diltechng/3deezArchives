@@ -1,17 +1,17 @@
-import { pgTable, uuid, text, boolean } from "drizzle-orm/pg-core";
+import { pgTable, uuid, text, boolean, pgEnum } from "drizzle-orm/pg-core";
 import { timestamps } from "../../shared";
-import { schema } from "../..";
 
 /**
  * Users table
  */
 
+export const statusEnum = pgEnum("status", ["active", "verified", "pending"])
+
 export const users = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
   email: text("email").notNull().unique(),
-  name: text("name").notNull(),
+  name: text("name"),
   passwordHash: text("password_hash"),
-  isVerified: boolean("is_verified").default(false),
-  isActive: boolean("is_active").default(true),
+  status: statusEnum().default("pending"),
   ...timestamps,
 });
