@@ -1,6 +1,6 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-# 3Deez Archive
+# 3Deez Archives
 
 A web application for storing, organizing, and viewing company event records and photos in one centralized platform.
 
