@@ -1,20 +1,23 @@
-import SignUpForm from "@/component/signup/SignUpForm";
 import Image from "next/image";
 import image from "@/public/images/landscape-morning-fog-mountains-with-hot-air-balloons-sunrise.jpg";
 
-const RegisterPage = () => {
-  
+
+const MainAuthLayout = ({ children }: Readonly<{
+  children: React.ReactNode
+}>) => {
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen text-neutral-800 dark:text-neutral-100">
       <div className="hidden lg:block flex-1 h-full">
         <Image
           src={image}
           alt="Hero image"
           className="w-full object-cover h-full" />
       </div>
-      <SignUpForm />
+      <div className="flex w-full lg:w-140 h-full overflow-x-auto">
+        {children}
+      </div>
     </div>
   )
 }
 
-export default RegisterPage;
+export default MainAuthLayout;
