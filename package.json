@@ -19,6 +19,7 @@
     "dotenv": "^17.2.3",
     "drizzle-orm": "^0.45.1",
     "express": "^5.2.1",
+    "input-otp": "^1.4.2",
     "joi": "^18.0.2",
     "jsonwebtoken": "^9.0.3",
     "next": "16.1.0",
@@ -29,6 +30,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-hook-form": "^7.75.0",
+    "react-toastify": "^11.1.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
