@@ -1,12 +1,13 @@
-import { authService } from "@/features/auth";
-import { validateRegisterInput } from "@/features/auth";
+import { authService } from "@/modules/auth";
+import { validateSignUp } from "@/modules/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { mailService } from "@/features/mailing";
+import { mailService } from "@/modules/mailing";
+import { handleError } from "@/lib/api/error-handler";
 
-export const POST = async (req: NextRequest) => {
+export const POST = handleError(async (req: NextRequest) => {
   const body = await req.json();
 
-  const validatedData = validateRegisterInput(body);
+  const validatedData = validateSignUp(body);
 
   const registered = await authService.registerUser(validatedData);
 
@@ -22,4 +23,4 @@ export const POST = async (req: NextRequest) => {
       userId: registered.userId
     }
   });
-}
+})
