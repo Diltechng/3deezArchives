@@ -4,8 +4,8 @@ import { timestamps } from "../../shared";
 
 export const verificationTokens = pgTable("verification_tokens", {
   id: uuid("id").defaultRandom().primaryKey(),
-  tokenHash: varchar("token_hash").notNull(),
-  userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }),
+  tokenHash: varchar("token_hash").notNull().unique(),
+  userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
   expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
   ...timestamps,
 });

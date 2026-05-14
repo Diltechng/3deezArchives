@@ -12,6 +12,6 @@ export const users = pgTable("users", {
   email: text("email").notNull().unique(),
   name: text("name"),
   passwordHash: text("password_hash"),
-  status: statusEnum().default("pending"),
+  status: statusEnum().default("pending").notNull(),
   ...timestamps,
 });

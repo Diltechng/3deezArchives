@@ -50,6 +50,13 @@
       "when": 1778654250607,
       "tag": "0006_next_vengeance",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1778749783079,
+      "tag": "0007_slimy_doomsday",
+      "breakpoints": true
     }
   ]
 }
