@@ -1,13 +1,19 @@
 import { useAuthContext } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 
 export const useAuthFetch = () => {
+  const router = useRouter();
   const { accessToken, refreshAccessToken } = useAuthContext();
 
   return async (url: string, init: RequestInit = {}) => {
     async function makeRequest(token: string | null | undefined, { retry }: { retry: boolean; }) {
       if (!token) {
         const newToken = await refreshAccessToken();
+
+        if (!newToken)
+          throw new Error("Error refreshing token");
+
         if (retry) {
           return makeRequest(newToken, { retry: false });
         }
@@ -23,9 +29,14 @@ export const useAuthFetch = () => {
       });
 
       if (response.status === 401) {
-        const newToken = await refreshAccessToken();
-        if (retry) {
-          return makeRequest(newToken, { retry: false });
+        try {
+          const newToken = await refreshAccessToken();
+  
+          if (retry) {
+            return makeRequest(newToken, { retry: false });
+          }
+        } catch {
+          router.replace("/auth/signin");
         }
       }
 

@@ -1,6 +1,6 @@
 "use client"
 import { useAuthFetch } from "@/hooks/useAuthFetch";
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 const page = () => {
   const authFetch = useAuthFetch();
@@ -9,7 +9,8 @@ const page = () => {
   async function makeRequest() {
     const response = await authFetch("/api/me");
     const body = await response.json();
-    setInfo(`Email ${body.data.user.email} Count ${body.data.count}`);
+    if (body.data)
+      setInfo(`Email ${body.data.user.email} Count ${body.data.count}`);
   }
 
   return (

@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { createContext, RefObject, useCallback, useContext, useEffect, useRef, useState } from "react"
+import { createContext, useCallback, useContext, useEffect, useState } from "react"
 
 
 type AuthContextType = {

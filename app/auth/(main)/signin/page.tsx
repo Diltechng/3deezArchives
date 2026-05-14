@@ -1,5 +1,5 @@
 "use client"
-import { SignInInput, SignInSchema } from "@/lib/schemas/sign-in.schema";
+import { SignInInput, SignInSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -25,9 +25,7 @@ const SignInPage = () => {
         return;
       }
 
-      console.log(body.data);
-
-      router.push("/");
+      router.push("/home");
     } catch (error) {
       toast.error("Something went wrong, please try again.");
     }
