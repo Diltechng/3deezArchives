@@ -1,3 +1,4 @@
+import { setRefreshTokenCookie } from "@/lib/api/cookies";
 import { handleError, ResponseData } from "@/lib/api/error-handler";
 import { authService, tokenService, validateSignIn } from "@/modules/auth";
 import { days } from "@/utils/time";
@@ -15,13 +16,7 @@ export const POST = handleError(async req => {
 
   const accessToken = tokenService.signJwt({ userId });
 
-  (await cookies()).set("refresh_token", refreshToken, {
-    maxAge: days(7),
-    httpOnly: true,
-    sameSite: "strict",
-    secure: process.env.NODE_ENV === "production",
-    path: "/api/auth/refresh"
-  });
+  await setRefreshTokenCookie(refreshToken);
 
   return NextResponse.json<ResponseData>({
     success: true,
