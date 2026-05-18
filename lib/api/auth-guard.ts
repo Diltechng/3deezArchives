@@ -19,25 +19,27 @@ export function withAuthGuard(handler: (req: NextRequest, context: AuthReqContex
 
     const token = bearerToken.split(" ")[1];
     
+    let decoded;
+
     try {
-      const decoded = sessionService.verifyJwt(token);
-
-      const validatedPayload = validateAccessTokenPayload(decoded);
-
-      if (allowedRoles && !allowedRoles.includes(validatedPayload.role))
-        throw new ForbiddenError("You are not allowed to invite users", {
-          code: ApiErrorCode.INSUFFICIENT_PERMISSIONS
-        });
-      
-      return await handler(req, {
-        ...context,
-        user: validatedPayload
-      });
+      decoded = sessionService.verifyJwt(token);
     } catch {
       throw new UnauthorizedError("Invalid access token", {
         code: ApiErrorCode.INVALID_ACCESS_TOKEN
       });
     }
+
+    const validatedPayload = validateAccessTokenPayload(decoded);
+
+    if (allowedRoles && !allowedRoles.includes(validatedPayload.role))
+      throw new ForbiddenError("You are not allowed access this resource", {
+        code: ApiErrorCode.INSUFFICIENT_PERMISSIONS
+      });
+    
+    return await handler(req, {
+      ...context,
+      user: validatedPayload
+    });
     
   };
 }
