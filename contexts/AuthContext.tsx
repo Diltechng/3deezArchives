@@ -4,6 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 
 type AuthContextType = {
   accessToken: string | null | undefined;
+  deleteAccessToken: () => void;
   refreshAccessToken: () => Promise<string>;
 }
 
@@ -31,7 +32,7 @@ export const AuthProvider = ({ children }: Readonly<{
     if (!refreshPromise) {
       refreshPromise = (async () => {
         try {
-          const response = await fetch("/api/auth/refresh", {
+          const response = await fetch("/api/v1/auth/refresh", {
             method: "POST",
             credentials: "same-origin",
           });
@@ -56,6 +57,10 @@ export const AuthProvider = ({ children }: Readonly<{
     return refreshPromise;
   }, []);
 
+  function deleteAccessToken() {
+    setAccessToken(null);
+  }
+
   useEffect(() => {
     async function refresh() {
       try {
@@ -72,6 +77,7 @@ export const AuthProvider = ({ children }: Readonly<{
   
   const value = {
     accessToken,
+    deleteAccessToken,
     refreshAccessToken,
   }
 
