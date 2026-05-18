@@ -1,25 +1,22 @@
 "use client"
 import { useAuthFetch } from "@/hooks/useAuthFetch";
-import { useState } from "react"
+import Image from "next/image";
+import { useState } from "react";
 
-const page = () => {
+const HomePage = () => {
   const authFetch = useAuthFetch();
   const [info, setInfo] = useState<string>();
 
   async function makeRequest() {
-    const response = await authFetch("/api/me");
+    const response = await authFetch("/api/v1/users/me");
     const body = await response.json();
     if (body.data)
       setInfo(`Email ${body.data.user.email} Count ${body.data.count}`);
   }
-
+  
   return (
-    <div>
-      <h1>Home</h1>
-      {info && <p>{info}</p>}
-      <button onClick={makeRequest}>click me</button>
-    </div>
+    <div>Dashboard</div>
   )
 }
 
-export default page
+export default HomePage;
