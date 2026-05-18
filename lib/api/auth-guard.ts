@@ -1,14 +1,14 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { ApiResponse } from "./types";
-import { ApiErrorCode, UnauthorizedError } from "../errors";
-import { tokenService, validateAccessTokenPayload } from "@/modules/auth";
+import { ApiErrorCode, ForbiddenError, UnauthorizedError } from "../errors";
+import { sessionService, validateAccessTokenPayload } from "@/modules/auth";
 import { AccessTokenPayload } from "../schemas";
 
 export type AuthReqContext = {
   user: AccessTokenPayload;
 } & Record<string, unknown>;
 
-export function withAuthGuard(handler: (req: NextRequest, context: AuthReqContext) => ApiResponse) {
+export function withAuthGuard(handler: (req: NextRequest, context: AuthReqContext) => ApiResponse, allowedRoles?: string[]) {
   return async (req: NextRequest, context?: Record<string, unknown>) => {
     const bearerToken = req.headers.get("Authorization");
 
@@ -20,9 +20,14 @@ export function withAuthGuard(handler: (req: NextRequest, context: AuthReqContex
     const token = bearerToken.split(" ")[1];
     
     try {
-      const decoded = tokenService.verifyJwt(token);
+      const decoded = sessionService.verifyJwt(token);
 
       const validatedPayload = validateAccessTokenPayload(decoded);
+
+      if (allowedRoles && !allowedRoles.includes(validatedPayload.role))
+        throw new ForbiddenError("You are not allowed to invite users", {
+          code: ApiErrorCode.INSUFFICIENT_PERMISSIONS
+        });
       
       return await handler(req, {
         ...context,

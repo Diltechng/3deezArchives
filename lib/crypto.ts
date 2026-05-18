@@ -7,3 +7,7 @@ export function sha256Hash(data: string) {
 export function generateOTP() {
   return crypto.randomInt(100000, 1000000).toString();
 }
+
+export function generateInvitationToken() {
+  return crypto.randomBytes(32).toString("base64url");
+}
