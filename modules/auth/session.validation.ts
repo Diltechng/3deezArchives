@@ -3,10 +3,10 @@ import { RefreshTokenSchema } from "@/lib/schemas";
 import z from "zod";
 
 export function validateRefreshToken(data: unknown) {
-  const validated = RefreshTokenSchema.safeParse(data);
+  const result = RefreshTokenSchema.safeParse(data);
 
-  if (!validated.success) {
-    const flattenedError = z.flattenError(validated.error).formErrors;
+  if (!result.success) {
+    const flattenedError = z.flattenError(result.error).formErrors;
     
     throw new ValidationError("Invalid refresh token", {
       code: ApiErrorCode.INVALID_REFRESH_TOKEN,
@@ -14,5 +14,5 @@ export function validateRefreshToken(data: unknown) {
     });
   }
 
-  return validated.data;
+  return result.data;
 }

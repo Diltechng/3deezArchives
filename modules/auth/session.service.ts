@@ -6,16 +6,17 @@ import { sessions, users } from "@/db/schema";
 import { sha256Hash } from "@/lib/crypto";
 import { days } from "@/utils/time";
 import { eq } from "drizzle-orm";
+import { AccessTokenPayload } from "@/lib/schemas";
 
-class TokenService {
-  signJwt(payload: any) {
+class SessionService {
+  signJwt(payload: AccessTokenPayload) {
     const secret = process.env.JWT_SECRET;
 
     if (!secret)
       throw new InternalServerError();
 
     const token = jwt.sign(payload, secret, {
-      expiresIn: "1h"
+      expiresIn: "5s"
     });
 
     return token;
@@ -49,7 +50,17 @@ class TokenService {
   async verifySession(token: string) {
     const tokenHash = sha256Hash(token);
 
-    const [record] = await db.select().from(sessions)
+    const [record] = await db.select({
+      users: {
+        id: users.id,
+        role: users.role,
+      },
+      sessions: {
+        id: sessions.id,
+        revoked: sessions.revoked,
+        expiresAt: sessions.expiresAt,
+      }
+    }).from(sessions)
       .innerJoin(users, eq(sessions.userId, users.id))
       .where(eq(sessions.tokenHash, tokenHash));
 
@@ -75,10 +86,21 @@ class TokenService {
     }).where(eq(sessions.id, record.sessions.id));
 
     return {
-      payload: { userId: record.users.id },
+      payload: {
+        userId: record.users.id,
+        role: record.users.role
+      },
       refreshToken
     }
   }
+
+  async revokeSession(token: string) {
+    const tokenHash = sha256Hash(token);
+
+    await db.update(sessions).set({
+      revoked: true,
+    }).where(eq(sessions.tokenHash, tokenHash));
+  }
 }
 
-export const tokenService = new TokenService();
+export const sessionService = new SessionService();
