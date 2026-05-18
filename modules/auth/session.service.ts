@@ -16,7 +16,7 @@ class SessionService {
       throw new InternalServerError();
 
     const token = jwt.sign(payload, secret, {
-      expiresIn: "5s"
+      expiresIn: "1h"
     });
 
     return token;
