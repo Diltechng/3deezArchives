@@ -1,8 +1,8 @@
 import z from "zod";
-import { UserIdSChema } from "./shared";
+import { InvitationTokenSchema } from "./shared";
 
 export const ResendVerificationSchema = z.object({
-  userId: UserIdSChema
+  invitationToken: InvitationTokenSchema,
 });
 
 export type ResendVerificationInput = z.infer<typeof ResendVerificationSchema>
