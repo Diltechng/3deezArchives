@@ -2,18 +2,18 @@
 
 @layer components {
   .error-primary {
-    @apply text-[13px] text-red-600 dark:text-red-400;
+    @apply text-[13px] text-red-600;
   }
 
   .btn-primary {
-    @apply duration-200 p-3 font-semibold rounded-md mt-5 text-gray-100 bg-sky-500 disabled:bg-neutral-400 dark:disabled:bg-neutral-600;
+    @apply py-2 font-semibold rounded-lg duration-200 text-gray-100 bg-sky-500 hover:bg-sky-600 disabled:bg-neutral-400;
   }
 
   .input-primary {
-    @apply p-3 rounded-md duration-200 border border-neutral-300 dark:border-neutral-700 focus:border-sky-500 bg-neutral-100 dark:bg-neutral-900;
+    @apply py-2 px-3 text-sm rounded-lg duration-200 border text-neutral-700 border-neutral-300 focus:border-sky-500 bg-neutral-100;
   }
 
   .label-primary {
-    @apply text-[13px] font-semibold text-neutral-700 dark:text-neutral-300;
+    @apply text-[13px] text-neutral-700;
   }
 }

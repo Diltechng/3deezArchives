@@ -1,46 +1,61 @@
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
-import { users, verificationTokens } from "@/db/schema";
-import { generateOTP } from "@/lib/crypto";
-import { ForbiddenError, VerificationError } from "@/lib/errors";
+import { invitations } from "@/db/schema";
+import { generateOTP, sha256Hash } from "@/lib/crypto";
+import { ApiErrorCode, BadRequestError, ExpiredError, ForbiddenError, VerificationError } from "@/lib/errors";
 import { ResendVerificationInput } from "@/lib/schemas";
 import bcrypt from "bcrypt";
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
-
-dayjs.extend(duration);
 
 class VerificationService {
   async generateNewToken(data: ResendVerificationInput) {
     const saltRounds = 10;
-    const token = generateOTP();
-    const tokenHash = await bcrypt.hash(token, saltRounds);
+    const otp = generateOTP();
+    const otpHash = await bcrypt.hash(otp, saltRounds);
+    const tokenHash = sha256Hash(data.invitationToken);
   
-    const email = await db.transaction(async tx => {
-      const [user] = await tx.select().from(users)
-        .where(eq(users.id, data.userId));
-      
-      if (!user)
-        throw new VerificationError("Invalid user id");
-  
-      if (user.status === "verified")
-        throw new ForbiddenError("You are not allowed to access this resource after verification");
-  
-      if (user.status === "active")
-        throw new ForbiddenError("You are not allowed to access this resource after registration");
+    const [invitationRecord] = await db.select({
+      id: invitations.id,
+      email: invitations.email,
+      status: invitations.status,
+      emailVerified: invitations.emailVerified,
+      expiresAt: invitations.expiresAt,
+    }).from(invitations)
+    .where(eq(invitations.tokenHash, tokenHash));
     
-      await tx.delete(verificationTokens).where(eq(verificationTokens.userId, user.id));
-    
-      await tx.insert(verificationTokens).values({
-        tokenHash,
-        userId: data.userId,
-        expiresAt: new Date(Date.now() + dayjs.duration(1, "hour").asMilliseconds())
+    if (!invitationRecord)
+      throw new VerificationError("Invalid invitation", {
+        code: ApiErrorCode.INVALID_INVITATION,
       });
-  
-      return user.email
-    });
 
-    return { email, token };
+    const terminalStatuses = ["expired", "rejected", "revoked", "completed"];
+    
+    if (terminalStatuses.includes(invitationRecord.status))
+      throw new BadRequestError("Invitation is invalid or expired", {
+        code: ApiErrorCode.INVALID_INVITATION
+      });
+
+    if (invitationRecord.emailVerified)
+      throw new ForbiddenError("Verification is already complete");
+
+    if (new Date() >= invitationRecord.expiresAt) {
+      await db.update(invitations).set({
+        status: "expired",
+      }).where(eq(invitations.id, invitationRecord.id));
+
+      throw new ExpiredError("Invite session has expired", {
+        code: ApiErrorCode.EXPIRED_INVITATION
+      });
+    }
+
+    await db.update(invitations).set({
+      otpHash,
+    }).where(eq(invitations.id, invitationRecord.id));
+
+    return {
+      invitationToken: data.invitationToken,
+      email: invitationRecord.email,
+      otp,
+    };
   }
 }
 

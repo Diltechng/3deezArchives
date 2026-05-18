@@ -1,14 +1,14 @@
 import z from "zod";
 import { ApiErrorCode, ValidationError } from "@/lib/errors";
-import { SetPasswordSchema, SignUpSchema } from "@/lib/schemas";
-import { SignInSchema } from "@/lib/schemas/sign-in.schema";
+import { AccessTokenPayloadSchema, SetPasswordSchema, SignUpSchema } from "@/lib/schemas";
+import { SignInSchema } from "@/lib/schemas";
 
 
 export function validateSignIn(data: unknown) {
-  const validated = SignInSchema.safeParse(data);
+  const result = SignInSchema.safeParse(data);
 
-  if (!validated.success) {
-    const flattenedError = z.flattenError(validated.error).fieldErrors;
+  if (!result.success) {
+    const flattenedError = z.flattenError(result.error).fieldErrors;
 
     throw new ValidationError("Invalid sign in data", {
       code: ApiErrorCode.INVALID_SIGNIN_DATA,
@@ -16,14 +16,14 @@ export function validateSignIn(data: unknown) {
     });
   }
 
-  return validated.data;
+  return result.data;
 }
 
 export function validateSignUp(data: unknown) {
-  const validated = SignUpSchema.safeParse(data);
+  const result = SignUpSchema.safeParse(data);
 
-  if (!validated.success) {
-    const flattenedError = z.flattenError(validated.error).fieldErrors;
+  if (!result.success) {
+    const flattenedError = z.flattenError(result.error).fieldErrors;
 
     throw new ValidationError("Invalid sign up data", {
       code: ApiErrorCode.INVALID_SIGNUP_DATA,
@@ -31,19 +31,34 @@ export function validateSignUp(data: unknown) {
     });
   }
 
-  return validated.data;
+  return result.data;
 }
 
 export function validateSetPassword(data: unknown) {
-  const validated = SetPasswordSchema.safeParse(data);
+  const result = SetPasswordSchema.safeParse(data);
 
-  if (!validated.success) {
-    const flattenedError = z.flattenError(validated.error).fieldErrors;
+  if (!result.success) {
+    const flattenedError = z.flattenError(result.error).fieldErrors;
 
     throw new ValidationError("Invalid or malformed password data", {
       details: flattenedError
     });
   }
 
-  return validated.data;
+  return result.data;
+}
+
+export function validateAccessTokenPayload(data: unknown) {
+  const result = AccessTokenPayloadSchema.safeParse(data);
+
+    if (!result.success) {
+    const flattenedError = z.flattenError(result.error).fieldErrors;
+
+    throw new ValidationError("Invalid or malformed access token", {
+      code: ApiErrorCode.INVALID_ACCESS_TOKEN,
+      details: flattenedError
+    });
+  }
+
+  return result.data;
 }

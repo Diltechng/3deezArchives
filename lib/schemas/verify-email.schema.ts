@@ -1,9 +1,9 @@
 import z from "zod";
-import { UserIdSChema, VerificationTokenSchema } from "./shared";
+import { OtpSchema, InvitationTokenSchema } from "./shared";
 
 export const VerifyEmailSchema = z.object({
-  token: VerificationTokenSchema,
-  userId: UserIdSChema,
+  otp: OtpSchema,
+  invitationToken: InvitationTokenSchema,
 });
 
 export type VerifyEmailInput = z.infer<typeof VerifyEmailSchema>;

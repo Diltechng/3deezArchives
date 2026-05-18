@@ -1,11 +1,11 @@
-import { users, verificationTokens, sessions } from "./users";
+import { users, sessions, invitations } from "./users";
 
 export * from "./users";
 
 export const schema = {
   users,
-  verificationTokens,
   sessions,
+  invitations,
 } as const;
 
 export type DbSchema = typeof schema;

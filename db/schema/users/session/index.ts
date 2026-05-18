@@ -3,11 +3,11 @@ import { users } from "../user";
 
 export const sessions = pgTable("sessions", {
   id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }),
-  tokenHash: varchar("token_hash").notNull(),
+  userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+  tokenHash: varchar("token_hash").notNull().unique(),
 
-  revoked: boolean("revoked").default(false),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
-  lastUsedAt: timestamp("last_used_at", { withTimezone: true }).defaultNow(),
+  revoked: boolean("revoked").default(false).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  lastUsedAt: timestamp("last_used_at", { withTimezone: true }).defaultNow().notNull(),
   expiresAt: timestamp("expires_at", { withTimezone: true }).notNull()
 });

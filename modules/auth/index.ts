@@ -1,4 +1,6 @@
 export * from "./auth.service"
-export * from "./token.service"
+export * from "./session.service"
+export * from "./verification.service"
 
 export * from "./auth.validation"
+export * from "./session.validation"
