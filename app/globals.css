@@ -5,11 +5,24 @@
   --foreground: #171717;
 }
 
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-surface: var(--color-white);
+
+  --color-heading: var(--color-gray-700);
+  --color-subheading: var(--color-gray-500);
+  
+  --color-accent: var(--color-cyan-500);
+  --color-accent-hover: var(--color-cyan-600);
+  --color-accent-text: var(--color-neutral-100);
+
+  --color-action-secondary: var(--color-gray-);
+  --color-border-primary: var(--color-neutral-200);
 
   --animate-caret-blink: caret-blink 1.2s ease-out infinite;
   
@@ -23,12 +36,14 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    
+    --color-border-primary: var(--color-neutral-800);
   }
-}
+} */
 
 body {
   background: var(--background);
@@ -46,6 +61,10 @@ body {
   }
 
   button {
-    @apply cursor-pointer disabled:cursor-not-allowed
+    @apply cursor-pointer disabled:cursor-not-allowed duration-200
+  }
+
+  .btn {
+    @apply bg-black
   }
 }
