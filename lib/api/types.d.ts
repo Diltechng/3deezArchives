@@ -1,1 +1,0 @@
-export type ApiResponse = Promise<NextResponse> | NextResponse

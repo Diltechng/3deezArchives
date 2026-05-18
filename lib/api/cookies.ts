@@ -7,6 +7,6 @@ export async function setRefreshTokenCookie(refreshToken: string) {
     httpOnly: true,
     sameSite: "strict",
     secure: process.env.NODE_ENV === "production",
-    path: "/api/auth/refresh"
+    path: "/api/v1/auth"
   });
 }

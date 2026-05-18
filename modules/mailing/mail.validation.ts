@@ -4,10 +4,10 @@ import { VerifyEmailSchema } from "@/lib/schemas";
 import { ResendVerificationSchema } from "@/lib/schemas/resend-verification.schema";
 
 export function validateResendVerification(data: unknown) {
-  const validated = ResendVerificationSchema.safeParse(data);
+  const result = ResendVerificationSchema.safeParse(data);
   
-  if (!validated.success) {
-      const flattenedError = z.flattenError(validated.error).fieldErrors;
+  if (!result.success) {
+      const flattenedError = z.flattenError(result.error).fieldErrors;
 
     throw new ValidationError("Invalid token resend request", {
       code: ApiErrorCode.INVALID_TOKEN_RESEND_DATA,
@@ -15,14 +15,14 @@ export function validateResendVerification(data: unknown) {
     });
   }
 
-  return validated.data;
+  return result.data;
 }
 
 export function validateVerifyEmail(data: unknown) {
-  const validated = VerifyEmailSchema.safeParse(data);
+  const result = VerifyEmailSchema.safeParse(data);
 
-  if (!validated.success) {
-      const flattenedError = z.flattenError(validated.error).fieldErrors;
+  if (!result.success) {
+      const flattenedError = z.flattenError(result.error).fieldErrors;
 
     throw new ValidationError("Verification data is invalid", {
       code: ApiErrorCode.INVALID_VERIFICATION_DATA,
@@ -30,5 +30,5 @@ export function validateVerifyEmail(data: unknown) {
     });
   }
 
-  return validated.data;
+  return result.data;
 }
