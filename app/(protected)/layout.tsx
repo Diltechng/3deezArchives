@@ -1,4 +1,6 @@
 "use client"
+import Sidebar from "@/components/Sidebar";
+import Topbar from "@/components/Topbar";
 import { AuthProvider } from "@/contexts/AuthContext"
 
 const ProtectedLayout = ({ children }: Readonly<{
@@ -6,7 +8,15 @@ const ProtectedLayout = ({ children }: Readonly<{
 }>) => {
   return (
     <AuthProvider>
-      {children}
+      <div className="flex h-screen">
+        <Sidebar />
+        <div className="flex flex-1 flex-col">
+          <Topbar />
+          <main className="p-6">
+            {children}
+          </main>
+        </div>
+      </div>
     </AuthProvider>
   )
 }
