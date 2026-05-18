@@ -8,12 +8,14 @@
     "start": "nodemon server/server.js",
     "lint": "eslint",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "seed": "tsx db/seed.ts"
   },
   "type": "module",
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "bcrypt": "^6.0.0",
+    "cloudinary": "^2.10.0",
     "cookie-parser": "^1.4.7",
     "dayjs": "^1.11.20",
     "dotenv": "^17.2.3",
@@ -22,6 +24,7 @@
     "input-otp": "^1.4.2",
     "joi": "^18.0.2",
     "jsonwebtoken": "^9.0.3",
+    "lucide-react": "^1.16.0",
     "next": "16.1.0",
     "node-pg-migrate": "^8.0.4",
     "nodemailer": "^8.0.7",
@@ -46,6 +49,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.0",
     "tailwindcss": "^4",
+    "tsx": "^4.22.0",
     "typescript": "^5"
   }
 }
