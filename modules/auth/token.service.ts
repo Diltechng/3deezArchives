@@ -63,8 +63,20 @@ class TokenService {
         code: ApiErrorCode.EXPIRED_AUTH_SESSION
       });
 
+    if (record.sessions.revoked)
+      throw new VerificationError("Invalid or expired auth session", {
+        code: ApiErrorCode.INVALID_AUTH_SESSION
+      });
+
+    const refreshToken = await this.createSession(record.users.id);
+    
+    await db.update(sessions).set({
+      revoked: true
+    }).where(eq(sessions.id, record.sessions.id));
+
     return {
-      userId: record.users.id
+      payload: { userId: record.users.id },
+      refreshToken
     }
   }
 }

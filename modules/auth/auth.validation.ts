@@ -1,7 +1,7 @@
 import z from "zod";
 import { ApiErrorCode, ValidationError } from "@/lib/errors";
-import { SetPasswordSchema, SignUpSchema } from "@/lib/schemas";
-import { SignInSchema } from "@/lib/schemas/sign-in.schema";
+import { AccessTokenPayloadSchema, SetPasswordSchema, SignUpSchema } from "@/lib/schemas";
+import { SignInSchema } from "@/lib/schemas";
 
 
 export function validateSignIn(data: unknown) {
@@ -41,6 +41,21 @@ export function validateSetPassword(data: unknown) {
     const flattenedError = z.flattenError(validated.error).fieldErrors;
 
     throw new ValidationError("Invalid or malformed password data", {
+      details: flattenedError
+    });
+  }
+
+  return validated.data;
+}
+
+export function validateAccessTokenPayload(data: unknown) {
+  const validated = AccessTokenPayloadSchema.safeParse(data);
+
+    if (!validated.success) {
+    const flattenedError = z.flattenError(validated.error).fieldErrors;
+
+    throw new ValidationError("Invalid or malformed access token", {
+      code: ApiErrorCode.INVALID_ACCESS_TOKEN,
       details: flattenedError
     });
   }
