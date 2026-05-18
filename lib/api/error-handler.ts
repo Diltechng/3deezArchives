@@ -13,7 +13,7 @@ export type ResponseData = {
   }
 };
 
-export function handleError(handler: (req: NextRequest) => ApiResponse) {
+export function withErrorHandler(handler: (req: NextRequest) => ApiResponse) {
   return async (req: NextRequest) => {
     try {
       return await handler(req);
