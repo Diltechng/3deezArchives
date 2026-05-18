@@ -5,10 +5,10 @@ import { SignInSchema } from "@/lib/schemas";
 
 
 export function validateSignIn(data: unknown) {
-  const validated = SignInSchema.safeParse(data);
+  const result = SignInSchema.safeParse(data);
 
-  if (!validated.success) {
-    const flattenedError = z.flattenError(validated.error).fieldErrors;
+  if (!result.success) {
+    const flattenedError = z.flattenError(result.error).fieldErrors;
 
     throw new ValidationError("Invalid sign in data", {
       code: ApiErrorCode.INVALID_SIGNIN_DATA,
@@ -16,14 +16,14 @@ export function validateSignIn(data: unknown) {
     });
   }
 
-  return validated.data;
+  return result.data;
 }
 
 export function validateSignUp(data: unknown) {
-  const validated = SignUpSchema.safeParse(data);
+  const result = SignUpSchema.safeParse(data);
 
-  if (!validated.success) {
-    const flattenedError = z.flattenError(validated.error).fieldErrors;
+  if (!result.success) {
+    const flattenedError = z.flattenError(result.error).fieldErrors;
 
     throw new ValidationError("Invalid sign up data", {
       code: ApiErrorCode.INVALID_SIGNUP_DATA,
@@ -31,28 +31,28 @@ export function validateSignUp(data: unknown) {
     });
   }
 
-  return validated.data;
+  return result.data;
 }
 
 export function validateSetPassword(data: unknown) {
-  const validated = SetPasswordSchema.safeParse(data);
+  const result = SetPasswordSchema.safeParse(data);
 
-  if (!validated.success) {
-    const flattenedError = z.flattenError(validated.error).fieldErrors;
+  if (!result.success) {
+    const flattenedError = z.flattenError(result.error).fieldErrors;
 
     throw new ValidationError("Invalid or malformed password data", {
       details: flattenedError
     });
   }
 
-  return validated.data;
+  return result.data;
 }
 
 export function validateAccessTokenPayload(data: unknown) {
-  const validated = AccessTokenPayloadSchema.safeParse(data);
+  const result = AccessTokenPayloadSchema.safeParse(data);
 
-    if (!validated.success) {
-    const flattenedError = z.flattenError(validated.error).fieldErrors;
+    if (!result.success) {
+    const flattenedError = z.flattenError(result.error).fieldErrors;
 
     throw new ValidationError("Invalid or malformed access token", {
       code: ApiErrorCode.INVALID_ACCESS_TOKEN,
@@ -60,5 +60,5 @@ export function validateAccessTokenPayload(data: unknown) {
     });
   }
 
-  return validated.data;
+  return result.data;
 }

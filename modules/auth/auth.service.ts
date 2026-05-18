@@ -1,132 +1,152 @@
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
-import { users, verificationTokens } from "@/db/schema";
-import { generateOTP } from "@/lib/crypto";
-import { ApiErrorCode, BadRequestError, ConflictError, ExpiredError, ForbiddenError, UnauthorizedError, VerificationError } from "@/lib/errors";
-import { SetPasswordInput, SignUpInput, VerifyEmailInput } from "@/lib/schemas";
-import { hours } from "@/utils/time";
+import { invitations, users } from "@/db/schema";
+import { sha256Hash } from "@/lib/crypto";
+import { AccountAlreadyExistsError, ApiErrorCode, BadRequestError, ExpiredError, ForbiddenError, UnauthorizedError, VerificationError } from "@/lib/errors";
+import { SetPasswordInput, VerifyEmailInput } from "@/lib/schemas";
+import { SignInInput } from "@/lib/schemas";
 import bcrypt from "bcrypt";
-import { SignInInput } from "@/lib/schemas/sign-in.schema";
 
 
 class AuthService {
-  async registerUser(data: SignUpInput) {
-    const saltRounds = 10;
-    const token = generateOTP();
-    const tokenHash = await bcrypt.hash(token, saltRounds);
-  
-    const userId = await db.transaction(async (tx) => {
-      const [user] = await tx
-        .select()
-        .from(users)
-        .where(eq(users.email, data.email));
-
-      if (user && (user.status === "active"  || user.status === "verified"))
-        throw new ConflictError("An account with this email already exists", {
-          code: ApiErrorCode.EMAIL_ALREADY_EXISTS
-        });
-      
-      else if (user && (user.status === "pending")) {
-        await tx.delete(verificationTokens)
-          .where(eq(verificationTokens.userId, user.id))
-
-        await tx.insert(verificationTokens).values({
-          userId: user.id,
-          tokenHash,
-          expiresAt: new Date(Date.now() + hours(1)),
-        });
-    
-        return user.id;
-      }
-      
-      else if (!user) {
-        const [user] = await tx
-          .insert(users)
-          .values({ email: data.email })
-          .returning();
-    
-        await tx.insert(verificationTokens).values({
-          userId: user.id,
-          tokenHash,
-          expiresAt: new Date(Date.now() + hours(1)),
-        });
-    
-        return user.id;
-      }
-      
-    });
-  
-    return { userId, token };
-  }
-
   async verifyEmail(data: VerifyEmailInput) {
-    await db.transaction(async (tx) => {
-      const result = await tx
-        .select({ users, verificationTokens })
-        .from(verificationTokens)
-        .innerJoin(users, eq(verificationTokens.userId, users.id))
-        .where(eq(verificationTokens.userId, data.userId));
+    const invitationTokenHash = sha256Hash(data.invitationToken);
 
-      const [record] = result;
-      if (!record)
-        throw new VerificationError("Invalid or expired verification session", {
-          code: ApiErrorCode.INVALID_VERIFICATION_SESSION
-        });
+    const [invitationRecord] = await db
+      .select({
+        id: invitations.id,
+        status: invitations.status,
+        otpHash: invitations.otpHash,
+        emailVerified: invitations.emailVerified,
+        expiresAt: invitations.expiresAt,
+      })
+      .from(invitations)
+      .where(eq(invitations.tokenHash, invitationTokenHash));
 
-      const user = record.users;
-      const verificationToken = record.verificationTokens;
-      const match = await bcrypt.compare(data.token, verificationToken.tokenHash);
-      
-      if (new Date() >= verificationToken.expiresAt)
-        throw new ExpiredError("Verification session has expired", {
-          code: ApiErrorCode.EXPIRED_VERIFICATION_SESSION
-        });
+    if (!invitationRecord)
+      throw new VerificationError("Invalid or expired invite", {
+        code: ApiErrorCode.INVALID_INVITATION
+      });
 
-      if (!match)
-        throw new VerificationError("Invalid verification token", {
-          code: ApiErrorCode.INVALID_VERIFICATION_TOKEN
-        });
+    const terminalStatuses = ["expired", "accepted", "rejected", "revoked", "completed"];
+    
+    if (terminalStatuses.includes(invitationRecord.status))
+      throw new BadRequestError("Invitation is invalid or expired", {
+        code: ApiErrorCode.INVALID_INVITATION
+      });
 
-      await tx
-        .update(users)
-        .set({ status: "verified" })
-        .where(eq(users.id, user.id));
+    if (new Date() >= invitationRecord.expiresAt) {
+      await db.update(invitations).set({
+        status: "expired",
+      }).where(eq(invitations.id, invitationRecord.id));
 
-      await tx
-        .delete(verificationTokens)
-        .where(eq(verificationTokens.id, verificationToken.id));
-    });
+      throw new ExpiredError("Invite session has expired", {
+        code: ApiErrorCode.EXPIRED_INVITATION
+      });
+    }
+
+    if (invitationRecord.emailVerified)
+      throw new VerificationError("This email has already been verified", {
+        code: ApiErrorCode.EMAIL_ALREADY_VERIFIED
+      });
+
+    const match = await bcrypt.compare(data.otp, invitationRecord.otpHash);
+    
+
+    if (!match)
+      throw new VerificationError("Invalid verification code", {
+        code: ApiErrorCode.INVALID_VERIFICATION_TOKEN
+      });
+
+    await db
+      .update(invitations)
+      .set({
+        status: "accepted",
+        emailVerified: true,
+      })
+      .where(eq(invitations.id, invitationRecord.id));
   }
 
   async setPassword(data: SetPasswordInput) {
     const saltRounds = 10;
 
-    const [user] = await db.select().from(users)
-      .where(eq(users.id, data.userId));
-    
-    if (!user)
+    const [invitedUser] = await db.select({
+      id: invitations.id,
+      email: invitations.email,
+      role: invitations.role,
+      status: invitations.status,
+      emailVerified: invitations.emailVerified,
+      expiresAt: invitations.expiresAt,
+    }).from(invitations).where(
+      eq(invitations.id, data.invitationId)
+    );
+      
+    if (!invitedUser)
       throw new BadRequestError("Invalid or expired signup session", {
         code: ApiErrorCode.INVALID_SIGNUP_SESSION
       });
+      
+    const [existingUser] = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(eq(users.email, invitedUser.email));
 
-    if (user.status === "pending")
+    if (existingUser)
+      throw AccountAlreadyExistsError();
+
+    const terminalStatuses = ["expired", "rejected", "revoked", "completed"];
+    
+    if (terminalStatuses.includes(invitedUser.status))
+      throw new BadRequestError("Invitation is invalid or expired", {
+        code: ApiErrorCode.INVALID_INVITATION
+      });
+
+    if (new Date() >= invitedUser.expiresAt) {
+      await db.update(invitations).set({
+        status: "expired",
+      }).where(eq(invitations.id, invitedUser.id));
+
+      throw new ExpiredError("Invite session has expired", {
+        code: ApiErrorCode.EXPIRED_INVITATION
+      });
+    }
+
+    if (invitedUser.status === "pending")
+      throw new ForbiddenError("You must accept the invitation before continuing", {
+        code: ApiErrorCode.INVITATION_NOT_ACCEPTED
+      });
+
+    if (!invitedUser.emailVerified)
       throw new ForbiddenError("Please verify your email before continuing", {
         code: ApiErrorCode.EMAIL_NOT_VERIFIED
       });
 
-    if (user.status === "active")
-      throw new ForbiddenError("Password has already been set for this account", {
-        code: ApiErrorCode.PASSWORD_ALREADY_SET
-      });
-
     const passwordHash = await bcrypt.hash(data.password, saltRounds);
 
-    await db.update(users).set({ passwordHash, status: "active" }).where(eq(users.id, user.id));
+    await db.transaction(async tx => {
+      await tx.insert(users).values({
+        email: invitedUser.email,
+        role: invitedUser.role,
+        status: "active",
+        passwordHash,
+      });
+  
+      await tx.update(invitations).set({
+        status: "completed",
+        completedAt: new Date(),
+      })
+      .where(eq(invitations.id, invitedUser.id));
+    });
   }
 
   async authenticate(data: SignInInput) {
-    const [user] = await db.select().from(users)
-      .where(eq(users.email, data.email));
+    const [user] = await db.select({
+      id: users.id,
+      role: users.role,
+      status: users.status,
+      passwordHash: users.passwordHash,
+    })
+    .from(users).where(eq(users.email, data.email));
 
     if (!user || user.status !== "active" || !user.passwordHash)
       throw new UnauthorizedError("Invalid login credentials", {
@@ -140,7 +160,7 @@ class AuthService {
         code: ApiErrorCode.INVALID_CREDENTIALS
       });
 
-    return { userId: user.id }
+    return { userId: user.id, role: user.role }
   }
 }
 
