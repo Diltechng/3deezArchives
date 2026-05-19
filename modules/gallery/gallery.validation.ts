@@ -1,5 +1,5 @@
 import { ApiErrorCode, ValidationError } from "@/lib/errors";
-import { MediaIdSchema } from "@/lib/schemas";
+import { DeleteMediaSchema, MediaIdSchema } from "@/lib/schemas";
 import { UploadMediaSchema } from "@/lib/schemas/upload-media.schema";
 import z from "zod";
 
@@ -18,17 +18,32 @@ export function validateUploadMedia(data: unknown) {
   return result.data;
 }
 
-export function validateGetOneMedia(data: unknown) {
+export function validateMediaId(data: unknown) {
   const result = MediaIdSchema.safeParse(data);
   
-    if (!result.success) {
-      const flattenedError = z.flattenError(result.error).formErrors;
-      
-      throw new ValidationError("Invalid media ID", {
-        code: ApiErrorCode.INVALID_MEDIA_ID,
-        details: flattenedError
-      });
-    }
+  if (!result.success) {
+    const flattenedError = z.flattenError(result.error).formErrors;
+    
+    throw new ValidationError("Invalid media ID", {
+      code: ApiErrorCode.INVALID_MEDIA_ID,
+      details: flattenedError
+    });
+  }
+
+  return result.data;
+}
+
+export function validateDeleteMedia(data: unknown) {
+  const result = DeleteMediaSchema.safeParse(data);
   
-    return result.data;
+  if (!result.success) {
+    const flattenedError = z.flattenError(result.error).fieldErrors;
+    
+    throw new ValidationError("Invalid delete media data", {
+      code: ApiErrorCode.INVALID_DELETE_MEDIA_DATA,
+      details: flattenedError
+    });
+  }
+
+  return result.data;
 }
