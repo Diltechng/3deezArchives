@@ -3,7 +3,7 @@ import { and, eq, gt } from "drizzle-orm";
 import { users, invitations } from "@/db/schema";
 import { generateInvitationToken, generateOTP, sha256Hash } from "@/lib/crypto";
 import { AccountAlreadyExistsError, ApiErrorCode, ConflictError } from "@/lib/errors";
-import { InviteUserInput } from "@/lib/schemas";
+import { InviteUserInput } from "@/shared/schemas";
 import { days } from "@/utils/time";
 import bcrypt from "bcrypt";
 

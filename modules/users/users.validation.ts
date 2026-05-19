@@ -1,5 +1,5 @@
 import { ApiErrorCode, ValidationError } from "@/lib/errors";
-import { InviteUserSchema } from "@/lib/schemas";
+import { InviteUserSchema } from "@/shared/schemas";
 import z from "zod";
 
 export function validateInviteUser(data: unknown) {

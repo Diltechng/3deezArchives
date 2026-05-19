@@ -1,5 +1,5 @@
 import { ApiErrorCode, ValidationError } from "@/lib/errors";
-import { RefreshTokenSchema } from "@/lib/schemas";
+import { RefreshTokenSchema } from "@/shared/schemas";
 import z from "zod";
 
 export function validateRefreshToken(data: unknown) {

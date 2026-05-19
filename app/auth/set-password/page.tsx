@@ -1,6 +1,6 @@
 "use client"
 import { useSignUpContext } from "@/contexts/SignUpContext";
-import { SetPasswordInput, SetPasswordSchema } from "@/lib/schemas";
+import { SetPasswordInput, SetPasswordSchema } from "@/shared/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
