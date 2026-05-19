@@ -16,7 +16,9 @@ export const media = pgTable("media", {
   height: integer("height"),
 
   uploadedBy: uuid("uploaded_by").references(() => users.id, { onDelete: "set null" }),
+  deteledBy: uuid("deleted_by").references(() => users.id, { onDelete: "set null" }),
 
   uploadedAt: timestamp("uploaded_at", { withTimezone: true }).notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  deletedAt: timestamp("deleted_at", { withTimezone: true }),
 });
