@@ -6,3 +6,4 @@ export * from "./verify-email.schema";
 export * from "./resend-verification.schema";
 export * from "./invite-user.schema";
 export * from "./shared";
+export * from "./delete-media.schema";
