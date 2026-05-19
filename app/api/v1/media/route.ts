@@ -23,3 +23,15 @@ export const POST = withErrorHandler(
     }, { status: 201 });
   })
 );
+
+export const GET = withErrorHandler(
+  withAuthGuard(async () => {
+    const media = await galleryService.getFiles();
+    
+    return NextResponse.json<ResponseData>({
+      success: true,
+      message: `Fetched ${media.length} media successfully`,
+      data: media
+    });
+  })
+);
