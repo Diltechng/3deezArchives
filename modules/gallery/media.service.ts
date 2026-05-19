@@ -4,6 +4,7 @@ import { cloudinary } from "@/lib/cloudinary";
 import { ApiErrorCode, InternalServerError, MediaNotFoundError, NotFoundError } from "@/lib/errors";
 import { UploadApiResponse } from "cloudinary";
 import { and, desc, eq, inArray, isNull } from "drizzle-orm";
+import { softDelete } from "../shared/helpers/soft-delete";
 
 interface UploadFileInput {
   file: File,
@@ -26,6 +27,18 @@ interface UpdateOneFileInput {
   data: {
 
   }
+}
+
+const mediaSelect = {
+  id: media.id,
+  publicId: media.publicId,
+  secureUrl: media.secureUrl,
+  bytes: media.bytes,
+  width: media.width,
+  height: media.height,
+  originalFileName: media.originalFileName,
+  uploadedAt: media.uploadedAt,
+  mimeType: media.mimeType,
 }
 
 class MediaService {
@@ -86,38 +99,21 @@ class MediaService {
   }
 
   async getFiles() {
-    const storedMedia = await db.select({
-      id: media.id,
-      publicId: media.publicId,
-      secureUrl: media.secureUrl,
-      bytes: media.bytes,
-      width: media.width,
-      height: media.height,
-      originalFileName: media.originalFileName,
-      uploadedAt: media.uploadedAt,
-      mimeType: media.mimeType,
-    }).from(media)
-    .where(isNull(media.deletedAt))
-    .orderBy(desc(media.uploadedAt));
+    const storedMedia = await db.select(mediaSelect)
+      .from(media)
+      .where(isNull(media.deletedAt))
+      .orderBy(desc(media.uploadedAt));
 
     return storedMedia;
   }
 
   async getOneFile(mediaId: string) {
-    const [storedMedia] = await db.select({
-      id: media.id,
-      publicId: media.publicId,
-      secureUrl: media.secureUrl,
-      bytes: media.bytes,
-      width: media.width,
-      height: media.height,
-      originalFileName: media.originalFileName,
-      uploadedAt: media.uploadedAt,
-      mimeType: media.mimeType,
-    }).from(media).where(and(
-      eq(media.id, mediaId),
-      isNull(media.deletedAt),
-    ));
+    const [storedMedia] = await db.select(mediaSelect)
+      .from(media)
+      .where(and(
+        eq(media.id, mediaId),
+        isNull(media.deletedAt),
+      ));
 
     if (!storedMedia)
       throw MediaNotFoundError();
@@ -126,18 +122,15 @@ class MediaService {
   }
 
   async deleteOneFile(data: DeleteOneFileInput) {
-    const [deletedMedia] = await db.update(media).set({
-      deletedAt: new Date(),
-      deteledBy: data.userId 
-    }).where(and(
-      eq(media.id, data.mediaId),
-      isNull(media.deletedAt)
-    ))
+    const [deletedMedia] = await softDelete(db, media, {
+      actorId: data.userId,
+      where: eq(media.id, data.mediaId)
+    })
     .returning({
       id: media.id,
       secureUrl: media.secureUrl,
       deletedAt: media.deletedAt,
-      deletedBy: media.deteledBy,
+      deletedBy: media.deletedBy,
     });
 
     if (!deletedMedia)
@@ -147,18 +140,15 @@ class MediaService {
   }
 
   async deleteFiles(data: DeleteFilesInput) {
-    const deletedMedia = await db.update(media).set({
-      deletedAt: new Date(),
-      deteledBy: data.userId 
-    }).where(and(
-      inArray(media.id, data.mediaIds),
-      isNull(media.deletedAt)
-    ))
+    const deletedMedia = await softDelete(db, media, {
+      actorId: data.userId,
+      where: inArray(media.id, data.mediaIds)
+    })
     .returning({
       id: media.id,
       secureUrl: media.secureUrl,
       deletedAt: media.deletedAt,
-      deletedBy: media.deteledBy,
+      deletedBy: media.deletedBy,
     });
 
     return deletedMedia;
