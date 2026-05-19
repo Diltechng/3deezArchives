@@ -1,9 +1,9 @@
 import { db } from "@/db";
 import { media } from "@/db/schema";
 import { cloudinary } from "@/lib/cloudinary";
-import { ApiErrorCode, InternalServerError } from "@/lib/errors";
+import { ApiErrorCode, InternalServerError, NotFoundError } from "@/lib/errors";
 import { UploadApiResponse } from "cloudinary";
-import { desc } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 
 interface UploadFileInput {
   file: File,
@@ -42,7 +42,7 @@ class GalleryService {
         mimeType: data.file.type,
         bytes: uploadedFile.bytes,
         format: uploadedFile.format,
-        originalFileName: uploadedFile.original_filename,
+        originalFileName: data.file.name,
         resourceType: uploadedFile.resource_type,
         height: uploadedFile.height,
         width: uploadedFile.width,      
@@ -59,7 +59,9 @@ class GalleryService {
         secureUrl: storedMedia.secureUrl,
       }
     } catch (error) {
-      await cloudinary.uploader.destroy(uploadedFile.public_id);
+      await cloudinary.uploader.destroy(uploadedFile.public_id, {
+        resource_type: uploadedFile.resource_type,
+      });
 
       throw error;
     }
@@ -77,6 +79,27 @@ class GalleryService {
       uploadedAt: media.uploadedAt,
       mimeType: media.mimeType,
     }).from(media).orderBy(desc(media.uploadedAt));
+
+    return storedMedia;
+  }
+
+  async getOneFile(mediaId: string) {
+    const [storedMedia] = await db.select({
+      id: media.id,
+      publicId: media.publicId,
+      secureUrl: media.secureUrl,
+      bytes: media.bytes,
+      width: media.width,
+      height: media.height,
+      originalFileName: media.originalFileName,
+      uploadedAt: media.uploadedAt,
+      mimeType: media.mimeType,
+    }).from(media).where(eq(media.id, mediaId));
+
+    if (!storedMedia)
+      throw new NotFoundError("Media not found", {
+        code: ApiErrorCode.MEDIA_NOT_FOUND
+      });
 
     return storedMedia;
   }
