@@ -3,6 +3,7 @@ import { media } from "@/db/schema";
 import { cloudinary } from "@/lib/cloudinary";
 import { ApiErrorCode, InternalServerError } from "@/lib/errors";
 import { UploadApiResponse } from "cloudinary";
+import { desc } from "drizzle-orm";
 
 interface UploadFileInput {
   file: File,
@@ -62,6 +63,22 @@ class GalleryService {
 
       throw error;
     }
+  }
+
+  async getFiles() {
+    const storedMedia = await db.select({
+      id: media.id,
+      publicId: media.publicId,
+      secureUrl: media.secureUrl,
+      bytes: media.bytes,
+      width: media.width,
+      height: media.height,
+      originalFileName: media.originalFileName,
+      uploadedAt: media.uploadedAt,
+      mimeType: media.mimeType,
+    }).from(media).orderBy(desc(media.uploadedAt));
+
+    return storedMedia;
   }
 }
 
