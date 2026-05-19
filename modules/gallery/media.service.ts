@@ -20,7 +20,15 @@ interface DeleteFilesInput {
   userId: string;
 }
 
-class GalleryService {
+interface UpdateOneFileInput {
+  mediaId: string;
+  userId: string;
+  data: {
+
+  }
+}
+
+class MediaService {
   async uploadFile(data: UploadFileInput) {
     const bytes = await data.file.arrayBuffer();
     
@@ -157,4 +165,4 @@ class GalleryService {
   }
 }
 
-export const galleryService = new GalleryService();
+export const mediaService = new MediaService();

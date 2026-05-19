@@ -1,2 +1,2 @@
-export * from "./gallery.service";
-export * from "./gallery.validation";
+export * from "./media.service";
+export * from "./media.validation";

@@ -1,6 +1,6 @@
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { ResponseData, withErrorHandler } from "@/lib/api/error-handler";
-import { galleryService, validateDeleteMedia, validateUploadMedia } from "@/modules/gallery";
+import { mediaService, validateDeleteMedia, validateUploadMedia } from "@/modules/gallery";
 import { NextResponse } from "next/server";
 
 export const POST = withErrorHandler(
@@ -11,7 +11,7 @@ export const POST = withErrorHandler(
 
     const validated = validateUploadMedia({ file });
 
-    const result = await galleryService.uploadFile({
+    const result = await mediaService.uploadFile({
       userId: ctx.user.userId,
       file: validated.file
     });
@@ -26,7 +26,7 @@ export const POST = withErrorHandler(
 
 export const GET = withErrorHandler(
   withAuthGuard(async () => {
-    const media = await galleryService.getFiles();
+    const media = await mediaService.getFiles();
     
     return NextResponse.json<ResponseData>({
       success: true,
@@ -42,7 +42,7 @@ export const DELETE = withErrorHandler(
 
     const validatedData = validateDeleteMedia(body);
 
-    const result = await galleryService.deleteFiles({
+    const result = await mediaService.deleteFiles({
       mediaIds: validatedData.mediaIds,
       userId: ctx.user.userId
     });
