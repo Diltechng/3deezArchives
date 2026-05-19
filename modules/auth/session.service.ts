@@ -6,7 +6,7 @@ import { sessions, users } from "@/db/schema";
 import { sha256Hash } from "@/lib/crypto";
 import { days } from "@/utils/time";
 import { eq } from "drizzle-orm";
-import { AccessTokenPayload } from "@/lib/schemas";
+import { AccessTokenPayload } from "@/shared/schemas";
 
 class SessionService {
   signJwt(payload: AccessTokenPayload) {

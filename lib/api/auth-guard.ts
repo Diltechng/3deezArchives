@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { ApiResponse, RouteContext } from "./types";
 import { ApiErrorCode, ForbiddenError, UnauthorizedError } from "../errors";
 import { sessionService, validateAccessTokenPayload } from "@/modules/auth";
-import { AccessTokenPayload } from "../schemas";
+import { AccessTokenPayload } from "@/shared/schemas";
 
 export type AuthReqContext<TParams> = {
   user: AccessTokenPayload;

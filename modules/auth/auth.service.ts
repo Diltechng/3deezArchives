@@ -3,8 +3,8 @@ import { eq } from "drizzle-orm";
 import { invitations, users } from "@/db/schema";
 import { sha256Hash } from "@/lib/crypto";
 import { AccountAlreadyExistsError, ApiErrorCode, BadRequestError, ExpiredError, ForbiddenError, UnauthorizedError, VerificationError } from "@/lib/errors";
-import { SetPasswordInput, VerifyEmailInput } from "@/lib/schemas";
-import { SignInInput } from "@/lib/schemas";
+import { SetPasswordInput, VerifyEmailInput } from "@/shared/schemas";
+import { SignInInput } from "@/shared/schemas";
 import bcrypt from "bcrypt";
 
 

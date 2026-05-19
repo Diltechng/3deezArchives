@@ -1,6 +1,6 @@
 import { ApiErrorCode, ValidationError } from "@/lib/errors";
-import { DeleteMediaSchema, MediaIdSchema } from "@/lib/schemas";
-import { UploadMediaSchema } from "@/lib/schemas/upload-media.schema";
+import { DeleteMediaSchema, MediaIdSchema } from "@/shared/schemas";
+import { UploadMediaSchema } from "@/shared/schemas";
 import z from "zod";
 
 export function validateUploadMedia(data: unknown) {

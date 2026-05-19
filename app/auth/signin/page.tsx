@@ -1,5 +1,5 @@
 "use client"
-import { SignInInput, SignInSchema } from "@/lib/schemas";
+import { SignInInput, SignInSchema } from "@/shared/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

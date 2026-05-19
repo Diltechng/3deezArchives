@@ -1,6 +1,6 @@
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { ResponseData, withErrorHandler } from "@/lib/api/error-handler";
-import { RoleSchema } from "@/lib/schemas";
+import { RoleSchema } from "@/shared/schemas";
 import { mailService } from "@/modules/mailing";
 import { usersService } from "@/modules/users/users.service";
 import { validateInviteUser } from "@/modules/users/users.validation";

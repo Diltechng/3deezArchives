@@ -1,4 +1,4 @@
-import { RoleSchema } from "@/lib/schemas";
+import { RoleSchema } from "@/shared/schemas";
 import { db } from ".";
 import { users } from "./schema";
 import bcrypt from "bcrypt";

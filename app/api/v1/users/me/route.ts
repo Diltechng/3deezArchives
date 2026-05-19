@@ -3,7 +3,7 @@ import { users } from "@/db/schema";
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { ResponseData, withErrorHandler } from "@/lib/api/error-handler";
 import { ApiErrorCode, NotFoundError } from "@/lib/errors";
-import { RoleSchema } from "@/lib/schemas";
+import { RoleSchema } from "@/shared/schemas";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
