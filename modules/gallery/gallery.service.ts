@@ -1,12 +1,22 @@
 import { db } from "@/db";
 import { media } from "@/db/schema";
 import { cloudinary } from "@/lib/cloudinary";
-import { ApiErrorCode, InternalServerError, NotFoundError } from "@/lib/errors";
+import { ApiErrorCode, InternalServerError, MediaNotFoundError, NotFoundError } from "@/lib/errors";
 import { UploadApiResponse } from "cloudinary";
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq, inArray, isNull } from "drizzle-orm";
 
 interface UploadFileInput {
   file: File,
+  userId: string;
+}
+
+interface DeleteOneFileInput {
+  mediaId: string;
+  userId: string;
+}
+
+interface DeleteFilesInput {
+  mediaIds: string[];
   userId: string;
 }
 
@@ -78,7 +88,9 @@ class GalleryService {
       originalFileName: media.originalFileName,
       uploadedAt: media.uploadedAt,
       mimeType: media.mimeType,
-    }).from(media).orderBy(desc(media.uploadedAt));
+    }).from(media)
+    .where(isNull(media.deletedAt))
+    .orderBy(desc(media.uploadedAt));
 
     return storedMedia;
   }
@@ -94,14 +106,54 @@ class GalleryService {
       originalFileName: media.originalFileName,
       uploadedAt: media.uploadedAt,
       mimeType: media.mimeType,
-    }).from(media).where(eq(media.id, mediaId));
+    }).from(media).where(and(
+      eq(media.id, mediaId),
+      isNull(media.deletedAt),
+    ));
 
     if (!storedMedia)
-      throw new NotFoundError("Media not found", {
-        code: ApiErrorCode.MEDIA_NOT_FOUND
-      });
+      throw MediaNotFoundError();
 
     return storedMedia;
+  }
+
+  async deleteOneFile(data: DeleteOneFileInput) {
+    const [deletedMedia] = await db.update(media).set({
+      deletedAt: new Date(),
+      deteledBy: data.userId 
+    }).where(and(
+      eq(media.id, data.mediaId),
+      isNull(media.deletedAt)
+    ))
+    .returning({
+      id: media.id,
+      secureUrl: media.secureUrl,
+      deletedAt: media.deletedAt,
+      deletedBy: media.deteledBy,
+    });
+
+    if (!deletedMedia)
+      throw MediaNotFoundError();
+
+    return deletedMedia;
+  }
+
+  async deleteFiles(data: DeleteFilesInput) {
+    const deletedMedia = await db.update(media).set({
+      deletedAt: new Date(),
+      deteledBy: data.userId 
+    }).where(and(
+      inArray(media.id, data.mediaIds),
+      isNull(media.deletedAt)
+    ))
+    .returning({
+      id: media.id,
+      secureUrl: media.secureUrl,
+      deletedAt: media.deletedAt,
+      deletedBy: media.deteledBy,
+    });
+
+    return deletedMedia;
   }
 }
 
