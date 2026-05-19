@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ApiResponse } from "./types";
+import { ApiResponse, RouteContext } from "./types";
 import { ApiErrorCode, ForbiddenError, UnauthorizedError } from "../errors";
 import { sessionService, validateAccessTokenPayload } from "@/modules/auth";
 import { AccessTokenPayload } from "../schemas";
 
-export type AuthReqContext = {
+export type AuthReqContext<TParams> = {
   user: AccessTokenPayload;
-} & Record<string, unknown>;
+} & RouteContext<TParams>;
 
-export function withAuthGuard(handler: (req: NextRequest, context: AuthReqContext) => ApiResponse, allowedRoles?: string[]) {
-  return async (req: NextRequest, context?: Record<string, unknown>) => {
+export function withAuthGuard<TParams>(handler: (req: NextRequest, context: AuthReqContext<TParams>) => ApiResponse, allowedRoles?: string[]) {
+  return async (req: NextRequest, context: { params: TParams }) => {
     const bearerToken = req.headers.get("Authorization");
 
     if (!bearerToken || !bearerToken.startsWith("Bearer"))
