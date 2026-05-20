@@ -4,7 +4,7 @@ import { withAuthGuard } from "@/lib/api/auth-guard";
 import { ResponseData, withErrorHandler } from "@/lib/api/error-handler";
 import { ApiErrorCode, NotFoundError } from "@/lib/errors";
 import { UserRole } from "@/shared/constants/enums";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 let i = 0;
@@ -41,7 +41,8 @@ export const PATCH = withErrorHandler(
       });
 
     await db.update(users).set({
-      name: validatedData.fullName
+      name: validatedData.fullName,
+      updatedAt: sql`now()`,
     });
 
     return NextResponse.json<ResponseData>({

@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { and, isNull, SQL } from "drizzle-orm";
+import { and, isNull, sql, SQL } from "drizzle-orm";
 import { PgTableWithColumns } from "drizzle-orm/pg-core";
 
 interface SoftDeleteInput {
@@ -13,8 +13,8 @@ export function softDelete(
   options: SoftDeleteInput
 ) {
   return executor.update(table).set({
-    deletedAt: new Date(),
-    deletedBy: options.actorId
+    deletedAt: sql`now()`,
+    deletedBy: options.actorId,
   }).where(and(
     options.where,
     isNull(table.deletedAt)

@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { and, eq, gt } from "drizzle-orm";
+import { and, eq, gt, sql } from "drizzle-orm";
 import { users, invitations } from "@/db/schema";
 import { generateInvitationToken, generateOTP, sha256Hash } from "@/lib/crypto";
 import { AccountAlreadyExistsError, ApiErrorCode, ConflictError } from "@/lib/errors";
@@ -29,8 +29,8 @@ class UsersService {
       .where(and(
         eq(invitations.email, data.email),
         eq(invitations.status, "pending"),
-        gt(invitations.expiresAt, new Date())
-      ));
+        gt(invitations.expiresAt, sql`now()`)
+      )).limit(1);
 
     if (existingInvite)
       throw new ConflictError("A pending invitation for this email already exists", {
