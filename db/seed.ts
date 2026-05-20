@@ -1,9 +1,9 @@
 import { db } from ".";
-import { users } from "./schema";
+import { categories, users } from "./schema";
 import bcrypt from "bcrypt";
 import { UserRole } from "@/shared/constants/enums";
 
-async function seed() {
+async function seedUsers() {
   await db.insert(users).values({
     email: "ghalimusa53@gmail.com",
     passwordHash: await bcrypt.hash("3Deez@Jeerex.4", 10),
@@ -11,9 +11,41 @@ async function seed() {
     onboardingCompleted: true,
     role: UserRole.ADMIN,
     status: "active",
+  }).onConflictDoNothing();
+  
+  console.log("User created successfully.");
+}
+
+async function seedCategories() {
+  await db.insert(categories).values([{
+    name: "Company Milestones",
+    description: "Major achievements and landmark moments in the company's journey.",
+  }, {
+    name: "Anniversaries",
+    description: "Company anniversaries and celebratory milestones.",
+  }, {
+    name: "Behind the Scenes",
+    description: "Everyday office moments, candid memories, and work-life snapshots.",
+  }, {
+    name: "Tours & Excursions",
+    description: "Company trips, excursions, sightseeing tours, and travel experiences.",
+  }, {
+    name: "Corporate Events",
+    description: "Internal and external company-organized events.",
+  }, {
+    name: "Campaigns",
+    description: "Marketing campaigns, promotional initiatives, and brand activations.",
+  }]).onConflictDoNothing({
+    target: categories.name
   });
 
-  console.log("User created successfully.");
+  console.log("Categories created successfully.");
+}
+
+async function seed() {
+  await seedUsers();
+  await seedCategories();
+
   process.exit(0);
 }
 
