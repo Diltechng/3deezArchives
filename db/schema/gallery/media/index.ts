@@ -1,5 +1,7 @@
 import { integer, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { users } from "../../users";
+import { gallery } from "../gallery";
+import { timestamps } from "../../shared";
 
 export const media = pgTable("media", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -15,10 +17,11 @@ export const media = pgTable("media", {
   width: integer("width"),
   height: integer("height"),
 
+  galleryId: uuid("gallery_id").references(() => gallery.id, { onDelete: "cascade" }),
   uploadedBy: uuid("uploaded_by").references(() => users.id, { onDelete: "set null" }),
   deletedBy: uuid("deleted_by").references(() => users.id, { onDelete: "set null" }),
 
   uploadedAt: timestamp("uploaded_at", { withTimezone: true }).notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
   deletedAt: timestamp("deleted_at", { withTimezone: true }),
+  ...timestamps,
 });
