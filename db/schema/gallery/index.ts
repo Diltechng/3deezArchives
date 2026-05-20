@@ -1,3 +1,3 @@
 export * from "./media";
-export * from "./gallery";
+export * from "./moments";
 export * from "./categories";

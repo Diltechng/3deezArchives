@@ -1,5 +1,5 @@
 import { users, sessions, invitations } from "./users";
-import { media, categories, gallery } from "./gallery";
+import { media, categories, moments } from "./gallery";
 
 export * from "./users";
 export * from "./gallery";
@@ -9,7 +9,7 @@ export const schema = {
   sessions,
   invitations,
   media,
-  gallery,
+  moments,
   categories,
 } as const;
 

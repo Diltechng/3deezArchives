@@ -1,13 +1,14 @@
 import { pgEnum, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { timestamps } from "../../shared";
 import { categories } from "../categories";
-import { GalleryVisibilityValues } from "@/shared/constants/enums";
+import { MomentVisibilityValues } from "@/shared/constants/enums";
 import { users } from "../../users";
 
-export const visibilityEnum = pgEnum("visibility", GalleryVisibilityValues);
+export const visibilityEnum = pgEnum("visibility", MomentVisibilityValues);
 
-export const gallery = pgTable("gallery", {
+export const moments = pgTable("moments", {
   id: uuid("id").defaultRandom().primaryKey(),
+  
   title: text("title").notNull(),
   description: text("description"),
   categoryId: uuid("category_id").references(() => categories.id, { onDelete: "set null" }),

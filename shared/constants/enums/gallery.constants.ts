@@ -1,16 +1,16 @@
 // ==================================================================
-// ======================= Gallery Visibility =======================
+// ======================= Moment Visibility =======================
 // ==================================================================
 
-export const GalleryVisibility = {
+export const MomentVisibility = {
   PRIVATE: "private",
   ADMIN_ONLY: "admin_only",
   PUBLIC: "public",
 } as const;
 
-export const GalleryVisibilityValues = Object.values(GalleryVisibility) as [
-  GalleryVisibility,
-  ...GalleryVisibility[]
+export const MomentVisibilityValues = Object.values(MomentVisibility) as [
+  MomentVisibility,
+  ...MomentVisibility[]
 ];
 
-export type GalleryVisibility = (typeof GalleryVisibility)[keyof typeof GalleryVisibility];
+export type MomentVisibility = (typeof MomentVisibility)[keyof typeof MomentVisibility];
