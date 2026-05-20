@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { invitations, users } from "@/db/schema";
 import { sha256Hash } from "@/lib/crypto";
 import { AccountAlreadyExistsError, ApiErrorCode, BadRequestError, ExpiredError, ForbiddenError, UnauthorizedError, VerificationError } from "@/lib/errors";
@@ -38,6 +38,7 @@ class AuthService {
     if (new Date() >= invitationRecord.expiresAt) {
       await db.update(invitations).set({
         status: "expired",
+        updatedAt: sql`now()`,
       }).where(eq(invitations.id, invitationRecord.id));
 
       throw new ExpiredError("Invite session has expired", {
@@ -104,6 +105,7 @@ class AuthService {
     if (new Date() >= invitedUser.expiresAt) {
       await db.update(invitations).set({
         status: "expired",
+        updatedAt: sql`now()`,
       }).where(eq(invitations.id, invitedUser.id));
 
       throw new ExpiredError("Invite session has expired", {
@@ -133,7 +135,8 @@ class AuthService {
   
       await tx.update(invitations).set({
         status: "completed",
-        completedAt: new Date(),
+        completedAt: sql`now()`,
+        updatedAt: sql`now()`,
       })
       .where(eq(invitations.id, invitedUser.id));
     });

@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { invitations } from "@/db/schema";
 import { generateOTP, sha256Hash } from "@/lib/crypto";
 import { ApiErrorCode, BadRequestError, ExpiredError, ForbiddenError, VerificationError } from "@/lib/errors";
@@ -40,6 +40,7 @@ class VerificationService {
     if (new Date() >= invitationRecord.expiresAt) {
       await db.update(invitations).set({
         status: "expired",
+        updatedAt: sql`now()`,
       }).where(eq(invitations.id, invitationRecord.id));
 
       throw new ExpiredError("Invite session has expired", {
@@ -49,6 +50,7 @@ class VerificationService {
 
     await db.update(invitations).set({
       otpHash,
+      updatedAt: sql`now()`,
     }).where(eq(invitations.id, invitationRecord.id));
 
     return {

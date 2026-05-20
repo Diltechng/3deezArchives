@@ -5,7 +5,7 @@ import { db } from "@/db";
 import { sessions, users } from "@/db/schema";
 import { sha256Hash } from "@/lib/crypto";
 import { days } from "@/utils/time";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { AccessTokenPayload } from "@/shared/schemas";
 
 class SessionService {
@@ -82,7 +82,8 @@ class SessionService {
     const refreshToken = await this.createSession(record.users.id);
     
     await db.update(sessions).set({
-      revoked: true
+      revoked: true,
+      updatedAt: sql`now()`,
     }).where(eq(sessions.id, record.sessions.id));
 
     return {
@@ -99,6 +100,7 @@ class SessionService {
 
     await db.update(sessions).set({
       revoked: true,
+      updatedAt: sql`now()`,
     }).where(eq(sessions.tokenHash, tokenHash));
   }
 }
