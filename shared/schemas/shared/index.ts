@@ -1,3 +1,4 @@
+import { UserRoleValues } from "@/shared/constants/enums";
 import z from "zod";
 
 export const RefreshTokenSchema = z.string().trim().startsWith("rt-v1_");
@@ -19,7 +20,7 @@ export const EmailSchema = z.email("Please enter a valid email");
 export type EmailInput = z.infer<typeof EmailSchema>;
 
 
-export const RoleSchema = z.enum(["admin", "staff"]);
+export const RoleSchema = z.enum(UserRoleValues);
 export type RoleInput = z.infer<typeof RoleSchema>;
 
 
