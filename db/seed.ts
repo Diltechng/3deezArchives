@@ -1,7 +1,7 @@
-import { RoleSchema } from "@/shared/schemas";
 import { db } from ".";
 import { users } from "./schema";
 import bcrypt from "bcrypt";
+import { UserRole } from "@/shared/constants/enums";
 
 async function seed() {
   await db.insert(users).values({
@@ -9,7 +9,7 @@ async function seed() {
     passwordHash: await bcrypt.hash("3Deez@Jeerex.4", 10),
     name: "Ghali Musa",
     onboardingCompleted: true,
-    role: RoleSchema.enum.admin,
+    role: UserRole.ADMIN,
     status: "active",
   });
 

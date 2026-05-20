@@ -3,7 +3,7 @@ import { users } from "@/db/schema";
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { ResponseData, withErrorHandler } from "@/lib/api/error-handler";
 import { ApiErrorCode, NotFoundError } from "@/lib/errors";
-import { RoleSchema } from "@/shared/schemas";
+import { UserRole } from "@/shared/constants/enums";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -22,7 +22,7 @@ export const GET = withErrorHandler(
       message: "Successfully hit the home endpoint",
       data: { ctx, user, count: ++i }
     }, { status: 200 });
-  }, [RoleSchema.enum.admin, RoleSchema.enum.staff])
+  }, [UserRole.ADMIN, UserRole.STAFF])
 );
 
 export const PATCH = withErrorHandler(
@@ -49,5 +49,5 @@ export const PATCH = withErrorHandler(
       message: "Profile successfully updated",
     }, { status: 200 });
 
-  }, [RoleSchema.enum.admin, RoleSchema.enum.staff])
+  }, [UserRole.ADMIN, UserRole.STAFF])
 );

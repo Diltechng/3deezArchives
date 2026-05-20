@@ -1,3 +1,4 @@
+import { UserRoleValues } from "@/shared/constants/enums";
 import { pgEnum, timestamp } from "drizzle-orm/pg-core";
 
 export const timestamps = {
@@ -5,4 +6,4 @@ export const timestamps = {
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow()
 }
 
-export const userRoleEnum = pgEnum("user_role", ["admin", "staff"]);
+export const userRoleEnum = pgEnum("user_role", UserRoleValues);
