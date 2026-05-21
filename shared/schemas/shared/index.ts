@@ -5,14 +5,14 @@ export const RefreshTokenSchema = z.string().trim().startsWith("rt-v1_");
 export type RefreshTokenInput = z.infer<typeof RefreshTokenSchema>;
 
 
-export const UserIdSchema = z.uuid("Please enter a valid ID").trim();
+export const UserIdSchema = z.uuid("Please enter a valid user ID").trim();
 export type UserIdInput = z.infer<typeof UserIdSchema>;
 
 
-export const InvitationIdSchema = z.uuid("Please enter a valid ID").trim();
+export const InvitationIdSchema = z.uuid("Please enter a valid invitation ID").trim();
 export type InvitationIdInput = z.infer<typeof UserIdSchema>;
 
-export const MediaIdSchema = z.uuid("Please enter a valid ID").trim();
+export const MediaIdSchema = z.uuid("Please enter a valid media ID").trim();
 export type MediaIdInput = z.infer<typeof UserIdSchema>;
 
 
