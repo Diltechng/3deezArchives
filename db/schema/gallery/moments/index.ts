@@ -9,7 +9,7 @@ export const visibilityEnum = pgEnum("visibility", MomentVisibilityValues);
 export const moments = pgTable("moments", {
   id: uuid("id").defaultRandom().primaryKey(),
   
-  title: text("title").notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
   categoryId: uuid("category_id").references(() => categories.id, { onDelete: "set null" }),
   tags: varchar("tags").array(),
