@@ -29,7 +29,7 @@ interface UpdateOneFileInput {
   }
 }
 
-const mediaSelect = {
+export const mediaSelect = {
   id: media.id,
   publicId: media.publicId,
   secureUrl: media.secureUrl,
