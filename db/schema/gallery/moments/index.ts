@@ -1,8 +1,8 @@
-import { pgEnum, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
-import { timestamps } from "../../shared";
-import { categories } from "../categories";
+import { foreignKey, pgEnum, pgTable, PgTableExtraConfigValue, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { MomentVisibilityValues } from "@/shared/constants/enums";
-import { users } from "../../users";
+import { timestamps } from "@/db/schema/shared";
+import { categories } from "@/db/schema";
+import { media, users } from "@/db/schema";
 
 export const visibilityEnum = pgEnum("visibility", MomentVisibilityValues);
 
@@ -12,6 +12,7 @@ export const moments = pgTable("moments", {
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
   categoryId: uuid("category_id").references(() => categories.id, { onDelete: "set null" }),
+  coverMediaId: uuid("cover_media_id"),
   tags: varchar("tags").array(),
   visibility: visibilityEnum("visibility").notNull(),
 
@@ -21,4 +22,16 @@ export const moments = pgTable("moments", {
 
   deletedAt: timestamp("deleted_at", { withTimezone: true }),
   ...timestamps,
-});
+}, (table): PgTableExtraConfigValue[] => [
+  foreignKey({
+    name: "moments_cover_image_id_media_id_fk",
+    columns: [table.coverMediaId],
+    foreignColumns: [media.id],
+  }).onDelete("set null"),
+
+  foreignKey({
+    name: "moments_cover_media_ownership_fk",
+    columns: [table.coverMediaId, table.uploadedBy],
+    foreignColumns: [media.id, media.uploadedBy]
+  })
+]);
