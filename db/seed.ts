@@ -5,14 +5,21 @@ import { UserRole } from "@/shared/constants/enums";
 import { toSlug } from "@/shared/utils";
 
 async function seedUsers() {
-  await db.insert(users).values({
+  await db.insert(users).values([{
     email: "ghalimusa53@gmail.com",
     passwordHash: await bcrypt.hash("3Deez@Jeerex.4", 10),
     name: "Ghali Musa",
     onboardingCompleted: true,
     role: UserRole.ADMIN,
     status: "active",
-  }).onConflictDoNothing();
+  }, {
+    email: "cyber.guru.075@gmail.com",
+    passwordHash: await bcrypt.hash("3Deez@Jeerex.5", 10),
+    name: "John Smith",
+    onboardingCompleted: true,
+    role: UserRole.STAFF,
+    status: "active",
+  }]).onConflictDoNothing();
   
   console.log("User created successfully.");
 }
