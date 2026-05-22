@@ -4,7 +4,7 @@ import { PgTableWithColumns } from "drizzle-orm/pg-core";
 
 interface SoftDeleteInput {
   actorId: string;
-  where: SQL;
+  where?: SQL;
 }
 
 export function softDelete(
