@@ -10,7 +10,7 @@ const GalleryPage = () => {
       <header className="flex justify-between items-center">
         <div>
           <h1 className="font-bold text-3xl text-heading">Gallery</h1>
-          <h2 className="text-sm text-subheading">Add a moment to the archives</h2>
+          <h2 className="text-sm text-subheading">Add a post to the archives</h2>
         </div>
         <button 
           className="px-3 py-2 rounded-lg duration-200 text-accent-text bg-accent hover:bg-accent-hover btn"

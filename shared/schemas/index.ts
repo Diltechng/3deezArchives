@@ -8,3 +8,4 @@ export * from "./invite-user.schema";
 export * from "./shared";
 export * from "./delete-media.schema";
 export * from "./upload-media.schema";
+export * from "./create-post.schema";

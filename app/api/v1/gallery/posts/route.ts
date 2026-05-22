@@ -1,22 +1,22 @@
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { ResponseData, withErrorHandler } from "@/lib/api/error-handler";
-import { momentsService, validateCreateMoment } from "@/modules/gallery";
+import { postsService, validateCreatePost } from "@/modules/gallery";
 import { NextResponse } from "next/server";
 
 export const POST = withErrorHandler(
   withAuthGuard(async (req, ctx) => {
     const body = await req.json();
 
-    const validatedData = validateCreateMoment(body);
+    const validatedData = validateCreatePost(body);
 
-    const result = await momentsService.createNewMoment({
+    const result = await postsService.createNewPost({
       data: validatedData,
       userId: ctx.user.userId
     });
 
     return NextResponse.json<ResponseData>({
       success: true,
-      message: "Successfully uploaded moment",
+      message: "Successfully uploaded a post",
       data: result
     }, { status: 201 });
   })
@@ -24,7 +24,7 @@ export const POST = withErrorHandler(
 
 export const GET = withErrorHandler(
   withAuthGuard(async (req, ctx) => {
-    const moments = await momentsService.getMoments({
+    const posts = await postsService.getPosts({
       user: {
         id: ctx.user.userId,
         role: ctx.user.role
@@ -33,8 +33,8 @@ export const GET = withErrorHandler(
 
     return NextResponse.json<ResponseData>({
       success: true,
-      message: `Fetched ${moments.length} moments successfully`,
-      data: moments
+      message: `Fetched ${posts.length} posts successfully`,
+      data: posts
     });
   })
 );

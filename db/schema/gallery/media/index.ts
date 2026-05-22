@@ -1,6 +1,6 @@
 import { integer, pgTable, text, timestamp, unique, uuid, varchar } from "drizzle-orm/pg-core";
 import { users } from "@/db/schema";
-import { moments } from "@/db/schema";
+import { posts } from "@/db/schema";
 import { timestamps } from "@/db/schema/shared";
 
 export const media = pgTable("media", {
@@ -17,7 +17,7 @@ export const media = pgTable("media", {
   width: integer("width"),
   height: integer("height"),
 
-  momentId: uuid("moment_id").references(() => moments.id, { onDelete: "cascade" }),
+  postId: uuid("post_id").references(() => posts.id, { onDelete: "cascade" }),
   uploadedBy: uuid("uploaded_by").references(() => users.id, { onDelete: "set null" }),
   deletedBy: uuid("deleted_by").references(() => users.id, { onDelete: "set null" }),
 

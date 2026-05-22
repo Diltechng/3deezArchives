@@ -1,8 +1,8 @@
 import z from "zod";
-import { MomentVisibilityValues } from "../constants/enums";
+import { PostVisibilityValues } from "../constants/enums";
 import { MediaIdSchema } from "./shared";
 
-export const CreateMomentSchema = z.object({
+export const CreatePostSchema = z.object({
   title: z.string("Please enter a valid title.")
     .trim()
     .min(3, "Title must be at least 3 characters long.")
@@ -15,9 +15,9 @@ export const CreateMomentSchema = z.object({
   tags: z.string("Please enter a valid tag.").trim().array(),
   coverMediaId: MediaIdSchema,
   mediaIds: MediaIdSchema.array().min(1, "At least one media must be attached to this post."),
-  visibility: z.enum(MomentVisibilityValues),
+  visibility: z.enum(PostVisibilityValues),
   dateOfMoment: z.coerce.date("Please enter a valid date."),
   categoryId: z.uuid("Please enter a valid category ID.")
 });
 
-export type CreateMomentInput = z.infer<typeof CreateMomentSchema>;
+export type CreatePostInput = z.infer<typeof CreatePostSchema>;
