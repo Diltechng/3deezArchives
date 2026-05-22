@@ -1,5 +1,5 @@
 import z from "zod";
-import { EmailSchema } from "./shared";
+import { EmailSchema } from "../shared";
 
 export const SignUpSchema = z.object({
   email: EmailSchema
