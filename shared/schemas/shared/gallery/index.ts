@@ -15,6 +15,10 @@ export const MediaIdArraySchema = MediaIdSchema
 export type MediaIdArrayInput = z.infer<typeof MediaIdArraySchema>;
 
 
+export const PostIdSchema = z.uuid("Please enter a valid post ID").trim();
+export type PostIdInput = z.infer<typeof PostIdSchema>;
+
+
 export const PostTitleSchema = z.string("Please enter a valid title.")
   .trim()
   .min(3, "Title must be at least 3 characters long.")

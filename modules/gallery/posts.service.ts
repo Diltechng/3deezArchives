@@ -2,20 +2,31 @@ import { db } from "@/db";
 import { categories, media, posts } from "@/db/schema";
 import { ApiErrorCode, ForbiddenError, InternalServerError } from "@/lib/errors";
 import { PostVisibility, UserRole } from "@/shared/constants/enums";
-import { CreatePostInput } from "@/shared/schemas";
 import { and, desc, eq, inArray, isNull, ne, or, sql } from "drizzle-orm";
 import { mediaSelect } from "./media.service";
+import {
+  CreatePostInput as ZodCreatePostInput,
+  UpdatePostInput as ZodUpdatePostInput,
+} from "@/shared/schemas";
 
 interface CreateNewPostInput {
-  data: CreatePostInput;
+  data: ZodCreatePostInput;
   userId: string;
 }
 
 interface GetPostsInput {
   user: {
     id: string;
-    role: string;
+    role: UserRole;
   };
+}
+
+interface UpdatePostInput {
+  data: ZodUpdatePostInput,
+  user: {
+    id: string;
+    role: string;
+  }
 }
 
 const postsSelect = {
@@ -31,6 +42,24 @@ const postsSelect = {
   updatedAt: posts.updatedAt,
 }
 
+async function validateMediaOwnership(mediaId: string, userId: string) {
+  const [validMedia] = await db
+    .select({
+      id: media.id
+    })
+    .from(media)
+    .where(and(
+      eq(media.id, mediaId),
+      eq(media.uploadedBy, userId),
+      isNull(media.postId),
+    ));
+
+  if (!validMedia)
+    throw new ForbiddenError("You do not own this media asset.", {
+      code: ApiErrorCode.FORBIDDEN_MEDIA_ATTACHMENT_ATTEMPT
+    });
+}
+
 class PostsService {
   async createNewPost(data: CreateNewPostInput) {
     if (!data.data.mediaIds.includes(data.data.coverMediaId))
@@ -38,21 +67,7 @@ class PostsService {
         code: ApiErrorCode.INVALID_COVER_IMAGE_REFERENCE
       })
     
-    const [validMedia] = await db
-      .select({
-        id: media.id
-      })
-      .from(media)
-      .where(and(
-        eq(media.id, data.data.coverMediaId),
-        eq(media.uploadedBy, data.userId),
-        isNull(media.postId),
-      ));
-
-    if (!validMedia)
-      throw new ForbiddenError("You do not own this media asset.", {
-        code: ApiErrorCode.FORBIDDEN_MEDIA_ATTACHMENT_ATTEMPT
-      })
+    await validateMediaOwnership(data.data.coverMediaId, data.userId);
 
     const result = await db.transaction(async tx => {
       const [storedPost] = await tx.insert(posts).values({
@@ -157,8 +172,47 @@ class PostsService {
     return Array.from(groupedPosts.values());
   }
 
-  async updatePosts() {
-    
+  async updatePost(data: UpdatePostInput) {
+    if (data.data.coverMediaId)
+      await validateMediaOwnership(data.data.coverMediaId, data.user.id);
+
+    const updateData = {};
+    for (const [key, value] of Object.entries(data.data)) {
+      console.log(key, value);
+    }
+
+    const visibilityConditions = [
+      or(
+        and(
+          eq(posts.visibility, PostVisibility.PRIVATE),
+          eq(posts.uploadedBy, data.user.id)
+        ),
+        ne(posts.visibility, PostVisibility.PRIVATE),
+      ),
+      isNull(posts.deletedAt)
+    ];
+
+    if (data.user.role !== UserRole.ADMIN) {
+      visibilityConditions.push(
+        ne(posts.visibility, PostVisibility.ADMIN_ONLY)
+      )
+    }
+
+    const [updatedPost] = await db.update(posts).set({
+      title: data.data.title,
+      categoryId: data.data.title,
+      coverMediaId: data.data.coverMediaId,
+      dateOfMoment: data.data.dateOfMoment,
+      description: data.data.description,
+      tags: data.data.tags,
+      visibility: data.data.visibility,
+      updatedAt: sql`now()`
+    }).where(and(
+      eq(posts.id, data.data.id),
+      ...visibilityConditions,
+    )).returning({
+      id: posts.id
+    });
   }
 }
 
