@@ -1,38 +1,38 @@
 import { db } from "@/db";
-import { categories, media, moments } from "@/db/schema";
+import { categories, media, posts } from "@/db/schema";
 import { ApiErrorCode, ForbiddenError, InternalServerError } from "@/lib/errors";
-import { MomentVisibility, UserRole } from "@/shared/constants/enums";
-import { CreateMomentInput } from "@/shared/schemas/create-moment.schema";
+import { PostVisibility, UserRole } from "@/shared/constants/enums";
+import { CreatePostInput } from "@/shared/schemas";
 import { and, desc, eq, inArray, isNull, ne, or, sql } from "drizzle-orm";
 import { mediaSelect } from "./media.service";
 
-interface CreateNewMomentInput {
-  data: CreateMomentInput;
+interface CreateNewPostInput {
+  data: CreatePostInput;
   userId: string;
 }
 
-interface GetMomentsInput {
+interface GetPostsInput {
   user: {
     id: string;
     role: string;
   };
 }
 
-const momentsSelect = {
-  id: moments.id,
-  title: moments.title,
-  description: moments.description,
-  visibility: moments.visibility,
-  uploadedBy: moments.uploadedBy,
-  coverMediaId: moments.coverMediaId,
-  tags: moments.tags,
-  dateOfMoment: moments.dateOfMoment,
-  createdAt: moments.createdAt,
-  updatedAt: moments.updatedAt,
+const postsSelect = {
+  id: posts.id,
+  title: posts.title,
+  description: posts.description,
+  visibility: posts.visibility,
+  uploadedBy: posts.uploadedBy,
+  coverMediaId: posts.coverMediaId,
+  tags: posts.tags,
+  dateOfMoment: posts.dateOfMoment,
+  createdAt: posts.createdAt,
+  updatedAt: posts.updatedAt,
 }
 
-class MomentsService {
-  async createNewMoment(data: CreateNewMomentInput) {
+class PostsService {
+  async createNewPost(data: CreateNewPostInput) {
     if (!data.data.mediaIds.includes(data.data.coverMediaId))
       throw new ForbiddenError("Cover image must belong to attached media.", {
         code: ApiErrorCode.INVALID_COVER_IMAGE_REFERENCE
@@ -46,7 +46,7 @@ class MomentsService {
       .where(and(
         eq(media.id, data.data.coverMediaId),
         eq(media.uploadedBy, data.userId),
-        isNull(media.momentId),
+        isNull(media.postId),
       ));
 
     if (!validMedia)
@@ -55,7 +55,7 @@ class MomentsService {
       })
 
     const result = await db.transaction(async tx => {
-      const [storedMoment] = await tx.insert(moments).values({
+      const [storedPost] = await tx.insert(posts).values({
         title: data.data.title,
         visibility: data.data.visibility,
         dateOfMoment: data.data.dateOfMoment,
@@ -65,17 +65,17 @@ class MomentsService {
         coverMediaId: data.data.coverMediaId,
         uploadedBy: data.userId,
       }).returning({
-        id: moments.id,
-        title: moments.title,
+        id: posts.id,
+        title: posts.title,
       });
 
       const storedMedia = await tx.update(media).set({
-        momentId: storedMoment.id,
+        postId: storedPost.id,
         updatedAt: sql`now()`,
       }).where(and(
         inArray(media.id, data.data.mediaIds),
         eq(media.uploadedBy, data.userId),
-        isNull(media.momentId),
+        isNull(media.postId),
       )).returning({
         id: media.id,
         secureUrl: media.secureUrl,
@@ -85,7 +85,7 @@ class MomentsService {
         throw new InternalServerError("Some media could not be attached to this post.");
 
       return {
-        ...storedMoment,
+        ...storedPost,
         uploadedMedia: storedMedia
       };
     });
@@ -93,27 +93,27 @@ class MomentsService {
     return result;
   }
 
-  async getMoments(data: GetMomentsInput) {
+  async getPosts(data: GetPostsInput) {
     const visibilityConditions = [
       or(
         and(
-          eq(moments.visibility, MomentVisibility.PRIVATE),
-          eq(moments.uploadedBy, data.user.id)
+          eq(posts.visibility, PostVisibility.PRIVATE),
+          eq(posts.uploadedBy, data.user.id)
         ),
-        ne(moments.visibility, MomentVisibility.PRIVATE),
+        ne(posts.visibility, PostVisibility.PRIVATE),
       ),
-      isNull(moments.deletedAt)
+      isNull(posts.deletedAt)
     ];
 
     if (data.user.role !== UserRole.ADMIN) {
       visibilityConditions.push(
-        ne(moments.visibility, MomentVisibility.ADMIN_ONLY)
+        ne(posts.visibility, PostVisibility.ADMIN_ONLY)
       )
     }
 
     const joinedRecords = await db
       .select({
-        moments: momentsSelect,
+        posts: postsSelect,
         media: mediaSelect,
         category: {
           id: categories.id,
@@ -121,25 +121,25 @@ class MomentsService {
           slug: categories.slug,
         },
       })
-      .from(moments)
+      .from(posts)
       .where(and(...visibilityConditions))
       .leftJoin(media, and(
-        eq(media.momentId, moments.id),
+        eq(media.postId, posts.id),
         isNull(media.deletedAt),
       ))
       .leftJoin(categories, and(
-        eq(categories.id, moments.categoryId)
+        eq(categories.id, posts.categoryId)
       ))
-      .orderBy(desc(moments.dateOfMoment));
+      .orderBy(desc(posts.dateOfMoment));
 
-    const groupedMoments = new Map();
+    const groupedPosts = new Map();
 
     for (const record of joinedRecords) {
-      const existing = groupedMoments.get(record.moments.id);
+      const existing = groupedPosts.get(record.posts.id);
 
       if (!existing) {
-        groupedMoments.set(record.moments.id, {
-          ...record.moments,
+        groupedPosts.set(record.posts.id, {
+          ...record.posts,
           category: record.category,
           media: record.media? [record.media]: [],
         });
@@ -151,15 +151,15 @@ class MomentsService {
         existing.media.push(record.media);
       }
 
-      // We don't bother checking categories since it is a one category to many moments relationship
+      // We don't bother checking categories since it is a one category to many posts relationship
     }
 
-    return Array.from(groupedMoments.values());
+    return Array.from(groupedPosts.values());
   }
 
-  async updateMoments() {
+  async updatePosts() {
     
   }
 }
 
-export const momentsService = new MomentsService();
+export const postsService = new PostsService();

@@ -1,16 +1,16 @@
 // ==================================================================
-// ======================= Moment Visibility =======================
+// ======================= Post Visibility =======================
 // ==================================================================
 
-export const MomentVisibility = {
+export const PostVisibility = {
   PRIVATE: "private",
   ADMIN_ONLY: "admin_only",
   PUBLIC: "public",
 } as const;
 
-export const MomentVisibilityValues = Object.values(MomentVisibility) as [
-  MomentVisibility,
-  ...MomentVisibility[]
+export const PostVisibilityValues = Object.values(PostVisibility) as [
+  PostVisibility,
+  ...PostVisibility[]
 ];
 
-export type MomentVisibility = (typeof MomentVisibility)[keyof typeof MomentVisibility];
+export type PostVisibility = (typeof PostVisibility)[keyof typeof PostVisibility];

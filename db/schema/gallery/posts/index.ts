@@ -1,12 +1,12 @@
 import { foreignKey, pgEnum, pgTable, PgTableExtraConfigValue, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
-import { MomentVisibilityValues } from "@/shared/constants/enums";
+import { PostVisibilityValues } from "@/shared/constants/enums";
 import { timestamps } from "@/db/schema/shared";
 import { categories } from "@/db/schema";
 import { media, users } from "@/db/schema";
 
-export const visibilityEnum = pgEnum("visibility", MomentVisibilityValues);
+export const visibilityEnum = pgEnum("visibility", PostVisibilityValues);
 
-export const moments = pgTable("moments", {
+export const posts = pgTable("posts", {
   id: uuid("id").defaultRandom().primaryKey(),
   
   title: varchar("title", { length: 255 }).notNull(),
@@ -24,13 +24,13 @@ export const moments = pgTable("moments", {
   ...timestamps,
 }, (table): PgTableExtraConfigValue[] => [
   foreignKey({
-    name: "moments_cover_image_id_media_id_fk",
+    name: "posts_cover_image_id_media_id_fk",
     columns: [table.coverMediaId],
     foreignColumns: [media.id],
   }).onDelete("set null"),
 
   foreignKey({
-    name: "moments_cover_media_ownership_fk",
+    name: "posts_cover_media_ownership_fk",
     columns: [table.coverMediaId, table.uploadedBy],
     foreignColumns: [media.id, media.uploadedBy]
   })
