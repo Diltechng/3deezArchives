@@ -1,12 +1,12 @@
 "use client"
 
-import { useSignUpContext } from "@/contexts/SignUpContext";
-import { VerifyEmailInput, VerifyEmailSchema } from "@/lib/schemas";
+import { useSignUpContext } from "@/features/auth/contexts/SignUpContext";
+import { VerifyEmailInput, VerifyEmailSchema } from "@/shared/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import TokenInput from "@/components/signup/TokenInput";
+import TokenInput from "@/features/auth/components/TokenInput";
 import { toast } from "react-toastify";
 
 

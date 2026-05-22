@@ -2,8 +2,8 @@
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSignUpContext } from "@/contexts/SignUpContext";
-import { SignUpInput, SignUpSchema } from "@/lib/schemas";
+import { useSignUpContext } from "@/features/auth/contexts/SignUpContext";
+import { SignUpInput, SignUpSchema } from "@/shared/schemas";
 import Link from "next/link";
 import { toast } from "react-toastify";
 

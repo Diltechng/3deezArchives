@@ -1,7 +1,7 @@
 "use client"
-import Sidebar from "@/components/Sidebar";
-import Topbar from "@/components/Topbar";
-import { AuthProvider } from "@/contexts/AuthContext"
+import Sidebar from "@/features/shared/components/Sidebar";
+import Topbar from "@/features/shared/components/Topbar";
+import { AuthProvider } from "@/features/auth/contexts/AuthContext"
 
 const ProtectedLayout = ({ children }: Readonly<{
   children: React.ReactNode;

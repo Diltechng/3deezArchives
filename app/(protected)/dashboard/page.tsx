@@ -1,5 +1,5 @@
 "use client"
-import { useAuthFetch } from "@/hooks/useAuthFetch";
+import { useAuthFetch } from "@/features/auth/hooks/useAuthFetch";
 import Image from "next/image";
 import { useState } from "react";
 
