@@ -1,5 +1,5 @@
 import z from "zod";
-import { InvitationTokenSchema } from "./shared";
+import { InvitationTokenSchema } from "../shared";
 
 export const ResendVerificationSchema = z.object({
   invitationToken: InvitationTokenSchema,

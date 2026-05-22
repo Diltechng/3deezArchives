@@ -1,5 +1,5 @@
 import z from "zod";
-import { RoleSchema, UserIdSchema } from "./shared";
+import { RoleSchema, UserIdSchema } from "../shared";
 
 export const AccessTokenPayloadSchema = z.object({
   userId: UserIdSchema,

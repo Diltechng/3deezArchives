@@ -1,5 +1,5 @@
 import z from "zod";
-import { EmailSchema, PasswordSchema, RefreshTokenSchema } from "./shared";
+import { EmailSchema, PasswordSchema, RefreshTokenSchema } from "../shared";
 
 export const SignInSchema = z.object({
   email: EmailSchema,

@@ -1,5 +1,5 @@
 import z from "zod";
-import { OtpSchema, InvitationTokenSchema } from "./shared";
+import { OtpSchema, InvitationTokenSchema } from "../shared";
 
 export const VerifyEmailSchema = z.object({
   otp: OtpSchema,
