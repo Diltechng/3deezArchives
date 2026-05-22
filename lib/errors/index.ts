@@ -45,6 +45,7 @@ export enum ApiErrorCode {
   NO_MEDIA_PROVIDED = "NO_MEDIA_PROVIDED",
   MEDIA_UPLOAD_ERROR = "IMAGE_UPLOAD_ERROR",
   MEDIA_NOT_FOUND = "MEDIA_NOT_FOUND",
+  POST_NOT_FOUND = "POST_NOT_FOUND",
 }
 
 export class ApiError extends Error {

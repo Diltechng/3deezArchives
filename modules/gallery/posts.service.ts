@@ -1,13 +1,14 @@
 import { db } from "@/db";
 import { categories, media, posts } from "@/db/schema";
-import { ApiErrorCode, ForbiddenError, InternalServerError } from "@/lib/errors";
+import { ApiErrorCode, BadRequestError, ForbiddenError, InternalServerError, NotFoundError } from "@/lib/errors";
 import { PostVisibility, UserRole } from "@/shared/constants/enums";
-import { and, desc, eq, inArray, isNull, ne, or, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, isNull, ne, not, or, sql } from "drizzle-orm";
 import { mediaSelect } from "./media.service";
 import {
   CreatePostInput as ZodCreatePostInput,
   UpdatePostInput as ZodUpdatePostInput,
 } from "@/shared/schemas";
+import { softDelete } from "../shared/helpers/soft-delete";
 
 interface CreateNewPostInput {
   data: ZodCreatePostInput;
@@ -44,9 +45,7 @@ const postsSelect = {
 
 async function validateMediaOwnership(mediaId: string, userId: string) {
   const [validMedia] = await db
-    .select({
-      id: media.id
-    })
+    .select({ id: media.id })
     .from(media)
     .where(and(
       eq(media.id, mediaId),
@@ -60,10 +59,139 @@ async function validateMediaOwnership(mediaId: string, userId: string) {
     });
 }
 
+async function validateUpdateCoverMedia(data: {
+  coverMediaId?: string;
+  actorId: string;
+  postId: string;
+}) {
+  if (data.coverMediaId) {
+    const attachmentConditions = [
+      eq(media.id, data.coverMediaId),
+      eq(media.uploadedBy, data.actorId),
+      isNull(media.deletedAt),
+      or(
+        isNull(media.postId),
+        eq(media.postId, data.postId)
+      ),
+    ];
+
+    const [validMedia] = await db
+    .select({ id: media.id })
+    .from(media)
+    .where(and(...attachmentConditions));
+
+  if (!validMedia)
+    throw new ForbiddenError("You are not allowed to attach this media asset.", {
+      code: ApiErrorCode.FORBIDDEN_MEDIA_ATTACHMENT_ATTEMPT
+    });
+  }
+}
+
+async function updatePostRecord(
+  executor: typeof db,
+  data: ZodUpdatePostInput,
+  actor: {
+    id: string;
+    role: string
+  }
+) {
+  const updateConditions = [
+    eq(posts.id, data.id),
+    isNull(posts.deletedAt)
+  ];
+
+  if (actor.role !== UserRole.ADMIN) {
+    updateConditions.push(
+      eq(posts.uploadedBy, actor.id)
+    )
+  }
+
+  const updateData = Object.fromEntries(
+    Object.entries({
+      title: data.title,
+      categoryId: data.categoryId,
+      coverMediaId: data.coverMediaId,
+      dateOfMoment: data.dateOfMoment,
+      description: data.description,
+      tags: data.tags,
+      visibility: data.visibility,
+      updatedAt: sql`now()`
+    }).filter(([_, value]) => value !== undefined)
+  );
+
+  const [updatedPost] = await executor.update(posts)
+    .set(updateData)
+    .where(and(...updateConditions))
+    .returning({
+      id: posts.id,
+      coverMediaId: posts.coverMediaId
+    });
+  
+  if (!updatedPost) {
+    throw new NotFoundError("Could not update this post because it is not found", {
+      code: ApiErrorCode.POST_NOT_FOUND,
+    })
+  }
+
+  return updatedPost;
+};
+
+async function updateAttachedPostMedia(
+  executor: typeof db,
+  data: {
+    actorId: string;
+    postId: string;
+    coverMediaId?: string;
+    mediaIds?: string[];
+    existingPost: {
+      id: string;
+      coverMediaId?: string | null;
+    }
+  }
+) {
+  if (!data.mediaIds?.length) return;
+
+  if (
+    data.coverMediaId &&
+    !data.mediaIds.includes(data.coverMediaId)
+  ) {
+    throw new BadRequestError("The cover ")
+  }
+
+  const deleteAttachedMediaConditions = [
+    eq(media.postId, data.postId),
+    not(inArray(media.id, data.mediaIds)),
+    eq(media.uploadedBy, data.postId),
+  ];
+
+  const updateAttachedMediaConditions = [
+    inArray(media.id, data.mediaIds),
+    eq(media.uploadedBy, data.actorId),
+    isNull(media.deletedAt),
+    or(
+      isNull(media.postId),
+      eq(media.postId, data.postId)
+    )
+  ];
+
+  await softDelete(executor, media, {
+    actorId: data.actorId,
+    where: and(...deleteAttachedMediaConditions)
+  });
+
+  return await executor.update(media).set({
+    postId: data.existingPost.id,
+    updatedAt: sql`now()`,
+  }).where(and(...updateAttachedMediaConditions)).returning({
+    id: media.id,
+    secureUrl: media.secureUrl,
+  });
+}
+
 class PostsService {
   async createNewPost(data: CreateNewPostInput) {
     if (!data.data.mediaIds.includes(data.data.coverMediaId))
-      throw new ForbiddenError("Cover image must belong to attached media.", {
+      throw new ForbiddenError("Cover image must exist in attached media.", {
         code: ApiErrorCode.INVALID_COVER_IMAGE_REFERENCE
       })
     
@@ -173,46 +301,29 @@ class PostsService {
   }
 
   async updatePost(data: UpdatePostInput) {
-    if (data.data.coverMediaId)
-      await validateMediaOwnership(data.data.coverMediaId, data.user.id);
-
-    const updateData = {};
-    for (const [key, value] of Object.entries(data.data)) {
-      console.log(key, value);
-    }
-
-    const visibilityConditions = [
-      or(
-        and(
-          eq(posts.visibility, PostVisibility.PRIVATE),
-          eq(posts.uploadedBy, data.user.id)
-        ),
-        ne(posts.visibility, PostVisibility.PRIVATE),
-      ),
-      isNull(posts.deletedAt)
-    ];
-
-    if (data.user.role !== UserRole.ADMIN) {
-      visibilityConditions.push(
-        ne(posts.visibility, PostVisibility.ADMIN_ONLY)
-      )
-    }
-
-    const [updatedPost] = await db.update(posts).set({
-      title: data.data.title,
-      categoryId: data.data.title,
-      coverMediaId: data.data.coverMediaId,
-      dateOfMoment: data.data.dateOfMoment,
-      description: data.data.description,
-      tags: data.data.tags,
-      visibility: data.data.visibility,
-      updatedAt: sql`now()`
-    }).where(and(
-      eq(posts.id, data.data.id),
-      ...visibilityConditions,
-    )).returning({
-      id: posts.id
+    await validateUpdateCoverMedia({
+      actorId: data.user.id,
+      postId: data.data.id,
+      coverMediaId: data.data.coverMediaId
     });
+
+    return await db.transaction(async tx => {
+      const updatedPost = await updatePostRecord(tx, data.data, data.user);
+
+      const storedMedia = updateAttachedPostMedia(tx, {
+        actorId: data.user.id,
+        postId: data.data.id,
+        existingPost: updatedPost,
+        mediaIds: data.data.mediaIds,
+        coverMediaId: data.data.coverMediaId,
+      });
+      
+
+      return {
+        ...updatedPost,
+        uploadedMedia: storedMedia || []
+      };
+    })
   }
 }
 

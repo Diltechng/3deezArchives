@@ -11,6 +11,19 @@ export const UpdatePostSchema = z.object({
   visibility: PostVisibilitySchema.optional(),
   dateOfMoment: PostDateOfMomentSchema.optional(),
   categoryId: CategoryIdSchema.optional(),
+})
+.superRefine((data, ctx) => {
+  if (
+      data.mediaIds &&
+      data.coverMediaId &&
+      !data.mediaIds.includes(data.coverMediaId)
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["coverMediaId"],
+        message: "Cover image must exist in attached media."
+      });
+    }
 });
 
 export type UpdatePostInput = z.infer<typeof UpdatePostSchema>;
