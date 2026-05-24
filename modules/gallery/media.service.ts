@@ -1,7 +1,7 @@
 import { db } from "@/db";
-import { media } from "@/db/schema";
+import { media, posts } from "@/db/schema";
 import { cloudinary } from "@/lib/cloudinary";
-import { ApiErrorCode, InternalServerError, MediaNotFoundError, NotFoundError } from "@/lib/errors";
+import { ApiErrorCode, ConflictError, ForbiddenError, InternalServerError, MediaNotFoundError, NotFoundError } from "@/lib/errors";
 import { UploadApiResponse } from "cloudinary";
 import { and, desc, eq, inArray, isNull } from "drizzle-orm";
 import { softDelete } from "../shared/helpers/soft-delete";
@@ -9,11 +9,13 @@ import { softDelete } from "../shared/helpers/soft-delete";
 interface UploadFileInput {
   file: File,
   userId: string;
+  postId?: string;
 }
 
 interface DeleteOneFileInput {
   mediaId: string;
   userId: string;
+  postId?: string;
 }
 
 interface DeleteFilesInput {
@@ -41,8 +43,29 @@ export const mediaSelect = {
   mimeType: media.mimeType,
 }
 
+async function assertPostOwnerShip(userId: string, postId: string) {
+  const [validPost] = await db
+    .select({ id: posts.id })
+    .from(posts)
+    .where(and(
+      eq(posts.id, postId),
+      eq(posts.uploadedBy, userId),
+      isNull(posts.deletedAt),
+    ));
+  if (!validPost) {
+    throw new ForbiddenError("Invalid post selection", {
+      code: ApiErrorCode.INVALID_POST_SELECTION
+    });
+  }
+}
+
 class MediaService {
   async uploadFile(data: UploadFileInput) {
+    if (data.postId) {
+      await assertPostOwnerShip(data.userId, data.postId);
+    }
+
+
     const bytes = await data.file.arrayBuffer();
     
     const buffer = Buffer.from(bytes);
@@ -70,6 +93,10 @@ class MediaService {
         publicId: uploadedFile.public_id,
         secureUrl: uploadedFile.secure_url,
         
+        ...(data.postId && {
+          postId: data.postId
+        }),
+
         mimeType: data.file.type,
         bytes: uploadedFile.bytes,
         format: uploadedFile.format,
@@ -77,7 +104,6 @@ class MediaService {
         resourceType: uploadedFile.resource_type,
         height: uploadedFile.height,
         width: uploadedFile.width,      
-        
         uploadedBy: data.userId,
         uploadedAt: new Date(uploadedFile.created_at),
       }).returning({
@@ -122,9 +148,39 @@ class MediaService {
   }
 
   async deleteOneFile(data: DeleteOneFileInput) {
+    if (data.postId) {
+      await assertPostOwnerShip(data.userId, data.postId);
+      const [coverReference] = await db
+        .select({ id: posts.id })
+        .from(posts)
+        .where(
+          and(
+            eq(posts.id, data.postId),
+            eq(posts.coverMediaId, data.mediaId),
+            isNull(posts.deletedAt)
+          )
+        );
+      
+      if (coverReference) {
+        throw new ConflictError("Cannot delete active cover image.", {
+          code: ApiErrorCode.ACTIVE_COVER_MEDIA_DELETE_CONFLICT
+        }); 
+      }
+    }
+
+    const deleteConditions = [
+      eq(media.id, data.mediaId),
+    ];
+
+    if (data.postId) {
+      deleteConditions.push(
+        eq(media.postId, data.postId)
+      );
+    } 
+
     const [deletedMedia] = await softDelete(db, media, {
       actorId: data.userId,
-      where: eq(media.id, data.mediaId)
+      where: and(...deleteConditions)
     })
     .returning({
       id: media.id,
