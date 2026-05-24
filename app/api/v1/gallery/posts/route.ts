@@ -25,10 +25,8 @@ export const POST = withErrorHandler(
 export const GET = withErrorHandler(
   withAuthGuard(async (req, ctx) => {
     const posts = await postsService.getPosts({
-      user: {
-        id: ctx.user.userId,
-        role: ctx.user.role
-      }
+      userId: ctx.user.userId,
+      userRole: ctx.user.role,
     });
 
     return NextResponse.json<ResponseData>({
