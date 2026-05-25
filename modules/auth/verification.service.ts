@@ -40,7 +40,6 @@ class VerificationService {
     if (new Date() >= invitationRecord.expiresAt) {
       await db.update(invitations).set({
         status: "expired",
-        updatedAt: sql`now()`,
       }).where(eq(invitations.id, invitationRecord.id));
 
       throw new ExpiredError("Invite session has expired", {
@@ -50,7 +49,6 @@ class VerificationService {
 
     await db.update(invitations).set({
       otpHash,
-      updatedAt: sql`now()`,
     }).where(eq(invitations.id, invitationRecord.id));
 
     return {

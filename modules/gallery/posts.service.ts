@@ -86,7 +86,6 @@ class PostsService {
 
       const storedMedia = await tx.update(media).set({
         postId: storedPost.id,
-        updatedAt: sql`now()`,
       }).where(and(
         inArray(media.id, data.data.mediaIds),
         eq(media.uploadedBy, data.userId),
@@ -236,7 +235,6 @@ class PostsService {
     const [updatedPost] = await db.update(posts)
       .set({
         ...updateData,
-        updatedAt: sql`now()`
       })
       .where(and(...updateConditions))
       .returning({

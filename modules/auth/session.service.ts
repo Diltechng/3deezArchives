@@ -83,7 +83,6 @@ class SessionService {
     
     await db.update(sessions).set({
       revoked: true,
-      updatedAt: sql`now()`,
     }).where(eq(sessions.id, record.sessions.id));
 
     return {
@@ -100,7 +99,6 @@ class SessionService {
 
     await db.update(sessions).set({
       revoked: true,
-      updatedAt: sql`now()`,
     }).where(eq(sessions.tokenHash, tokenHash));
   }
 }

@@ -42,7 +42,6 @@ export const PATCH = withErrorHandler(
 
     await db.update(users).set({
       name: validatedData.fullName,
-      updatedAt: sql`now()`,
     });
 
     return NextResponse.json<ResponseData>({
