@@ -4,36 +4,10 @@ import { ApiErrorCode, BadRequestError, ForbiddenError, InternalServerError, Not
 import { PostVisibility, UserRole } from "@/shared/constants/enums";
 import { and, desc, eq, inArray, isNull, ne, not, or, sql } from "drizzle-orm";
 import { mediaSelect } from "./media.service";
-import {
-  PostIdInput,
-  CreatePostInput as ZodCreatePostInput,
-  UpdatePostInput as ZodUpdatePostInput,
-} from "@/shared/schemas";
 import { softDelete } from "../shared/helpers/soft-delete";
 import { alias } from "drizzle-orm/pg-core";
+import { CreateNewPostInput, DeleteOnePostInput, GetPostsInput, UpdateOnePostInput } from "./types";
 
-interface CreateNewPostInput {
-  data: ZodCreatePostInput;
-  userId: string;
-}
-
-interface GetPostsInput {
-  userId: string;
-  userRole: UserRole;
-}
-
-interface UpdateOnePostInput {
-  postId: PostIdInput;
-  data: ZodUpdatePostInput,
-  userId: string;
-  userRole: UserRole;
-}
-
-interface DeleteOnePostInput {
-  postId: PostIdInput;
-  userId: string;
-  userRole: UserRole;
-}
 
 const postsSelect = {
   id: posts.id,

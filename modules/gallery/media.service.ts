@@ -5,31 +5,8 @@ import { ApiErrorCode, ConflictError, ForbiddenError, InternalServerError, Media
 import { UploadApiResponse } from "cloudinary";
 import { and, desc, eq, inArray, isNull } from "drizzle-orm";
 import { softDelete } from "../shared/helpers/soft-delete";
+import { DeleteFilesInput, DeleteOneFileInput, UploadFileInput } from "./types";
 
-interface UploadFileInput {
-  file: File,
-  userId: string;
-  postId?: string;
-}
-
-interface DeleteOneFileInput {
-  mediaId: string;
-  userId: string;
-  postId?: string;
-}
-
-interface DeleteFilesInput {
-  mediaIds: string[];
-  userId: string;
-}
-
-interface UpdateOneFileInput {
-  mediaId: string;
-  userId: string;
-  data: {
-
-  }
-}
 
 export const mediaSelect = {
   id: media.id,

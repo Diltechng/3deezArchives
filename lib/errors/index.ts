@@ -1,13 +1,6 @@
+import { ApiErrorOptions, ErrorOptions } from "./types";
+
 export * from "./errors";
-
-interface ErrorOptions {
-  code?: string;
-  details?: any;
-}
-
-interface ApiErrorOptions extends ErrorOptions {
-  statusCode: number;
-}
 
 export enum ApiErrorCode {
   INVALID_VERIFICATION_SESSION = "INVALID_VERIFICATION_SESSION",
