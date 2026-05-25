@@ -1,19 +1,65 @@
-import { RoleSchema } from "@/lib/schemas";
 import { db } from ".";
-import { users } from "./schema";
+import { categories, users } from "./schema";
 import bcrypt from "bcrypt";
+import { UserRole } from "@/shared/constants/enums";
+import { toSlug } from "@/shared/utils";
 
-async function seed() {
-  await db.insert(users).values({
+async function seedUsers() {
+  await db.insert(users).values([{
     email: "ghalimusa53@gmail.com",
     passwordHash: await bcrypt.hash("3Deez@Jeerex.4", 10),
     name: "Ghali Musa",
     onboardingCompleted: true,
-    role: RoleSchema.enum.admin,
+    role: UserRole.ADMIN,
     status: "active",
+  }, {
+    email: "cyber.guru.075@gmail.com",
+    passwordHash: await bcrypt.hash("3Deez@Jeerex.5", 10),
+    name: "John Smith",
+    onboardingCompleted: true,
+    role: UserRole.STAFF,
+    status: "active",
+  }]).onConflictDoNothing();
+  
+  console.log("User created successfully.");
+}
+
+async function seedCategories() {
+  await db.insert(categories).values([{
+    name: "Company Milestones",
+    slug: toSlug("Company Milestones"),
+    description: "Major achievements and landmark moments in the company's journey.",
+  }, {
+    name: "Anniversaries",
+    slug: toSlug("Anniversaries"),
+    description: "Company anniversaries and celebratory milestones.",
+  }, {
+    name: "Behind the Scenes",
+    slug: toSlug("Behind the Scenes"),
+    description: "Everyday office moments, candid memories, and work-life snapshots.",
+  }, {
+    name: "Tours & Excursions",
+    slug: toSlug("Tours & Excursions"),
+    description: "Company trips, excursions, sightseeing tours, and travel experiences.",
+  }, {
+    name: "Corporate Events",
+    slug: toSlug("Corporate Events"),
+    description: "Internal and external company-organized events.",
+  }, {
+    name: "Campaigns",
+    slug: toSlug("Campaigns"),
+    description: "Marketing campaigns, promotional initiatives, and brand activations.",
+  }]).onConflictDoNothing({
+    target: categories.name
   });
 
-  console.log("User created successfully.");
+  console.log("Categories created successfully.");
+}
+
+async function seed() {
+  await seedUsers();
+  await seedCategories();
+
   process.exit(0);
 }
 

@@ -5,8 +5,8 @@ import { db } from "@/db";
 import { sessions, users } from "@/db/schema";
 import { sha256Hash } from "@/lib/crypto";
 import { days } from "@/utils/time";
-import { eq } from "drizzle-orm";
-import { AccessTokenPayload } from "@/lib/schemas";
+import { eq, sql } from "drizzle-orm";
+import { AccessTokenPayload } from "@/shared/schemas";
 
 class SessionService {
   signJwt(payload: AccessTokenPayload) {
@@ -82,7 +82,7 @@ class SessionService {
     const refreshToken = await this.createSession(record.users.id);
     
     await db.update(sessions).set({
-      revoked: true
+      revoked: true,
     }).where(eq(sessions.id, record.sessions.id));
 
     return {

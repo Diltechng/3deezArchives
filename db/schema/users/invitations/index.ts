@@ -1,11 +1,10 @@
 import { pgTable, uuid, text, varchar, timestamp, pgEnum, boolean } from "drizzle-orm/pg-core";
 import { userRoleEnum, timestamps } from "../../shared";
 import { users } from "../user";
+import { InvitationStatusValues } from "@/shared/constants/enums";
 
 
-export const invitationStatusEnum = pgEnum("invitation_status", [
-  "pending", "accepted", "rejected", "expired", "revoked", "completed"
-]);
+export const invitationStatusEnum = pgEnum("invitation_status", InvitationStatusValues);
 
 export const invitations = pgTable("invites", {
   // identity

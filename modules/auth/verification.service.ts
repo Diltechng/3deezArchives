@@ -1,9 +1,9 @@
 import { db } from "@/db";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { invitations } from "@/db/schema";
 import { generateOTP, sha256Hash } from "@/lib/crypto";
 import { ApiErrorCode, BadRequestError, ExpiredError, ForbiddenError, VerificationError } from "@/lib/errors";
-import { ResendVerificationInput } from "@/lib/schemas";
+import { ResendVerificationInput } from "@/shared/schemas";
 import bcrypt from "bcrypt";
 
 class VerificationService {

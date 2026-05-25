@@ -1,7 +1,7 @@
 import z from "zod";
 import { ApiErrorCode, ValidationError } from "@/lib/errors";
-import { VerifyEmailSchema } from "@/lib/schemas";
-import { ResendVerificationSchema } from "@/lib/schemas/resend-verification.schema";
+import { VerifyEmailSchema } from "@/shared/schemas";
+import { ResendVerificationSchema } from "@/shared/schemas";
 
 export function validateResendVerification(data: unknown) {
   const result = ResendVerificationSchema.safeParse(data);

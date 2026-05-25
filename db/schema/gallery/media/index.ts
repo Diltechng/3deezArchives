@@ -1,5 +1,7 @@
-import { integer, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
-import { users } from "../../users";
+import { integer, pgTable, text, timestamp, unique, uuid, varchar } from "drizzle-orm/pg-core";
+import { users } from "@/db/schema";
+import { posts } from "@/db/schema";
+import { timestamps } from "@/db/schema/shared";
 
 export const media = pgTable("media", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -15,8 +17,13 @@ export const media = pgTable("media", {
   width: integer("width"),
   height: integer("height"),
 
+  postId: uuid("post_id").references(() => posts.id, { onDelete: "cascade" }),
   uploadedBy: uuid("uploaded_by").references(() => users.id, { onDelete: "set null" }),
+  deletedBy: uuid("deleted_by").references(() => users.id, { onDelete: "set null" }),
 
   uploadedAt: timestamp("uploaded_at", { withTimezone: true }).notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
-});
+  deletedAt: timestamp("deleted_at", { withTimezone: true }),
+  ...timestamps,
+}, (table) => [
+  unique("media_id_uploaded_by_uq").on(table.id, table.uploadedBy)
+]);

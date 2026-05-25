@@ -1,7 +1,7 @@
 "use client"
 
 import { useSignUpContext } from "@/contexts/SignUpContext";
-import { VerifyEmailInput, VerifyEmailSchema } from "@/lib/schemas";
+import { VerifyEmailInput, VerifyEmailSchema } from "@/shared/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";

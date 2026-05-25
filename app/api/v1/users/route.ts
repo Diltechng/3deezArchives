@@ -1,10 +1,11 @@
 import { withAuthGuard } from "@/lib/api/auth-guard";
-import { ResponseData, withErrorHandler } from "@/lib/api/error-handler";
-import { RoleSchema } from "@/lib/schemas";
+import { withErrorHandler } from "@/lib/api/error-handler";
 import { mailService } from "@/modules/mailing";
 import { usersService } from "@/modules/users/users.service";
 import { validateInviteUser } from "@/modules/users/users.validation";
 import { NextResponse } from "next/server";
+import { UserRole } from "@/shared/constants/enums";
+import { ResponseData } from "@/lib/api/types";
 
 export const GET = withErrorHandler(
   withAuthGuard(async req => {
@@ -17,7 +18,7 @@ export const GET = withErrorHandler(
       message: "Users queried successfully",
       data: users
     });
-  }, [RoleSchema.enum.admin])
+  }, [UserRole.ADMIN])
 );
 
 export const POST = withErrorHandler(
@@ -38,5 +39,5 @@ export const POST = withErrorHandler(
       success: true,
       message: "User invited successfully"
     });
-  }, [RoleSchema.enum.admin])
+  }, [UserRole.ADMIN])
 );

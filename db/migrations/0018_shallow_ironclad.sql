@@ -1,0 +1,1 @@
+ALTER TABLE "moments" ALTER COLUMN "title" SET DATA TYPE varchar(255);

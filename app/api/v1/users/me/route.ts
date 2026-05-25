@@ -1,10 +1,11 @@
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import { withAuthGuard } from "@/lib/api/auth-guard";
-import { ResponseData, withErrorHandler } from "@/lib/api/error-handler";
+import { withErrorHandler } from "@/lib/api/error-handler";
+import { ResponseData } from "@/lib/api/types";
 import { ApiErrorCode, NotFoundError } from "@/lib/errors";
-import { RoleSchema } from "@/lib/schemas";
-import { eq } from "drizzle-orm";
+import { UserRole } from "@/shared/constants/enums";
+import { eq, sql } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 let i = 0;
@@ -22,7 +23,7 @@ export const GET = withErrorHandler(
       message: "Successfully hit the home endpoint",
       data: { ctx, user, count: ++i }
     }, { status: 200 });
-  }, [RoleSchema.enum.admin, RoleSchema.enum.staff])
+  }, [UserRole.ADMIN, UserRole.STAFF])
 );
 
 export const PATCH = withErrorHandler(
@@ -41,7 +42,7 @@ export const PATCH = withErrorHandler(
       });
 
     await db.update(users).set({
-      name: validatedData.fullName
+      name: validatedData.fullName,
     });
 
     return NextResponse.json<ResponseData>({
@@ -49,5 +50,5 @@ export const PATCH = withErrorHandler(
       message: "Profile successfully updated",
     }, { status: 200 });
 
-  }, [RoleSchema.enum.admin, RoleSchema.enum.staff])
+  }, [UserRole.ADMIN, UserRole.STAFF])
 );

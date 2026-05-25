@@ -1,7 +1,7 @@
 import z from "zod";
 import { ApiErrorCode, ValidationError } from "@/lib/errors";
-import { AccessTokenPayloadSchema, SetPasswordSchema, SignUpSchema } from "@/lib/schemas";
-import { SignInSchema } from "@/lib/schemas";
+import { AccessTokenPayloadSchema, SetPasswordSchema, SignUpSchema } from "@/shared/schemas";
+import { SignInSchema } from "@/shared/schemas";
 
 
 export function validateSignIn(data: unknown) {
