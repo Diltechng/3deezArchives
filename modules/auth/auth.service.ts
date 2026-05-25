@@ -38,7 +38,6 @@ class AuthService {
     if (new Date() >= invitationRecord.expiresAt) {
       await db.update(invitations).set({
         status: "expired",
-        updatedAt: sql`now()`,
       }).where(eq(invitations.id, invitationRecord.id));
 
       throw new ExpiredError("Invite session has expired", {
@@ -105,7 +104,6 @@ class AuthService {
     if (new Date() >= invitedUser.expiresAt) {
       await db.update(invitations).set({
         status: "expired",
-        updatedAt: sql`now()`,
       }).where(eq(invitations.id, invitedUser.id));
 
       throw new ExpiredError("Invite session has expired", {
@@ -135,8 +133,7 @@ class AuthService {
   
       await tx.update(invitations).set({
         status: "completed",
-        completedAt: sql`now()`,
-        updatedAt: sql`now()`,
+        completedAt: sql<Date>`now()`,
       })
       .where(eq(invitations.id, invitedUser.id));
     });
