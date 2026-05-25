@@ -1,11 +1,6 @@
 import nodemailer from "nodemailer";
+import { SendVerificationEmailInput } from "./types";
 
-
-interface SendVerificationEmailInput {
-  email: string;
-  otp: string;
-  invitationToken: string;
-}
 
 class MailService {
   async sendVerificationEmail(data: SendVerificationEmailInput) {

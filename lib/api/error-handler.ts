@@ -1,17 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ApiError, ApiErrorCode } from "../errors";
+import { ApiError } from "../errors";
 import { ApiResponse, RouteContext } from "./types";
-
-export type ResponseData = {
-  success: boolean;
-  message: string;
-  data?: any;
-  error?: {
-    message: string;
-    code: ApiErrorCode;
-    details?: any;
-  }
-};
 
 export function withErrorHandler<TParams>(handler: (req: NextRequest, context: RouteContext<TParams>) => ApiResponse) {
   return async (req: NextRequest, context: RouteContext<TParams>) => {

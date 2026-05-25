@@ -1,11 +1,8 @@
 import { db } from "@/db";
 import { and, isNull, sql, SQL } from "drizzle-orm";
 import { PgTableWithColumns } from "drizzle-orm/pg-core";
+import { SoftDeleteInput } from "../types";
 
-interface SoftDeleteInput {
-  actorId: string;
-  where?: SQL;
-}
 
 export function softDelete(
   executor: typeof db,
