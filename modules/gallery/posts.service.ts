@@ -1,25 +1,10 @@
 import { db } from "@/db";
-import { categories, media, posts } from "@/db/schema";
+import { media, posts } from "@/db/schema";
 import { ApiErrorCode, BadRequestError, ForbiddenError, InternalServerError, NotFoundError } from "@/lib/errors";
 import { PostVisibility, UserRole } from "@/shared/constants/enums";
 import { and, desc, eq, inArray, isNull, ne, not, or, sql } from "drizzle-orm";
-import { mediaSelect } from "./media.service";
 import { softDelete } from "../shared/helpers/soft-delete";
-import { alias } from "drizzle-orm/pg-core";
 import { CreateNewPostInput, DeleteOnePostInput, GetPostsInput, UpdateOnePostInput } from "./types";
-
-
-const postsSelect = {
-  id: posts.id,
-  title: posts.title,
-  description: posts.description,
-  visibility: posts.visibility,
-  uploadedBy: posts.uploadedBy,
-  tags: posts.tags,
-  dateOfMoment: posts.dateOfMoment,
-  createdAt: posts.createdAt,
-  updatedAt: posts.updatedAt,
-}
 
 class PostsService {
   async createNewPost(data: CreateNewPostInput) {
@@ -99,61 +84,53 @@ class PostsService {
       )
     }
 
-    const coverMedia = alias(media, "cover_media");
+    const mediaPreviewColumns = {
+      columns: {
+        id: true,
+        secureUrl: true,
+        width: true,
+        height: true,
+        bytes: true,
+        createdAt: true,
+        uploadedBy: true,
+      }
+    } as const;
 
-    const joinedRecords = await db
-      .select({
-        posts: postsSelect,
-        media: mediaSelect,
+    const result = await db.query.posts.findMany({
+      where: and(...visibilityConditions),
+      orderBy: desc(posts.dateOfMoment),
+      columns: {
+        id: true,
+        title: true,
+        description: true,
+        visibility: true,
+        tags: true,
+        dateOfMoment: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+      with: {
         category: {
-          id: categories.id,
-          name: categories.name,
-          slug: categories.slug,
+          columns: {
+            id: true,
+            name: true,
+            slug: true,
+            description: true,
+          },
         },
-        coverMedia: {
-          id: coverMedia.id,
-          secureUrl: coverMedia.secureUrl,
-        }
-      })
-      .from(posts)
-      .where(and(...visibilityConditions))
-      .leftJoin(media, and(
-        eq(media.postId, posts.id),
-        isNull(media.deletedAt),
-      ))
-      .leftJoin(categories, and(
-        eq(categories.id, posts.categoryId)
-      ))
-      .leftJoin(coverMedia, and(
-        eq(coverMedia.id, posts.coverMediaId),
-        isNull(coverMedia.deletedAt)
-      ))
-      .orderBy(desc(posts.dateOfMoment));
+        coverMedia: mediaPreviewColumns,
+        media: mediaPreviewColumns,
+        uploadedByUser: {
+          columns: {
+            id: true,
+            name: true,
+            role: true,
+          }
+        },
+      },
+    });
 
-    const groupedPosts = new Map();
-
-    for (const record of joinedRecords) {
-      const existing = groupedPosts.get(record.posts.id);
-
-      if (!existing) {
-        groupedPosts.set(record.posts.id, {
-          ...record.posts,
-          category: record.category,
-          coverMedia: record.coverMedia,
-          media: record.media? [record.media]: [],
-        });
-
-        continue;
-      }
-
-      if (record.media) {
-        existing.media.push(record.media);
-      }
-
-      // We don't bother checking categories since it is a one category to many posts relationship
-    }
-
-    return Array.from(groupedPosts.values());
+    return result;
   }
 
   async updateOnePost(data: UpdateOnePostInput) {
