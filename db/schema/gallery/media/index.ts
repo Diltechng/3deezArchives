@@ -1,7 +1,7 @@
 import { integer, pgTable, text, timestamp, unique, uuid, varchar } from "drizzle-orm/pg-core";
-import { users } from "@/db/schema";
-import { posts } from "@/db/schema";
+import { users, posts } from "@/db/schema";
 import { timestamps } from "@/db/schema/shared";
+import { relations } from "drizzle-orm";
 
 export const media = pgTable("media", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -27,3 +27,11 @@ export const media = pgTable("media", {
 }, (table) => [
   unique("media_id_uploaded_by_uq").on(table.id, table.uploadedBy)
 ]);
+
+export const mediaRelations = relations(media, ({ one }) => ({
+  post: one(posts, {
+    fields: [media.postId],
+    references: [posts.id],
+    relationName: "postMedia"
+  }),
+}));
