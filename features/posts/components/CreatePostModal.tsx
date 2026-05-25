@@ -1,3 +1,5 @@
+import { Input, Select, TextArea } from "@/features/shared/components/Input";
+import { PostVisibilityValues } from "@/shared/constants/enums";
 import { UploadCloud } from "lucide-react";
 
 const CreatePostModal = ({ onExit }: {
@@ -44,11 +46,37 @@ const CreatePostModal = ({ onExit }: {
               </label>
             </div>
           </div>
-          <div>
+          <div className="flex flex-col gap-1">
             <div>
 
             </div>
-            <input />
+            <Input
+              label="Title"
+              placeholder="eg. Studio Session Vol.4"
+            />
+            <TextArea
+              label="Description"
+              placeholder="Describe this moment."
+            />
+            <div className="grid grid-cols-2 gap-y-1 gap-x-2">
+              <Select label="Category">
+                <option>Select a category</option>
+                <option>Category 1</option>
+              </Select>
+              <Input
+                label="Date of Moment"
+                type="date"
+              />
+              <Input
+                label="Tags"
+                placeholder="eg. Minna, 2026, Studio"
+              />
+              <Select label="Visibility">
+                {PostVisibilityValues.map(option => (
+                  <option value={option}>{option}</option>
+                ))}
+              </Select>
+            </div>
           </div>
         </div>
         <div className="flex gap-2 pt-3 justify-end mt-auto">

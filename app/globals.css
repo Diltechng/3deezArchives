@@ -56,7 +56,7 @@ body {
 }
 
 @layer base {
-  input{
+  input, textarea {
     @apply outline-none
   }
 
