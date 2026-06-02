@@ -1,8 +1,10 @@
 import { db } from ".";
-import { categories, users } from "./schema";
+import { categories, media, posts, users } from "./schema";
 import bcrypt from "bcrypt";
 import { UserRole } from "@/shared/constants/enums";
 import { toSlug } from "@/shared/utils";
+import { faker } from "@faker-js/faker";
+import { isNull } from "drizzle-orm";
 
 async function seedUsers() {
   await db.insert(users).values([{
@@ -21,7 +23,7 @@ async function seedUsers() {
     status: "active",
   }]).onConflictDoNothing();
   
-  console.log("User created successfully.");
+  console.log("User seeded successfully.");
 }
 
 async function seedCategories() {
@@ -53,12 +55,36 @@ async function seedCategories() {
     target: categories.name
   });
 
-  console.log("Categories created successfully.");
+  console.log("Categories seeded successfully.");
+}
+
+async function seedPosts() {
+  const categorIds = (await db.select().from(categories)).map(category => category.id);
+  const coverMediaIds = (await db.select().from(media).where(isNull(media.deletedAt))).map(mediaItem => mediaItem.id);
+  
+  const data = Array.from({ length: 100 }).map(() => ({
+    title: faker.lorem.sentence(),
+    dateOfMoment: faker.date.past(),
+    visibility: faker.helpers.arrayElement(["public", "admin_only", "private"]),
+    categoryId: faker.helpers.arrayElement(categorIds),
+    uploadedBy: "4512d1a4-7fc9-4bd3-8052-ea3022d7ed62",
+    coverMediaId: faker.helpers.arrayElement(coverMediaIds),
+    description: faker.lorem.paragraph(),
+    tags: faker.helpers.arrayElements(["music", "live", "event", "test", "archive", "milestone", "studio", "games", "casuals"], {
+      min: 2, max: 5
+    }),
+  }));
+
+  await db.insert(posts)
+    .values(data);
+
+  console.log("Posts seeded successfully.");
 }
 
 async function seed() {
   await seedUsers();
   await seedCategories();
+  await seedPosts();
 
   process.exit(0);
 }
