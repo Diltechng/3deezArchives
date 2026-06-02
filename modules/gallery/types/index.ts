@@ -3,6 +3,7 @@ import {
   PostIdInput,
   CreatePostInput,
   UpdatePostInput,
+  GetPostsQueryInput,
 } from "@/shared/schemas";
 
 
@@ -39,6 +40,7 @@ export interface CreateNewPostInput {
 export interface GetPostsInput {
   userId: string;
   userRole: UserRole;
+  filters: GetPostsQueryInput;
 }
 
 export interface UpdateOnePostInput {
