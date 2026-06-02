@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
-import { ResponseData } from "@/lib/api/types";
+import { ResponseData } from "@/shared/types/api";
 import { ApiErrorCode, NotFoundError } from "@/lib/errors";
 import { UserRole } from "@/shared/constants/enums";
 import { eq, sql } from "drizzle-orm";

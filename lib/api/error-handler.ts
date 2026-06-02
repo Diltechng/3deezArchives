@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ApiError } from "../errors";
-import { ApiResponse, RouteContext } from "./types";
+import { ApiResponse, RouteContext } from "../../shared/types/api";
 
 export function withErrorHandler<TParams>(handler: (req: NextRequest, context: RouteContext<TParams>) => ApiResponse) {
   return async (req: NextRequest, context: RouteContext<TParams>) => {
