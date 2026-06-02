@@ -1,6 +1,6 @@
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
-import { ResponseData } from "@/lib/api/types";
+import { ResponseData } from "@/shared/types/api";
 import { postsService, validateCreatePost, validateGetPostsQuery } from "@/modules/gallery";
 import { NextResponse } from "next/server";
 

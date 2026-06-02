@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { ApiResponse, AuthReqContext } from "./types";
+import { ApiResponse, AuthReqContext } from "../../shared/types/api";
 import { ApiErrorCode, ForbiddenError, UnauthorizedError } from "../errors";
 import { sessionService, validateAccessTokenPayload } from "@/modules/auth";
 
