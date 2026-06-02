@@ -14,10 +14,10 @@ export type AuthReqContext<TParams> = {
   user: AccessTokenPayload;
 } & RouteContext<TParams>;
 
-export type ResponseData = {
+export type ResponseData<T = unknown> = {
   success: boolean;
   message: string;
-  data?: any;
+  data?: T;
   error?: {
     message: string;
     code: ApiErrorCode;
