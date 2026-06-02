@@ -84,7 +84,10 @@ async function seedPosts() {
 async function seed() {
   await seedUsers();
   await seedCategories();
-  await seedPosts();
+  
+  if (process.env.NODE_ENV !== "production") {
+    await seedPosts();
+  }
 
   process.exit(0);
 }
