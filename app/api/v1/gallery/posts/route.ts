@@ -1,7 +1,7 @@
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
 import { ResponseData } from "@/lib/api/types";
-import { postsService, validateCreatePost } from "@/modules/gallery";
+import { postsService, validateCreatePost, validateGetPostsQuery } from "@/modules/gallery";
 import { NextResponse } from "next/server";
 
 export const POST = withErrorHandler(
@@ -25,15 +25,33 @@ export const POST = withErrorHandler(
 
 export const GET = withErrorHandler(
   withAuthGuard(async (req, ctx) => {
-    const posts = await postsService.getPosts({
+    const { searchParams } = req.nextUrl;
+    
+    const search = searchParams.get("search");
+    const visibility = searchParams.get("visibility");
+    const categorySlug = searchParams.get("category");
+
+    const validatedFilters = validateGetPostsQuery({
+      page: searchParams.get("page"),
+      limit: searchParams.get("limit"),
+      ...(search && { search }),
+      ...(visibility && { visibility }),
+      ...(categorySlug && { categorySlug }),
+    });
+
+    console.log(validatedFilters);
+
+    const { posts, pagination } = await postsService.getPosts({
       userId: ctx.user.userId,
       userRole: ctx.user.role,
+      filters: validatedFilters,
     });
 
     return NextResponse.json<ResponseData>({
       success: true,
       message: `Fetched ${posts.length} posts successfully`,
-      data: posts
+      data: posts,
+      pagination,
     });
   })
 );

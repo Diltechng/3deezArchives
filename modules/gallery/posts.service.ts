@@ -1,8 +1,8 @@
 import { db } from "@/db";
-import { media, posts } from "@/db/schema";
+import { categories, media, posts } from "@/db/schema";
 import { ApiErrorCode, BadRequestError, ForbiddenError, InternalServerError, NotFoundError } from "@/lib/errors";
 import { PostVisibility, UserRole } from "@/shared/constants/enums";
-import { and, desc, eq, inArray, isNull, ne, not, or, sql } from "drizzle-orm";
+import { and, desc, eq, ilike, inArray, isNull, ne, not, or, sql } from "drizzle-orm";
 import { softDelete } from "../shared/helpers/soft-delete";
 import { CreateNewPostInput, DeleteOnePostInput, GetPostsInput, UpdateOnePostInput } from "./types";
 
@@ -84,6 +84,34 @@ class PostsService {
       )
     }
 
+    const filters = [...visibilityConditions];
+
+    const { limit, page, search, visibility, categorySlug } = data.filters;
+    if (search) {
+      filters.push(or(
+        ilike(posts.title, `%${search}%`),
+        ilike(posts.description, `%${search}%`)
+      ));
+    }
+
+    if (visibility) {
+      filters.push(eq(posts.visibility, visibility));
+    }
+
+    if (categorySlug) {
+      const [category] = await db.select({ id: categories.id })
+        .from(categories)
+        .where(eq(categories.slug, categorySlug));
+
+      if (!category) {
+        throw new NotFoundError("No such category exists", {
+          code: ApiErrorCode.CATEGORY_NOT_FOUND,
+        });
+      }
+
+      filters.push(eq(posts.categoryId, category.id));
+    }
+
     const mediaPreviewColumns = {
       columns: {
         id: true,
@@ -96,9 +124,26 @@ class PostsService {
       }
     } as const;
 
+    const offset = (page - 1) * limit;
+
+    const [{ count }] = await db.select({ count: sql<number>`count(*)::int` })
+      .from(posts)
+      .where(and(...filters));
+
+    const pagination = {
+      page,
+      limit,
+      total: count,
+      totalPages: Math.ceil(count / limit),
+      hasNextPage: page < Math.ceil(count / limit),
+      hasPreviousPage: page > 1,
+    } 
+
     const result = await db.query.posts.findMany({
-      where: and(...visibilityConditions),
+      where: and(...filters),
       orderBy: desc(posts.dateOfMoment),
+      offset,
+      limit,
       columns: {
         id: true,
         title: true,
@@ -130,7 +175,10 @@ class PostsService {
       },
     });
 
-    return result;
+    return {
+      posts: result,
+      pagination,
+    };
   }
 
   async updateOnePost(data: UpdateOnePostInput) {

@@ -23,4 +23,12 @@ export type ResponseData = {
     code: ApiErrorCode;
     details?: any;
   }
+  pagination?: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+  }
 };
