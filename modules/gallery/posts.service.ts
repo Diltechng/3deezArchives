@@ -2,24 +2,9 @@ import { db } from "@/db";
 import { categories, media, posts } from "@/db/schema";
 import { ApiErrorCode, BadRequestError, ForbiddenError, InternalServerError, NotFoundError } from "@/lib/errors";
 import { PostVisibility, UserRole } from "@/shared/constants/enums";
-import { and, desc, eq, inArray, isNull, ne, not, or, sql } from "drizzle-orm";
-import { mediaSelect } from "./media.service";
+import { and, desc, eq, ilike, inArray, isNull, ne, not, or, sql } from "drizzle-orm";
 import { softDelete } from "../shared/helpers/soft-delete";
-import { alias } from "drizzle-orm/pg-core";
 import { CreateNewPostInput, DeleteOnePostInput, GetPostsInput, UpdateOnePostInput } from "./types";
-
-
-const postsSelect = {
-  id: posts.id,
-  title: posts.title,
-  description: posts.description,
-  visibility: posts.visibility,
-  uploadedBy: posts.uploadedBy,
-  tags: posts.tags,
-  dateOfMoment: posts.dateOfMoment,
-  createdAt: posts.createdAt,
-  updatedAt: posts.updatedAt,
-}
 
 class PostsService {
   async createNewPost(data: CreateNewPostInput) {
@@ -99,61 +84,101 @@ class PostsService {
       )
     }
 
-    const coverMedia = alias(media, "cover_media");
+    const filters = [...visibilityConditions];
 
-    const joinedRecords = await db
-      .select({
-        posts: postsSelect,
-        media: mediaSelect,
-        category: {
-          id: categories.id,
-          name: categories.name,
-          slug: categories.slug,
-        },
-        coverMedia: {
-          id: coverMedia.id,
-          secureUrl: coverMedia.secureUrl,
-        }
-      })
-      .from(posts)
-      .where(and(...visibilityConditions))
-      .leftJoin(media, and(
-        eq(media.postId, posts.id),
-        isNull(media.deletedAt),
-      ))
-      .leftJoin(categories, and(
-        eq(categories.id, posts.categoryId)
-      ))
-      .leftJoin(coverMedia, and(
-        eq(coverMedia.id, posts.coverMediaId),
-        isNull(coverMedia.deletedAt)
-      ))
-      .orderBy(desc(posts.dateOfMoment));
-
-    const groupedPosts = new Map();
-
-    for (const record of joinedRecords) {
-      const existing = groupedPosts.get(record.posts.id);
-
-      if (!existing) {
-        groupedPosts.set(record.posts.id, {
-          ...record.posts,
-          category: record.category,
-          coverMedia: record.coverMedia,
-          media: record.media? [record.media]: [],
-        });
-
-        continue;
-      }
-
-      if (record.media) {
-        existing.media.push(record.media);
-      }
-
-      // We don't bother checking categories since it is a one category to many posts relationship
+    const { limit, page, search, visibility, categorySlug } = data.filters;
+    if (search) {
+      filters.push(or(
+        ilike(posts.title, `%${search}%`),
+        ilike(posts.description, `%${search}%`)
+      ));
     }
 
-    return Array.from(groupedPosts.values());
+    if (visibility) {
+      filters.push(eq(posts.visibility, visibility));
+    }
+
+    if (categorySlug) {
+      const [category] = await db.select({ id: categories.id })
+        .from(categories)
+        .where(eq(categories.slug, categorySlug));
+
+      if (!category) {
+        throw new NotFoundError("No such category exists", {
+          code: ApiErrorCode.CATEGORY_NOT_FOUND,
+        });
+      }
+
+      filters.push(eq(posts.categoryId, category.id));
+    }
+
+    const mediaPreviewColumns = {
+      columns: {
+        id: true,
+        secureUrl: true,
+        width: true,
+        height: true,
+        bytes: true,
+        createdAt: true,
+        uploadedBy: true,
+      }
+    } as const;
+
+    const offset = (page - 1) * limit;
+
+    const [{ count }] = await db.select({ count: sql<number>`count(*)::int` })
+      .from(posts)
+      .where(and(...filters));
+
+    const pagination = {
+      page,
+      limit,
+      total: count,
+      totalPages: Math.ceil(count / limit),
+      hasNextPage: page < Math.ceil(count / limit),
+      hasPreviousPage: page > 1,
+    } 
+
+    const result = await db.query.posts.findMany({
+      where: and(...filters),
+      orderBy: desc(posts.dateOfMoment),
+      offset,
+      limit,
+      columns: {
+        id: true,
+        title: true,
+        description: true,
+        visibility: true,
+        tags: true,
+        dateOfMoment: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+      with: {
+        category: {
+          columns: {
+            id: true,
+            name: true,
+            slug: true,
+            description: true,
+          },
+        },
+        coverMedia: mediaPreviewColumns,
+        media: mediaPreviewColumns,
+        uploadedByUser: {
+          columns: {
+            id: true,
+            name: true,
+            role: true,
+          }
+        },
+      },
+    });
+
+    return {
+      posts: result,
+      pagination,
+    };
   }
 
   async updateOnePost(data: UpdateOnePostInput) {

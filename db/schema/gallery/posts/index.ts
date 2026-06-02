@@ -1,8 +1,8 @@
 import { foreignKey, pgEnum, pgTable, PgTableExtraConfigValue, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { PostVisibilityValues } from "@/shared/constants/enums";
 import { timestamps } from "@/db/schema/shared";
-import { categories } from "@/db/schema";
-import { media, users } from "@/db/schema";
+import { media, users, categories } from "@/db/schema";
+import { relations } from "drizzle-orm";
 
 export const visibilityEnum = pgEnum("visibility", PostVisibilityValues);
 
@@ -35,3 +35,30 @@ export const posts = pgTable("posts", {
     foreignColumns: [media.id, media.uploadedBy]
   })
 ]);
+
+export const postRelations = relations(posts, ({ one, many }) => ({
+  media: many(media, {
+    relationName: "postMedia",
+  }),
+  
+  category: one(categories, {
+    fields: [posts.categoryId],
+    references: [categories.id],
+  }),
+
+  coverMedia: one(media, {
+    fields: [posts.coverMediaId],
+    references: [media.id],
+    relationName: "postCoverMedia",
+  }),
+
+  uploadedByUser: one(users, {
+    fields: [posts.uploadedBy],
+    references: [users.id],
+  }),
+
+  deletedByUser: one(users, {
+    fields: [posts.deletedBy],
+    references: [users.id],
+  }),
+}));
