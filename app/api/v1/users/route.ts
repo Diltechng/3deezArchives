@@ -5,7 +5,7 @@ import { usersService } from "@/modules/users/users.service";
 import { validateInviteUser } from "@/modules/users/users.validation";
 import { NextResponse } from "next/server";
 import { UserRole } from "@/shared/constants/enums";
-import { ResponseData } from "@/lib/api/types";
+import { ResponseData } from "@/shared/types/api";
 
 export const GET = withErrorHandler(
   withAuthGuard(async req => {
