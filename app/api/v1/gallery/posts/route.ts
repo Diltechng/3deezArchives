@@ -39,8 +39,6 @@ export const GET = withErrorHandler(
       ...(categorySlug && { categorySlug }),
     });
 
-    console.log(validatedFilters);
-
     const { posts, pagination } = await postsService.getPosts({
       userId: ctx.user.userId,
       userRole: ctx.user.role,
