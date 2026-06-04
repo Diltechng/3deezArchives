@@ -29,8 +29,6 @@
   --color-text-2: #888;
   --color-text-3: #555;
 
-  --color-border-primary: var(--color-neutral-200);
-
   --animate-caret-blink: caret-blink 1.2s ease-out infinite;
   
   @keyframes caret-blink {
