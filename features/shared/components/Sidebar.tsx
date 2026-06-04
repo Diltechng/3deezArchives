@@ -61,7 +61,7 @@ const Sidebar = () => {
                       <Link
                         href={item.pathname}
                         className={clsx(
-                          "flex items-center gap-1 w-full text-[12px] text-left font-sans rounded-lg duration-200 py-2 px-2.5",
+                          "flex items-center gap-1 py-2 px-2.5 w-full text-[12px] text-left font-sans rounded-lg duration-200",
                           isActivePage? "bg-accent/10 text-accent": "text-text-2 hover:text-text hover:bg-surface-3",
                         )}
                       >
@@ -78,8 +78,9 @@ const Sidebar = () => {
         </nav>
         <button
           onClick={signout}
-          className="px-6 py-2 text-sm text-left rounded-lg duration-200 text-red-700 hover:bg-red-500/10"
+          className="py-2 px-2.5 text-sm font-sans font-[12px] text-left rounded-lg duration-200 text-accent-2 hover:bg-surface-3"
         >
+          <div className="px-0.5"></div>
           Sign Out
         </button>
       </div>
