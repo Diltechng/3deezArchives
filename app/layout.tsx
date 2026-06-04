@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Space_Mono, DM_Sans } from "next/font/google";
 import "./globals.css";
 import ToastContainer from "@/features/shared/components/ToastContainer";
-import QueryProvider from "@/features/shared/context/QueryProvider";
+import QueryProvider from "@/features/shared/contexts/QueryProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
