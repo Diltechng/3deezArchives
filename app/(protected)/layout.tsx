@@ -11,9 +11,9 @@ const ProtectedLayout = ({ children }: Readonly<{
     <AuthProvider>
       <div className="flex flex-col h-screen">
         <Topbar />
-        <div className="flex h-full">
+        <div className="flex flex-1 overflow-hidden">
           <Sidebar />
-          <main className="p-6 w-full">
+          <main className="p-6 flex-1 overflow-y-auto">
             {children}
           </main>
         </div>

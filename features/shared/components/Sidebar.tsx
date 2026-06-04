@@ -37,7 +37,7 @@ const Sidebar = () => {
   }];
 
   return (
-    <aside className="flex flex-col px-3 py-5 w-50 border-r border-border bg-surface-2">
+    <aside className="flex flex-col px-3 py-5 w-50 border-r border-border bg-surface-2 overflow-y-auto">
       {/* <button
         className={`w-10 p-1.5 aspect-square mb-7 rounded-lg duration-200 text-gray-700 hover:text-gray-900 hover:bg-gray-500/10
           ${sidebarExpanded? "ml-2": "mx-auto"}
