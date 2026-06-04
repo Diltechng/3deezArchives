@@ -1,4 +1,4 @@
-import { Loader2 } from "lucide-react";
+import Loader from "@/features/shared/components/Loader";
 import { useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useEffect, useState } from "react"
 
@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }: Readonly<{
     isInitializing
     ? (
       <div className="flex w-full h-screen">
-        <Loader2 className="m-auto scale-200 text-accent animate-spin" />
+        <Loader />
       </div>
     )
     : (
