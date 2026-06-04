@@ -1,4 +1,5 @@
 import { useAuthContext } from "@/features/auth/contexts/AuthContext";
+import clsx from "clsx";
 import { Home, Images, Menu, Settings, SquareActivity, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -8,7 +9,6 @@ const Sidebar = () => {
   const { deleteAccessToken } = useAuthContext();
   const router = useRouter();
   const pathname = usePathname();
-  const [sidebarExpanded, setSidebarExpanded] = useState(() => window.innerWidth >= 768);
 
 
   async function signout() {
@@ -22,13 +22,13 @@ const Sidebar = () => {
   }
 
   const navGroups = [{
-    name: "Main",
+    name: "MAIN",
     navOptions: [
       { name: "Dashboard", pathname: "/dashboard", icon: Home },
       { name: "Gallery", pathname: "/gallery", icon: Images }
     ]
   }, {
-    name: "Admin",
+    name: "ADMIN",
     navOptions: [
       { name: "Users", pathname: "/users", icon: Users },
       { name: "Settings", pathname: "/settings", icon: Settings },
@@ -37,20 +37,20 @@ const Sidebar = () => {
   }];
 
   return (
-    <aside className={`flex flex-col px-3 py-3 border-r border-border-primary bg-neutral-50 ${sidebarExpanded? "w-60":"w-18"}`}>
-      <button
+    <aside className="flex flex-col px-3 py-5 w-50 border-r border-border bg-surface-2">
+      {/* <button
         className={`w-10 p-1.5 aspect-square mb-7 rounded-lg duration-200 text-gray-700 hover:text-gray-900 hover:bg-gray-500/10
           ${sidebarExpanded? "ml-2": "mx-auto"}
         `}
         onClick={() => setSidebarExpanded(prev => !prev)}
       >
         <Menu className="w-full h-full" />
-      </button>
+      </button> */}
       <div className="flex flex-col flex-1 justify-between">
-        <nav className={`flex flex-col ${sidebarExpanded? "gap-4": "gap-1"}`} role="navigation">
+        <nav className="flex flex-col gap-4" role="navigation">
           {navGroups.map(group => (
             <div key={group.name} className="flex flex-col gap-1">
-              {sidebarExpanded && <p className="text-[13px] text-gray-400 px-2">{group.name}</p>}
+              <p className="px-2 text-[9px] tracking-widest text-text-3">{group.name}</p>
               
               <ul className="flex flex-col gap-1">
                 {group.navOptions.map(item => {
@@ -60,13 +60,14 @@ const Sidebar = () => {
                     <li key={item.name}>
                       <Link
                         href={item.pathname}
-                        className={`flex items-center gap-1 h-10 py-2.5 w-full text-sm text-left rounded-lg duration-200 hover:text-gray-600 hover:bg-gray-500/10
-                          ${isActivePage? "bg-gray-500/15 text-gray-700": "text-gray-500"}
-                          ${sidebarExpanded? "px-6": "px-2.5 justify-center"}
-                        `}
+                        className={clsx(
+                          "flex items-center gap-1 w-full text-[12px] text-left font-sans rounded-lg duration-200 py-2 px-2.5",
+                          isActivePage? "bg-accent/10 text-accent": "text-text-2 hover:text-text hover:bg-surface-3",
+                        )}
                       >
-                        <item.icon className="h-full aspect-square" />
-                        {sidebarExpanded && <span>{item.name}</span>}
+                        {/* <item.icon className="h-full aspect-square" /> */}
+                        <div className="px-0.5"></div>
+                        {item.name}
                       </Link>
                     </li>
                   )
