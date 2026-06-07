@@ -8,18 +8,19 @@ import clsx from "clsx";
 import { Grid, List } from "lucide-react";
 import PostsGridLayout from "@/features/posts/components/PostsGridLayout";
 import PostsListLayout from "@/features/posts/components/PostsListLayout";
+import PaginationNav from "@/features/posts/components/PaginationNav";
 
 const GalleryPage = () => {
+  const limit = 12;
   const [showUploadModal, setShowUploadModal] = useState(false);
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [activeFilter, setActiveFilter] = useState("All");
   const [displayMode, setDisplayMode] = useState<"list" | "grid">("grid");
 
   const authFetch = useAuthFetch();
 
   const { isLoading, data } = useQuery({
-    queryKey: ["posts"],
+    queryKey: ["posts", currentPage],
     queryFn: async () => {
       const response = await authFetch(`/api/v1/gallery/posts?limit=${limit}&page=${currentPage}`);
       return await response.json();
@@ -100,6 +101,13 @@ const GalleryPage = () => {
       : displayMode === "list" &&
         <PostsListLayout posts={data.data} />
       }
+      <PaginationNav
+        currentPage={currentPage}
+        hasNextPage={data.pagination.hasNextPage}
+        hasPreviousPage={data.pagination.hasPreviousPage}
+        totalPages={data.pagination.totalPages}
+        onPageChange={setCurrentPage}
+      />
     </section>
   )
 };
