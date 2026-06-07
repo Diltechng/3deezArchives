@@ -5,6 +5,11 @@
   --foreground: #f0f0f0;
 }
 
+@plugin "tailwind-scrollbar" {
+  nocompatible: true;
+  preferredStrategy: "psuedoelements";
+}
+
 @theme inline {
   --font-mono: var(--font-space-mono);
   --font-sans: var(--font-dm-sans);
@@ -55,9 +60,11 @@
 
 @layer base {
   body {
-    background: var(--background);
-    color: var(--foreground);
-    font-family: var(--font-space-mono);
+    @apply font-mono text-text bg-background
+  }
+
+  body * {
+    @apply scrollbar scrollbar-thumb-surface-3 scrollbar-track-surface scrollbar-thumb-rounded-full
   }
 
   input, textarea {
