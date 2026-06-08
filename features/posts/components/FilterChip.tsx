@@ -1,0 +1,21 @@
+import clsx from "clsx";
+
+const FilterChip = ({ name, active=false, className, onClick }: {
+  name: string;
+  active?: boolean;
+  className?: string;
+  onClick?: () => unknown;
+}) => (
+  <button
+    className={clsx(
+      "px-2.5 py-1 rounded-full border text-[10px]",
+      active? "text-accent bg-accent/10": "text-text-2 border-border-2 hover:text-text",
+      className
+    )}
+    onClick={onClick}
+  >
+    {name}
+  </button>
+);
+
+export default FilterChip;
