@@ -4,6 +4,26 @@ import { ResponseData } from "@/shared/types/api";
 import { postsService, validatePostId, validateUpdatePost } from "@/modules/gallery";
 import { NextResponse } from "next/server";
 
+export const GET = withErrorHandler(
+  withAuthGuard<Promise<{ postId: string; }>>(async (req, ctx) => {
+    const postId = (await ctx.params).postId;
+
+    const validatedId = validatePostId(postId);
+
+    const result = await postsService.getOnePost({
+      postId: validatedId,
+      userId: ctx.user.userId,
+      userRole: ctx.user.role,
+    });
+
+    return NextResponse.json<ResponseData>({
+      success: true,
+      message: "Fetched 1 post successfully",
+      data: result,
+    })
+  })
+);
+
 export const PATCH = withErrorHandler(
   withAuthGuard<Promise<{ postId: string; }>>(async (req, ctx) => {
     const postId = (await ctx.params).postId;
