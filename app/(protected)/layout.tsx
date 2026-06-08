@@ -13,7 +13,7 @@ const ProtectedLayout = ({ children }: Readonly<{
         <Topbar />
         <div className="flex flex-1 overflow-hidden">
           <Sidebar />
-          <main className="p-6 flex-1 overflow-y-auto">
+          <main className="p-6 flex flex-col flex-1 overflow-y-auto">
             {children}
           </main>
         </div>

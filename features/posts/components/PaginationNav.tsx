@@ -21,8 +21,8 @@ const PaginationNav = ({ currentPage, totalPages, hasNextPage, hasPreviousPage, 
     const siblingCount = options?.siblingCount ?? 1;
     const boundaryCount = options?.boundaryCount ?? 1;
 
-    const startPages = range(1, boundaryCount);
-    const endPages = range((totalPages - boundaryCount + 1), totalPages);
+    const startPages = range(1, Math.min(boundaryCount, totalPages));
+    const endPages = range(Math.max(totalPages - boundaryCount + 1, boundaryCount + 1), totalPages);
 
     const siblingsStart = Math.max(
       Math.min(
@@ -79,7 +79,7 @@ const PaginationNav = ({ currentPage, totalPages, hasNextPage, hasPreviousPage, 
   }
   
   return (
-    <div className="flex justify-between items-center mt-10 p-2.5 font-sans rounded-lg border text-text-2 border-border-2">
+    <div className="flex justify-between items-center p-2.5 font-sans rounded-lg border text-text-2 border-border-2">
       <div className="flex gap-2">
         <button
           className="p-1 w-8 aspect-square rounded-lg border border-border-2 bg-surface hover:text-text hover:bg-surface-2 disabled:text-text-3 disabled:bg-surface"
