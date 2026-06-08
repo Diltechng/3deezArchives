@@ -1,6 +1,7 @@
 import { CldImage } from "next-cloudinary"
 import { GalleryPost } from "../types"
 import dayjs from "dayjs"
+import Link from "next/link"
 
 const PostsGridLayout = ({ posts }: {
   posts: GalleryPost[]
@@ -8,7 +9,11 @@ const PostsGridLayout = ({ posts }: {
  return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
       {posts.map((post) => (
-        <div key={post.id} className="flex flex-col overflow-hidden rounded-lg border border-border">
+        <Link
+          key={post.id}
+          href={`/gallery/post/${post.id}`}
+          className="flex flex-col overflow-hidden rounded-lg border border-border"
+        >
           <div className="relative w-full aspect-square">
             <CldImage
               className="w-full h-full object-cover"
@@ -26,7 +31,7 @@ const PostsGridLayout = ({ posts }: {
               <div className="text-[10px] font-sans truncate text-text-3">{post.uploadedByUser.name}</div>
             </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
  )
