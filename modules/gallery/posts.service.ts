@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { categories, media, posts } from "@/db/schema";
 import { ApiErrorCode, BadRequestError, ForbiddenError, InternalServerError, NotFoundError } from "@/lib/errors";
 import { PostVisibility, UserRole } from "@/shared/constants/enums";
-import { and, desc, eq, ilike, inArray, isNull, ne, not, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gte, ilike, inArray, isNull, lte, ne, not, or, sql } from "drizzle-orm";
 import { softDelete } from "../shared/helpers/soft-delete";
 import { CreateNewPostInput, DeleteOnePostInput, GetPostsInput, UpdateOnePostInput } from "./types";
 
@@ -86,7 +86,7 @@ class PostsService {
 
     const filters = [...visibilityConditions];
 
-    const { limit, page, search, visibility, categorySlug } = data.filters;
+    const { limit, page, search, visibility, categorySlug, date, sortBy } = data.filters;
     if (search) {
       filters.push(or(
         ilike(posts.title, `%${search}%`),
@@ -96,6 +96,14 @@ class PostsService {
 
     if (visibility) {
       filters.push(eq(posts.visibility, visibility));
+    }
+
+    if (date.from) {
+      filters.push(gte(posts.dateOfMoment, date.from));
+    }
+
+    if (date.to) {
+      filters.push(lte(posts.dateOfMoment, date.to));
     }
 
     if (categorySlug) {
@@ -111,6 +119,10 @@ class PostsService {
 
       filters.push(eq(posts.categoryId, category.id));
     }
+
+    const orderCriteria = sortBy === "oldest"
+      ? [asc(posts.dateOfMoment), asc(posts.id)]
+      : [desc(posts.dateOfMoment), desc(posts.id)];
 
     const mediaPreviewColumns = {
       columns: {
@@ -141,7 +153,7 @@ class PostsService {
 
     const result = await db.query.posts.findMany({
       where: and(...filters),
-      orderBy: desc(posts.dateOfMoment),
+      orderBy: orderCriteria,
       offset,
       limit,
       columns: {

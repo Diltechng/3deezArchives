@@ -20,7 +20,17 @@ export const GetPostsQuerySchema = z.object({
   categorySlug: z.string("Please enter a valid category filter")
     .max(225, "Category filter is too long")
     .optional(),
-    
+
+  date: z.object({
+    from: z.iso.date("Please enter a valid date")
+      .transform(val => new Date(val))
+      .optional(),
+    to: z.iso.date("Please enter a valid date")
+      .transform(val => new Date(val))
+      .optional(),
+  }),
+  
+  sortBy: z.enum(["latest", "oldest"]).default("latest"),
   visibility: PostVisibilitySchema.optional(),
 });
 
