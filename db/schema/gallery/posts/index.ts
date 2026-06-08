@@ -1,4 +1,4 @@
-import { foreignKey, pgEnum, pgTable, PgTableExtraConfigValue, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { foreignKey, index, pgEnum, pgTable, PgTableExtraConfigValue, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { PostVisibilityValues } from "@/shared/constants/enums";
 import { timestamps } from "@/db/schema/shared";
 import { media, users, categories } from "@/db/schema";
@@ -32,8 +32,10 @@ export const posts = pgTable("posts", {
   foreignKey({
     name: "posts_cover_media_ownership_fk",
     columns: [table.coverMediaId, table.uploadedBy],
-    foreignColumns: [media.id, media.uploadedBy]
-  })
+    foreignColumns: [media.id, media.uploadedBy],
+  }),
+  index("posts_category_id_idx").on(table.categoryId),
+  index("posts_date_of_moment_idx").on(table.dateOfMoment),
 ]);
 
 export const postRelations = relations(posts, ({ one, many }) => ({

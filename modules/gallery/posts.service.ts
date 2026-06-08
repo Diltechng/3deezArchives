@@ -2,9 +2,9 @@ import { db } from "@/db";
 import { categories, media, posts } from "@/db/schema";
 import { ApiErrorCode, BadRequestError, ForbiddenError, InternalServerError, NotFoundError } from "@/lib/errors";
 import { PostVisibility, UserRole } from "@/shared/constants/enums";
-import { and, desc, eq, ilike, inArray, isNull, ne, not, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gte, ilike, inArray, isNull, lte, ne, not, or, sql } from "drizzle-orm";
 import { softDelete } from "../shared/helpers/soft-delete";
-import { CreateNewPostInput, DeleteOnePostInput, GetPostsInput, UpdateOnePostInput } from "./types";
+import { CreateNewPostInput, DeleteOnePostInput, GetOnePostInput, GetPostsInput, UpdateOnePostInput } from "./types";
 
 class PostsService {
   async createNewPost(data: CreateNewPostInput) {
@@ -86,7 +86,7 @@ class PostsService {
 
     const filters = [...visibilityConditions];
 
-    const { limit, page, search, visibility, categorySlug } = data.filters;
+    const { limit, page, search, visibility, categorySlug, date, sortBy } = data.filters;
     if (search) {
       filters.push(or(
         ilike(posts.title, `%${search}%`),
@@ -96,6 +96,14 @@ class PostsService {
 
     if (visibility) {
       filters.push(eq(posts.visibility, visibility));
+    }
+
+    if (date.from) {
+      filters.push(gte(posts.dateOfMoment, date.from));
+    }
+
+    if (date.to) {
+      filters.push(lte(posts.dateOfMoment, date.to));
     }
 
     if (categorySlug) {
@@ -111,6 +119,10 @@ class PostsService {
 
       filters.push(eq(posts.categoryId, category.id));
     }
+
+    const orderCriteria = sortBy === "oldest"
+      ? [asc(posts.dateOfMoment), asc(posts.id)]
+      : [desc(posts.dateOfMoment), desc(posts.id)];
 
     const mediaPreviewColumns = {
       columns: {
@@ -141,7 +153,7 @@ class PostsService {
 
     const result = await db.query.posts.findMany({
       where: and(...filters),
-      orderBy: desc(posts.dateOfMoment),
+      orderBy: orderCriteria,
       offset,
       limit,
       columns: {
@@ -179,6 +191,78 @@ class PostsService {
       posts: result,
       pagination,
     };
+  }
+
+  async getOnePost(data: GetOnePostInput) {
+    const visibilityConditions = [
+      or(
+        and(
+          eq(posts.visibility, PostVisibility.PRIVATE),
+          eq(posts.uploadedBy, data.userId)
+        ),
+        ne(posts.visibility, PostVisibility.PRIVATE),
+      ),
+      isNull(posts.deletedAt)
+    ];
+
+    if (data.userRole !== UserRole.ADMIN) {
+      visibilityConditions.push(
+        ne(posts.visibility, PostVisibility.ADMIN_ONLY)
+      )
+    }
+
+    const mediaPreviewColumns = {
+      columns: {
+        id: true,
+        secureUrl: true,
+        width: true,
+        height: true,
+        bytes: true,
+        createdAt: true,
+        uploadedBy: true,
+      }
+    } as const;
+
+    const result = await db.query.posts.findFirst({
+      where: and(eq(posts.id, data.postId), ...visibilityConditions),
+      columns: {
+        id: true,
+        title: true,
+        description: true,
+        visibility: true,
+        tags: true,
+        dateOfMoment: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+      with: {
+        category: {
+          columns: {
+            id: true,
+            name: true,
+            slug: true,
+            description: true,
+          },
+        },
+        coverMedia: mediaPreviewColumns,
+        media: mediaPreviewColumns,
+        uploadedByUser: {
+          columns: {
+            id: true,
+            name: true,
+            role: true,
+          }
+        },
+      },
+    });
+
+    if (!result) {
+      throw new NotFoundError("Post does not exist or is not accessible to you.", {
+        code: ApiErrorCode.POST_NOT_FOUND
+      });
+    }
+
+    return result;
   }
 
   async updateOnePost(data: UpdateOnePostInput) {

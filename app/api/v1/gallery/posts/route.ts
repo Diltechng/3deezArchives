@@ -30,6 +30,9 @@ export const GET = withErrorHandler(
     const search = searchParams.get("search");
     const visibility = searchParams.get("visibility");
     const categorySlug = searchParams.get("category");
+    const sortBy = searchParams.get("sortBy");
+    const dateFrom = searchParams.get("from");
+    const dateTo = searchParams.get("to");
 
     const validatedFilters = validateGetPostsQuery({
       page: searchParams.get("page"),
@@ -37,6 +40,11 @@ export const GET = withErrorHandler(
       ...(search && { search }),
       ...(visibility && { visibility }),
       ...(categorySlug && { categorySlug }),
+      ...(sortBy && { sortBy }),
+      date: {
+        ...(dateFrom && { from: dateFrom }),
+        ...(dateTo && { to: dateTo }),
+      },
     });
 
     const { posts, pagination } = await postsService.getPosts({
