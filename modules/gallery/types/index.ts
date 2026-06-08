@@ -43,9 +43,15 @@ export interface GetPostsInput {
   filters: GetPostsQueryInput;
 }
 
+export interface GetOnePostInput {
+  postId: PostIdInput;
+  userId: string;
+  userRole: UserRole;
+}
+
 export interface UpdateOnePostInput {
   postId: PostIdInput;
-  data: UpdatePostInput,
+  data: UpdatePostInput;
   userId: string;
   userRole: UserRole;
 }
