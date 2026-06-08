@@ -7,7 +7,7 @@
 
 @plugin "tailwind-scrollbar" {
   nocompatible: true;
-  preferredStrategy: "psuedoelements";
+  preferredStrategy: "pseudoelements";
 }
 
 @theme inline {
