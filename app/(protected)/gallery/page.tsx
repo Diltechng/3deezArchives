@@ -12,6 +12,7 @@ import PaginationNav from "@/features/posts/components/PaginationNav";
 import { useDebouncedCallback } from "use-debounce";
 import { GalleryCategory } from "@/features/posts/types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import FilterChip from "@/features/posts/components/FilterChip";
 
 const GalleryPage = () => {
   const LIMIT = 12;
@@ -23,16 +24,19 @@ const GalleryPage = () => {
 
   const currentCategory: "all" | (string & {}) = searchParams.get("category") ?? "all";
   const search = searchParams.get("search") ?? "";
+  const dateFrom = searchParams.get("from") ?? "";
+  const dateTo = searchParams.get("to") ?? "";
 
   const [categoriesCount, setCatrgoriesCount] = useState(0);
   const [postsCount, setPostsCount] = useState(0);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [displayMode, setDisplayMode] = useState<"list" | "grid">("grid");
+  const [activeDateFilter, setActiveDateFilter] = useState("");
 
 
   const { isLoading: isLoadingPosts, data: postsData } = useQuery({
-    queryKey: ["posts", currentPage, search, currentCategory],
+    queryKey: ["posts", currentPage, search, currentCategory, dateFrom, dateTo],
     queryFn: async () => {
       const searchParams = new URLSearchParams({
         limit: String(LIMIT),
@@ -45,6 +49,14 @@ const GalleryPage = () => {
 
       if (currentCategory &&  currentCategory !== "all") {
         searchParams.set("category", currentCategory);
+      }
+
+      if (dateFrom) {
+        searchParams.set("from", dateFrom);
+      }
+
+      if (dateTo) {
+        searchParams.set("to", dateTo);
       }
 
       const response = await authFetch(`/api/v1/gallery/posts?${searchParams}`);
@@ -68,13 +80,34 @@ const GalleryPage = () => {
     }
   });
 
-  function updateFilter(key: "category" | "search", value: string) {
+  function clearFilters() {
+    updateFilter({
+      key: "category",
+      value: ""
+    }, {
+      key: "from",
+      value: ""
+    }, {
+      key: "to",
+      value: ""
+    });
+    setActiveDateFilter("")
+  }
+
+  function updateFilter(...items: { 
+    key: "category" | "search" | "from" | "to";
+    value: string;
+  }[]) {
     const params = new URLSearchParams(searchParams.toString());
     
-    if (value && value !== "all") {
-      params.set(key, value);
-    } else {
-      params.delete(key);
+    for (const { key, value } of items) {
+      if (!value) {
+        params.delete(key);
+      } else if (value === "all") {
+        return clearFilters();
+      } else {
+        params.set(key, value);
+      }
     }
 
     router.replace(`${pathname}?${params}`);
@@ -82,7 +115,7 @@ const GalleryPage = () => {
 
   const handleSearch = useDebouncedCallback((term: string) => {
     setCurrentPage(1);
-    updateFilter("search", term);
+    updateFilter({ key: "search", value: term });
   }, 300);
 
   return (
@@ -142,21 +175,37 @@ const GalleryPage = () => {
             { id: "all", name: "All", slug: "all" },
             ...categoriesData.data
           ].map((category: GalleryCategory) => (
-            <button
+            <FilterChip
               key={category.id}
-              className={clsx(
-                "px-2.5 py-1 rounded-full border text-[10px]",
-                category.slug === currentCategory
-                  ? "text-accent bg-accent/10"
-                  : "text-text-2 border-border-2 hover:text-text"
-              )}
+              name={category.name}
+              active={category.slug === currentCategory}
               onClick={() =>
-                updateFilter("category", category.slug)
+                updateFilter({ key: "category", value: category.slug })
               }
-            >
-              {category.name}
-            </button>
+            />
           ))}
+          {[{
+            name: "2025",
+            from: "2025-01-01",
+            to: "2025-12-31"
+          }, {
+            name: "2026",
+            from: "2026-01-01",
+            to: "2026-12-31",
+          }].map(date =>
+            <FilterChip
+              key={date.name}
+              name={date.name}
+              active={activeDateFilter === date.name}
+              onClick={() => {
+                updateFilter(
+                  { key: "from", value: date.from },
+                  { key: "to", value: date.to }
+                );
+                setActiveDateFilter(date.name);
+              }}
+            />
+          )}
         </div>
       }
 
