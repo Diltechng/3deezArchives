@@ -12,3 +12,9 @@ export interface GalleryPost {
     name: string;
   }
 }
+
+export interface GalleryCategory {
+  id: string;
+  name: string;
+  slug: string;
+}
