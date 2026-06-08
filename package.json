@@ -15,8 +15,10 @@
   "type": "module",
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@tanstack/react-query": "^5.100.14",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.10.0",
+    "clsx": "^2.1.1",
     "cookie-parser": "^1.4.7",
     "dayjs": "^1.11.20",
     "dotenv": "^17.2.3",
@@ -27,6 +29,7 @@
     "jsonwebtoken": "^9.0.3",
     "lucide-react": "^1.16.0",
     "next": "16.1.0",
+    "next-cloudinary": "^6.17.5",
     "node-pg-migrate": "^8.0.4",
     "nodemailer": "^8.0.7",
     "nodemon": "^3.1.11",
@@ -36,6 +39,7 @@
     "react-hook-form": "^7.75.0",
     "react-toastify": "^11.1.0",
     "slugify": "^1.6.9",
+    "use-debounce": "^10.1.1",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -51,6 +55,7 @@
     "drizzle-kit": "^0.31.8",
     "eslint": "^9",
     "eslint-config-next": "16.1.0",
+    "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4",
     "tsx": "^4.22.0",
     "typescript": "^5"

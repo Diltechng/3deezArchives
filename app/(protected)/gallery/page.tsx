@@ -1,90 +1,241 @@
 "use client"
-
-import { UploadCloud } from "lucide-react";
-import { useState } from "react";
+import CreatePostModal from "@/features/posts/components/CreatePostModal";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useAuthFetch } from "@/features/auth/hooks/useAuthFetch";
+import Loader from "@/features/shared/components/Loader";
+import clsx from "clsx";
+import { Grid, List } from "lucide-react";
+import PostsGridLayout from "@/features/posts/components/PostsGridLayout";
+import PostsListLayout from "@/features/posts/components/PostsListLayout";
+import PaginationNav from "@/features/posts/components/PaginationNav";
+import { useDebouncedCallback } from "use-debounce";
+import { GalleryCategory } from "@/features/posts/types";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import FilterChip from "@/features/posts/components/FilterChip";
 
 const GalleryPage = () => {
-  const [showUpload, setShowUpload] = useState(false);
+  const LIMIT = 12;
 
-  async function handleUpload() {
-    console.log("Uploading");
+  const authFetch = useAuthFetch();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const currentCategory: "all" | (string & {}) = searchParams.get("category") ?? "all";
+  const search = searchParams.get("search") ?? "";
+  const dateFrom = searchParams.get("from") ?? "";
+  const dateTo = searchParams.get("to") ?? "";
+
+  const [categoriesCount, setCatrgoriesCount] = useState(0);
+  const [postsCount, setPostsCount] = useState(0);
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [displayMode, setDisplayMode] = useState<"list" | "grid">("grid");
+  const [activeDateFilter, setActiveDateFilter] = useState("");
+
+
+  const { isLoading: isLoadingPosts, data: postsData } = useQuery({
+    queryKey: ["posts", currentPage, search, currentCategory, dateFrom, dateTo],
+    queryFn: async () => {
+      const searchParams = new URLSearchParams({
+        limit: String(LIMIT),
+        page: String(currentPage),
+      });
+
+      if (search) {
+        searchParams.set("search", search);
+      }
+
+      if (currentCategory &&  currentCategory !== "all") {
+        searchParams.set("category", currentCategory);
+      }
+
+      if (dateFrom) {
+        searchParams.set("from", dateFrom);
+      }
+
+      if (dateTo) {
+        searchParams.set("to", dateTo);
+      }
+
+      const response = await authFetch(`/api/v1/gallery/posts?${searchParams}`);
+
+      const data = await response.json();
+      setPostsCount(data.pagination.total)
+
+      return data;
+    }
+  });
+
+  const { error: categoriesError, isLoading: isLoadingCategories, data: categoriesData } = useQuery({
+    queryKey: ["categries"],
+    queryFn: async () => {
+      const response = await authFetch("/api/v1/gallery/categories");
+
+      const data = await response.json();
+      setCatrgoriesCount(data.data.length);
+
+      return data;
+    }
+  });
+
+  function clearFilters() {
+    updateFilter({
+      key: "category",
+      value: ""
+    }, {
+      key: "from",
+      value: ""
+    }, {
+      key: "to",
+      value: ""
+    });
+    setActiveDateFilter("")
   }
 
+  function updateFilter(...items: { 
+    key: "category" | "search" | "from" | "to";
+    value: string;
+  }[]) {
+    const params = new URLSearchParams(searchParams.toString());
+    
+    for (const { key, value } of items) {
+      if (!value) {
+        params.delete(key);
+      } else if (value === "all") {
+        return clearFilters();
+      } else {
+        params.set(key, value);
+      }
+    }
+
+    router.replace(`${pathname}?${params}`);
+  }
+
+  const handleSearch = useDebouncedCallback((term: string) => {
+    setCurrentPage(1);
+    updateFilter({ key: "search", value: term });
+  }, 300);
+
   return (
-    <section>
-      <header className="flex justify-between items-center">
+    <section className="flex flex-col flex-1">
+      <header className="flex justify-between items-center mb-5">
         <div>
-          <h1 className="font-bold text-3xl text-heading">Gallery</h1>
-          <h2 className="text-sm text-subheading">Add a post to the archives</h2>
+          <h1 className="font-bold text-[18px]">Gallery</h1>
+          <p className="font-sans text-sm text-text-3">{postsCount} images across {categoriesCount} categories</p>
         </div>
-        <button 
-          className="px-3 py-2 rounded-lg duration-200 text-accent-text bg-accent hover:bg-accent-hover btn"
-          onClick={() => setShowUpload(true)}
-        >
-          Upload
-        </button>
-        {showUpload && (
-          <div className="fixed flex flex-col p-8 top-0 bottom-0 left-0 right-0 backdrop-blur-sm bg-black/20">
-            <div className="flex flex-col m-auto h-full w-full max-w-120 p-3 rounded-2xl shadow-lg border border-border-primary bg-surface">
-              <h1 className="px-3 pb-3 font-bold text-slate-700">Upload Media</h1>
-              <div className="overflow-x-auto mx-4">
-                <div className="
-                  relative flex justify-center items-center bg-slate-700/5 duration-200 border-2
-                  border-dashed border-slate-700/30 hover:border-slate-700/40 rounded-lg overflow-hidden
-                ">
-                  <div className="flex flex-col items-center p-12">
-                    <div className="text-blue-400 bg-white h-16 w-16 p-3 rounded-full mb-4">
-                      <UploadCloud className="w-full h-full" />
-                    </div>
-                    <h1 className="text-slate-700 font-bold">Drop files here to upload</h1>
-                    <h2 className="text-slate-400 text-sm text-center">Support for high resolution JPGs, PNGs and WEBPs up to 10MB.</h2>
-                    <label
-                      className="relative px-4 py-1 rounded-md mt-4 overflow-hidden duration-200 cursor-pointer text-white bg-slate-700 hover:bg-slate-800"
-                    >
-                      <span>Browse Files</span>
-                      <input
-                        className="w-full h-full top-0 left-0 absolute opacity-0 pointer-events-none"
-                        type="file"
-                        accept="image/jpeg"
-                        onChange={e => {
-                          const [file] = e.target.files!;
-
-                          if (!file) return;
-
-                          console.log({
-                            blobUrl: URL.createObjectURL(file),
-                            file
-                          });
-                        }}
-                      />
-                    </label>
-                  </div>
-                </div>
-                <div>
-                  <div>
-
-                  </div>
-                  <input />
-                </div>
-              </div>
-              <div className="flex gap-2 pt-3 justify-end mt-auto">
-                <button
-                  className="px-3 py-2 rounded-lg text-accent-text bg-neutral-500 hover:bg-neutral-600"
-                  onClick={() => setShowUpload(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="px-3 py-2 rounded-lg text-accent-text bg-accent hover:bg-accent-hover"
-                  onClick={handleUpload}
-                >
-                  Upload
-                </button>
-              </div>
-            </div>
+        <div className="flex gap-2">
+          <div className="flex overflow-hidden rounded-lg border border-border-2">
+            <button
+              onClick={() => setDisplayMode("list")}
+              className={clsx(
+                "py-1.5 px-2.5",
+                displayMode === "list"? "": "bg-surface-3 hover:bg-surface-2/70"
+              )}
+            >
+              <List className="h-5 w-5" />
+            </button>
+            <button
+              onClick={() => setDisplayMode("grid")}
+              className={clsx(
+                "py-1.5 px-2.5",
+                displayMode === "grid"? "": "bg-surface-3 hover:bg-surface-2/70"
+              )}
+            >
+              <Grid className="h-5 w-5" />
+            </button>
           </div>
-        )}
+          <button 
+            className="px-4 py-2 rounded-lg duration-200 tracking-[0.06rem] font-bold text-[10px] text-black bg-accent hover:bg-accent/85"
+            onClick={() => setShowUploadModal(true)}
+          >
+            UPLOAD
+          </button>
+        </div>
+        {showUploadModal && <CreatePostModal onExit={() => setShowUploadModal(false)} />}
       </header>
+      <div className="flex items-center gap-2 py-1.75 px-3 mb-4 w-full rounded-lg border border-border-2 bg-surface-3">
+        <input
+          className="text-[12px] w-full"
+          placeholder="Search archive"
+          defaultValue={search}
+          onChange={e => handleSearch(e.target.value)}
+        />
+      </div>
+
+      {isLoadingCategories
+        ? <div className="flex h-10 mb-3.5">
+          <Loader />
+        </div>
+        : (categoriesError || !categoriesData.success)
+        ? <div></div>
+        : <div className="flex flex-wrap gap-1.5 mb-3.5">
+          {[
+            { id: "all", name: "All", slug: "all" },
+            ...categoriesData.data
+          ].map((category: GalleryCategory) => (
+            <FilterChip
+              key={category.id}
+              name={category.name}
+              active={category.slug === currentCategory}
+              onClick={() =>
+                updateFilter({ key: "category", value: category.slug })
+              }
+            />
+          ))}
+          {[{
+            name: "2025",
+            from: "2025-01-01",
+            to: "2025-12-31"
+          }, {
+            name: "2026",
+            from: "2026-01-01",
+            to: "2026-12-31",
+          }].map(date =>
+            <FilterChip
+              key={date.name}
+              name={date.name}
+              active={activeDateFilter === date.name}
+              onClick={() => {
+                updateFilter(
+                  { key: "from", value: date.from },
+                  { key: "to", value: date.to }
+                );
+                setActiveDateFilter(date.name);
+              }}
+            />
+          )}
+        </div>
+      }
+
+
+      {isLoadingPosts
+        ? <div className="flex flex-1 w-full">
+          <Loader />
+        </div>
+
+        : (!postsData.success)
+        ? <div></div>
+        : (
+          <>
+            <div className="mb-4">
+              {displayMode === "grid" ?
+                <PostsGridLayout posts={postsData.data} />
+              : displayMode === "list" &&
+                <PostsListLayout posts={postsData.data} />
+              }
+            </div>
+            <PaginationNav
+              currentPage={currentPage}
+              hasNextPage={postsData.pagination.hasNextPage}
+              hasPreviousPage={postsData.pagination.hasPreviousPage}
+              totalPages={postsData.pagination.totalPages}
+              onPageChange={setCurrentPage}
+            />
+          </>
+        )
+      }
     </section>
   )
 };

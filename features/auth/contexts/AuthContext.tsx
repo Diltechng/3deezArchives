@@ -1,3 +1,4 @@
+import Loader from "@/features/shared/components/Loader";
 import { useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useEffect, useState } from "react"
 
@@ -85,7 +86,7 @@ export const AuthProvider = ({ children }: Readonly<{
     isInitializing
     ? (
       <div className="flex w-full h-screen">
-        <div className="m-auto">Loading...</div>
+        <Loader />
       </div>
     )
     : (
