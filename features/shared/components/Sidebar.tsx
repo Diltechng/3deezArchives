@@ -54,7 +54,7 @@ const Sidebar = () => {
               
               <ul className="flex flex-col gap-1">
                 {group.navOptions.map(item => {
-                  const isActivePage = (item.pathname === pathname || item.pathname.startsWith(`${pathname}/`));
+                  const isActivePage = (item.pathname === pathname || pathname.startsWith(`${item.pathname}/`));
                   
                   return (
                     <li key={item.name}>
