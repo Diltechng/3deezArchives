@@ -78,11 +78,11 @@ class UsersService {
       .from(users)
       .where(and(...filters));
 
-    const [{ totalAdminsCount }] = await db.select({ totalAdminsCount: sql<number>`count(*)::int` })
+    const [{ totalAdminCount }] = await db.select({ totalAdminCount: sql<number>`count(*)::int` })
       .from(users)
       .where(and(...filters, eq(users.role, "admin")));
 
-    const [{ totalStaffsCount }] = await db.select({ totalStaffsCount: sql<number>`count(*)::int` })
+    const [{ totalStaffCount }] = await db.select({ totalStaffCount: sql<number>`count(*)::int` })
       .from(users)
       .where(and(...filters, eq(users.role, "staff")));
 
@@ -101,7 +101,7 @@ class UsersService {
       email: users.email,
       role: users.role,
       status: users.status,
-      postCount: count(posts.id)
+      userCount: count(posts.id)
     }).from(users)
     .leftJoin(posts, eq(users.id, posts.uploadedBy))
     .groupBy(users.id)
@@ -111,8 +111,8 @@ class UsersService {
     .orderBy(...orderCriteria);
 
     const meta = {
-      totalAdmins: totalAdminsCount,
-      totalStaffs: totalStaffsCount,
+      totalAdmins: totalAdminCount,
+      totalStaffs: totalStaffCount,
     }
 
     return {
