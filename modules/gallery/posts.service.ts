@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { categories, media, posts } from "@/db/schema";
 import { ApiErrorCode, BadRequestError, ForbiddenError, InternalServerError, NotFoundError } from "@/lib/errors";
 import { PostVisibility, UserRole } from "@/shared/constants/enums";
-import { and, asc, desc, eq, gte, ilike, inArray, isNull, lte, ne, not, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gte, ilike, inArray, isNull, lte, ne, or, sql } from "drizzle-orm";
 import { softDelete } from "../shared/helpers/soft-delete";
 import { CreateNewPostInput, DeleteOnePostInput, GetOnePostInput, GetPostsInput, UpdateOnePostInput } from "./types";
 
