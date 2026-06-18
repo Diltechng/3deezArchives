@@ -2,21 +2,43 @@ import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
 import { mailService } from "@/modules/mailing";
 import { usersService } from "@/modules/users/users.service";
-import { validateInviteUser } from "@/modules/users/users.validation";
+import { validateGetUsersQuery, validateInviteUser } from "@/modules/users/users.validation";
 import { NextResponse } from "next/server";
 import { UserRole } from "@/shared/constants/enums";
 import { ResponseData } from "@/shared/types/api";
 
 export const GET = withErrorHandler(
   withAuthGuard(async req => {
-    const body = await req.json();
-    
-    const users = await usersService.getUsers();
+    const { searchParams } = req.nextUrl;
+
+    const search = searchParams.get("search");
+    const role = searchParams.get("role");
+    const status = searchParams.get("status");
+    const sortBy = searchParams.get("sortBy");
+    const dateFrom = searchParams.get("from");
+    const dateTo = searchParams.get("to");
+
+    const validatedFilters = validateGetUsersQuery({
+      page: searchParams.get("page"),
+      limit: searchParams.get("limit"),
+      ...(search && { search }),
+      ...(role && { role }),
+      ...(status && { status }),
+      ...(sortBy && { sortBy }),
+      date: {
+        ...(dateFrom && { from: dateFrom }),
+        ...(dateTo && { to: dateTo }),
+      }
+    })
+
+    const { users, pagination, meta } = await usersService.getUsers({ filters: validatedFilters });
 
     return NextResponse.json<ResponseData>({
       success: true,
       message: "Users queried successfully",
-      data: users
+      data: users,
+      pagination,
+      meta,
     });
   }, [UserRole.ADMIN])
 );
