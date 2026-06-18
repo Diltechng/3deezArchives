@@ -6,6 +6,7 @@ import { PostVisibility } from "@/shared/constants/enums";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { CldImage } from "next-cloudinary";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -49,6 +50,8 @@ const PostDetailPage = () => {
     )
   }
 
+  console.log(data);
+
   return (
     <section className="flex-1">
       {showDeleteModal && (
@@ -88,7 +91,7 @@ const PostDetailPage = () => {
           >DELETE</button>
         </div>
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-4 mb-6">
         <div className="relative w-50 h-40">
           <CldImage
               className="w-full h-full object-cover rounded-lg overflow-hidden"
@@ -124,6 +127,27 @@ const PostDetailPage = () => {
               </span>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="p-5 rounded-lg bg-surface">
+        <div className="text-[12px] mb-2 text-text-2">ALL IMAGES</div>
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
+          {data.data.media.map((media: any) =>
+            <Link
+              key={media.id}
+              href={media.secureUrl}
+              target="_blank"
+              className="relative aspect-square"
+            >
+              <CldImage
+                className="w-full h-full object-cover rounded-lg overflow-hidden"
+                src={media.secureUrl}
+                alt=""
+                fill
+                sizes="25vw"
+              />
+            </Link>
+          )}
         </div>
       </div>
     </section>
