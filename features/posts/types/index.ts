@@ -18,3 +18,16 @@ export interface GalleryCategory {
   name: string;
   slug: string;
 }
+
+export interface MediaUploadItem {
+  fileName: string;
+  status: "uploading" | "ready" | "failed";
+  local: {
+    id: string;
+    url: string;
+  }
+  remote: {
+    id: string;
+    url: string;
+  } | null;
+}
