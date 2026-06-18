@@ -1,6 +1,6 @@
 "use client"
 import CreatePostModal from "@/features/posts/components/CreatePostModal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useAuthFetch } from "@/features/auth/hooks/useAuthFetch";
 import Loader from "@/features/shared/components/Loader";
@@ -147,13 +147,16 @@ const GalleryPage = () => {
             </button>
           </div>
           <button 
-            className="px-4 py-2 rounded-lg duration-200 tracking-[0.06rem] font-bold text-[10px] text-black bg-accent hover:bg-accent/85"
+            className="button-primary"
             onClick={() => setShowUploadModal(true)}
           >
             UPLOAD
           </button>
         </div>
-        {showUploadModal && <CreatePostModal onExit={() => setShowUploadModal(false)} />}
+        {showUploadModal && <CreatePostModal
+          categories={categoriesData.data}
+          onExit={() => setShowUploadModal(false)}
+        />}
       </header>
       <div className="flex items-center gap-2 py-1.75 px-3 mb-4 w-full rounded-lg border border-border-2 bg-surface-3">
         <input
