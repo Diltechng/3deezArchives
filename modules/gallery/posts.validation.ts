@@ -54,8 +54,8 @@ export function validateGetPostsQuery(data: unknown) {
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
-    throw new ValidationError("Invalid or malformed get post query", {
-      code: ApiErrorCode.INVALID_GET_POSTS_QUERY,
+    throw new ValidationError("Invalid or malformed get posts query", {
+      code: ApiErrorCode.INVALID_FETCH_QUERY,
       details: flattenedError
     });
   }
