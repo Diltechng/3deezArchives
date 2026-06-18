@@ -7,7 +7,7 @@
 
 @plugin "tailwind-scrollbar" {
   nocompatible: true;
-  preferredStrategy: "pseudoelements";
+  /* preferredStrategy: "pseudoelements"; */
 }
 
 @theme inline {
@@ -64,7 +64,7 @@
   }
 
   body * {
-    @apply scrollbar scrollbar-thumb-surface-3 scrollbar-track-surface scrollbar-thumb-rounded-full
+    @apply scrollbar-thin scrollbar-thumb-surface-3 scrollbar-track-surface scrollbar-thumb-rounded-full
   }
 
   input, textarea {
@@ -75,7 +75,22 @@
     @apply cursor-pointer disabled:cursor-not-allowed duration-200
   }
 
-  .btn {
-    @apply bg-black
+  select {
+    @apply focus:outline-none
   }
+}
+
+@utility input-core {
+  @apply  flex items-center gap-2 py-1.75 px-3 w-full text-[12px] rounded-lg duration-200 border;
+  @apply border-border-2 bg-surface-3 focus-within:border-accent;
+}
+
+@utility button-primary {
+  @apply px-4 py-2 rounded-lg duration-200 tracking-[0.06rem] font-bold text-[10px];
+  @apply text-black bg-accent hover:bg-accent/85;
+}
+
+@utility button-ghost {
+  @apply px-4 py-2 rounded-lg duration-200 tracking-[0.06rem] text-[10px] border;
+  @apply border-border-2 bg-surface-3 hover:opacity-85;
 }
