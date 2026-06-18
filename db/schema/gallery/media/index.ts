@@ -34,4 +34,10 @@ export const mediaRelations = relations(media, ({ one }) => ({
     references: [posts.id],
     relationName: "postMedia"
   }),
+
+  uploadedByUser: one(users, {
+    fields: [media.uploadedBy],
+    references: [users.id],
+    relationName: "userMedia",
+  }),
 }));

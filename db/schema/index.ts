@@ -1,4 +1,4 @@
-import { users, sessions, invitations } from "./users";
+import { users, sessions, invitations, userRelations } from "./users";
 import { media, categories, posts, postRelations, mediaRelations } from "./gallery";
 
 export * from "./users";
@@ -14,6 +14,7 @@ export const schema = {
 
   postRelations,
   mediaRelations,
+  userRelations,
 } as const;
 
 export type DbSchema = typeof schema;
