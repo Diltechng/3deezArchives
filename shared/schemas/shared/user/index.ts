@@ -1,4 +1,4 @@
-import { UserRoleValues } from "@/shared/constants/enums";
+import { UserRoleValues, UserStatusValues } from "@/shared/constants/enums";
 import z from "zod";
 
 export const UserIdSchema = z.uuid("Please enter a valid user ID").trim();
@@ -9,9 +9,11 @@ export const EmailSchema = z.email("Please enter a valid email");
 export type EmailInput = z.infer<typeof EmailSchema>;
 
 
-export const RoleSchema = z.enum(UserRoleValues);
+export const RoleSchema = z.enum(UserRoleValues, "Please enter a valid user role");
 export type RoleInput = z.infer<typeof RoleSchema>;
 
+export const UserStatusSchema = z.enum(UserStatusValues, "Please enter a valid user status");
+export type UserStatusInput = z.infer<typeof UserStatusSchema>;
 
 export const PasswordSchema = z.string("Please enter a valid password")
   .trim()
