@@ -37,8 +37,10 @@ export const GET = withErrorHandler(
       success: true,
       message: "Users queried successfully",
       data: users,
-      pagination,
-      meta,
+      meta: {
+        pagination,
+        ...meta,
+      },
     });
   }, [UserRole.ADMIN])
 );

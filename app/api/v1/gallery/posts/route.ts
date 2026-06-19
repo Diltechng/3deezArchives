@@ -57,7 +57,7 @@ export const GET = withErrorHandler(
       success: true,
       message: `Fetched ${posts.length} posts successfully`,
       data: posts,
-      pagination,
+      meta: { pagination },
     });
   })
 );

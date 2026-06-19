@@ -14,22 +14,23 @@ export type AuthReqContext<TParams> = {
   user: AccessTokenPayload;
 } & RouteContext<TParams>;
 
-export type ResponseData<T = unknown> = {
+export type ResponseData<Data = unknown, Meta extends object = {}> = {
   success: boolean;
   message: string;
-  data?: T;
+  data?: Data;
   error?: {
     message: string;
     code: ApiErrorCode;
     details?: any;
-  }
-  pagination?: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-    hasNextPage: boolean;
-    hasPreviousPage: boolean;
-  }
-  meta?: Record<string, unknown>;
+  };
+  meta?: {
+    pagination?: {
+      page: number;
+      limit: number;
+      total: number;
+      totalPages: number;
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+    };
+  } & Meta;
 };
