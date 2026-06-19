@@ -13,6 +13,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { GalleryCategory } from "@/features/posts/types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import FilterChip from "@/features/posts/components/FilterChip";
+import ContentHeader from "@/features/shared/components/ContentHeader";
 
 const GalleryPage = () => {
   const LIMIT = 12;
@@ -120,11 +121,7 @@ const GalleryPage = () => {
 
   return (
     <section className="flex flex-col flex-1">
-      <header className="flex justify-between items-center mb-5">
-        <div>
-          <h1 className="font-bold text-[18px]">Gallery</h1>
-          <p className="font-sans text-sm text-text-3">{postsCount} images across {categoriesCount} categories</p>
-        </div>
+      <ContentHeader title="Gallery" subtitle={`${postsCount} images across ${categoriesCount} categories`}>
         <div className="flex gap-2">
           <div className="flex overflow-hidden rounded-lg border border-border-2">
             <button
@@ -157,10 +154,10 @@ const GalleryPage = () => {
           categories={categoriesData.data}
           onExit={() => setShowUploadModal(false)}
         />}
-      </header>
-      <div className="flex items-center gap-2 py-1.75 px-3 mb-4 w-full rounded-lg border border-border-2 bg-surface-3">
+      </ContentHeader>
+      <div className="input-core mb-4">
         <input
-          className="text-[12px] w-full"
+          className="w-full"
           placeholder="Search archive"
           defaultValue={search}
           onChange={e => handleSearch(e.target.value)}
