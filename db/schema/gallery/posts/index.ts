@@ -57,6 +57,7 @@ export const postRelations = relations(posts, ({ one, many }) => ({
   uploadedByUser: one(users, {
     fields: [posts.uploadedBy],
     references: [users.id],
+    relationName: "userPosts"
   }),
 
   deletedByUser: one(users, {

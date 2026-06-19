@@ -31,4 +31,5 @@ export type ResponseData<T = unknown> = {
     hasNextPage: boolean;
     hasPreviousPage: boolean;
   }
+  meta?: Record<string, unknown>;
 };

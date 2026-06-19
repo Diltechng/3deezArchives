@@ -1,4 +1,4 @@
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useAuthContext } from "@/features/auth/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 
 

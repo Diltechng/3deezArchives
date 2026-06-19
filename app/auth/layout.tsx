@@ -1,5 +1,5 @@
 "use client"
-import { SignUpProvider } from "@/contexts/SignUpContext"
+import { SignUpProvider } from "@/features/auth/contexts/SignUpContext"
 import "./auth.css"
 
 const AuthLayout = ({ children }: Readonly<{

@@ -39,7 +39,7 @@ export const PostTagsSchema = z.string("Please enter a valid tag.").trim().array
 export type PostTagsInput = z.infer<typeof PostTagsSchema>;
 
 
-export const PostVisibilitySchema = z.enum(PostVisibilityValues);
+export const PostVisibilitySchema = z.enum(PostVisibilityValues, "Please enter a valid visibility status");
 export type PostVisibilityInput = z.infer<typeof PostVisibilitySchema>;
 
 
