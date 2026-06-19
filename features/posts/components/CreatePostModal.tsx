@@ -139,8 +139,8 @@ const CreatePostModal = ({ categories, onExit }: {
     
     setMedia(prev => prev.filter(fileUpload => fileUpload.remote?.id !== remoteId));
     setValue("mediaIds", getValues("mediaIds").filter(mediaId => mediaId !== remoteId));
-    if (remoteId === getValues("categoryId"))
-      resetField("categoryId");
+    if (remoteId === getValues("coverMediaId"))
+      resetField("coverMediaId");
   }
 
   function addTag() {
