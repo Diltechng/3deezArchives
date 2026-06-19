@@ -86,15 +86,6 @@ class UsersService {
       .from(users)
       .where(and(...filters, eq(users.role, "staff")));
 
-    const pagination = {
-      page,
-      limit,
-      total: totalUsersCount,
-      totalPages: Math.ceil(totalUsersCount / limit),
-      hasNextPage: page < Math.ceil(totalUsersCount / limit),
-      hasPreviousPage: page > 1,
-    }
-
     const result = await db.select({
       id: users.id,
       fullName: users.name,
@@ -111,13 +102,20 @@ class UsersService {
     .orderBy(...orderCriteria);
 
     const meta = {
+      pagination: {
+        page,
+        limit,
+        total: totalUsersCount,
+        totalPages: Math.ceil(totalUsersCount / limit),
+        hasNextPage: page < Math.ceil(totalUsersCount / limit),
+        hasPreviousPage: page > 1,
+      },
       totalAdmins: totalAdminCount,
       totalStaffs: totalStaffCount,
     }
 
     return {
       users: result,
-      pagination,
       meta
     };
   }

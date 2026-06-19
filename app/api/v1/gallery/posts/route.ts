@@ -47,7 +47,7 @@ export const GET = withErrorHandler(
       },
     });
 
-    const { posts, pagination } = await postsService.getPosts({
+    const { posts, meta } = await postsService.getPosts({
       userId: ctx.user.userId,
       userRole: ctx.user.role,
       filters: validatedFilters,
@@ -57,7 +57,7 @@ export const GET = withErrorHandler(
       success: true,
       message: `Fetched ${posts.length} posts successfully`,
       data: posts,
-      meta: { pagination },
+      meta,
     });
   })
 );

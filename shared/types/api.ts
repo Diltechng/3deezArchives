@@ -24,7 +24,5 @@ export type ResponseData<Data = unknown, Meta extends object = {}> = {
     code: ApiErrorCode;
     details?: any;
   };
-  meta?: {
-    pagination?: Pagination;
-  } & Meta;
+  meta?: Meta;
 };

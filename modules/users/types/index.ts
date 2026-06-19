@@ -9,10 +9,10 @@ export interface GetUsersInput {
 export interface GetUsersOutput {
   users: UserSummary[];
   meta: GetUsersMeta;
-  pagination: Pagination;
 }
 
 export interface GetUsersMeta {
+  pagination: Pagination;
   totalAdmins: number;
   totalStaffs: number;
 }

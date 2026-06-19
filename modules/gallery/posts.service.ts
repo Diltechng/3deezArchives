@@ -142,15 +142,6 @@ class PostsService {
       .from(posts)
       .where(and(...filters));
 
-    const pagination = {
-      page,
-      limit,
-      total: count,
-      totalPages: Math.ceil(count / limit),
-      hasNextPage: page < Math.ceil(count / limit),
-      hasPreviousPage: page > 1,
-    } 
-
     const result = await db.query.posts.findMany({
       where: and(...filters),
       orderBy: orderCriteria,
@@ -189,7 +180,16 @@ class PostsService {
 
     return {
       posts: result,
-      pagination,
+      meta: {
+        pagination: {
+          page,
+          limit,
+          total: count,
+          totalPages: Math.ceil(count / limit),
+          hasNextPage: page < Math.ceil(count / limit),
+          hasPreviousPage: page > 1,
+        }
+      },
     };
   }
 
