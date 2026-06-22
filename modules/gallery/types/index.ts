@@ -1,10 +1,11 @@
-import { UserRole } from "@/shared/constants/enums";
+import { PostVisibility, UserRole } from "@/shared/constants/enums";
 import {
   PostIdInput,
   CreatePostInput,
   UpdatePostInput,
   GetPostsQueryInput,
 } from "@/shared/schemas";
+import { Pagination } from "@/shared/types/pagination";
 
 
 export interface UploadFileInput {
@@ -60,4 +61,39 @@ export interface DeleteOnePostInput {
   postId: PostIdInput;
   userId: string;
   userRole: UserRole;
+}
+
+export interface PostSummary {
+  visibility: PostVisibility;
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  title: string;
+  description: string | null;
+  tags: string[] | null;
+  dateOfMoment: Date;
+  coverMedia: {
+    id: string;
+    secureUrl: string;
+  } | null;
+  category: {
+    id: string;
+    name: string;
+    description: string;
+    slug: string;
+  } | null;
+  uploadedByUser: {
+    id: string;
+    name: string | null;
+    role: string;
+  } | null;
+}
+
+export interface GetPostsMeta {
+  pagination: Pagination;
+}
+
+export interface GetPostsOutput {
+  posts: PostSummary[];
+  meta: GetPostsMeta;
 }
