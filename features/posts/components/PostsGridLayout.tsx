@@ -4,7 +4,7 @@ import dayjs from "dayjs"
 import Link from "next/link"
 
 const PostsGridLayout = ({ posts }: {
-  posts: GalleryPost[]
+  posts: GalleryPost[];
 }) => {
  return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -17,7 +17,7 @@ const PostsGridLayout = ({ posts }: {
           <div className="relative w-full aspect-square">
             <CldImage
               className="w-full h-full object-cover"
-              src={post.coverMedia.secureUrl}
+              src={post?.coverMedia?.secureUrl ?? ""}
               alt=""
               fill
               sizes="25vw"
@@ -27,8 +27,8 @@ const PostsGridLayout = ({ posts }: {
             <p className="text-[11px] font-sans truncate">{post.title}</p>
             <p className="text-[10px] text-text-3">{dayjs(post.dateOfMoment).format("YYYY-MM-DD")}</p>
             <div className="flex gap-2 justify-between">
-              <div className="py-0.5 px-1.75 rounded-[3px] text-[9px] truncate text-accent-3 bg-accent-3/20">{post.category.name}</div>
-              <div className="text-[10px] font-sans truncate text-text-3">{post.uploadedByUser.name}</div>
+              <div className="py-0.5 px-1.75 rounded-[3px] text-[9px] truncate text-accent-3 bg-accent-3/20">{post?.category?.name}</div>
+              <div className="text-[10px] font-sans truncate text-text-3">{post?.uploadedByUser?.name}</div>
             </div>
           </div>
         </Link>

@@ -14,6 +14,7 @@ import { GalleryCategory } from "@/features/posts/types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import FilterChip from "@/features/posts/components/FilterChip";
 import ContentHeader from "@/features/shared/components/ContentHeader";
+import { GetPostsResponse } from "@/shared/contracts/posts";
 
 const GalleryPage = () => {
   const LIMIT = 12;
@@ -36,7 +37,7 @@ const GalleryPage = () => {
   const [activeDateFilter, setActiveDateFilter] = useState("");
 
 
-  const { isLoading: isLoadingPosts, data: postsData } = useQuery({
+  const { isLoading: isLoadingPosts, data: postsData, error: postsError, } = useQuery({
     queryKey: ["posts", currentPage, search, currentCategory, dateFrom, dateTo],
     queryFn: async () => {
       const searchParams = new URLSearchParams({
@@ -62,8 +63,9 @@ const GalleryPage = () => {
 
       const response = await authFetch(`/api/v1/gallery/posts?${searchParams}`);
 
-      const data = await response.json();
-      setPostsCount(data.pagination.total)
+      const data: GetPostsResponse = await response.json();
+      setPostsCount(data.meta?.pagination.total ?? 0);
+      console.log(data);
 
       return data;
     }
@@ -215,7 +217,7 @@ const GalleryPage = () => {
           <Loader />
         </div>
 
-        : (!postsData.success)
+        : (!postsData || !postsData.success || !postsData.data)
         ? <div></div>
         : (
           <>
@@ -226,13 +228,15 @@ const GalleryPage = () => {
                 <PostsListLayout posts={postsData.data} />
               }
             </div>
-            <PaginationNav
-              currentPage={currentPage}
-              hasNextPage={postsData.pagination.hasNextPage}
-              hasPreviousPage={postsData.pagination.hasPreviousPage}
-              totalPages={postsData.pagination.totalPages}
-              onPageChange={setCurrentPage}
-            />
+            {postsData.meta && 
+              <PaginationNav
+                currentPage={currentPage}
+                hasNextPage={postsData.meta.pagination.hasNextPage}
+                hasPreviousPage={postsData.meta.pagination.hasPreviousPage}
+                totalPages={postsData.meta.pagination.totalPages}
+                onPageChange={setCurrentPage}
+              />
+            }
           </>
         )
       }
