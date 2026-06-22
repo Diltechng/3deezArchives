@@ -6,6 +6,7 @@ import { validateGetUsersQuery, validateInviteUser } from "@/modules/users/users
 import { NextResponse } from "next/server";
 import { UserRole } from "@/shared/constants/enums";
 import { ResponseData } from "@/shared/types/api";
+import { GetUsersResponse } from "@/shared/types/users";
 
 export const GET = withErrorHandler(
   withAuthGuard(async req => {
@@ -31,14 +32,13 @@ export const GET = withErrorHandler(
       }
     })
 
-    const { users, pagination, meta } = await usersService.getUsers({ filters: validatedFilters });
+    const { users, meta } = await usersService.getUsers({ filters: validatedFilters });
 
-    return NextResponse.json<ResponseData>({
+    return NextResponse.json<GetUsersResponse>({
       success: true,
       message: "Users queried successfully",
       data: users,
-      pagination,
-      meta,
+      meta
     });
   }, [UserRole.ADMIN])
 );
