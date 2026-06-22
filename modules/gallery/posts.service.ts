@@ -4,7 +4,7 @@ import { ApiErrorCode, BadRequestError, ForbiddenError, InternalServerError, Not
 import { PostVisibility, UserRole } from "@/shared/constants/enums";
 import { and, asc, desc, eq, gte, ilike, inArray, isNull, lte, ne, or, sql } from "drizzle-orm";
 import { softDelete } from "../shared/helpers/soft-delete";
-import { CreateNewPostInput, DeleteOnePostInput, GetOnePostInput, GetPostsInput, UpdateOnePostInput } from "./types";
+import { CreateNewPostInput, DeleteOnePostInput, GetOnePostInput, GetPostsInput, GetPostsOutput, UpdateOnePostInput } from "./types";
 
 class PostsService {
   async createNewPost(data: CreateNewPostInput) {
@@ -66,7 +66,7 @@ class PostsService {
     return result;
   }
 
-  async getPosts(data: GetPostsInput) {
+  async getPosts(data: GetPostsInput): Promise<GetPostsOutput> {
     const visibilityConditions = [
       or(
         and(
@@ -124,32 +124,11 @@ class PostsService {
       ? [asc(posts.dateOfMoment), asc(posts.id)]
       : [desc(posts.dateOfMoment), desc(posts.id)];
 
-    const mediaPreviewColumns = {
-      columns: {
-        id: true,
-        secureUrl: true,
-        width: true,
-        height: true,
-        bytes: true,
-        createdAt: true,
-        uploadedBy: true,
-      }
-    } as const;
-
     const offset = (page - 1) * limit;
 
     const [{ count }] = await db.select({ count: sql<number>`count(*)::int` })
       .from(posts)
       .where(and(...filters));
-
-    const pagination = {
-      page,
-      limit,
-      total: count,
-      totalPages: Math.ceil(count / limit),
-      hasNextPage: page < Math.ceil(count / limit),
-      hasPreviousPage: page > 1,
-    } 
 
     const result = await db.query.posts.findMany({
       where: and(...filters),
@@ -175,8 +154,12 @@ class PostsService {
             description: true,
           },
         },
-        coverMedia: mediaPreviewColumns,
-        media: mediaPreviewColumns,
+        coverMedia: {
+          columns: {
+            id: true,
+            secureUrl: true,
+          }
+        },
         uploadedByUser: {
           columns: {
             id: true,
@@ -189,7 +172,16 @@ class PostsService {
 
     return {
       posts: result,
-      pagination,
+      meta: {
+        pagination: {
+          page,
+          limit,
+          total: count,
+          totalPages: Math.ceil(count / limit),
+          hasNextPage: page < Math.ceil(count / limit),
+          hasPreviousPage: page > 1,
+        }
+      },
     };
   }
 

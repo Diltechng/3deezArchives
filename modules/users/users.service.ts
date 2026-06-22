@@ -6,7 +6,7 @@ import { AccountAlreadyExistsError, ApiErrorCode, ConflictError } from "@/lib/er
 import { InviteUserInput } from "@/shared/schemas";
 import { days } from "@/utils/time";
 import bcrypt from "bcrypt";
-import { GetUsersInput } from "./types";
+import { GetUsersInput, GetUsersOutput } from "./types";
 
 class UsersService {
   async inviteUser(data: InviteUserInput) {
@@ -53,7 +53,7 @@ class UsersService {
     return { otp, invitationToken };
   }
 
-  async getUsers(data: GetUsersInput) {
+  async getUsers(data: GetUsersInput): Promise<GetUsersOutput> {
     const { date, limit, page, role, search, status, sortBy } = data.filters;
 
     const filters = [
@@ -86,15 +86,6 @@ class UsersService {
       .from(users)
       .where(and(...filters, eq(users.role, "staff")));
 
-    const pagination = {
-      page,
-      limit,
-      total: totalUsersCount,
-      totalPages: Math.ceil(totalUsersCount / limit),
-      hasNextPage: page < Math.ceil(totalUsersCount / limit),
-      hasPreviousPage: page > 1,
-    }
-
     const result = await db.select({
       id: users.id,
       fullName: users.name,
@@ -111,13 +102,20 @@ class UsersService {
     .orderBy(...orderCriteria);
 
     const meta = {
+      pagination: {
+        page,
+        limit,
+        total: totalUsersCount,
+        totalPages: Math.ceil(totalUsersCount / limit),
+        hasNextPage: page < Math.ceil(totalUsersCount / limit),
+        hasPreviousPage: page > 1,
+      },
       totalAdmins: totalAdminCount,
       totalStaffs: totalStaffCount,
     }
 
     return {
       users: result,
-      pagination,
       meta
     };
   }
