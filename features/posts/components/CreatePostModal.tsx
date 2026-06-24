@@ -4,21 +4,20 @@ import { PostVisibility } from "@/shared/constants/enums";
 import { AlertCircle, RefreshCw, Star, Trash2, Upload, XCircle, X as XDelete } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { GalleryCategory, MediaUploadItem } from "../types";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreatePostInput, CreatePostSchema, UploadMediaSchema } from "@/shared/schemas";
 import { cn } from "@/features/shared/lib/utils";
-import Loader from "@/features/shared/components/Loader";
-import { useAuthFetch } from "@/features/auth/hooks/useAuthFetch";
+import LoadingState from "@/features/shared/components/LoadingState";
 import { toast } from "react-toastify";
 import z from "zod";
 import { useRouter } from "next/navigation";
+import { api } from "@/features/shared/lib/api";
 
 const CreatePostModal = ({ categories, onExit }: {
   categories: GalleryCategory[]
   onExit?: () => any;
 }) => {
-  const authFetch = useAuthFetch();
   const router = useRouter();
   const [tagInput, setTagInput] = useState("");
   const [media, setMedia] = useState<MediaUploadItem[]>([]);
@@ -53,12 +52,9 @@ const CreatePostModal = ({ categories, onExit }: {
       const formDataPayload = new FormData();
       formDataPayload.append("file", file);
 
-      const response = await authFetch("/api/v1/gallery/media", {
-        method: "POST",
-        body: formDataPayload
-      });
+      const response = await api.post("/api/v1/gallery/media", formDataPayload);
 
-      const result = await response.json();
+      const result = response.data;
 
       if (!result.success) {
         throw new Error(result.error.message);
@@ -77,8 +73,6 @@ const CreatePostModal = ({ categories, onExit }: {
 
       setValue("mediaIds", [...getValues("mediaIds"), result.data.id]);
 
-
-      console.log(getValues("coverMediaId"));
       if (!getValues("coverMediaId"))
         setAsCover(result.data.id);
 
@@ -98,19 +92,16 @@ const CreatePostModal = ({ categories, onExit }: {
   }
 
   function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log("Hi")
     const files = Array.from(e.target.files ?? []);
                     
     if (!files.length) return;
 
     files.forEach(async file => {
-      console.log(file);
-      
       const result = UploadMediaSchema.safeParse({ file });
 
       if (!result.success) {
         const parsedErrors = z.flattenError(result.error).fieldErrors.file;
-        console.log(parsedErrors);
+        
         return toast(parsedErrors?.[0] || "Something went wrong", { type: "error" });
       }
 
@@ -139,8 +130,8 @@ const CreatePostModal = ({ categories, onExit }: {
     
     setMedia(prev => prev.filter(fileUpload => fileUpload.remote?.id !== remoteId));
     setValue("mediaIds", getValues("mediaIds").filter(mediaId => mediaId !== remoteId));
-    if (remoteId === getValues("categoryId"))
-      resetField("categoryId");
+    if (remoteId === getValues("coverMediaId"))
+      resetField("coverMediaId");
   }
 
   function addTag() {
@@ -166,12 +157,9 @@ const CreatePostModal = ({ categories, onExit }: {
 
   async function onSubmit(data: CreatePostInput) {
     try {
-      const response = await authFetch("/api/v1/gallery/posts", {
-        method: "POST",
-        body: JSON.stringify(data)
-      });
+      const response = await api.post("/api/v1/gallery/posts", data);
 
-      const body = await response.json();
+      const body = await response.data;
       if (!body.success) {
         toast.error(body.error.message);
         return;
@@ -236,7 +224,7 @@ const CreatePostModal = ({ categories, onExit }: {
                     {(file.status === "uploading")
                       ? (
                         <div className="absolute top-0 flex p-2 h-full w-full duration-200 bg-linear-to-t from-black/90 via-black/50 to-black/20">
-                          <Loader />
+                          <LoadingState />
                         </div>
                       ) : (file.status === "ready" && file.remote)
                       ? (

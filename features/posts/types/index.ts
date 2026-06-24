@@ -1,17 +1,7 @@
-export interface GalleryPost {
-  id: string;
-  title: string;
-  dateOfMoment: string;
-  coverMedia: {
-    secureUrl: string;
-  }
-  uploadedByUser: {
-    name: string;
-  }
-  category: {
-    name: string;
-  }
-}
+import { SerializeDates } from "@/shared/types/api";
+import { PostListItem } from "@/shared/contracts/posts";
+
+export type GalleryPost = SerializeDates<PostListItem>;
 
 export interface GalleryCategory {
   id: string;

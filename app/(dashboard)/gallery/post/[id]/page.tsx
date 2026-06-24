@@ -1,7 +1,7 @@
 "use client"
 
-import { useAuthFetch } from "@/features/auth/hooks/useAuthFetch";
-import Loader from "@/features/shared/components/Loader";
+import LoadingState from "@/features/shared/components/LoadingState";
+import { api } from "@/features/shared/lib/api";
 import { PostVisibility } from "@/shared/constants/enums";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
@@ -13,25 +13,22 @@ import { useState } from "react";
 const PostDetailPage = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const authFetch = useAuthFetch();
   const params = useParams();
   const router = useRouter();
   
   const { isLoading, data } = useQuery({
     queryKey: ["post"],
     queryFn: async () => {
-      const response = await authFetch(`/api/v1/gallery/posts/${params.id}`);
+      const response = await api.get(`/gallery/posts/${params.id}`);
 
-      return await response.json();
+      return response.data;
     }
   });
 
   async function handleDelete(id: string) {
-    const response = await authFetch(`/api/v1/gallery/posts/${params.id}`, {
-      method: "DELETE",
-    });
+    const response = await api.delete(`/gallery/posts/${params.id}`);
 
-    const data = await response.json();
+    const data = response.data;
     
     router.replace("/gallery");
   }
@@ -45,12 +42,10 @@ const PostDetailPage = () => {
   if (isLoading) {
     return (
       <div className="flex flex-1">
-        <Loader />
+        <LoadingState />
       </div>
     )
   }
-
-  console.log(data);
 
   return (
     <section className="flex-1">

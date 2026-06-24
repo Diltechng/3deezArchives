@@ -26,3 +26,9 @@ export type ResponseData<Data = unknown, Meta extends object = {}> = {
   };
   meta?: Meta;
 };
+
+export type SerializeDates<T> =
+  T extends Date ? string :
+  T extends Array<infer U> ? SerializeDates<U>[] :
+  T extends object ? { [K in keyof T]: SerializeDates<T[K]> } :
+  T;

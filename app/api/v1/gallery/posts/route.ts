@@ -3,7 +3,7 @@ import { withErrorHandler } from "@/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";
 import { postsService, validateCreatePost, validateGetPostsQuery } from "@/modules/gallery";
 import { NextResponse } from "next/server";
-import { GetPostsResponse } from "@/shared/types/posts";
+import { GetPostsMeta, PostListItem } from "@/shared/contracts/posts";
 
 export const POST = withErrorHandler(
   withAuthGuard(async (req, ctx) => {
@@ -54,7 +54,7 @@ export const GET = withErrorHandler(
       filters: validatedFilters,
     });
 
-    return NextResponse.json<GetPostsResponse>({
+    return NextResponse.json<ResponseData<PostListItem[], GetPostsMeta>>({
       success: true,
       message: `Fetched ${posts.length} posts successfully`,
       data: posts,

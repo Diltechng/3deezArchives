@@ -1,98 +1,161 @@
-import Loader from "@/features/shared/components/Loader";
-import { useRouter } from "next/navigation";
-import { createContext, useCallback, useContext, useEffect, useState } from "react"
+"use client"
 
+import { api } from "@/features/shared/lib/api";
+import { SignInInput } from "@/shared/schemas";
+import axios from "axios";
+import { usePathname, useRouter } from "next/navigation";
+import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
+import { toast } from "react-toastify";
+
+type AuthStatus =
+  | "unknown"
+  | "authenticated"
+  | "unauthenticated";
 
 type AuthContextType = {
-  accessToken: string | null | undefined;
-  deleteAccessToken: () => void;
-  refreshAccessToken: () => Promise<string>;
+  isLoading: boolean;
+  authStatus: AuthStatus;
+  isAuthenticated: boolean;
+  accessToken: string | null;
+  clearSession: () => void;
+  refresh: () => Promise<string>;
+  signin: (data: SignInInput) => Promise<void>;
+  signout: () => void;
 }
 
-const AuthContext = createContext<AuthContextType | null>(null);
-
-export function useAuthContext() {
-  const context = useContext(AuthContext);
-
-  if (!context)
-    throw new Error("useAuthContext must be used within an AuthProvider");
-
-  return context;
-}
+export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const [isInitializing, setIsInitializing] = useState(true);
-  const [accessToken, setAccessToken] = useState<string | null>();
+  const [isLoading, setIsLoading] = useState(true);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [authStatus, setAuthStatus] = useState<AuthStatus>("unknown");
+  const refreshPromiseRef = useRef<Promise<string> | null>(null);
   const router = useRouter();
+  const pathname = usePathname();
 
-  let refreshPromise: Promise<string> | null = null;
+  function clearSession() {
+    setAccessToken(null);
+    setAuthStatus("unauthenticated");
+  }
 
-  const refreshAccessToken = useCallback(async () => {
-    if (!refreshPromise) {
-      refreshPromise = (async () => {
+  function setSession(accessToken: string,) {
+    setAccessToken(accessToken);
+    setAuthStatus("authenticated")
+  }
+
+  const refresh = useCallback(async () => {
+    if (!refreshPromiseRef.current) {
+      refreshPromiseRef.current = (async () => {
         try {
-          const response = await fetch("/api/v1/auth/refresh", {
-            method: "POST",
-            credentials: "same-origin",
-          });
+          const response = await axios.post("/api/v1/auth/refresh", {}, { withCredentials: true });
     
-          if (!response.ok)
-            throw new Error("Error refreshing token");
-    
-          const body = await response.json();
+          const body = await response.data;
     
           const accessToken: string = body.data.accessToken;
     
-          setAccessToken(accessToken);
+          setSession(accessToken);
     
           return accessToken;
         } finally {
-          refreshPromise = null;
+          refreshPromiseRef.current = null;
         }
       })();
-  
     }
-
-    return refreshPromise;
+    return refreshPromiseRef.current;
   }, []);
 
-  function deleteAccessToken() {
-    setAccessToken(null);
+  async function signin(credentials: SignInInput) {
+    try {
+      const response = await axios.post("/api/v1/auth/sign-in", credentials);
+
+      const { data } = response.data;
+      
+      setSession(data.accessToken);
+
+      router.replace("/dashboard");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data.error.message);
+      }
+      throw new Error("Something went wrong");
+    }
+  }
+
+  async function signout() {
+    await axios.delete("/api/v1/auth/sign-out");
+
+    router.replace("/auth/signin");
+    
+    clearSession();
   }
 
   useEffect(() => {
-    async function refresh() {
+    async function initializeAuth() {
       try {
-        await refreshAccessToken();
-        setIsInitializing(false);
+        await refresh();
       } catch (error) {
-        setIsInitializing(true);
-        router.replace("/auth/signin");
+        clearSession();
+      } finally {
+        setIsLoading(false);
       }
     }
 
-    refresh();
-  }, [router]);
-  
-  const value = {
-    accessToken,
-    deleteAccessToken,
-    refreshAccessToken,
-  }
+    initializeAuth();
+  }, []);
 
-  return (
-    isInitializing
-    ? (
-      <div className="flex w-full h-screen">
-        <Loader />
-      </div>
+  useEffect(() => {
+    const requestInterceptor = api.interceptors.request.use(
+      (config) => {
+        config.headers["Authorization"] = `Bearer ${accessToken}`
+        return config;
+      },
+      (error) => Promise.reject(error),
+    );
+  
+    const responseInterceptor = api.interceptors.response.use(
+      response => response,
+  
+      async error => {
+        const originalRequest = error.config;
+  
+        if (error.response?.status === 401 && !originalRequest._retried) {
+          originalRequest._retried = true;
+  
+          try {
+            const accessToken = await refresh();
+  
+            originalRequest.headers["Authorization"] = `Bearer ${accessToken}`
+  
+            return api(originalRequest);
+          } catch (refreshError) {
+            clearSession();
+            router.replace("/auth/signin");
+            return Promise.reject(refreshError);
+          }
+        }
+  
+        return Promise.reject(error);
+      }
     )
-    : (
-      <AuthContext.Provider value={value}>
-        {children}
-      </AuthContext.Provider>
-    )
-  );
+  
+    return () => {
+      api.interceptors.request.eject(requestInterceptor);
+      api.interceptors.response.eject(responseInterceptor);
+    }
+  }, [accessToken]);
+  
+  const value: AuthContextType = {
+    isLoading,
+    isAuthenticated: !!accessToken,
+    accessToken,
+    clearSession,
+    refresh,
+    signin,
+    signout,
+    authStatus,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

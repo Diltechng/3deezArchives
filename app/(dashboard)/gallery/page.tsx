@@ -2,22 +2,25 @@
 import CreatePostModal from "@/features/posts/components/CreatePostModal";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useAuthFetch } from "@/features/auth/hooks/useAuthFetch";
-import Loader from "@/features/shared/components/Loader";
+import LoadingState from "@/features/shared/components/LoadingState";
 import clsx from "clsx";
 import { Grid, List } from "lucide-react";
-import PostsGridLayout from "@/features/posts/components/PostsGridLayout";
-import PostsListLayout from "@/features/posts/components/PostsListLayout";
+import PostsGridView from "@/features/posts/components/PostsGridView";
+import PostsListView from "@/features/posts/components/PostsListView";
 import PaginationNav from "@/features/posts/components/PaginationNav";
 import { useDebouncedCallback } from "use-debounce";
 import { GalleryCategory } from "@/features/posts/types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import FilterChip from "@/features/posts/components/FilterChip";
+import FilterChip, { FilterChipSkeleton } from "@/features/posts/components/FilterChip";
+import ContentHeader from "@/features/shared/components/ContentHeader";
+import { GetPostsResponse } from "@/shared/contracts/posts";
+import { useAuth } from "@/features/auth/hooks/useAuth";
+import { api } from "@/features/shared/lib/api";
+import { posts } from "@/db/schema";
 
 const GalleryPage = () => {
   const LIMIT = 12;
 
-  const authFetch = useAuthFetch();
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -34,8 +37,10 @@ const GalleryPage = () => {
   const [displayMode, setDisplayMode] = useState<"list" | "grid">("grid");
   const [activeDateFilter, setActiveDateFilter] = useState("");
 
+  const isGrid = displayMode === "grid";
 
-  const { isLoading: isLoadingPosts, data: postsData } = useQuery({
+
+  const { isLoading: isLoadingPosts, data: postsData, error: postsError, } = useQuery({
     queryKey: ["posts", currentPage, search, currentCategory, dateFrom, dateTo],
     queryFn: async () => {
       const searchParams = new URLSearchParams({
@@ -59,10 +64,11 @@ const GalleryPage = () => {
         searchParams.set("to", dateTo);
       }
 
-      const response = await authFetch(`/api/v1/gallery/posts?${searchParams}`);
+      const response = await api.get(`/gallery/posts?${searchParams}`);
 
-      const data = await response.json();
-      setPostsCount(data.pagination.total)
+      const data: GetPostsResponse = response.data;
+
+      setPostsCount(data.meta?.pagination.total ?? 0);
 
       return data;
     }
@@ -71,9 +77,9 @@ const GalleryPage = () => {
   const { error: categoriesError, isLoading: isLoadingCategories, data: categoriesData } = useQuery({
     queryKey: ["categries"],
     queryFn: async () => {
-      const response = await authFetch("/api/v1/gallery/categories");
+      const response = await api.get("/gallery/categories");
 
-      const data = await response.json();
+      const data = response.data;
       setCatrgoriesCount(data.data.length);
 
       return data;
@@ -120,11 +126,7 @@ const GalleryPage = () => {
 
   return (
     <section className="flex flex-col flex-1">
-      <header className="flex justify-between items-center mb-5">
-        <div>
-          <h1 className="font-bold text-[18px]">Gallery</h1>
-          <p className="font-sans text-sm text-text-3">{postsCount} images across {categoriesCount} categories</p>
-        </div>
+      <ContentHeader title="Gallery" subtitle={`${postsCount} images across ${categoriesCount} categories`}>
         <div className="flex gap-2">
           <div className="flex overflow-hidden rounded-lg border border-border-2">
             <button
@@ -157,87 +159,73 @@ const GalleryPage = () => {
           categories={categoriesData.data}
           onExit={() => setShowUploadModal(false)}
         />}
-      </header>
-      <div className="flex items-center gap-2 py-1.75 px-3 mb-4 w-full rounded-lg border border-border-2 bg-surface-3">
+      </ContentHeader>
+      <div className="input-core mb-4">
         <input
-          className="text-[12px] w-full"
+          className="w-full"
           placeholder="Search archive"
           defaultValue={search}
           onChange={e => handleSearch(e.target.value)}
         />
       </div>
 
-      {isLoadingCategories
-        ? <div className="flex h-10 mb-3.5">
-          <Loader />
-        </div>
-        : (categoriesError || !categoriesData.success)
-        ? <div></div>
-        : <div className="flex flex-wrap gap-1.5 mb-3.5">
-          {[
-            { id: "all", name: "All", slug: "all" },
-            ...categoriesData.data
-          ].map((category: GalleryCategory) => (
-            <FilterChip
-              key={category.id}
-              name={category.name}
-              active={category.slug === currentCategory}
-              onClick={() =>
-                updateFilter({ key: "category", value: category.slug })
-              }
-            />
-          ))}
-          {[{
-            name: "2025",
-            from: "2025-01-01",
-            to: "2025-12-31"
-          }, {
-            name: "2026",
-            from: "2026-01-01",
-            to: "2026-12-31",
-          }].map(date =>
-            <FilterChip
-              key={date.name}
-              name={date.name}
-              active={activeDateFilter === date.name}
-              onClick={() => {
-                updateFilter(
-                  { key: "from", value: date.from },
-                  { key: "to", value: date.to }
-                );
-                setActiveDateFilter(date.name);
-              }}
-            />
-          )}
-        </div>
-      }
-
-
-      {isLoadingPosts
-        ? <div className="flex flex-1 w-full">
-          <Loader />
-        </div>
-
-        : (!postsData.success)
-        ? <div></div>
-        : (
-          <>
-            <div className="mb-4">
-              {displayMode === "grid" ?
-                <PostsGridLayout posts={postsData.data} />
-              : displayMode === "list" &&
-                <PostsListLayout posts={postsData.data} />
-              }
-            </div>
-            <PaginationNav
-              currentPage={currentPage}
-              hasNextPage={postsData.pagination.hasNextPage}
-              hasPreviousPage={postsData.pagination.hasPreviousPage}
-              totalPages={postsData.pagination.totalPages}
-              onPageChange={setCurrentPage}
-            />
+      <div className="flex flex-wrap gap-1.5 mb-3.5">
+        {isLoadingCategories
+          ? [...Array(4)].map((_, i) => <FilterChipSkeleton key={i} />)
+          : <>
+            {[
+              { id: "all", name: "All", slug: "all" },
+              ...categoriesData.data
+            ].map((category: GalleryCategory) => (
+              <FilterChip
+                key={category.id}
+                name={category.name}
+                active={category.slug === currentCategory}
+                onClick={() =>
+                  updateFilter({ key: "category", value: category.slug })
+                }
+              />
+            ))}
+            {[{
+              name: "2025",
+              from: "2025-01-01",
+              to: "2025-12-31"
+            }, {
+              name: "2026",
+              from: "2026-01-01",
+              to: "2026-12-31",
+            }].map(date =>
+              <FilterChip
+                key={date.name}
+                name={date.name}
+                active={activeDateFilter === date.name}
+                onClick={() => {
+                  updateFilter(
+                    { key: "from", value: date.from },
+                    { key: "to", value: date.to }
+                  );
+                  setActiveDateFilter(date.name);
+                }}
+              />
+            )}
           </>
-        )
+        }
+      </div>
+      <div className="mb-4">
+        {isGrid ?
+          <PostsGridView isLoading={isLoadingPosts} posts={postsData?.data} />
+        :
+          <PostsListView isLoading={isLoadingPosts} posts={postsData?.data} />
+        }
+      </div>
+      {postsData?.meta && 
+        <PaginationNav
+          currentPage={currentPage}
+          hasNextPage={postsData.meta.pagination.hasNextPage}
+          hasPreviousPage={postsData.meta.pagination.hasPreviousPage}
+          totalPages={postsData.meta.pagination.totalPages}
+          onPageChange={setCurrentPage}
+        />
       }
     </section>
   )
