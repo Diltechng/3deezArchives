@@ -1,8 +1,6 @@
 "use client"
-import CreatePostModal from "@/features/posts/components/CreatePostModal";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import LoadingState from "@/features/shared/components/LoadingState";
 import clsx from "clsx";
 import { Grid, List } from "lucide-react";
 import PostsGridView from "@/features/posts/components/PostsGridView";
@@ -14,9 +12,9 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import FilterChip, { FilterChipSkeleton } from "@/features/posts/components/FilterChip";
 import ContentHeader from "@/features/shared/components/ContentHeader";
 import { GetPostsResponse } from "@/shared/contracts/posts";
-import { useAuth } from "@/features/auth/hooks/useAuth";
 import { api } from "@/features/shared/lib/api";
-import { posts } from "@/db/schema";
+import useModal from "@/features/shared/hooks/useModal";
+import CreatePostForm from "@/features/posts/components/CreatePostForm";
 
 const GalleryPage = () => {
   const LIMIT = 12;
@@ -24,6 +22,7 @@ const GalleryPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const { openFormModal } = useModal();
 
   const currentCategory: "all" | (string & {}) = searchParams.get("category") ?? "all";
   const search = searchParams.get("search") ?? "";
@@ -32,7 +31,6 @@ const GalleryPage = () => {
 
   const [categoriesCount, setCatrgoriesCount] = useState(0);
   const [postsCount, setPostsCount] = useState(0);
-  const [showUploadModal, setShowUploadModal] = useState(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [displayMode, setDisplayMode] = useState<"list" | "grid">("grid");
   const [activeDateFilter, setActiveDateFilter] = useState("");
@@ -150,20 +148,20 @@ const GalleryPage = () => {
           </div>
           <button 
             className="button-primary"
-            onClick={() => setShowUploadModal(true)}
+            onClick={() => openFormModal(CreatePostForm, {
+              title: "Upload Images",
+              subtitle: "Add a moment to the archives",
+              categories: categoriesData.data
+            })}
           >
             UPLOAD
           </button>
         </div>
-        {showUploadModal && <CreatePostModal
-          categories={categoriesData.data}
-          onExit={() => setShowUploadModal(false)}
-        />}
       </ContentHeader>
       <div className="input-core mb-4">
         <input
           className="w-full"
-          placeholder="Search archive"
+          placeholder="Search archive..."
           defaultValue={search}
           onChange={e => handleSearch(e.target.value)}
         />

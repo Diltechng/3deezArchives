@@ -94,13 +94,13 @@ const UsersPage = () => {
       <div className="input-core mb-4">
         <input
           className="w-full"
-          placeholder="Search archive"
+          placeholder="Search users..."
           defaultValue={search}
           onChange={e => handleSearch(e.target.value)}
         />
       </div>
       <div className="overflow-hidden rounded-lg border border-border bg-surface">
-        {usersData?.data && <table className="w-full text-[12px]">
+        {usersData?.data?.length && <table className="w-full text-[12px]">
           <thead>
             <tr>
               {["MEMBER", "ROLE", "UPLOADS", "LAST ACTIVE", "STATUS", "ACTIONS"].map(title =>

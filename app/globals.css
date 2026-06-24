@@ -83,7 +83,7 @@
 }
 
 @utility input-core {
-  @apply  flex items-center gap-2 py-1.75 px-3 w-full text-[12px] rounded-lg duration-200 border;
+  @apply  flex items-center font-sans gap-2 py-1.75 px-3 w-full text-[12px] rounded-lg duration-200 border;
   @apply border-border-2 bg-surface-3 focus-within:border-accent;
 }
 

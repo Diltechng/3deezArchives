@@ -43,6 +43,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${spaceMono.variable} ${dMSans.variable} antialiased text-text bg-background`}
       >
         <Providers>
+          
           <ProtectedPage>{children}</ProtectedPage>
           <ToastContainer />
         </Providers>
