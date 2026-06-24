@@ -1,25 +1,14 @@
-import { useAuthContext } from "@/features/auth/contexts/AuthContext";
+"use client"
+
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import clsx from "clsx";
-import { Home, Images, Menu, Settings, SquareActivity, Users } from "lucide-react";
+import { Home, Images, Settings, SquareActivity, Users } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
-  const { deleteAccessToken } = useAuthContext();
-  const router = useRouter();
+  const { signout } = useAuth();
   const pathname = usePathname();
-
-
-  async function signout() {
-    await fetch("/api/v1/auth/sign-out", {
-      method: "DELETE"
-    });
-
-    deleteAccessToken();
-
-    router.replace("/auth/signin");
-  }
 
   const navGroups = [{
     name: "MAIN",
@@ -38,14 +27,6 @@ const Sidebar = () => {
 
   return (
     <aside className="flex flex-col px-3 py-5 w-50 border-r border-border bg-surface-2 overflow-y-auto">
-      {/* <button
-        className={`w-10 p-1.5 aspect-square mb-7 rounded-lg duration-200 text-gray-700 hover:text-gray-900 hover:bg-gray-500/10
-          ${sidebarExpanded? "ml-2": "mx-auto"}
-        `}
-        onClick={() => setSidebarExpanded(prev => !prev)}
-      >
-        <Menu className="w-full h-full" />
-      </button> */}
       <div className="flex flex-col flex-1 justify-between">
         <nav className="flex flex-col gap-4" role="navigation">
           {navGroups.map(group => (

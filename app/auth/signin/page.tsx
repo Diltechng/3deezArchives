@@ -2,37 +2,30 @@
 import { SignInInput, SignInSchema } from "@/shared/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import logo from "@/public/3deez-logo.svg";
 import Image from "next/image";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 
 const SignInPage = () => {
-  const router = useRouter();
+  const { signin } = useAuth();
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<SignInInput>({
     resolver: zodResolver(SignInSchema)
   });
 
   async function onSubmit(data: SignInInput) {
     try {
-      const response = await fetch("/api/v1/auth/sign-in", {
-        method: "POST",
-        body: JSON.stringify(data)
-      });
-
-      const body = await response.json();
-      if (!body.success) {
-        toast.error(body.error.message);
-        return;
-      }
-
-      router.replace("/dashboard");
+      await signin(data);
     } catch (error) {
-      toast.error("Something went wrong, please try again.");
+      toast.error((error instanceof Error)
+        ? error.message
+        : "Something went wrong"
+      );
     }
+
   }
-  
+
   return (
     <div className="flex w-full h-screen overflow-x-auto">
       <div className="flex flex-col gap-5 h-full sm:h-fit py-10 sm:min-w-50 w-full sm:max-w-100 shadow-2xl sm:border sm:rounded-2xl my-auto mx-auto border-border-primary">
@@ -60,7 +53,7 @@ const SignInPage = () => {
                 {...register("email")}
                 type="email"
                 placeholder="Enter your email"
-                className="py-2 px-3 text-sm rounded-lg duration-200 border text-neutral-700 border-neutral-300 focus:border-accent bg-neutral-100" />
+                className="input-core" />
               {errors.email && <p className="ml-2 text-[13px] text-red-600">{"* " + errors.email.message}</p>}
             </div>
             <div className="flex flex-col">
@@ -69,7 +62,7 @@ const SignInPage = () => {
                 {...register("password")}
                 type="password"
                 placeholder="Enter your password"
-                className="py-2 px-3 text-sm rounded-lg duration-200 border text-neutral-700 border-neutral-300 focus:border-accent bg-neutral-100" />
+                className="input-core" />
               <button type="button">
 
               </button>
@@ -82,7 +75,7 @@ const SignInPage = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="py-2 font-semibold rounded-lg duration-200 text-accent-text bg-accent hover:bg-accent-hover disabled:bg-neutral-400">
+            className="button-primary disabled:bg-neutral-700">
             {isSubmitting? "Signing in...": "Sign In"}
           </button>
         </form>

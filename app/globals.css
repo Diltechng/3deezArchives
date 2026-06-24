@@ -34,6 +34,8 @@
   --color-text-3: #555;
 
   --animate-caret-blink: caret-blink 1.2s ease-out infinite;
+
+  --animate-shimmer: shimmer 2s linear infinite;
   
   @keyframes caret-blink {
     0%, 70%, 100% {
@@ -43,16 +45,12 @@
       opacity: 0;
     }
   }
-}
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    
-    --color-border-primary: var(--color-neutral-800);
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
   }
-} */
+}
 
 .Toastify__close-button {
   color: rgb(16, 14, 14);
@@ -78,6 +76,10 @@
   select {
     @apply focus:outline-none
   }
+}
+
+@utility bg-shimmer {
+  @apply bg-linear-to-r from-surface via-surface-3 to-surface bg-size-[200%_100%];
 }
 
 @utility input-core {

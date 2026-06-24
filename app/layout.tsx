@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Space_Mono, DM_Sans } from "next/font/google";
 import "./globals.css";
 import ToastContainer from "@/features/shared/components/ToastContainer";
-import QueryProvider from "@/features/shared/contexts/QueryProvider";
+import { Providers } from "@/features/shared/providers";
+import ProtectedPage from "@/features/shared/components/ProtectedPage";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,10 +42,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${spaceMono.variable} ${dMSans.variable} antialiased text-text bg-background`}
       >
-        <QueryProvider>
-          {children}
+        <Providers>
+          <ProtectedPage>{children}</ProtectedPage>
           <ToastContainer />
-        </QueryProvider>
+        </Providers>
       </body>
     </html>
   );

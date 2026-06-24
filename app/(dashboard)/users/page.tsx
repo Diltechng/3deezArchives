@@ -1,6 +1,6 @@
 "use client"
-import { useAuthFetch } from "@/features/auth/hooks/useAuthFetch";
 import ContentHeader from "@/features/shared/components/ContentHeader";
+import { api } from "@/features/shared/lib/api";
 import { cn } from "@/features/shared/lib/utils";
 import { GetUsersResponse } from "@/shared/contracts/users";
 import { useQuery } from "@tanstack/react-query";
@@ -13,7 +13,6 @@ const UsersPage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const authFetch = useAuthFetch();
 
   const search = searchParams.get("search") ?? "";
 
@@ -31,10 +30,10 @@ const UsersPage = () => {
         page: String(currentPage)
       });
 
-      const response = await authFetch(`/api/v1/users?${searchParams}`);
+      const response = await api.get(`/users?${searchParams}`);
 
-      const result: GetUsersResponse = await response.json();
-      console.log(result);
+      const result: GetUsersResponse = response.data;
+      
       setTotalAdmins(result.meta?.totalAdmins ?? 0);
       setTotalStaffs(result.meta?.totalStaffs ?? 0);
       setTotalUsers(result.meta?.pagination.total ?? 0);
