@@ -8,7 +8,7 @@ import { CreateNewPostInput, DeleteOnePostInput, GetOnePostInput, GetPostsInput,
 
 class PostsService {
   async createNewPost(data: CreateNewPostInput) {
-    if (!data.data.mediaIds.includes(data.data.coverMediaId))
+    if (!data.data.media.ids.includes(data.data.media.coverId))
       throw new ForbiddenError("Cover image must exist in attached media.", {
         code: ApiErrorCode.INVALID_COVER_IMAGE_REFERENCE
       })
@@ -17,7 +17,7 @@ class PostsService {
       .select({ id: media.id })
       .from(media)
       .where(and(
-        eq(media.id, data.data.coverMediaId),
+        eq(media.id, data.data.media.coverId),
         eq(media.uploadedBy, data.userId),
         isNull(media.postId),
       ));
@@ -36,7 +36,7 @@ class PostsService {
         description: data.data.description,
         tags: data.data.tags,
         categoryId: data.data.categoryId,
-        coverMediaId: data.data.coverMediaId,
+        coverMediaId: data.data.media.coverId,
         uploadedBy: data.userId,
       }).returning({
         id: posts.id,
@@ -46,7 +46,7 @@ class PostsService {
       const storedMedia = await tx.update(media).set({
         postId: storedPost.id,
       }).where(and(
-        inArray(media.id, data.data.mediaIds),
+        inArray(media.id, data.data.media.ids),
         eq(media.uploadedBy, data.userId),
         isNull(media.postId),
       )).returning({
@@ -54,7 +54,7 @@ class PostsService {
         secureUrl: media.secureUrl,
       });
 
-      if (storedMedia.length !== data.data.mediaIds.length)
+      if (storedMedia.length !== data.data.media.ids.length)
         throw new InternalServerError("Some media could not be attached to this post.");
 
       return {
@@ -258,9 +258,9 @@ class PostsService {
   }
 
   async updateOnePost(data: UpdateOnePostInput) {
-    if (data.data.coverMediaId) {
+    if (data.data.media.coverId) {
       const attachmentConditions = [
-        eq(media.id, data.data.coverMediaId),
+        eq(media.id, data.data.media.coverId),
         eq(media.uploadedBy, data.userId),
         isNull(media.deletedAt),
         eq(media.postId, data.postId),
@@ -281,7 +281,7 @@ class PostsService {
     const updateEntries = Object.entries({
       title: data.data.title,
       categoryId: data.data.categoryId,
-      coverMediaId: data.data.coverMediaId,
+      coverMediaId: data.data.media.coverId,
       dateOfMoment: data.data.dateOfMoment,
       description: data.data.description,
       tags: data.data.tags,

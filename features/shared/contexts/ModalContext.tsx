@@ -1,4 +1,4 @@
-import CreatePostForm from "@/features/posts/components/CreatePostForm";
+import CreatePostForm from "@/features/posts/components/PostForm";
 import { createContext, useMemo, useState } from "react"
 
 interface ValueTypes {

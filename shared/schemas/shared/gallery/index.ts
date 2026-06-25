@@ -8,6 +8,8 @@ export type CategoryIdInput = z.infer<typeof CategoryIdSchema>;
 export const MediaIdSchema = z.uuid("Please enter a valid media ID").trim();
 export type MediaIdInput = z.infer<typeof MediaIdSchema>;
 
+export const CoverMediaIdSchema = z.uuid("Please attach a valid cover media").trim();
+export type CoverMediaIdInput = z.infer<typeof CoverMediaIdSchema>
 
 export const MediaIdArraySchema = MediaIdSchema
   .array()

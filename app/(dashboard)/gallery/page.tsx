@@ -14,7 +14,7 @@ import ContentHeader from "@/features/shared/components/ContentHeader";
 import { GetPostsResponse } from "@/shared/contracts/posts";
 import { api } from "@/features/shared/lib/api";
 import useModal from "@/features/shared/hooks/useModal";
-import CreatePostForm from "@/features/posts/components/CreatePostForm";
+import PostForm from "@/features/posts/components/PostForm";
 
 const GalleryPage = () => {
   const LIMIT = 12;
@@ -148,7 +148,7 @@ const GalleryPage = () => {
           </div>
           <button 
             className="button-primary"
-            onClick={() => openFormModal(CreatePostForm, {
+            onClick={() => openFormModal(PostForm, {
               title: "Upload Images",
               subtitle: "Add a moment to the archives",
               categories: categoriesData.data

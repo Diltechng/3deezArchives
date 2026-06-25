@@ -1,7 +1,9 @@
 "use client"
 import ContentHeader from "@/features/shared/components/ContentHeader";
+import useModal from "@/features/shared/hooks/useModal";
 import { api } from "@/features/shared/lib/api";
 import { cn } from "@/features/shared/lib/utils";
+import UserForm from "@/features/users/components/UserForm";
 import { GetUsersResponse } from "@/shared/contracts/users";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -13,6 +15,7 @@ const UsersPage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { openFormModal } = useModal();
 
   const search = searchParams.get("search") ?? "";
 
@@ -86,7 +89,10 @@ const UsersPage = () => {
       <ContentHeader title="Users" subtitle={`${totalUsers} members · ${totalAdmins} admins · ${totalStaffs} staff`}>
         <button 
           className="button-primary"
-          onClick={() => {}}
+          onClick={() => openFormModal(UserForm, {
+            title: "Add User",
+            subtitle: "Grant access to the archives",
+          })}
         >
           ADD USER
         </button>

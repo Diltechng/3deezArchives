@@ -24,12 +24,14 @@ const FormModal = ({ title, subtitle, children }: FormModalProps) => {
   );
 }
 
-export const SubmitButton = ({ title }: {
+export const SubmitButton = ({ title, disabled=false }: {
   title?: string;
+  disabled?: boolean;
 }) => (
   <button
     type="submit"
-    className="button-primary"
+    className="button-primary disabled:bg-neutral-800"
+    disabled={disabled}
   >
     {title ?? "Submit"}
   </button>
