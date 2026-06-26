@@ -8,14 +8,13 @@ import { UserRole } from "@/shared/constants/enums";
 import { eq, sql } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
-let i = 0;
-
 export const GET = withErrorHandler(
   withAuthGuard(async (req: NextRequest, ctx) => {
     const [user] = await db.select({
       id: users.id,
       name: users.name,
       email: users.email,
+      role: users.role,
     }).from(users).where(eq(users.id, ctx.user.userId));
 
     return NextResponse.json({
