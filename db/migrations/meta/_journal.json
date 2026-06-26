@@ -134,6 +134,13 @@
       "when": 1779356428762,
       "tag": "0018_shallow_ironclad",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1782478880700,
+      "tag": "0019_large_photon",
+      "breakpoints": true
     }
   ]
 }
