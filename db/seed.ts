@@ -2,7 +2,7 @@ import { db } from ".";
 import { categories, media, posts, users } from "./schema";
 import bcrypt from "bcrypt";
 import { UserRole } from "@/shared/constants/enums";
-import { toSlug } from "@/shared/utils";
+import { toSlug } from "@/shared/utils/slug";
 import { faker } from "@faker-js/faker";
 import { isNull } from "drizzle-orm";
 
