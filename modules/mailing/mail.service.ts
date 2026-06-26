@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import { SendVerificationEmailInput } from "./types";
+import { renderCompanyInviteEmail } from "@/emails/utils";
 
 
 class MailService {
@@ -7,6 +8,14 @@ class MailService {
     const email = process.env.GOOGLE_MAIL_USER;
     const appPassword = process.env.GOOGLE_APP_PASSWORD;
     const service = "gmail";
+
+    const html = renderCompanyInviteEmail({
+      companyName: "3Deez Global",
+      invitedByEmail: data.inviterEmail,
+      invitedByUsername: data.inviterName,
+      inviteLink: `http://localhost:3000/invitation/accept?token=${data.invitationJwt}`,
+      inviteRole: data.inviteeRole,
+    });
     
     const transporter = nodemailer.createTransport({
       service,
@@ -18,18 +27,9 @@ class MailService {
 
     const mailOptions = {
       from: email,
-      to: data.email,
-      subject: "Verification your email",
-      html: `
-        <h1 style="font-size: 18px; font-weight: bold; color: #101010;">Hi there,</h1>
-        <h2 style="font-size: 14px; font-weight: 500; color: #101010;">Thank you for signing up! To complete your registration, please enter the following verification code on the sign-up page:</h2>
-        <div style="font-size: 18px; font-weight: bold; text-align: center; margin: 20px 0; padding: 10px; background-color: #f4f4f4; border: 1px solid #ddd; color: #2f2f2f; border-radius: 8px;">
-          ${data.otp}
-        </div>
-        <p style="font-size: 14px; color: #101010;">This code will expire in 1 hour.</p>
-        <p style="font-size: 14px; color: #101010;">If you didn't create an account, you can safely ignore this email.</p>
-        <p style="font-size: 14px; color: #101010;">Thanks.</p>
-      `
+      to: data.inviteeEmail,
+      subject: "3Deez Global Events Archive Invitation",
+      html
     }
 
     await transporter.sendMail(mailOptions);

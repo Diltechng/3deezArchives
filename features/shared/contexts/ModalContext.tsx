@@ -1,53 +1,51 @@
+import CreatePostForm from "@/features/posts/components/PostForm";
 import { createContext, useMemo, useState } from "react"
 
-interface ValueTypes<T = unknown> {
-  showModal: boolean;
-  modal: ModalType | undefined;
-  modalData: (T & ModalDataType) | undefined;
-  openModal: <T>(modal: ModalType, modalData: T & ModalDataType) => void;
-  closeModal(): void;
+interface ValueTypes {
+  modals: ModalType[];
+  openFormModal: <T>(component: ModalType["component"], data: ModalData<T>) => void;
+  closeModal: (modalId: string) => void;
 }
 
-interface ModalType {
+export interface ModalType<T = unknown> {
   id: string;
-  component: React.ReactNode;
-  props: Record<string, any>;
+  type: "form";
+  component: React.ComponentType<any>;
+  data: ModalData<T>;
 }
 
-interface ModalDataType {
-  title?: string;
+type ModalData<T> = {
+  title: string;
   subtitle?: string;
   initialData?: unknown;
-}
+} & T;
 
-const ModalContext = createContext<ValueTypes | null>(null);
+export const ModalContext = createContext<ValueTypes | null>(null);
 
 const ModalProvider = ({ children }: {
   children: React.ReactNode;
 }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [modal, setModal] = useState<ModalType | undefined>(undefined);
-  const [modalData, setModalData] = useState<ModalDataType | undefined>(undefined);
+  const [modals, setModals] = useState<ModalType[]>([]);
   
-  function openModal<T>(modal: ModalType, modalData: T & ModalDataType) {
-    setModal(modal);
-    setModalData(modalData);
-    setShowModal(true);
+  function openFormModal<T>(component: ModalType["component"], data: ModalData<T>) {
+    const id = crypto.randomUUID();
+    setModals(prev => [...prev, {
+      id,
+      type: "form",
+      component,
+      data,
+    }]);
   }
 
-  function closeModal() {
-    setShowModal(false);
-    setModal(undefined);
-    setModalData(undefined);
+  function closeModal(modalId: string) {
+    setModals(prev => prev.filter(modal => modal.id !== modalId));
   }
 
   const values = useMemo(() => ({
-    showModal,
-    modal,
-    modalData,
-    openModal,
+    modals,
+    openFormModal,
     closeModal,
-  }), [showModal, modal, modalData]);
+  }), [modals]);
 
 
   return (

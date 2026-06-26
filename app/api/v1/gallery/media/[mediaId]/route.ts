@@ -5,7 +5,7 @@ import { mediaService, validateMediaId } from "@/modules/gallery";
 import { NextResponse } from "next/server";
 
 export const GET = withErrorHandler(
-  withAuthGuard<Promise<{ mediaId: string; }>>(async (req, ctx) => {
+  withAuthGuard<{ mediaId: string; }>(async (req, ctx) => {
     const { mediaId } = await ctx.params;
 
     const validatedId = validateMediaId(mediaId);
@@ -21,7 +21,7 @@ export const GET = withErrorHandler(
 );
 
 export const DELETE = withErrorHandler(
-  withAuthGuard<Promise<{ mediaId: string; }>>(async (req, ctx) => {
+  withAuthGuard<{ mediaId: string; }>(async (req, ctx) => {
     const { mediaId } = await ctx.params;
 
     const validatedId = validateMediaId(mediaId);

@@ -1,4 +1,5 @@
 "use client"
+import ModalRenderer from "@/features/shared/components/ModalRenderer";
 import Sidebar from "@/features/shared/components/Sidebar";
 import Topbar from "@/features/shared/components/Topbar";
 
@@ -7,6 +8,7 @@ const DashboardLayout = ({ children }: Readonly<{
 }>) => {
   return (
     <div className="flex flex-col h-screen">
+      <ModalRenderer />
       <Topbar />
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />

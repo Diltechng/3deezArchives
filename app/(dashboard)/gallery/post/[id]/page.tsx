@@ -1,6 +1,8 @@
 "use client"
 
+import PostForm from "@/features/posts/components/PostForm";
 import LoadingState from "@/features/shared/components/LoadingState";
+import useModal from "@/features/shared/hooks/useModal";
 import { api } from "@/features/shared/lib/api";
 import { PostVisibility } from "@/shared/constants/enums";
 import { useQuery } from "@tanstack/react-query";
@@ -15,6 +17,8 @@ const PostDetailPage = () => {
 
   const params = useParams();
   const router = useRouter();
+
+  const { openFormModal } = useModal();
   
   const { isLoading, data } = useQuery({
     queryKey: ["post"],
@@ -41,9 +45,7 @@ const PostDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-1">
-        <LoadingState />
-      </div>
+      <LoadingState />
     )
   }
 
@@ -79,7 +81,33 @@ const PostDetailPage = () => {
         </div>
         <div className="flex gap-1.5 text-[10px]">
           <button className="py-2 px-4 rounded-lg tracking-[0.6px] border border-border-2 bg-surface-3">DOWNLOAD</button>
-          <button className="py-2 px-4 rounded-lg tracking-[0.6px] border border-border-2 bg-surface-3">EDIT</button>
+          <button
+            className="py-2 px-4 rounded-lg tracking-[0.6px] border border-border-2 bg-surface-3"
+            onClick={async () => {
+              const response = await api.get("/gallery/categories");
+
+              const categories = response.data.data;
+
+              openFormModal(PostForm, {
+                title: "Edit Post",
+                initialData: {
+                  title: data.data.title,
+                  description: data.data.description,
+                  visibility: data.data.visibility,
+                  dateOfMoment: data.data.dateOfMoment,
+                  categoryId: data.data.category.id,
+                  tags: data.data.tags,
+                  media: {
+                    ids: data.data.media.ids,
+                    coverId: data.data.coverMediaId
+                  },
+                },
+                categories,
+              }
+            )}}
+          >
+            EDIT
+          </button>
           <button
             className="py-2 px-4 rounded-lg tracking-[0.6px] border border-accent-2 bg-accent-2/15 text-accent-2"
             onClick={() => setShowDeleteModal(true)}
