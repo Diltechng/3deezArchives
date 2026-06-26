@@ -4,7 +4,7 @@ import crypto from "crypto";
 import { db } from "@/db";
 import { sessions, users } from "@/db/schema";
 import { sha256Hash } from "@/lib/crypto";
-import { days } from "@/utils/time";
+import { days } from "@/modules/utils/time";
 import { eq, sql } from "drizzle-orm";
 import { AccessTokenPayload } from "@/shared/schemas";
 
