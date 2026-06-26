@@ -1,7 +1,9 @@
 import { setRefreshTokenCookie } from "@/lib/api/cookies";
 import { withErrorHandler } from "@/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";
-import { authService, sessionService, validateSignIn } from "@/modules/auth";
+import { authService } from "@/modules/auth/auth.service";
+import { validateSignIn } from "@/modules/auth/auth.validation";
+import { sessionService } from "@/modules/sessions/session.service";
 import { NextResponse } from "next/server";
 
 export const POST = withErrorHandler(async req => {

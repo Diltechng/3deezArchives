@@ -1,7 +1,8 @@
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";
-import { mediaService, validateMediaId } from "@/modules/gallery";
+import { mediaService } from "@/modules/media/media.service";
+import { validateMediaId } from "@/modules/media/media.validation";
 import { NextResponse } from "next/server";
 
 export const GET = withErrorHandler(

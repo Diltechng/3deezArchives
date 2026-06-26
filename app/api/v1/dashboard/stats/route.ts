@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { categories, posts, users } from "@/db/schema";
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
-import { postsService } from "@/modules/gallery";
+import { postsService } from "@/modules/posts/posts.service";
 import { and, count, gte, isNull } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
