@@ -1,14 +1,13 @@
 import { AccessTokenPayload, InvitationJwtPayloadInput } from "@/shared/schemas";
 import { NextResponse } from "next/server";
 import { ApiErrorCode } from "@/lib/errors";
-import { Pagination } from "./pagination";
 
 export type ApiResponse =
   | NextResponse
   | Promise<NextResponse>
 
-export interface RouteContext<TParams> {
-  params: TParams;
+export type RouteContext<TParams> = {
+  params: Promise<TParams>;
 }
 
 export type AuthReqContext<TParams> = {

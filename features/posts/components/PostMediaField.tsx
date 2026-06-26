@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { CreatePostInput, UploadMediaSchema } from "@/shared/schemas";
 import z from "zod";
 import { api } from "@/features/shared/lib/api";
+import axios from "axios";
 
 const PostMediaField = ({ error, value, onChange }: {
   error?: Merge<FieldError, (FieldError | undefined)[]> | FieldError;
@@ -39,10 +40,6 @@ const PostMediaField = ({ error, value, onChange }: {
 
       const result = response.data;
 
-      if (!result.success) {
-        throw new Error(result.error.message);
-      }
-
       setMedia(prev => prev.map(fileUpload => {
         if (fileUpload.local.id === localId) {
           fileUpload.status = "ready";
@@ -71,7 +68,12 @@ const PostMediaField = ({ error, value, onChange }: {
         return fileUpload;
       }));
 
-      toast(error.message, { type: "error" });
+      const message = (axios.isAxiosError(error))
+        ? error.response?.data?.error?.message
+        : error?.message ||
+        "Something went wrong. Please try again";
+      
+      toast.error(message);
     }
   }
 
