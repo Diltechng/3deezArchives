@@ -1,7 +1,9 @@
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";
-import { mediaService, validatePostId, validateUploadMedia } from "@/modules/gallery";
+import { mediaService } from "@/modules/media/media.service";
+import { validateUploadMedia } from "@/modules/media/media.validation";
+import { validatePostId } from "@/modules/posts/posts.validation";
 import { NextResponse } from "next/server";
 import { withPermissionGuard } from "@/lib/api/permission-guard";
 import { PERMISSIONS } from "@/shared/constants/permissions";

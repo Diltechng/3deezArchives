@@ -1,6 +1,6 @@
 import { withErrorHandler } from "@/lib/api/error-handler";
 import { withInvitationGuard } from "@/lib/api/invitation-guard";
-import { invitationService } from "@/modules/invitation/invitation.service";
+import { invitationService } from "@/modules/invitations/invitation.service";
 import { ResponseData } from "@/shared/types/api";
 import { NextResponse } from "next/server";
 

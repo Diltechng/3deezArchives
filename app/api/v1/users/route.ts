@@ -1,13 +1,12 @@
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
-import { mailService } from "@/modules/mailing";
+import { mailService } from "@/modules/mailing/mail.service";
 import { usersService } from "@/modules/users/users.service";
 import { validateGetUsersQuery, validateInviteUser } from "@/modules/users/users.validation";
 import { NextResponse } from "next/server";
-import { UserRole } from "@/shared/constants/enums";
 import { ResponseData } from "@/shared/types/api";
 import { GetUsersResponse } from "@/shared/contracts/users";
-import { invitationService } from "@/modules/invitation/invitation.service";
+import { invitationService } from "@/modules/invitations/invitation.service";
 import { withPermissionGuard } from "@/lib/api/permission-guard";
 import { PERMISSIONS } from "@/shared/constants/permissions";
 
