@@ -20,7 +20,7 @@ export const GET = withErrorHandler(
     return NextResponse.json({
       success: true,
       message: "Successfully hit the home endpoint",
-      data: { ctx, user, count: ++i }
+      data: { ctx, user }
     }, { status: 200 });
   }, [UserRole.ADMIN, UserRole.STAFF])
 );
