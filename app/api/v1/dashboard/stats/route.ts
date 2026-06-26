@@ -1,5 +1,5 @@
-import { db } from "@/db";
-import { categories, posts, users } from "@/db/schema";
+import { db } from "@/modules/db";
+import { categories, posts, users } from "@/modules/db/schema";
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
 import { postsService } from "@/modules/posts/posts.service";

@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { db } from "@/modules/db";
 import { and, isNull, sql, SQL } from "drizzle-orm";
 import { PgTableWithColumns } from "drizzle-orm/pg-core";
 import { SoftDeleteInput } from "../types";
