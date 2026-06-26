@@ -1,7 +1,7 @@
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";
-import { categoriesService } from "@/modules/gallery";
+import { categoriesService } from "@/modules/categories/categories.service";
 import { NextResponse } from "next/server";
 import { withPermissionGuard } from "@/lib/api/permission-guard";
 import { PERMISSIONS } from "@/shared/constants/permissions";

@@ -4,7 +4,7 @@ import { ApiErrorCode, BadRequestError, ForbiddenError, InternalServerError, Not
 import { PostVisibility, UserRole } from "@/shared/constants/enums";
 import { and, asc, desc, eq, gte, ilike, inArray, isNull, lte, ne, or, sql } from "drizzle-orm";
 import { softDelete } from "../shared/helpers/soft-delete";
-import { CreateNewPostInput, DeleteOnePostInput, GetOnePostInput, GetPostsInput, GetPostsOutput, UpdateOnePostInput } from "./types";
+import { CreateNewPostInput, DeleteOnePostInput, GetOnePostInput, GetPostsInput, GetPostsOutput, UpdateOnePostInput } from "../media/types";
 
 class PostsService {
   async createNewPost(data: CreateNewPostInput) {

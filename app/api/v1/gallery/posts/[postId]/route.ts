@@ -1,7 +1,8 @@
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";
-import { postsService, validatePostId, validateUpdatePost } from "@/modules/gallery";
+import { postsService } from "@/modules/posts/posts.service";
+import { validatePostId, validateUpdatePost } from "@/modules/posts/posts.validation";
 import { NextResponse } from "next/server";
 import { withPermissionGuard } from "@/lib/api/permission-guard";
 import { PERMISSIONS } from "@/shared/constants/permissions";
