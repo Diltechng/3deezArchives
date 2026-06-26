@@ -216,7 +216,7 @@ const GalleryPage = () => {
           <PostsListView isLoading={isLoadingPosts} posts={postsData?.data} />
         }
       </div>
-      {postsData?.meta && 
+      {(postsData?.meta && (postsData.meta.pagination.hasNextPage || postsData.meta.pagination.hasPreviousPage)) && 
         <PaginationNav
           currentPage={currentPage}
           hasNextPage={postsData.meta.pagination.hasNextPage}

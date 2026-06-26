@@ -8,14 +8,15 @@ import { useEffect } from "react";
 const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const isAuthPage = pathname.startsWith("/auth");
-  const { isLoading, authStatus } = useAuth();
+  const { isLoading, authStatus, isWhiteListed } = useAuth();
+  const isAuthPage = pathname === "/auth" || pathname.startsWith("/auth/");
+  const isIndexPage = pathname === "/";
 
   useEffect(() => {
     if (!isLoading) {
-      if (authStatus === "authenticated" && (isAuthPage || pathname === "/")) {
+      if (authStatus === "authenticated" && (isAuthPage || isIndexPage)) {
         router.replace("/dashboard");
-      } else if (authStatus === "unauthenticated") {
+      } else if (authStatus === "unauthenticated" && !isWhiteListed(pathname)) {
         router.replace("/auth/signin");
       }
     }
@@ -23,17 +24,17 @@ const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
 
   if (isLoading ||
     ((authStatus === "unknown") ||
-    (authStatus === "unauthenticated" && !isAuthPage) ||
-    (authStatus === "authenticated" && (isAuthPage || pathname === "/")))
+    (authStatus === "unauthenticated" && !isWhiteListed(pathname)) ||
+    (authStatus === "authenticated" && (isAuthPage || isIndexPage)))
   ) {
     return (
-      <div className="flex w-full h-screen">
+      <div className="w-full h-screen">
         <LoadingState />
       </div>
     )
   }
 
-  return <>{children}</>;
+  return children;
 }
 
 export default ProtectedPage;

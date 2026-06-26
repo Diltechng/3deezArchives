@@ -45,9 +45,7 @@ const PostDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-1">
-        <LoadingState />
-      </div>
+      <LoadingState />
     )
   }
 

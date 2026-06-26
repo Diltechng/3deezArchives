@@ -1,7 +1,9 @@
-import { Loader2 } from "lucide-react";
+import LoadingSpinner from "./LoadingSpinner";
 
 const LoadingState = () => (
-  <Loader2 className="m-auto w-10 h-10 text-accent animate-spin" />
+  <div className="flex justify-center items-center h-full w-full">
+    <LoadingSpinner />
+  </div>
 );
 
 export default LoadingState;

@@ -44,10 +44,7 @@ export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus];
 export const InvitationStatus = {
   PENDING: "pending",
   ACCEPTED: "accepted",
-  REJECTED: "rejected",
-  EXPIRED: "expired",
   REVOKED: "revoked",
-  COMPLETED: "completed",
 } as const;
 
 export const InvitationStatusValues = Object.values(InvitationStatus) as [

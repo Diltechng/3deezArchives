@@ -16,6 +16,7 @@ export enum ApiErrorCode {
   INVALID_CREDENTIALS = "INVALID_CREDENTIALS",
   INVALID_USER_CREATION_DATA = "INVALID_USER_CREATION_DATA",
   INVALID_INVITATION = "INVALID_INVITATION",
+  INVALID_INVITATION_TOKEN = "INVALID_INVITATION_TOKEN",
   INVALID_FILE = "INVALID_FILE",
   INVALID_MEDIA_ID = "INVALID_MEDIA_ID",
   INVALID_DELETE_MEDIA_DATA = "INVALID_DELETE_MEDIA_DATA",
@@ -41,6 +42,8 @@ export enum ApiErrorCode {
   USER_NOT_FOUND = "USER_NOT_FOUND",
   INSUFFICIENT_PERMISSIONS = "INSUFFICIENT_PERMISSIONS",
   INVITATION_NOT_ACCEPTED = "INVITATION_NOT_ACCEPTED",
+  INVITATION_ALREADY_USED = "INVITATION_ALREADY_USED",
+  INVITATION_REVOKED = "INVITATION_REVOKED",
   NO_MEDIA_PROVIDED = "NO_MEDIA_PROVIDED",
   MEDIA_UPLOAD_ERROR = "IMAGE_UPLOAD_ERROR",
   MEDIA_NOT_FOUND = "MEDIA_NOT_FOUND",
@@ -101,6 +104,16 @@ export class UnauthorizedError extends ApiError {
   constructor(message: string, options?: ErrorOptions) {
     super(message, {
       statusCode: 401,
+      code: options?.code,
+      details: options?.details
+    });
+  }
+}
+
+export class GoneError extends ApiError {
+  constructor(message: string, options?: ErrorOptions) {
+    super(message, {
+      statusCode: 410,
       code: options?.code,
       details: options?.details
     });

@@ -1,0 +1,1 @@
+export const INVITATION_TOKEN_HEADER="X-Invitation-Token";

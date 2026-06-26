@@ -1,4 +1,6 @@
+import { ClassValue } from "clsx";
 import BackgroundOverlay from "./BackgroundOverlay";
+import { cn } from "../lib/utils";
 
 interface FormModalProps {
   title: string;
@@ -24,13 +26,14 @@ const FormModal = ({ title, subtitle, children }: FormModalProps) => {
   );
 }
 
-export const SubmitButton = ({ title, disabled=false }: {
+export const SubmitButton = ({ title, disabled=false, className }: {
   title?: string;
   disabled?: boolean;
+  className?: ClassValue;
 }) => (
   <button
     type="submit"
-    className="button-primary disabled:bg-neutral-800"
+    className={cn("button-primary disabled:bg-neutral-800", className)}
     disabled={disabled}
   >
     {title ?? "Submit"}

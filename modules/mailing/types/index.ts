@@ -1,5 +1,8 @@
 export interface SendVerificationEmailInput {
-  email: string;
+  inviteeEmail: string;
+  inviteeRole: string;
   otp: string;
-  invitationToken: string;
+  inviterEmail: string;
+  inviterName: string;
+  invitationJwt: string;
 }

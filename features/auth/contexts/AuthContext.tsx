@@ -3,9 +3,9 @@
 import { api } from "@/features/shared/lib/api";
 import { SignInInput } from "@/shared/schemas";
 import axios from "axios";
-import { usePathname, useRouter } from "next/navigation";
-import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
-import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { createContext, useCallback, useEffect, useRef, useState } from "react";
+import { ROUTE_WHITELIST } from "../constants";
 
 type AuthStatus =
   | "unknown"
@@ -17,6 +17,7 @@ type AuthContextType = {
   authStatus: AuthStatus;
   isAuthenticated: boolean;
   accessToken: string | null;
+  isWhiteListed: (pathname: string) => boolean;
   clearSession: () => void;
   refresh: () => Promise<string>;
   signin: (data: SignInInput) => Promise<void>;
@@ -33,7 +34,6 @@ export const AuthProvider = ({ children }: Readonly<{
   const [authStatus, setAuthStatus] = useState<AuthStatus>("unknown");
   const refreshPromiseRef = useRef<Promise<string> | null>(null);
   const router = useRouter();
-  const pathname = usePathname();
 
   function clearSession() {
     setAccessToken(null);
@@ -43,6 +43,18 @@ export const AuthProvider = ({ children }: Readonly<{
   function setSession(accessToken: string,) {
     setAccessToken(accessToken);
     setAuthStatus("authenticated")
+  }
+
+  function isWhiteListed(pathname: string) {
+    return ROUTE_WHITELIST.some(route => {
+      if (route.endsWith("/*")) {
+        const baseRoute = route.slice(0, -2);
+
+        return baseRoute === pathname || pathname.startsWith(baseRoute + "/");
+      }
+
+      return route === pathname;
+    });
   }
 
   const refresh = useCallback(async () => {
@@ -154,6 +166,7 @@ export const AuthProvider = ({ children }: Readonly<{
     refresh,
     signin,
     signout,
+    isWhiteListed,
     authStatus,
   };
 

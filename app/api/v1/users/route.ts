@@ -7,6 +7,7 @@ import { NextResponse } from "next/server";
 import { UserRole } from "@/shared/constants/enums";
 import { ResponseData } from "@/shared/types/api";
 import { GetUsersResponse } from "@/shared/contracts/users";
+import { invitationService } from "@/modules/invitation/invitation.service";
 
 export const GET = withErrorHandler(
   withAuthGuard(async req => {
@@ -44,17 +45,28 @@ export const GET = withErrorHandler(
 );
 
 export const POST = withErrorHandler(
-  withAuthGuard(async req => {
+  withAuthGuard(async (req, ctx) => {
     const body = await req.json();
 
     const validatedData = validateInviteUser(body);
 
-    const { otp, invitationToken } = await usersService.inviteUser(validatedData);
+    const { otp, invitationToken, inviter, invitationId } = await usersService.inviteUser({
+      invitee: validatedData,
+      inviter: { userId: ctx.user.userId }
+    });
+
+    const invitationJwt = invitationService.signInvitationJwt({
+      invitationId,
+      invitationToken,
+    });
     
     await mailService.sendVerificationEmail({
-      email: validatedData.email,
-      invitationToken,
+      inviteeEmail: validatedData.email,
+      inviteeRole: validatedData.role,
+      invitationJwt,
       otp,
+      inviterEmail: inviter.email,
+      inviterName: inviter.name ?? inviter.email,
     });
     
     return NextResponse.json<ResponseData>({
