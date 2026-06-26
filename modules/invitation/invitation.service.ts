@@ -19,6 +19,7 @@ class InvitationService {
         status: invitations.status,
         tokenHash: invitations.tokenHash,
         expiresAt: invitations.expiresAt,
+        invitedBy: invitations.invitedBy,
       })
       .from(invitations)
       .where(eq(invitations.id, data.invitationId));
