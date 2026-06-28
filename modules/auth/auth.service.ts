@@ -1,6 +1,6 @@
-import { db } from "@/modules/db";
+import { db } from "@/db";
 import { eq, sql } from "drizzle-orm";
-import { invitations, users } from "@/modules/db/schema";
+import { invitations, users } from "@/db/schema";
 import { sha256Hash } from "@/lib/crypto";
 import { AccountAlreadyExistsError, ApiErrorCode, BadRequestError, ExpiredError, ForbiddenError, UnauthorizedError, VerificationError } from "@/lib/errors";
 import { SetPasswordInput, VerifyEmailInput } from "@/shared/schemas";

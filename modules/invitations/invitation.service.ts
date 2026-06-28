@@ -1,5 +1,5 @@
-import { db } from "@/modules/db";
-import { invitations, users } from "@/modules/db/schema";
+import { db } from "@/db";
+import { invitations, users } from "@/db/schema";
 import { sha256Hash } from "@/lib/crypto";
 import { AccountAlreadyExistsError, ApiErrorCode, BadRequestError, ConflictError, ExpiredError, GoneError, InternalServerError, NotFoundError, VerificationError } from "@/lib/errors";
 import { eq, sql } from "drizzle-orm";

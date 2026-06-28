@@ -1,6 +1,6 @@
-import { db } from "@/modules/db";
+import { db } from "@/db";
 import { and, asc, count, desc, eq, gt, gte, ilike, lte, or, sql } from "drizzle-orm";
-import { users, invitations, posts } from "@/modules/db/schema";
+import { users, invitations, posts } from "@/db/schema";
 import { generateInvitationToken, generateOTP, sha256Hash } from "@/lib/crypto";
 import { AccountAlreadyExistsError, ApiErrorCode, ConflictError, NotFoundError } from "@/lib/errors";
 import { days } from "@/modules/utils/time";

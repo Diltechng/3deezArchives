@@ -1,5 +1,5 @@
-import { db } from "@/modules/db";
-import { media, posts } from "@/modules/db/schema";
+import { db } from "@/db";
+import { media, posts } from "@/db/schema";
 import { cloudinary } from "@/lib/cloudinary";
 import { ApiErrorCode, ConflictError, ForbiddenError, InternalServerError, MediaNotFoundError, NotFoundError } from "@/lib/errors";
 import { UploadApiResponse } from "cloudinary";

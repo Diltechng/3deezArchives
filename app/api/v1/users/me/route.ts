@@ -1,5 +1,5 @@
-import { db } from "@/modules/db";
-import { users } from "@/modules/db/schema";
+import { db } from "@/db";
+import { users } from "@/db/schema";
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";

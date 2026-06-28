@@ -1,5 +1,5 @@
-import { db } from "@/modules/db";
-import { categories, media, posts } from "@/modules/db/schema";
+import { db } from "@/db";
+import { categories, media, posts } from "@/db/schema";
 import { ApiErrorCode, BadRequestError, ForbiddenError, InternalServerError, NotFoundError } from "@/lib/errors";
 import { PostVisibility, UserRole } from "@/shared/constants/enums";
 import { and, asc, desc, eq, gte, ilike, inArray, isNull, lte, ne, or, sql } from "drizzle-orm";

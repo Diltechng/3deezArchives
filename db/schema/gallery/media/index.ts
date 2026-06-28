@@ -1,6 +1,6 @@
 import { integer, pgTable, text, timestamp, unique, uuid, varchar } from "drizzle-orm/pg-core";
-import { users, posts } from "@/modules/db/schema";
-import { timestamps } from "@/modules/db/schema/shared";
+import { users, posts } from "@/db/schema";
+import { timestamps } from "@/db/schema/shared";
 import { relations } from "drizzle-orm";
 
 export const media = pgTable("media", {

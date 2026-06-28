@@ -1,8 +1,8 @@
 import { ApiErrorCode, ExpiredError, InternalServerError, VerificationError } from "@/lib/errors";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-import { db } from "@/modules/db";
-import { sessions, users } from "@/modules/db/schema";
+import { db } from "@/db";
+import { sessions, users } from "@/db/schema";
 import { sha256Hash } from "@/lib/crypto";
 import { days } from "@/modules/utils/time";
 import { eq, sql } from "drizzle-orm";
