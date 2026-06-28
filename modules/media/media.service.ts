@@ -1,12 +1,13 @@
 import { db } from "@/db";
 import { media, posts } from "@/db/schema";
 import { cloudinary } from "@/lib/cloudinary";
-import { ConflictError, ForbiddenError, InternalServerError, MediaNotFoundError } from "@/lib/errors";
+import { ConflictError, ForbiddenError, InternalServerError } from "@/lib/errors";
+import { MediaNotFoundError } from "./media.errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { UploadApiResponse } from "cloudinary";
 import { and, desc, eq, inArray, isNull } from "drizzle-orm";
 import { softDelete } from "../shared/helpers/soft-delete";
-import { DeleteFilesInput, DeleteOneFileInput, UploadFileInput } from "./types";
+import { DeleteFilesInput, DeleteOneFileInput, UploadFileInput } from "./media.types";
 
 
 export const mediaSelect = {

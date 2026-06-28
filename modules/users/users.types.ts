@@ -1,12 +1,5 @@
-import { GetUsersQueryInput, InviteUserInput as ZodInviteUserInput } from "@/shared/schemas";
+import { GetUsersQueryInput } from "@/shared/schemas";
 import { GetUsersMeta, UserListItem } from "@/shared/contracts/users";
-
-export interface InviteUserInput {
-  invitee: ZodInviteUserInput;
-  inviter: {
-    userId: string;
-  }
-}
 
 export interface GetUsersInput {
   filters: GetUsersQueryInput;

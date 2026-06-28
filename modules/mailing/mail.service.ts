@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { SendVerificationEmailInput } from "./types";
+import { SendVerificationEmailInput } from "./mailing.types";
 import { renderCompanyInviteEmail } from "@/modules/utils/email";
 
 
