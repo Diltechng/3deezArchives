@@ -1,4 +1,4 @@
-import { days } from "@/modules/utils/time";
+import { days } from "@/shared/utils/time";
 import { cookies } from "next/headers";
 
 export async function setRefreshTokenCookie(refreshToken: string) {
