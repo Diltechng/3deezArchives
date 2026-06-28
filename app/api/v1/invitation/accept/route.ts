@@ -1,7 +1,7 @@
 import { withErrorHandler } from "@/lib/api/error-handler"
 import { withInvitationGuard } from "@/lib/api/invitation-guard"
-import { invitationService } from "@/modules/invitations/invitation.service";
-import { validateAcceptInvite } from "@/modules/invitations/invitation.validation";
+import { invitationsService } from "@/modules/invitations/invitations.service";
+import { validateAcceptInvite } from "@/modules/invitations/invitations.validation";
 import { ResponseData } from "@/shared/types/api";
 import { NextResponse } from "next/server";
 
@@ -12,7 +12,7 @@ export const POST = withErrorHandler(
 
     const validatedData = validateAcceptInvite(body);
 
-    await invitationService.acceptInvite({
+    await invitationsService.acceptInvite({
       invitationId,
       invitationToken,
       name: validatedData.name,
