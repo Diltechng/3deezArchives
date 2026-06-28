@@ -1,16 +1,79 @@
 import { db } from "@/db";
 import { invitations, users } from "@/db/schema";
-import { sha256Hash } from "@/lib/crypto";
-import { AccountAlreadyExistsError, BadRequestError, ConflictError, GoneError, InternalServerError, NotFoundError } from "@/lib/errors";
+import { generateInvitationToken, generateOTP, sha256Hash } from "@/lib/crypto";
+import { BadRequestError, ConflictError, GoneError, InternalServerError, NotFoundError } from "@/lib/errors";
+import { AccountAlreadyExistsError } from "./invitations.errors";
+import { InvitationJwtPayload, InviteUserInput } from "./invitations.types";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
-import { eq, sql } from "drizzle-orm";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
-import { InvitationJwtPayload } from "./types";
+import { and, eq, gt, sql } from "drizzle-orm";
 import { DUMMY_TOKEN_HASH } from "@/lib/constants";
 import { AcceptInviteInput } from "@/shared/schemas";
+import { days } from "../utils/time";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
-class InvitationService {
+class InvitationsService {
+  async inviteUser(data: InviteUserInput) {
+    const saltRounds = 10;
+    const otp = generateOTP();
+    const otpHash = await bcrypt.hash(otp, saltRounds);
+    const invitationToken = generateInvitationToken();
+    const tokenHash = sha256Hash(invitationToken);
+
+    const [inviter] = await db.select({
+      name: users.name,
+      email: users.email,
+    }).from(users)
+    .where(eq(users.id, data.inviter.userId));
+
+    if (!inviter) {
+      throw new NotFoundError("Inviter is not or no longer a member of the archive.", {
+        code: ApiErrorCode.USER_NOT_FOUND
+      });
+    }
+  
+    const [existingUser] = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(eq(users.email, data.invitee.email));
+
+    if (existingUser)
+      throw AccountAlreadyExistsError();
+
+    const [existingInvite] = await db
+      .select({ id: invitations.id })
+      .from(invitations)
+      .where(and(
+        eq(invitations.email, data.invitee.email),
+        eq(invitations.status, "pending"),
+        gt(invitations.expiresAt, sql`now()`)
+      )).limit(1);
+
+    if (existingInvite)
+      throw new ConflictError("A pending invitation for this email already exists", {
+        code: ApiErrorCode.PENDING_INVITATION_EXISTS
+      });
+
+    const [result] = await db
+      .insert(invitations)
+      .values({
+        email: data.invitee.email,
+        ...(data.invitee.role && {
+          role: data.invitee.role
+        }),
+        tokenHash,
+        otpHash,
+        expiresAt: new Date(Date.now() + days(1)),
+      }).returning({ id: invitations.id });
+
+    return {
+      otp,
+      invitationToken,
+      invitationId: result.id,
+      inviter
+    };
+  }
+
   async verifyInvitation(data: InvitationJwtPayload) {
     const [storedInvitation] = await db
       .select({
@@ -123,4 +186,4 @@ class InvitationService {
   }
 }
 
-export const invitationService = new InvitationService();
+export const invitationsService = new InvitationsService();

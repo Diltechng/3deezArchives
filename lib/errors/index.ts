@@ -1,4 +1,3 @@
-export * from "./errors";
 export * from "./base/ApiError";
 export * from "./http/BadRequestError";
 export * from "./http/UnauthorizedError";
