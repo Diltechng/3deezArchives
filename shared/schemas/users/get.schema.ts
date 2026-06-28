@@ -1,7 +1,6 @@
 import z from "zod";
-import { DateFilterSchema, LimitSchema, PageSchema, SearchSchema } from "../shared/filters";
-import { UserRoleValues, UserStatusValues } from "@/shared/constants/enums";
-import { RoleSchema, UserStatusSchema } from "../shared";
+import { DateFilterSchema, LimitSchema, PageSchema, SearchSchema } from "../search-and-filters";
+import { RoleSchema, UserStatusSchema } from ".";
 
 export const GetUsersQuerySchema = z.object({
   page: PageSchema,

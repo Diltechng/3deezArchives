@@ -1,5 +1,5 @@
 import z from "zod";
-import { PostVisibilitySchema } from "../shared";
+import { PostVisibilitySchema } from ".";
 
 export const GetPostsQuerySchema = z.object({
   page: z.coerce.number("Limit must be a valid number.")
