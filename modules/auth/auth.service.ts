@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { eq } from "drizzle-orm";
 import { invitations, users } from "@/db/schema";
 import { sha256Hash } from "@/lib/crypto";
-import { ExpiredError, UnauthorizedError, VerificationError } from "@/lib/errors";
+import { GoneError, UnauthorizedError, BadRequestError } from "@/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { VerifyEmailInput } from "@/shared/schemas";
 import { SignInInput } from "@/shared/schemas";
@@ -25,7 +25,7 @@ class AuthService {
       .where(eq(invitations.tokenHash, invitationTokenHash));
 
     if (!invitationRecord)
-      throw new VerificationError("Invalid or expired invite", {
+      throw new BadRequestError("Invalid or expired invite", {
         code: ApiErrorCode.INVALID_INVITATION
       });
 
@@ -43,13 +43,13 @@ class AuthService {
       //   status: "expired",
       // }).where(eq(invitations.id, invitationRecord.id));
 
-      throw new ExpiredError("Invite session has expired", {
+      throw new GoneError("Invite session has expired", {
         code: ApiErrorCode.EXPIRED_INVITATION
       });
     }
 
     if (invitationRecord.emailVerified)
-      throw new VerificationError("This email has already been verified", {
+      throw new BadRequestError("This email has already been verified", {
         code: ApiErrorCode.EMAIL_ALREADY_VERIFIED
       });
 
@@ -57,7 +57,7 @@ class AuthService {
     
 
     if (!match)
-      throw new VerificationError("Invalid verification code", {
+      throw new BadRequestError("Invalid verification code", {
         code: ApiErrorCode.INVALID_VERIFICATION_TOKEN
       });
 
