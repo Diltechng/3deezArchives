@@ -1,4 +1,4 @@
-import { ValidationError } from "@/lib/errors";
+import { BadRequestError } from "@/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { CreatePostSchema, GetPostsQuerySchema, PostIdSchema, UpdatePostSchema } from "@/shared/schemas";
 import z from "zod";
@@ -9,7 +9,7 @@ export function validateCreatePost(data: unknown) {
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
-    throw new ValidationError("Invalid or malformed create post data", {
+    throw new BadRequestError("Invalid or malformed create post data", {
       code: ApiErrorCode.INVALID_CREATE_POST_DATA,
       details: flattenedError
     });
@@ -24,7 +24,7 @@ export function validatePostId(data: unknown) {
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).formErrors;
     
-    throw new ValidationError("Invalid post ID", {
+    throw new BadRequestError("Invalid post ID", {
       code: ApiErrorCode.INVALID_POST_ID,
       details: flattenedError
     });
@@ -39,7 +39,7 @@ export function validateUpdatePost(data: unknown) {
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
-    throw new ValidationError("Invalid or malformed update post data", {
+    throw new BadRequestError("Invalid or malformed update post data", {
       code: ApiErrorCode.INVALID_UPDATE_POST_DATA,
       details: flattenedError
     });
@@ -55,7 +55,7 @@ export function validateGetPostsQuery(data: unknown) {
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
-    throw new ValidationError("Invalid or malformed get posts query", {
+    throw new BadRequestError("Invalid or malformed get posts query", {
       code: ApiErrorCode.INVALID_FETCH_QUERY,
       details: flattenedError
     });

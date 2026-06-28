@@ -1,5 +1,5 @@
 import z from "zod";
-import { ValidationError } from "@/lib/errors";
+import { BadRequestError } from "@/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { AccessTokenPayloadSchema, SignUpSchema } from "@/shared/schemas";
 import { SignInSchema } from "@/shared/schemas";
@@ -11,7 +11,7 @@ export function validateSignIn(data: unknown) {
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
-    throw new ValidationError("Invalid sign in data", {
+    throw new BadRequestError("Invalid sign in data", {
       code: ApiErrorCode.INVALID_SIGNIN_DATA,
       details: flattenedError
     });
@@ -26,7 +26,7 @@ export function validateSignUp(data: unknown) {
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
-    throw new ValidationError("Invalid sign up data", {
+    throw new BadRequestError("Invalid sign up data", {
       code: ApiErrorCode.INVALID_SIGNUP_DATA,
       details: flattenedError
     });
@@ -41,7 +41,7 @@ export function validateAccessTokenPayload(data: unknown) {
     if (!result.success) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
-    throw new ValidationError("Invalid or malformed access token", {
+    throw new BadRequestError("Invalid or malformed access token", {
       code: ApiErrorCode.INVALID_ACCESS_TOKEN,
       details: flattenedError
     });
