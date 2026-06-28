@@ -1,5 +1,6 @@
 import z from "zod";
-import { ApiErrorCode, ValidationError } from "@/lib/errors";
+import { ValidationError } from "@/lib/errors";
+import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { VerifyEmailSchema } from "@/shared/schemas";
 import { ResendVerificationSchema } from "@/shared/schemas";
 

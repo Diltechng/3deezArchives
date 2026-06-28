@@ -3,9 +3,10 @@ import { users } from "@/db/schema";
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";
-import { ApiErrorCode, NotFoundError } from "@/lib/errors";
+import { NotFoundError } from "@/lib/errors";
+import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { UserRole } from "@/shared/constants/enums";
-import { eq, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = withErrorHandler(

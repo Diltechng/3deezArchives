@@ -1,6 +1,6 @@
 import { AccessTokenPayload, InvitationJwtPayloadInput } from "@/shared/schemas";
 import { NextResponse } from "next/server";
-import { ApiErrorCode } from "@/lib/errors";
+import { ApiErrorCode } from "@/shared/errors/error-codes";
 
 export type ApiResponse =
   | NextResponse
