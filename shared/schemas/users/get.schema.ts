@@ -1,5 +1,5 @@
 import z from "zod";
-import { DateFilterSchema, LimitSchema, PageSchema, SearchSchema } from "../search-and-filters";
+import { DateFilterSchema, LimitSchema, PageSchema, SearchSchema } from "../query";
 import { RoleSchema, UserStatusSchema } from ".";
 
 export const GetUsersQuerySchema = z.object({
