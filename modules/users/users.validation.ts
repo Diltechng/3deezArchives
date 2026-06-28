@@ -1,4 +1,4 @@
-import { ValidationError } from "@/lib/errors";
+import { BadRequestError } from "@/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { InviteUserSchema } from "@/shared/schemas";
 import { GetUsersQuerySchema } from "@/shared/schemas/user/get-users-query.schema";
@@ -10,7 +10,7 @@ export function validateInviteUser(data: unknown) {
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
-    throw new ValidationError("Invalid user creation data", {
+    throw new BadRequestError("Invalid user creation data", {
       code: ApiErrorCode.INVALID_USER_CREATION_DATA,
       details: flattenedError
     });
@@ -25,7 +25,7 @@ export function validateGetUsersQuery(data: unknown) {
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
-    throw new ValidationError("Invalid or malformed get users query", {
+    throw new BadRequestError("Invalid or malformed get users query", {
       code: ApiErrorCode.INVALID_FETCH_QUERY,
       details: flattenedError
     });
