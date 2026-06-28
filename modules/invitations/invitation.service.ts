@@ -1,7 +1,8 @@
 import { db } from "@/db";
 import { invitations, users } from "@/db/schema";
 import { sha256Hash } from "@/lib/crypto";
-import { AccountAlreadyExistsError, ApiErrorCode, BadRequestError, ConflictError, ExpiredError, GoneError, InternalServerError, NotFoundError, VerificationError } from "@/lib/errors";
+import { AccountAlreadyExistsError, BadRequestError, ConflictError, ExpiredError, GoneError, InternalServerError, NotFoundError } from "@/lib/errors";
+import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { eq, sql } from "drizzle-orm";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
