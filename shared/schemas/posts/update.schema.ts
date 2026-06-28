@@ -1,5 +1,7 @@
 import z from "zod";
-import { CategoryIdSchema, CoverMediaIdSchema, PostDateOfMomentSchema, PostDescriptionSchema, PostTagsSchema, PostTitleSchema, PostVisibilitySchema } from "../shared";
+import { CoverMediaIdSchema } from "../media";
+import { CategoryIdSchema } from "../categories";
+import { PostDateOfMomentSchema, PostDescriptionSchema, PostTagsSchema, PostTitleSchema, PostVisibilitySchema } from ".";
 
 export const UpdatePostSchema = z.object({
   title: PostTitleSchema.optional(),

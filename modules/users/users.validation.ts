@@ -1,7 +1,7 @@
 import { BadRequestError } from "@/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { InviteUserSchema } from "@/shared/schemas";
-import { GetUsersQuerySchema } from "@/shared/schemas/user/get-users-query.schema";
+import { GetUsersQuerySchema } from "@/shared/schemas/users/get.schema";
 import z from "zod";
 
 export function validateInviteUser(data: unknown) {
