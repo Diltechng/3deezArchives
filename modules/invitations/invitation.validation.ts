@@ -1,4 +1,4 @@
-import { ValidationError } from "@/lib/errors";
+import { BadRequestError } from "@/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { AcceptInviteSchema, InvitationJwtPayloadSchema } from "@/shared/schemas";
 import z from "zod";
@@ -9,7 +9,7 @@ export function validateInvitationJwtPayload(data: unknown) {
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
-    throw new ValidationError("Invalid or malformed invitation token", {
+    throw new BadRequestError("Invalid or malformed invitation token", {
       code: ApiErrorCode.INVALID_FETCH_QUERY,
       details: flattenedError
     });
@@ -24,7 +24,7 @@ export function validateAcceptInvite(data: unknown) {
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
-    throw new ValidationError("Invalid or malformed invite acceptance data.", {
+    throw new BadRequestError("Invalid or malformed invite acceptance data.", {
       details: flattenedError
     });
   }

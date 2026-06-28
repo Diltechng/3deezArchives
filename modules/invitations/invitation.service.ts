@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { invitations, users } from "@/db/schema";
 import { sha256Hash } from "@/lib/crypto";
-import { AccountAlreadyExistsError, BadRequestError, ConflictError, ExpiredError, GoneError, InternalServerError, NotFoundError } from "@/lib/errors";
+import { AccountAlreadyExistsError, BadRequestError, ConflictError, GoneError, InternalServerError, NotFoundError } from "@/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { eq, sql } from "drizzle-orm";
 import jwt from "jsonwebtoken";
@@ -52,7 +52,7 @@ class InvitationService {
     }
 
     if (new Date() >= storedInvitation.expiresAt) {
-      throw new ExpiredError("This invitation has expired", {
+      throw new GoneError("This invitation has expired", {
         code: ApiErrorCode.EXPIRED_INVITATION
       });
     }
