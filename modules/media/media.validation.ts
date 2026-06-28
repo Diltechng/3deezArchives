@@ -1,4 +1,5 @@
-import { ApiErrorCode, ValidationError } from "@/lib/errors";
+import { ValidationError } from "@/lib/errors";
+import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { DeleteMediaSchema, MediaIdSchema } from "@/shared/schemas";
 import { UploadMediaSchema } from "@/shared/schemas";
 import z from "zod";
