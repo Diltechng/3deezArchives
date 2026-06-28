@@ -11,7 +11,6 @@ sha256Hash.compare = (data: string, expectedHash: string) => {
   const bufB = Buffer.from(expectedHash, "hex");
 
   if (bufA.length !== bufB.length) {
-    crypto.timingSafeEqual(bufA, bufB);
     return false;
   }
 
