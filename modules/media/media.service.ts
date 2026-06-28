@@ -1,7 +1,8 @@
 import { db } from "@/db";
 import { media, posts } from "@/db/schema";
 import { cloudinary } from "@/lib/cloudinary";
-import { ApiErrorCode, ConflictError, ForbiddenError, InternalServerError, MediaNotFoundError, NotFoundError } from "@/lib/errors";
+import { ConflictError, ForbiddenError, InternalServerError, MediaNotFoundError } from "@/lib/errors";
+import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { UploadApiResponse } from "cloudinary";
 import { and, desc, eq, inArray, isNull } from "drizzle-orm";
 import { softDelete } from "../shared/helpers/soft-delete";

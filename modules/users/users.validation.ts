@@ -1,4 +1,5 @@
-import { ApiErrorCode, ValidationError } from "@/lib/errors";
+import { ValidationError } from "@/lib/errors";
+import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { InviteUserSchema } from "@/shared/schemas";
 import { GetUsersQuerySchema } from "@/shared/schemas/user/get-users-query.schema";
 import z from "zod";

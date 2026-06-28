@@ -1,6 +1,7 @@
 import z from "zod";
-import { ApiErrorCode, ValidationError } from "@/lib/errors";
-import { AccessTokenPayloadSchema, SetPasswordSchema, SignUpSchema } from "@/shared/schemas";
+import { ValidationError } from "@/lib/errors";
+import { ApiErrorCode } from "@/shared/errors/error-codes";
+import { AccessTokenPayloadSchema, SignUpSchema } from "@/shared/schemas";
 import { SignInSchema } from "@/shared/schemas";
 
 
@@ -27,20 +28,6 @@ export function validateSignUp(data: unknown) {
 
     throw new ValidationError("Invalid sign up data", {
       code: ApiErrorCode.INVALID_SIGNUP_DATA,
-      details: flattenedError
-    });
-  }
-
-  return result.data;
-}
-
-export function validateSetPassword(data: unknown) {
-  const result = SetPasswordSchema.safeParse(data);
-
-  if (!result.success) {
-    const flattenedError = z.flattenError(result.error).fieldErrors;
-
-    throw new ValidationError("Invalid or malformed password data", {
       details: flattenedError
     });
   }

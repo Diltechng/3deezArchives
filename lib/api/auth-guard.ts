@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { ApiResponse, AuthReqContext, RouteContext } from "../../shared/types/api";
-import { ApiErrorCode, ForbiddenError, UnauthorizedError } from "../errors";
+import { ForbiddenError, UnauthorizedError } from "../errors";
+import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { sessionService } from "@/modules/sessions/session.service"
 import { validateAccessTokenPayload } from "@/modules/auth/auth.validation";
 
