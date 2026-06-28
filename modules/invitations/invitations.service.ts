@@ -8,7 +8,7 @@ import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { and, eq, gt, sql } from "drizzle-orm";
 import { DUMMY_TOKEN_HASH } from "@/lib/constants";
 import { AcceptInviteInput } from "@/shared/schemas";
-import { days } from "../utils/time";
+import { days } from "../../shared/utils/time";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
