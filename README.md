@@ -28,7 +28,7 @@ A web application for storing, organizing, and viewing company event records and
       ```bash
       docker compose up --build
       ```
-    - See the [Docker compose file](compose.yaml) and the [Docker file](Dockerfile)
+    - See the [Docker compose file](compose.yaml) and the [Docker file](Dockerfile.dev)
     - Run database migration:
       ```bash
       docker compose run app npm run db:migrate
