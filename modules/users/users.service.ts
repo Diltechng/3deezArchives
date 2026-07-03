@@ -3,7 +3,7 @@ import { and, asc, count, desc, eq, gt, gte, ilike, lte, or, sql } from "drizzle
 import { users, invitations, posts } from "@/db/schema";
 import { generateInvitationToken, generateOTP, sha256Hash } from "@/lib/crypto";
 import { AccountAlreadyExistsError, ApiErrorCode, ConflictError, NotFoundError } from "@/lib/errors";
-import { days } from "@/utils/time";
+import { days } from "@/modules/utils/time";
 import bcrypt from "bcrypt";
 import { GetUsersInput, GetUsersOutput, InviteUserInput } from "./types";
 
