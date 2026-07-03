@@ -1,8 +1,8 @@
 import { NextRequest } from "next/server";
 import { ApiResponse, InvitationReqContext, RouteContext } from "../../shared/types/api";
 import { ApiErrorCode, VerificationError } from "../errors";
-import { invitationService } from "@/modules/invitation/invitation.service";
-import { validateInvitationJwtPayload } from "@/modules/invitation/invitation.validation";
+import { invitationService } from "@/modules/invitations/invitation.service";
+import { validateInvitationJwtPayload } from "@/modules/invitations/invitation.validation";
 import { INVITATION_TOKEN_HEADER } from "@/shared/constants";
 
 export function withInvitationGuard<TParams>(handler: (req: NextRequest, context: InvitationReqContext<TParams>) => ApiResponse) {

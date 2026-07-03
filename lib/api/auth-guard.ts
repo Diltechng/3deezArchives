@@ -1,7 +1,8 @@
 import { NextRequest } from "next/server";
 import { ApiResponse, AuthReqContext, RouteContext } from "../../shared/types/api";
 import { ApiErrorCode, ForbiddenError, UnauthorizedError } from "../errors";
-import { sessionService, validateAccessTokenPayload } from "@/modules/auth";
+import { sessionService } from "@/modules/sessions/session.service"
+import { validateAccessTokenPayload } from "@/modules/auth/auth.validation";
 
 export function withAuthGuard<TParams>(handler: (req: NextRequest, context: AuthReqContext<TParams>) => ApiResponse, allowedRoles?: string[]) {
   return async (req: NextRequest, context: RouteContext<TParams>) => {
