@@ -3,7 +3,7 @@
 import ContentHeader from "@/features/shared/components/ContentHeader"
 import { api } from "@/features/shared/lib/api";
 import { cn } from "@/features/shared/lib/utils";
-import { getTimeAgo } from "@/modules/utils/time";
+import { getTimeAgo } from "@/shared/utils/time";
 import { useQuery } from "@tanstack/react-query";
 import { ClassValue } from "clsx";
 import Link from "next/link";
