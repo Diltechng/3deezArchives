@@ -38,7 +38,7 @@ A web application for storing, organizing, and viewing company event records and
       docker compose run app npm run db:seed
       ```
 
-4. Run services locally
+4. Run services locally (alternative)
     - Install dependencies
       ```bash
       npm install
