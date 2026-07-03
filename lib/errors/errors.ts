@@ -1,4 +1,5 @@
-import { ApiErrorCode, ConflictError, NotFoundError } from ".";
+import { ConflictError, NotFoundError } from ".";
+import { ApiErrorCode } from "@/shared/errors/error-codes";
 
 export function AccountAlreadyExistsError() {
   return new ConflictError("An account with this email already exists", {

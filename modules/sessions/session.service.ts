@@ -1,4 +1,5 @@
-import { ApiErrorCode, ExpiredError, InternalServerError, VerificationError } from "@/lib/errors";
+import { ExpiredError, InternalServerError, VerificationError } from "@/lib/errors";
+import { ApiErrorCode } from "@/shared/errors/error-codes";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { db } from "@/db";
