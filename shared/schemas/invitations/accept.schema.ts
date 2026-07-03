@@ -1,5 +1,5 @@
 import z from "zod";
-import { PasswordSchema } from "../shared";
+import { PasswordSchema } from "../users";
 
 export const AcceptInviteSchema = z.object({
   name: z
