@@ -1,75 +1,9 @@
 import { db } from "@/db";
-import { and, asc, count, desc, eq, gt, gte, ilike, lte, or, sql } from "drizzle-orm";
-import { users, invitations, posts } from "@/db/schema";
-import { generateInvitationToken, generateOTP, sha256Hash } from "@/lib/crypto";
-import { AccountAlreadyExistsError, ConflictError, NotFoundError } from "@/lib/errors";
-import { ApiErrorCode } from "@/shared/errors/error-codes";
-import { days } from "@/modules/utils/time";
-import bcrypt from "bcrypt";
-import { GetUsersInput, GetUsersOutput, InviteUserInput } from "./types";
+import { and, asc, count, desc, eq, gte, ilike, lte, or, sql } from "drizzle-orm";
+import { users, posts } from "@/db/schema";
+import { GetUsersInput, GetUsersOutput } from "./users.types";
 
 class UsersService {
-  async inviteUser(data: InviteUserInput) {
-    const saltRounds = 10;
-    const otp = generateOTP();
-    const otpHash = await bcrypt.hash(otp, saltRounds);
-    const invitationToken = generateInvitationToken();
-    const tokenHash = sha256Hash(invitationToken);
-
-    const [inviter] = await db.select({
-      name: users.name,
-      email: users.email,
-    }).from(users)
-    .where(eq(users.id, data.inviter.userId));
-
-    if (!inviter) {
-      throw new NotFoundError("Inviter is not or no longer a member of the archive.", {
-        code: ApiErrorCode.USER_NOT_FOUND
-      });
-    }
-  
-    const [existingUser] = await db
-      .select({ id: users.id })
-      .from(users)
-      .where(eq(users.email, data.invitee.email));
-
-    if (existingUser)
-      throw AccountAlreadyExistsError();
-
-    const [existingInvite] = await db
-      .select({ id: invitations.id })
-      .from(invitations)
-      .where(and(
-        eq(invitations.email, data.invitee.email),
-        eq(invitations.status, "pending"),
-        gt(invitations.expiresAt, sql`now()`)
-      )).limit(1);
-
-    if (existingInvite)
-      throw new ConflictError("A pending invitation for this email already exists", {
-        code: ApiErrorCode.PENDING_INVITATION_EXISTS
-      });
-
-    const [result] = await db
-      .insert(invitations)
-      .values({
-        email: data.invitee.email,
-        ...(data.invitee.role && {
-          role: data.invitee.role
-        }),
-        tokenHash,
-        otpHash,
-        expiresAt: new Date(Date.now() + days(1)),
-      }).returning({ id: invitations.id });
-
-    return {
-      otp,
-      invitationToken,
-      invitationId: result.id,
-      inviter
-    };
-  }
-
   async getUsers(data: GetUsersInput): Promise<GetUsersOutput> {
     const { date, limit, page, role, search, status, sortBy } = data.filters;
 
