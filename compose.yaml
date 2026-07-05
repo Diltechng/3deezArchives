@@ -1,0 +1,33 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: 3deez-archives-app
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/3deezarchives
+      NODE_ENV: development
+      APP_PORT: 3000
+    depends_on:
+      - db
+
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+  db:
+    image: postgres:16-alpine
+    container_name: posgres-db
+    environment:
+      POSTGRES_NAME: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: 3deezarchives
+    volumes:
+      - postgres-data:/var/lib/postresql/data
+    ports:
+      - "54321:5432"
+
+volumes:
+  postgres-data:
