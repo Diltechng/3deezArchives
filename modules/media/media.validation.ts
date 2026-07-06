@@ -1,4 +1,5 @@
-import { ApiErrorCode, ValidationError } from "@/lib/errors";
+import { BadRequestError } from "@/lib/errors";
+import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { DeleteMediaSchema, MediaIdSchema } from "@/shared/schemas";
 import { UploadMediaSchema } from "@/shared/schemas";
 import z from "zod";
@@ -9,7 +10,7 @@ export function validateUploadMedia(data: unknown) {
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
-    throw new ValidationError("Invalid or malformed file", {
+    throw new BadRequestError("Invalid or malformed file", {
       code: ApiErrorCode.INVALID_FILE,
       details: flattenedError
     });
@@ -24,7 +25,7 @@ export function validateMediaId(data: unknown) {
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).formErrors;
     
-    throw new ValidationError("Invalid media ID", {
+    throw new BadRequestError("Invalid media ID", {
       code: ApiErrorCode.INVALID_MEDIA_ID,
       details: flattenedError
     });
@@ -39,7 +40,7 @@ export function validateDeleteMedia(data: unknown) {
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
     
-    throw new ValidationError("Invalid delete media data", {
+    throw new BadRequestError("Invalid delete media data", {
       code: ApiErrorCode.INVALID_DELETE_MEDIA_DATA,
       details: flattenedError
     });

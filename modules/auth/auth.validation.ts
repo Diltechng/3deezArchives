@@ -1,6 +1,7 @@
 import z from "zod";
-import { ApiErrorCode, ValidationError } from "@/lib/errors";
-import { AccessTokenPayloadSchema, SetPasswordSchema, SignUpSchema } from "@/shared/schemas";
+import { BadRequestError } from "@/lib/errors";
+import { ApiErrorCode } from "@/shared/errors/error-codes";
+import { AccessTokenPayloadSchema } from "@/shared/schemas";
 import { SignInSchema } from "@/shared/schemas";
 
 
@@ -10,37 +11,8 @@ export function validateSignIn(data: unknown) {
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
-    throw new ValidationError("Invalid sign in data", {
+    throw new BadRequestError("Invalid sign in data", {
       code: ApiErrorCode.INVALID_SIGNIN_DATA,
-      details: flattenedError
-    });
-  }
-
-  return result.data;
-}
-
-export function validateSignUp(data: unknown) {
-  const result = SignUpSchema.safeParse(data);
-
-  if (!result.success) {
-    const flattenedError = z.flattenError(result.error).fieldErrors;
-
-    throw new ValidationError("Invalid sign up data", {
-      code: ApiErrorCode.INVALID_SIGNUP_DATA,
-      details: flattenedError
-    });
-  }
-
-  return result.data;
-}
-
-export function validateSetPassword(data: unknown) {
-  const result = SetPasswordSchema.safeParse(data);
-
-  if (!result.success) {
-    const flattenedError = z.flattenError(result.error).fieldErrors;
-
-    throw new ValidationError("Invalid or malformed password data", {
       details: flattenedError
     });
   }
@@ -54,7 +26,7 @@ export function validateAccessTokenPayload(data: unknown) {
     if (!result.success) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
-    throw new ValidationError("Invalid or malformed access token", {
+    throw new BadRequestError("Invalid or malformed access token", {
       code: ApiErrorCode.INVALID_ACCESS_TOKEN,
       details: flattenedError
     });

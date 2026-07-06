@@ -1,10 +1,11 @@
 import { db } from "@/db";
 import { categories, media, posts } from "@/db/schema";
-import { ApiErrorCode, BadRequestError, ForbiddenError, InternalServerError, NotFoundError } from "@/lib/errors";
+import { BadRequestError, ForbiddenError, InternalServerError, NotFoundError } from "@/lib/errors";
+import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { PostVisibility, UserRole } from "@/shared/constants/enums";
 import { and, asc, desc, eq, gte, ilike, inArray, isNull, lte, ne, or, sql } from "drizzle-orm";
 import { softDelete } from "../shared/helpers/soft-delete";
-import { CreateNewPostInput, DeleteOnePostInput, GetOnePostInput, GetPostsInput, GetPostsOutput, UpdateOnePostInput } from "../media/types";
+import { CreateNewPostInput, DeleteOnePostInput, GetOnePostInput, GetPostsInput, GetPostsOutput, UpdateOnePostInput } from "../media/media.types";
 
 class PostsService {
   async createNewPost(data: CreateNewPostInput) {

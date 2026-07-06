@@ -1,4 +1,5 @@
-import { ApiErrorCode, ValidationError } from "@/lib/errors";
+import { BadRequestError } from "@/lib/errors";
+import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { RefreshTokenSchema } from "@/shared/schemas";
 import z from "zod";
 
@@ -8,7 +9,7 @@ export function validateRefreshToken(data: unknown) {
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).formErrors;
     
-    throw new ValidationError("Invalid refresh token", {
+    throw new BadRequestError("Invalid refresh token", {
       code: ApiErrorCode.INVALID_REFRESH_TOKEN,
       details: flattenedError
     });

@@ -6,7 +6,7 @@ import { validateGetUsersQuery, validateInviteUser } from "@/modules/users/users
 import { NextResponse } from "next/server";
 import { ResponseData } from "@/shared/types/api";
 import { GetUsersResponse } from "@/shared/contracts/users";
-import { invitationService } from "@/modules/invitations/invitation.service";
+import { invitationsService } from "@/modules/invitations/invitations.service";
 import { withPermissionGuard } from "@/lib/api/permission-guard";
 import { PERMISSIONS } from "@/shared/constants/permissions";
 
@@ -54,12 +54,12 @@ export const POST = withErrorHandler(
 
       const validatedData = validateInviteUser(body);
 
-      const { otp, invitationToken, inviter, invitationId } = await usersService.inviteUser({
+      const { otp, invitationToken, inviter, invitationId } = await invitationsService.inviteUser({
         invitee: validatedData,
         inviter: { userId: ctx.user.userId }
       });
 
-      const invitationJwt = invitationService.signInvitationJwt({
+      const invitationJwt = invitationsService.signInvitationJwt({
         invitationId,
         invitationToken,
       });

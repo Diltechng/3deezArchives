@@ -1,10 +1,11 @@
-import { ApiErrorCode, ExpiredError, InternalServerError, VerificationError } from "@/lib/errors";
+import { GoneError, InternalServerError, BadRequestError } from "@/lib/errors";
+import { ApiErrorCode } from "@/shared/errors/error-codes";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { db } from "@/db";
 import { sessions, users } from "@/db/schema";
 import { sha256Hash } from "@/lib/crypto";
-import { days } from "@/utils/time";
+import { days } from "@/shared/utils/time";
 import { eq, sql } from "drizzle-orm";
 import { AccessTokenPayload } from "@/shared/schemas";
 
@@ -65,17 +66,17 @@ class SessionService {
       .where(eq(sessions.tokenHash, tokenHash));
 
     if (!record)
-      throw new VerificationError("Invalid or expired auth session", {
+      throw new BadRequestError("Invalid or expired auth session", {
         code: ApiErrorCode.INVALID_AUTH_SESSION
       });
 
     if (Date.now() >= record.sessions.expiresAt.getTime())
-      throw new ExpiredError("Auth session has expired", {
+      throw new GoneError("Auth session has expired", {
         code: ApiErrorCode.EXPIRED_AUTH_SESSION
       });
 
     if (record.sessions.revoked)
-      throw new VerificationError("Invalid or expired auth session", {
+      throw new BadRequestError("Invalid or expired auth session", {
         code: ApiErrorCode.INVALID_AUTH_SESSION
       });
 
