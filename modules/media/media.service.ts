@@ -5,9 +5,10 @@ import { ConflictError, ForbiddenError, InternalServerError } from "@/lib/errors
 import { MediaNotFoundError } from "./media.errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { UploadApiResponse } from "cloudinary";
-import { and, desc, eq, inArray, isNull } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, isNotNull, isNull, lte, or } from "drizzle-orm";
 import { softDelete } from "../shared/helpers/soft-delete";
 import { DeleteFilesInput, DeleteOneFileInput, UploadFileInput } from "./media.types";
+import { days } from "@/shared/utils/time";
 
 
 export const mediaSelect = {
@@ -53,7 +54,7 @@ class MediaService {
       cloudinary.uploader.upload_stream({
         folder: process.env.CLOUDINARY_UPLOAD_FOLDER ?? (process.env.NODE_ENV === "production" ? "3deez-archives/prod": "3deez-archives/dev")
       },
-      (error, uploadedFile) => {
+      (error, uploadedFile) => { 
         if (error)
           reject(error);
         
@@ -187,6 +188,45 @@ class MediaService {
     });
 
     return deletedMedia;
+  }
+
+  async cleanUpObseleteFiles() {
+    const cutOffDate = new Date(Date.now() - days(30));
+
+    let mediaCount = 0;
+
+    while (true) {
+      const batchMedia = await db.select({
+          id: media.id,
+          publicId: media.publicId
+        })
+        .from(media)
+        .where(
+          or(
+            and(
+              isNull(media.postId),
+              lte(media.createdAt, cutOffDate)
+            ),
+            lte(media.deletedAt, cutOffDate),
+          )
+        )
+        .orderBy(asc(media.id))
+        .limit(100);
+
+      if (batchMedia.length === 0) break;
+      
+      mediaCount += batchMedia.length;
+
+      cloudinary.api.delete_resources(
+        batchMedia.map(m => m.publicId)
+      );
+
+      await db
+        .delete(media)
+        .where(inArray(media.id, batchMedia.map(m => m.id)));
+    }
+
+    return { mediaCount }
   }
 }
 
