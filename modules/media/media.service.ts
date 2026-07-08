@@ -51,7 +51,7 @@ class MediaService {
   
     const uploadedFile = await new Promise<UploadApiResponse>((resolve, reject) => {
       cloudinary.uploader.upload_stream({
-        folder: "3deez-archives"
+        folder: process.env.CLOUDINARY_UPLOAD_FOLDER ?? (process.env.NODE_ENV === "production" ? "3deez-archives/prod": "3deez-archives/dev")
       },
       (error, uploadedFile) => {
         if (error)
