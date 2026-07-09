@@ -14,6 +14,8 @@ export const PERMISSIONS = {
   USERS_UPDATE: "users:update",
   USERS_DELETE: "users:delete",
   USERS_SUSPEND: "users:suspend",
+
+  INVITATIONS_VIEW: "invitations:view"
 } as const;
 
 export const PermissionValues = Object.values(PERMISSIONS) as [

@@ -5,7 +5,7 @@ const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
   [UserRole.ADMIN]: PermissionValues,
   [UserRole.STAFF]: [
     PERMISSIONS.POSTS_VIEW,
-    // PERMISSIONS.POSTS_CREATE,
+    PERMISSIONS.POSTS_CREATE,
     PERMISSIONS.POSTS_UPDATE,
     PERMISSIONS.POSTS_DELETE,
 
