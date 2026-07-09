@@ -1,4 +1,4 @@
-import { InviteUserInput as ZodInviteUserInput } from "@/shared/schemas";
+import { GetInvitationsQueryInput, InviteUserInput as ZodInviteUserInput } from "@/shared/schemas";
 
 export interface InviteUserInput {
   invitee: ZodInviteUserInput;
@@ -10,4 +10,8 @@ export interface InviteUserInput {
 export interface InvitationJwtPayload {
   invitationToken: string;
   invitationId: string;
+}
+
+export interface GetInvitationsInput {
+  filters: GetInvitationsQueryInput;
 }

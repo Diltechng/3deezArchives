@@ -3,9 +3,9 @@ import { invitations, users } from "@/db/schema";
 import { generateInvitationToken, generateOTP, sha256Hash } from "@/lib/crypto";
 import { BadRequestError, ConflictError, GoneError, InternalServerError, NotFoundError } from "@/lib/errors";
 import { AccountAlreadyExistsError } from "./invitations.errors";
-import { InvitationJwtPayload, InviteUserInput } from "./invitations.types";
+import { GetInvitationsInput, InvitationJwtPayload, InviteUserInput } from "./invitations.types";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
-import { and, eq, gt, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, gt, gte, ilike, lte, or, sql } from "drizzle-orm";
 import { DUMMY_TOKEN_HASH } from "@/lib/constants";
 import { AcceptInviteInput } from "@/shared/schemas";
 import { days } from "../../shared/utils/time";
@@ -183,6 +183,58 @@ class InvitationsService {
       })
       .where(eq(invitations.id, data.invitationId));
     });
+  }
+
+  async getInvitiations(data: GetInvitationsInput) {
+    const { date, limit, page, role, search, status, sortBy } = data.filters;
+
+    const filters = [
+      ...(search? [or(
+        ilike(invitations.email, `%${search}%`)
+      )]: []),
+      
+      ...(status? [eq(invitations.status, status)]: []),
+      ...(role? [eq(invitations.role, role)]: []),
+      ...(date.from? [gte(invitations.createdAt, date.from)]: []),
+      ...(date.to? [lte(invitations.createdAt, date.to)]: [])
+    ];
+
+    const orderCriteria = sortBy === "oldest"
+      ? [asc(invitations.createdAt), asc(invitations.id)]
+      : [desc(invitations.createdAt), desc(invitations.id)];
+
+    const offset = (page - 1) * limit;
+
+    const [{ totalInvitationsCount }] = await db.select({ totalInvitationsCount: sql<number>`count(*)::int` })
+      .from(invitations)
+      .where(and(...filters));
+
+    const result = await db.select({
+      id: invitations.id,
+      email: invitations.email,
+      role: invitations.role,
+      status: invitations.status,
+    }).from(invitations)
+    .offset(offset)
+    .limit(limit)
+    .where(and(...filters))
+    .orderBy(...orderCriteria);
+
+    const meta = {
+      pagination: {
+        page,
+        limit,
+        total: totalInvitationsCount,
+        totalPages: Math.ceil(totalInvitationsCount / limit),
+        hasNextPage: page < Math.ceil(totalInvitationsCount / limit),
+        hasPreviousPage: page > 1,
+      },
+    }
+
+    return {
+      invitations: result,
+      meta
+    };
   }
 }
 
