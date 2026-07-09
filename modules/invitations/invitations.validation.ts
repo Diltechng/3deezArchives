@@ -1,6 +1,6 @@
 import { BadRequestError } from "@/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
-import { AcceptInviteSchema, InvitationJwtPayloadSchema } from "@/shared/schemas";
+import { AcceptInviteSchema, GetInvitationsQuerySchema, InvitationJwtPayloadSchema } from "@/shared/schemas";
 import z from "zod";
 
 export function validateInvitationJwtPayload(data: unknown) {
@@ -25,6 +25,21 @@ export function validateAcceptInvite(data: unknown) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
     throw new BadRequestError("Invalid or malformed invite acceptance data.", {
+      details: flattenedError
+    });
+  }
+
+  return result.data;
+}
+
+export function validateGetInvitationsQuery(data: unknown) {
+  const result = GetInvitationsQuerySchema.safeParse(data);
+  
+  if (!result.success) {
+    const flattenedError = z.flattenError(result.error).fieldErrors;
+
+    throw new BadRequestError("Invalid or malformed get invitations query", {
+      code: ApiErrorCode.INVALID_FETCH_QUERY,
       details: flattenedError
     });
   }
