@@ -11,11 +11,36 @@ import FormFieldCardTitle from "@/features/shared/components/FormFieldCardTitle"
 import { api } from "@/features/shared/lib/api";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const UserForm = ({ onClose }: {
+const InviteUserForm = ({ onClose }: {
   onClose?: () => void;
 }) => {
-  const { watch, register, handleSubmit, control, formState: { errors, isSubmitting } } = useForm({
+  const queryClient = useQueryClient();
+  
+  const inviteMutation = useMutation({
+    mutationFn: async (data: InviteUserInput) => {
+      const response = await api.post("/users", data);
+
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["invitations"] });
+      
+      if (onClose) onClose();
+    },
+    onError: (error: any) => {
+      const message = (axios.isAxiosError(error))
+        ? error.response?.data?.error?.message
+        : error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again";
+      
+      toast.error(message);
+    }
+  });
+
+  const { register, handleSubmit, control, formState: { errors, isSubmitting } } = useForm({
     resolver: zodResolver(InviteUserSchema),
     defaultValues: {
       role: "staff"
@@ -28,21 +53,7 @@ const UserForm = ({ onClose }: {
   });
 
   async function onSumbit(data: InviteUserInput) {
-    try {
-      const response = await api.post("/users", data);
-
-      console.log(response.data);
-
-      if (onClose) onClose();
-    } catch (error: unknown) {
-      const message = (axios.isAxiosError(error))
-        ? error.response?.data?.error?.message
-        : error instanceof Error
-          ? error.message
-          : "Something went wrong. Please try again";
-      
-      toast.error(message);
-    }
+    inviteMutation.mutate(data);
   }
 
   const roles = [{
@@ -127,10 +138,10 @@ const UserForm = ({ onClose }: {
       </div>
       <div className="flex gap-2 pt-3 justify-end mt-auto">
         <CancelButton onClick={onClose} />
-        <SubmitButton disabled={isSubmitting} />
+        <SubmitButton disabled={inviteMutation.isPending} />
       </div>
     </form>
   )
 }
 
-export default UserForm;
+export default InviteUserForm;
