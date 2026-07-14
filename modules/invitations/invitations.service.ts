@@ -199,6 +199,10 @@ class InvitationsService {
       ...(date.to? [lte(invitations.createdAt, date.to)]: [])
     ];
 
+    const visibilityCriteria = [
+      gte(invitations.expiresAt, new Date())
+    ]
+
     const orderCriteria = sortBy === "oldest"
       ? [asc(invitations.createdAt), asc(invitations.id)]
       : [desc(invitations.createdAt), desc(invitations.id)];
@@ -207,7 +211,7 @@ class InvitationsService {
 
     const [{ totalInvitationsCount }] = await db.select({ totalInvitationsCount: sql<number>`count(*)::int` })
       .from(invitations)
-      .where(and(...filters));
+      .where(and(...visibilityCriteria));
 
     const result = await db.select({
       id: invitations.id,
@@ -217,7 +221,7 @@ class InvitationsService {
     }).from(invitations)
     .offset(offset)
     .limit(limit)
-    .where(and(...filters))
+    .where(and(...filters, ...visibilityCriteria))
     .orderBy(...orderCriteria);
 
     const meta = {
