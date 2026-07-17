@@ -6,24 +6,24 @@ import { toSlug } from "@/shared/utils/slug";
 import { faker } from "@faker-js/faker";
 import { isNull } from "drizzle-orm";
 
-async function seedUsers() {
-  await db.insert(users).values([{
-    email: "ghalimusa53@gmail.com",
-    passwordHash: await bcrypt.hash("3Deez@Jeerex.4", 10),
-    name: "Ghali Musa",
+async function seedAdmin() {
+  const adminEmail = process.env.ADMIN_EMAIL;
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  const adminName = process.env.ADMIN_NAME;
+
+  if (!adminEmail || !adminPassword || !adminName)
+    throw new Error("Missing or misconfigured admin credentials. Please configure them in your environment variables.");
+
+  await db.insert(users).values({
+    email: adminEmail,
+    passwordHash: await bcrypt.hash(adminPassword, 10),
+    name: adminName,
     onboardingCompleted: true,
     role: UserRole.ADMIN,
     status: "active",
-  }, {
-    email: "cyber.guru.075@gmail.com",
-    passwordHash: await bcrypt.hash("3Deez@Jeerex.5", 10),
-    name: "John Smith",
-    onboardingCompleted: true,
-    role: UserRole.STAFF,
-    status: "active",
-  }]).onConflictDoNothing();
+  }).onConflictDoNothing();
   
-  console.log("User seeded successfully.");
+  console.log("Admin seeded successfully.");
 }
 
 async function seedCategories() {
@@ -82,7 +82,7 @@ async function seedPosts() {
 }
 
 async function seed() {
-  await seedUsers();
+  await seedAdmin();
   await seedCategories();
   
   if (process.env.NODE_ENV !== "production") {
