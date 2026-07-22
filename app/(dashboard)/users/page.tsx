@@ -3,9 +3,9 @@ import ContentHeader from "@/features/shared/components/ContentHeader";
 import useModal from "@/features/shared/hooks/useModal";
 import { api } from "@/features/shared/lib/api";
 import { cn } from "@/features/shared/lib/utils";
-import UserForm from "@/features/users/components/UserForm";
 import { GetUsersResponse } from "@/shared/contracts/users";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
@@ -87,15 +87,12 @@ const UsersPage = () => {
   return (
     <div>
       <ContentHeader title="Users" subtitle={`${totalUsers} members · ${totalAdmins} admins · ${totalStaffs} staff`}>
-        <button 
-          className="button-primary"
-          onClick={() => openFormModal(UserForm, {
-            title: "Add User",
-            subtitle: "Grant access to the archives",
-          })}
+        <Link 
+          className="button-primary uppercase"
+          href="/users/invitations"
         >
-          ADD USER
-        </button>
+          Invitations
+        </Link>
       </ContentHeader>
       <div className="input-core mb-4">
         <input

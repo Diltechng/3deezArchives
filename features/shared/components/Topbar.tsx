@@ -7,6 +7,7 @@ const Topbar = () => {
     "/activity-logs": "Activity Logs",
     "/gallery": "Gallery",
     "/users": "Users",
+    "/users/invitations": "User Invitations",
     "/settings": "Settings",
     "/settings/general": "General Settings",
   }
