@@ -10,7 +10,7 @@ interface FormModalProps {
 
 const FormModal = ({ title, subtitle, children }: FormModalProps) => {
   return (
-    <BackgroundOverlay>
+    <BackgroundOverlay className="z-90">
       <div
         className="flex flex-col m-auto h-full w-full max-w-170 py-6 rounded-2xl shadow-lg overflow-hidden border border-border bg-background"
       >

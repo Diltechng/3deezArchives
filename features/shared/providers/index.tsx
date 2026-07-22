@@ -3,6 +3,7 @@
 import { AuthProvider } from "@/features/auth/contexts/AuthContext"
 import QueryProvider from "../contexts/QueryProvider";
 import ModalProvider from "../contexts/ModalContext";
+import SidebarProvider from "../contexts/SidebarContext";
 
 export const Providers = ({ children }: {
   children: React.ReactNode;
@@ -11,7 +12,9 @@ export const Providers = ({ children }: {
     <QueryProvider>
       <AuthProvider>
         <ModalProvider>
-          {children}
+          <SidebarProvider>
+            {children}
+          </SidebarProvider>
         </ModalProvider>
       </AuthProvider>
     </QueryProvider>
