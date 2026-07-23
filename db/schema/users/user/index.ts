@@ -13,7 +13,7 @@ export const statusEnum = pgEnum("status", UserStatusValues);
 export const users = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
   email: text("email").unique().notNull(),
-  name: text("name"),
+  name: text("name").notNull(),
   passwordHash: text("password_hash").notNull(),
   role: userRoleEnum("role").default("staff").notNull(),
   status: statusEnum("status").default("active").notNull(),
