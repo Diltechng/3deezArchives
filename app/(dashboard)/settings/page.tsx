@@ -1,5 +1,9 @@
+import ContentHeader from "@/features/shared/components/ContentHeader";
+
 const SettingsPage = () => (
-  <div>Settings</div>
+  <div>
+    <ContentHeader title="General" subtitle="" />
+  </div>
 );
 
 export default SettingsPage;

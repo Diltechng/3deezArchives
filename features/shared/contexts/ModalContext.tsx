@@ -1,5 +1,5 @@
-import CreatePostForm from "@/features/posts/components/PostForm";
 import { createContext, useMemo, useState } from "react"
+import { FormModalVariant } from "../types/FormModal.types";
 
 interface ValueTypes {
   modals: ModalType[];
@@ -18,6 +18,7 @@ type ModalData<T> = {
   title: string;
   subtitle?: string;
   initialData?: unknown;
+  variant?: FormModalVariant;
 } & T;
 
 export const ModalContext = createContext<ValueTypes | null>(null);
