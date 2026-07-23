@@ -1,18 +1,23 @@
 import { ClassValue } from "clsx";
 import BackgroundOverlay from "./BackgroundOverlay";
 import { cn } from "../lib/utils";
+import { FormModalVariant } from "../types/FormModal.types";
 
 interface FormModalProps {
   title: string;
   subtitle?: string;
   children?: React.ReactNode;
+  variant?: FormModalVariant;
 }
 
-const FormModal = ({ title, subtitle, children }: FormModalProps) => {
+const FormModal = ({ title, subtitle, variant="default", children }: FormModalProps) => {
   return (
     <BackgroundOverlay className="z-90">
       <div
-        className="flex flex-col m-auto h-full w-full max-w-170 py-6 rounded-2xl shadow-lg overflow-hidden border border-border bg-background"
+        className={cn(
+          "flex flex-col m-auto h-fit w-full max-w-170 py-6 rounded-2xl shadow-lg overflow-hidden border border-border bg-background",
+          { "max-w-100": variant === "compact" }
+        )}
       >
         <header className="mb-4 px-6">
           <h1 className="font-bold text-[18px] tracking-[0.02rem]">{title}</h1>

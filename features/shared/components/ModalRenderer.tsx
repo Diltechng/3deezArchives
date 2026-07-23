@@ -6,7 +6,7 @@ const ModalRenderer = () => {
   return (
     <>
       {modals.filter(modal => modal.type === "form").map(modal => (
-        <FormModal key={modal.id} title={modal.data.title} subtitle={modal.data.subtitle}>
+        <FormModal key={modal.id} title={modal.data.title} subtitle={modal.data.subtitle} variant={modal.data.variant}>
           <modal.component
             {...modal.data}
             initialData={modal.data.initialData}
