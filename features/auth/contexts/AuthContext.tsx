@@ -6,6 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import { ROUTE_WHITELIST } from "../constants";
+import { GetUserProfileResponse, UserProfileData } from "@/shared/contracts/users";
 
 type AuthStatus =
   | "unknown"
@@ -17,6 +18,7 @@ type AuthContextType = {
   authStatus: AuthStatus;
   isAuthenticated: boolean;
   accessToken: string | null;
+  user: UserProfileData | null;
   isWhiteListed: (pathname: string) => boolean;
   clearSession: () => void;
   refresh: () => Promise<string>;
@@ -29,11 +31,13 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: Readonly<{
   children: React.ReactNode;
 }>) => {
+  const router = useRouter();
+  const refreshPromiseRef = useRef<Promise<string> | null>(null);
+
   const [isLoading, setIsLoading] = useState(true);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [authStatus, setAuthStatus] = useState<AuthStatus>("unknown");
-  const refreshPromiseRef = useRef<Promise<string> | null>(null);
-  const router = useRouter();
+  const [user, setUser] = useState<UserProfileData | null>(null);
 
   function clearSession() {
     setAccessToken(null);
@@ -78,6 +82,19 @@ export const AuthProvider = ({ children }: Readonly<{
     return refreshPromiseRef.current;
   }, []);
 
+  async function getProfile(): Promise<GetUserProfileResponse> {
+    try {
+      const response = await api.get("/profile");
+  
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data.error.message);
+      }
+      throw new Error("Something went wrong");
+    }
+  }
+
   async function signin(credentials: SignInInput) {
     try {
       const response = await axios.post("/api/v1/auth/sign-in", credentials);
@@ -107,6 +124,8 @@ export const AuthProvider = ({ children }: Readonly<{
     async function initializeAuth() {
       try {
         await refresh();
+        const { data: user } = await getProfile();
+        setUser(user);
       } catch (error) {
         clearSession();
       } finally {
@@ -162,12 +181,13 @@ export const AuthProvider = ({ children }: Readonly<{
     isLoading,
     isAuthenticated: !!accessToken,
     accessToken,
+    authStatus,
+    user,
     clearSession,
     refresh,
     signin,
     signout,
     isWhiteListed,
-    authStatus,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
