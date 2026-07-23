@@ -64,7 +64,7 @@ export const POST = withErrorHandler(
         invitationToken,
       });
       
-      await mailService.sendVerificationEmail({
+      await mailService.sendInvitationEmail({
         inviteeEmail: validatedData.email,
         inviteeRole: validatedData.role,
         invitationJwt,
