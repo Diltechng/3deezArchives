@@ -1,6 +1,7 @@
 import { UserRole, UserStatus } from "../constants/enums";
 import { ResponseData, SerializeDates } from "../types/api";
 import { Pagination } from "../types/pagination";
+import { TResponse } from "./Response";
 
 export interface GetUsersMeta {
   pagination: Pagination;
@@ -16,5 +17,14 @@ export interface UserListItem {
  status: UserStatus;
  postsCount: number;
 };
+
+export type UserProfileData = {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+}
+
+export type GetUserProfileResponse = TResponse<UserProfileData>
 
 export type GetUsersResponse = ResponseData<UserListItem[], GetUsersMeta>;
