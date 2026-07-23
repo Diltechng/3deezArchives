@@ -1,4 +1,4 @@
-export interface SendVerificationEmailInput {
+export interface SendInvitationEmailInput {
   inviteeEmail: string;
   inviteeRole: string;
   otp: string;

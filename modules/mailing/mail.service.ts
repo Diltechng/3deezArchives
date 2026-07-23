@@ -1,16 +1,16 @@
 import nodemailer from "nodemailer";
-import { SendVerificationEmailInput } from "./mailing.types";
+import { SendInvitationEmailInput } from "./mailing.types";
 import { renderCompanyInviteEmail } from "@/modules/utils/email";
 
 
 class MailService {
-  async sendVerificationEmail(data: SendVerificationEmailInput) {
+  async sendInvitationEmail(data: SendInvitationEmailInput) {
     const email = process.env.GOOGLE_MAIL_USER;
     const appPassword = process.env.GOOGLE_APP_PASSWORD;
     const service = "gmail";
 
     const html = renderCompanyInviteEmail({
-      companyName: "3Deez Global",
+      companyName: "3Deez Global Investment",
       invitedByEmail: data.inviterEmail,
       invitedByUsername: data.inviterName,
       inviteLink: `http://localhost:3000/invitation/accept?token=${data.invitationJwt}`,
