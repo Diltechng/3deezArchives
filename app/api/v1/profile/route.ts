@@ -8,6 +8,7 @@ import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { UserRole } from "@/shared/constants/enums";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
+import { GetUserProfileResponse } from "@/shared/contracts/users";
 
 export const GET = withErrorHandler(
   withAuthGuard(async (req: NextRequest, ctx) => {
@@ -18,12 +19,12 @@ export const GET = withErrorHandler(
       role: users.role,
     }).from(users).where(eq(users.id, ctx.user.userId));
 
-    return NextResponse.json({
+    return NextResponse.json<GetUserProfileResponse>({
       success: true,
-      message: "Successfully hit the home endpoint",
-      data: { ctx, user }
-    }, { status: 200 });
-  }, [UserRole.ADMIN, UserRole.STAFF])
+      message: "Successfully fetched user",
+      data: user,
+    });
+  })
 );
 
 export const PATCH = withErrorHandler(
