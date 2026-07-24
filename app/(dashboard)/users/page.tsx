@@ -1,8 +1,11 @@
 "use client"
+import Can from "@/features/permissions/components/Can";
 import ContentHeader from "@/features/shared/components/ContentHeader";
 import useModal from "@/features/shared/hooks/useModal";
+import useSearchFilters from "@/features/shared/hooks/useSearchFilters";
 import { api } from "@/features/shared/lib/api";
-import { cn } from "@/features/shared/lib/utils";
+import { cn, getInitials } from "@/features/shared/lib/utils";
+import { PERMISSIONS } from "@/shared/constants/permissions";
 import { GetUsersResponse } from "@/shared/contracts/users";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
@@ -19,16 +22,17 @@ const UsersPage = () => {
 
   const search = searchParams.get("search") ?? "";
 
+  const { hasFilters, values, updateFilters } = useSearchFilters<"search">();
   const [currentPage, setCurrentPage] = useState(1);
-  const [activeDateFilter, setActiveDateFilter] = useState("");
   const [totalAdmins, setTotalAdmins] = useState(0);
   const [totalStaffs, setTotalStaffs] = useState(0);
   const [totalUsers, setTotalUsers] = useState(0);
 
   const { isLoading: isLoadingUsers, error: usersError, data: usersData } = useQuery({
-    queryKey: ["users"],
+    queryKey: ["users", values],
     queryFn: async () => {
       const searchParams = new URLSearchParams({
+        ...values,
         limit: String(LIMIT),
         page: String(currentPage)
       });
@@ -45,54 +49,22 @@ const UsersPage = () => {
     }
   });
 
-  function clearFilters() {
-    updateFilter({
-      key: "category",
-      value: ""
-    }, {
-      key: "from",
-      value: ""
-    }, {
-      key: "to",
-      value: ""
-    });
-    setActiveDateFilter("")
-  }
-
-
-  function updateFilter(...items: { 
-    key: "category" | "search" | "from" | "to";
-    value: string;
-  }[]) {
-    const params = new URLSearchParams(searchParams.toString());
-    
-    for (const { key, value } of items) {
-      if (!value) {
-        params.delete(key);
-      } else if (value === "all") {
-        return clearFilters();
-      } else {
-        params.set(key, value);
-      }
-    }
-
-    router.replace(`${pathname}?${params}`);
-  }
-
   const handleSearch = useDebouncedCallback((term: string) => {
     setCurrentPage(1);
-    updateFilter({ key: "search", value: term });
+    updateFilters({ key: "search", value: term });
   }, 300);
 
   return (
     <div>
       <ContentHeader title="Users" subtitle={`${totalUsers} members · ${totalAdmins} admins · ${totalStaffs} staff`}>
-        <Link 
-          className="button-primary uppercase"
-          href="/users/invitations"
-        >
-          Invitations
-        </Link>
+        <Can permission={PERMISSIONS.INVITATIONS_VIEW}>
+          <Link 
+            className="button-primary uppercase"
+            href="/users/invitations"
+          >
+            Invitations
+          </Link>
+        </Can>
       </ContentHeader>
       <div className="input-core mb-4">
         <input
@@ -120,20 +92,17 @@ const UsersPage = () => {
             {usersData.data.map((user: any) => {
               const isAdmin = user.role === "admin";
               const isActive = user.status === "active";
-              
-              const fullNameArr = user.fullName.split(" ");
-              const avatarText = `${fullNameArr[0][0]}${fullNameArr[fullNameArr.length-1][0]}`
 
               return(
                 <tr key={user.id}>
                   <td className="py-2.5 px-3 font-sans">
                     <div className="flex gap-2 items-center">
                       <div className={cn(
-                        "flex justify-center items-center rounded-full w-7 aspect-square text-[10px] border",
+                        "flex justify-center items-center rounded-full w-7 aspect-square text-[10px] uppercase border",
                         isAdmin? "text-accent border-accent bg-accent/20"
                         : "text-text-2 border-border-2 bg-surface-3"
                       )}>
-                        {avatarText.toUpperCase()}
+                        {getInitials(user.fullName)}
                       </div>
                       <div>
                         <div>
