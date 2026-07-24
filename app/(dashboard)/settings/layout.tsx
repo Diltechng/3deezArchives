@@ -1,11 +1,11 @@
-import SettingsSidebar from "@/features/settings/components/SettingsSidebar";
+import SettingsNav from "@/features/settings/components/SettingsNav";
 
 const SettingsLayout = ({ children }: {
   children: React.ReactNode;
 }) => {
   return (
-    <div className="flex h-full">
-      <SettingsSidebar />
+    <div className="flex flex-col sm:flex-row h-full min-w-0">
+      <SettingsNav />
       <div className="flex-1 px-4">
         {children}
       </div>

@@ -12,6 +12,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Inbox, SearchX, TriangleAlert } from "lucide-react";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
+import Can from "@/features/permissions/components/Can";
+import { PERMISSIONS } from "@/shared/constants/permissions";
 
 const InvitationsPage = () => {
   const LIMIT = 10;
@@ -47,15 +49,17 @@ const InvitationsPage = () => {
   return (
     <div className="flex flex-col flex-1">
       <ContentHeader title="Invitations" subtitle={`${totalInvitations} active invitations`}>
-        <button 
-          className="button-primary uppercase"
-          onClick={() => openFormModal(InviteUserForm, {
-            title: "Invite User",
-            subtitle: "Grant access to the archives",
-          })}
-        >
-          Invite User
-        </button>
+        <Can permission={PERMISSIONS.USERS_INVITE}>
+          <button 
+            className="button-primary uppercase"
+            onClick={() => openFormModal(InviteUserForm, {
+              title: "Invite User",
+              subtitle: "Grant access to the archives",
+            })}
+          >
+            Invite User
+          </button>
+        </Can>
       </ContentHeader>
       <div className="input-core mb-4">
         <input

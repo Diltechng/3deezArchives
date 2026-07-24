@@ -28,7 +28,7 @@ const SignInPage = () => {
 
   return (
     <div className="flex w-full h-screen overflow-x-auto">
-      <div className="flex flex-col gap-5 h-full sm:h-fit py-10 sm:min-w-50 w-full sm:max-w-100 shadow-2xl sm:border sm:rounded-2xl my-auto mx-auto border-border-primary">
+      <div className="flex flex-col gap-5 h-full sm:h-fit py-10 sm:min-w-50 w-full sm:max-w-100 shadow-2xl sm:border sm:rounded-2xl my-auto mx-auto border-border-2">
         <div className="flex flex-col gap-3 text-center">
           <div className="mx-auto">
             <Image
@@ -42,7 +42,7 @@ const SignInPage = () => {
           </h2>
         </div>
         <form
-          className="flex flex-col w-full max-w-100 mx-auto border-t pt-7 px-10 border-border-primary" 
+          className="flex flex-col w-full max-w-100 mx-auto border-t pt-7 px-10 border-border-2" 
           method="POST"
           onSubmit={handleSubmit(onSubmit)} >
           
