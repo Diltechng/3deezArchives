@@ -1,8 +1,12 @@
 import FormField from "@/features/shared/components/FormField"
 import { CancelButton, SubmitButton } from "@/features/shared/components/FormModal";
-import { UpdatePasswordSchema } from "@/shared/schemas/account/update.schema";
+import { api } from "@/features/shared/lib/api";
+import { getErrorMessage } from "@/features/shared/lib/utils";
+import { UpdatePasswordInput, UpdatePasswordSchema } from "@/shared/schemas/account/update.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import z from "zod";
 
 interface UserPasswordFormProps {
@@ -20,10 +24,26 @@ const UserPasswordForm = ({ onClose }: UserPasswordFormProps) => {
   
   const { register, handleSubmit, formState: { isLoading, errors } } = useForm({
     resolver: zodResolver(UpdatePasswordFormSchema)
-  })
+  });
+
+  const updatePasswordMutation = useMutation({
+    mutationFn: async (data: UpdatePasswordInput) => {
+      const response = await api.patch("/profile/password", data);
+
+      return response;
+    },
+
+    onSuccess: () => {
+      if (onClose) onClose();
+    },
+
+    onError: (error) => {
+      toast.error(getErrorMessage(error));
+    }
+  });
 
   function onSumbit({ confirmPassword, ...data }: UpdatePasswordFormInput) {
-    console.log(data);
+    updatePasswordMutation.mutate(data);
   }
   
   return (
@@ -42,7 +62,7 @@ const UserPasswordForm = ({ onClose }: UserPasswordFormProps) => {
 
       <div className="flex gap-2 pt-3 justify-end mt-auto">
         <CancelButton onClick={onClose} />
-        <SubmitButton disabled={isLoading} />
+        <SubmitButton disabled={updatePasswordMutation.isPending} />
       </div>
     </form>
   )
