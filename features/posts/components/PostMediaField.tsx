@@ -3,29 +3,54 @@ import LoadingState from "@/features/shared/components/LoadingState";
 import { AlertCircle, RefreshCw, Star, Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { FieldError, Merge } from "react-hook-form"
-import { MediaUploadItem } from "../types";
-import { cn } from "@/features/shared/lib/utils";
+import { Media, MediaUploadItem } from "../types";
+import { cn, getErrorMessage } from "@/features/shared/lib/utils";
 import { toast } from "react-toastify";
 import { CreatePostInput, UploadMediaSchema } from "@/shared/schemas";
 import z from "zod";
 import { api } from "@/features/shared/lib/api";
 import axios from "axios";
+import { CldImage } from "next-cloudinary";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const PostMediaField = ({ error, value, onChange }: {
+const PostMediaField = ({ error, value, initialData, onChange }: {
   error?: Merge<FieldError, (FieldError | undefined)[]> | FieldError;
   value?: CreatePostInput["media"];
+  initialData?: {
+    postId: string;
+    media: Media[]
+  };
   onChange?: (next: CreatePostInput["media"]) => void;
 }) => {
-  const [media, setMedia] = useState<MediaUploadItem[]>([]);
+  const initialMedia: MediaUploadItem[] = [
+    ...(initialData
+    ? initialData.media.map(media => ({
+      remote: {
+        id: media.id,
+        url: media.secureUrl
+      },
+      local: {
+        id: "",
+        url: ""
+      },
+      fileName: media.id,
+      status: "ready"
+    } as MediaUploadItem))
+    : [])
+  ];
+
+  const [media, setMedia] = useState<MediaUploadItem[]>(initialMedia);
   const fileCacheRef = useRef<Map<string, File>>(new Map());
 
-  async function handleUploadMedia(localId: string) {
-    const file = fileCacheRef.current.get(localId);
-    
-    if (!file)
-      return;
+  const queryClient = useQueryClient();
 
-    try {
+  const uploadMutation = useMutation({
+    mutationFn: async (localId: string) => {
+      const file = fileCacheRef.current.get(localId);
+      
+      if (!file)
+        throw new Error("File not found");
+
       setMedia(prev => prev.map(fileUpload => {
         if (fileUpload.local.id === localId) {
           fileUpload.status = "uploading";
@@ -36,16 +61,20 @@ const PostMediaField = ({ error, value, onChange }: {
       const formDataPayload = new FormData();
       formDataPayload.append("file", file);
 
-      const response = await api.post("/gallery/media", formDataPayload);
+      const { data } = initialData
+        ? await api.post(`/gallery/posts/${initialData.postId}/media`, formDataPayload)
+        : await api.post("/gallery/media", formDataPayload);
 
-      const result = response.data;
+      return { localId, media: data.data }
+    },
 
+    onSuccess: ({ localId, media }) => {
       setMedia(prev => prev.map(fileUpload => {
         if (fileUpload.local.id === localId) {
           fileUpload.status = "ready";
           fileUpload.remote = {
-            id: result.data.id,
-            url: result.data.secureUrl
+            id: media.id,
+            url: media.secureUrl
           }
         }
         return fileUpload;
@@ -53,11 +82,15 @@ const PostMediaField = ({ error, value, onChange }: {
 
       if (!value) return;
       onChange?.({
-        ids: [...value.ids, result.data.id],
-        coverId: value.coverId ?? result.data.id
+        ids: [...value.ids, media.id],
+        coverId: value.coverId ?? media.id
       });
 
-    } catch (error: any) {
+      if(initialData)
+        queryClient.invalidateQueries({  queryKey: ["posts", initialData.postId] });
+    },
+
+    onError: (error, localId) => {
       setMedia(prev => prev.map(fileUpload => {
         if (fileUpload.local.id === localId) {
           fileUpload.status = "failed";
@@ -67,14 +100,13 @@ const PostMediaField = ({ error, value, onChange }: {
 
         return fileUpload;
       }));
-
-      const message = (axios.isAxiosError(error))
-        ? error.response?.data?.error?.message
-        : error?.message ||
-        "Something went wrong. Please try again";
       
-      toast.error(message);
+      toast.error(getErrorMessage(error));
     }
+  });
+
+  async function handleUploadMedia(localId: string) {
+    uploadMutation.mutate(localId);
   }
 
   function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
@@ -150,15 +182,18 @@ const PostMediaField = ({ error, value, onChange }: {
         <div className="p-4 grid grid-cols-3 lg:grid-cols-4 gap-4 rounded-lg border border-border-2 bg-surface-3">
           {media.map(file => (
             <div
-              key={file.local.id}
+              key={file.remote?.id ?? file.local.id}
               className={cn(
                 "relative aspect-square rounded-md overflow-hidden duration-200 border border-transparent",
                 (value?.coverId && file.remote?.id === value.coverId) && "border-accent-primary"
               )}
             >
-              <img
-                src={file.local.url}
+              <CldImage
+                src={file.remote?.url ?? file.local.url}
+                alt={`file-${file.remote?.id ?? "unknown"}`}
                 className="h-full w-full object-cover"
+                fill
+                sizes="25vw"
               />
               {(file.status === "uploading")
                 ? (

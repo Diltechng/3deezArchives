@@ -21,7 +21,7 @@ const PostDetailPage = () => {
   const { openFormModal } = useModal();
   
   const { isLoading, data } = useQuery({
-    queryKey: ["post"],
+    queryKey: ["posts", params.id],
     queryFn: async () => {
       const response = await api.get(`/gallery/posts/${params.id}`);
 
@@ -91,16 +91,15 @@ const PostDetailPage = () => {
               openFormModal(PostForm, {
                 title: "Edit Post",
                 initialData: {
+                  id: data.data.id,
                   title: data.data.title,
                   description: data.data.description,
                   visibility: data.data.visibility,
                   dateOfMoment: data.data.dateOfMoment,
                   categoryId: data.data.category.id,
                   tags: data.data.tags,
-                  media: {
-                    ids: data.data.media.ids,
-                    coverId: data.data.coverMediaId
-                  },
+                  coverMedia: data.data.coverMedia,
+                  media: data.data.media,
                 },
                 categories,
               }
