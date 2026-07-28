@@ -153,7 +153,7 @@ const PostMediaField = ({ error, value, onChange }: {
               key={file.local.id}
               className={cn(
                 "relative aspect-square rounded-md overflow-hidden duration-200 border border-transparent",
-                (value?.coverId && file.remote?.id === value.coverId) && "border-accent"
+                (value?.coverId && file.remote?.id === value.coverId) && "border-accent-primary"
               )}
             >
               <img
@@ -193,7 +193,7 @@ const PostMediaField = ({ error, value, onChange }: {
                         </button>
                       </div>}
                     </div>
-                    {(value?.coverId && file.remote.id === value.coverId) && <div className="absolute bottom-2 right-2 flex gap-1 items-center py-1 px-2 rounded-sm font-sans text-xs text-surface-2 bg-accent">
+                    {(value?.coverId && file.remote.id === value.coverId) && <div className="absolute bottom-2 right-2 flex gap-1 items-center py-1 px-2 rounded-sm font-sans text-xs text-surface-2 bg-accent-primary">
                       <Star className="fill-current h-3 w-3" /> Cover
                     </div>}
                   </>

@@ -25,7 +25,7 @@
   --color-border: #a5252514;
   --color-border-2: #ffffff26;
   
-  --color-accent: #e8ff6b;
+  --color-accent-primary: #e8ff6b;
   --color-accent-2: #ff6b6b;
   --color-accent-3: #6bffd4;
 
@@ -84,12 +84,12 @@
 
 @utility input-core {
   @apply  flex items-center font-sans gap-2 py-1.75 px-3 w-full text-[12px] rounded-lg duration-200 border;
-  @apply border-border-2 bg-surface-3 focus-within:border-accent;
+  @apply border-border-2 bg-surface-3 focus-within:border-accent-primary;
 }
 
 @utility button-primary {
   @apply px-4 py-2 rounded-lg duration-200 tracking-[0.06rem] font-bold text-[10px];
-  @apply text-black bg-accent hover:bg-accent/85;
+  @apply text-black bg-accent-primary hover:bg-accent-primary/85;
 }
 
 @utility button-ghost {

@@ -87,12 +87,12 @@ const InvitationsPage = () => {
                 " />
             : (hasFilters
               ? (
-                <StateCard icon={{ component: SearchX, color: "accent" }} title="No Results Found" subtitle="
+                <StateCard icon={{ component: SearchX, color: "accent-primary" }} title="No Results Found" subtitle="
                     We couldn't find anything matching your current search and filters.
                     Try adjusting your filters or clearing them to see more results.
                 " />
               ): (
-                <StateCard icon={{ component: Inbox, color: "accent" }} title="No Invitations" subtitle="
+                <StateCard icon={{ component: Inbox, color: "accent-primary" }} title="No Invitations" subtitle="
                   There are currently no invitations.
                 " />
               )

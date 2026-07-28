@@ -59,7 +59,7 @@ const Sidebar = () => {
                           href={item.pathname}
                           className={clsx(
                             "flex items-center gap-2 py-2 px-2.5 w-full text-[12px] text-left font-sans rounded-lg duration-200",
-                            isActivePage? "bg-accent/10 text-accent": "text-text-2 hover:text-text hover:bg-surface-3",
+                            isActivePage? "bg-accent-primary/10 text-accent-primary": "text-text-2 hover:text-text hover:bg-surface-3",
                           )}
                         >
                           <item.icon className="h-4 w-4" />

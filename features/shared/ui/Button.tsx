@@ -15,7 +15,7 @@ const Button = ({ href, active=false, Icon, children }: ButtonProps) => {
       href={href ?? ""}
       className={cn(
         "flex items-center gap-2 py-2 px-2.5 w-full text-[13px] text-left font-sans rounded-lg duration-200",
-        active? "bg-accent/10 text-accent": "text-text-2 hover:text-text hover:bg-surface-3",
+        active? "bg-accent-primary/10 text-accent-primary": "text-text-2 hover:text-text hover:bg-surface-3",
       )}
     >
       {Icon && <Icon className="h-5 w-5" />}

@@ -99,7 +99,7 @@ const UsersPage = () => {
                     <div className="flex gap-2 items-center">
                       <div className={cn(
                         "flex justify-center items-center rounded-full w-7 aspect-square text-[10px] uppercase border",
-                        isAdmin? "text-accent border-accent bg-accent/20"
+                        isAdmin? "text-accent-primary border-accent-primary bg-accent-primary/20"
                         : "text-text-2 border-border-2 bg-surface-3"
                       )}>
                         {getInitials(user.fullName)}
@@ -118,7 +118,7 @@ const UsersPage = () => {
                     <span
                       className={cn(
                         "py-0.75 px-2 rounded-[3px] tracking-[0.08rem] text-[9px] border",
-                        isAdmin? "text-accent border-accent bg-accent/20"
+                        isAdmin? "text-accent-primary border-accent-primary bg-accent-primary/20"
                         : "text-accent-3 border-accent-3 bg-accent-3/20"
                       )}
                     >
@@ -127,7 +127,7 @@ const UsersPage = () => {
                   </td>
                   <td className={cn(
                     "py-2.5 px-3 text-[11px]",
-                    isAdmin? "text-accent"
+                    isAdmin? "text-accent-primary"
                     : "text-text-2"
                   )}>
                     {user.postsCount ?? "-"}
@@ -146,10 +146,10 @@ const UsersPage = () => {
                   </td>
                   <td className="py-2.5 px-3">
                     <div className="flex gap-1.5">
-                      <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-2 hover:border-accent">
+                      <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-2 hover:border-accent-primary">
 
                       </button>
-                      <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-2 hover:border-accent">
+                      <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-2 hover:border-accent-primary">
 
                       </button>
                     </div>

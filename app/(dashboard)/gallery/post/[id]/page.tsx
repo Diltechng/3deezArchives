@@ -129,7 +129,7 @@ const PostDetailPage = () => {
           <div className="flex flex-col gap-1.5">
             <div className="flex justify-between">
               <span className="text-[9px] tracking-[0.6px] text-text-3">CATEGORY</span>
-              <span className="py-0.5 px-1.75 rounded-[3px] text-[9px] text-accent bg-accent/10">{data.data.category.name}</span>
+              <span className="py-0.5 px-1.75 rounded-[3px] text-[9px] text-accent-primary bg-accent-primary/10">{data.data.category.name}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-[9px] tracking-[0.6px] text-text-3">DATE</span>

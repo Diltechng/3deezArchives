@@ -4,7 +4,7 @@ import { cn } from "../lib/utils";
 interface StateCardProps {
   icon: {
     component: React.ComponentType<any>;
-    color?: "accent" | "accent-2" | "accent-3";
+    color?: "accent-primary" | "accent-2" | "accent-3";
   }
   title: string;
   subtitle: string;

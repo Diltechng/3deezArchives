@@ -23,7 +23,7 @@ const Topbar = () => {
 
   return (
     <header className="flex px-3.5 py-1.5 justify-between border-b border-border bg-surface-2">
-      <div className="flex items-center gap-2 font-bold text-[14px] tracking-[0.04rem] text-accent">
+      <div className="flex items-center gap-2 font-bold text-[14px] tracking-[0.04rem] text-accent-primary">
         <button
           className="md:hidden p-1.5 rounded-md text-text-2 hover:text-text hover:bg-surface-3"
           onClick={toggleMobile}
@@ -46,7 +46,7 @@ const Topbar = () => {
       <div className="flex items-center justify-center gap-3">
         <div className={cn(
           "px-2 py-0.75 rounded-sm text-[9px] tracking-[0.08rem] uppercase border text-accent-3 bg-accent-3/20 border-accent-3",
-          { "text-accent bg-accent/20 border-accent": isAdmin }
+          { "text-accent-primary bg-accent-primary/20 border-accent-primary": isAdmin }
         )}>
           {user?.role}
         </div>

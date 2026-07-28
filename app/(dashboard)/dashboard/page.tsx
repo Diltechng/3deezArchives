@@ -22,7 +22,7 @@ const StatCard = ({ label, value, valueAccent }: {
 }) => (
   <div className="p-3.5 rounded-lg bg-surface border border-border">
     <div className="mb-1.5 text-[10px] tracking-[0.06em] uppercase text-text-3">{label}</div>
-    <div className={cn("font-bold text-[22px]", { "text-accent" :valueAccent })}>{value}</div>
+    <div className={cn("font-bold text-[22px]", { "text-accent-primary" :valueAccent })}>{value}</div>
   </div>
 );
 
@@ -93,7 +93,7 @@ const HomePage = () => {
             <div className="text-[10px] tracking-[0.06em] uppercase text-text-2">
               Recent Posts
             </div>
-            <Link href="/gallery" className="text-[9px] text-accent">
+            <Link href="/gallery" className="text-[9px] text-accent-primary">
               view all →
             </Link>
           </div>
