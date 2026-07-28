@@ -45,7 +45,7 @@ const Topbar = () => {
       </div>
       <div className="flex items-center justify-center gap-3">
         <div className={cn(
-          "px-2 py-0.75 rounded-sm text-[9px] tracking-[0.08rem] uppercase border text-accent-3 bg-accent-3/20 border-accent-3",
+          "px-2 py-0.75 rounded-sm text-[9px] tracking-[0.08rem] uppercase border text-accent-info bg-accent-info/20 border-accent-info",
           { "text-accent-primary bg-accent-primary/20 border-accent-primary": isAdmin }
         )}>
           {user?.role}

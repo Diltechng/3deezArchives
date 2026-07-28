@@ -141,7 +141,7 @@ const PostDetailPage = () => {
             </div>
             <div className="flex justify-between">
               <span className="text-[9px] tracking-[0.6px] text-text-3">VISIBILITY</span>
-              <span className="rounded-[3px] font-sans text-[11px] text-accent-3">{visibility[data.data.visibility as PostVisibility]}</span>
+              <span className="rounded-[3px] font-sans text-[11px] text-accent-info">{visibility[data.data.visibility as PostVisibility]}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-[9px] tracking-[0.6px] text-text-3">TAGS</span>

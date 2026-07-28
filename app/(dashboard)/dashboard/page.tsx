@@ -45,11 +45,11 @@ const PostCard = ({ post, className }: {
     "py-2.5 flex items-start gap-2.5 text-[11px] border-b border-border",
     className
   )}>
-    <div className="h-1.5 w-1.5 mt-0.75 rounded-full bg-accent-3" />
+    <div className="h-1.5 w-1.5 mt-0.75 rounded-full bg-accent-info" />
     <div className="flex-1 font-sans text-text-2">
       <div className="text-text">{post.title}</div>
       {`Uploaded by ${post.uploadedByUser.name} · `}
-      <span className="text-accent-3">{post.category.name}</span>
+      <span className="text-accent-info">{post.category.name}</span>
     </div>
     <div className="mt-0.5 text-[9px] text-text-3">{getTimeAgo(post.createdAt)}</div>
   </Link>

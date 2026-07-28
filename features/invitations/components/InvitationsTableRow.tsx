@@ -41,7 +41,7 @@ const InvitationsTableRow = ({ invitation }: {
           className={cn(
             "py-0.75 px-2 rounded-[3px] tracking-[0.08rem] text-[9px] border",
             isAdmin? "text-accent-primary border-accent-primary bg-accent-primary/20"
-            : "text-accent-3 border-accent-3 bg-accent-3/20"
+            : "text-accent-info border-accent-info bg-accent-info/20"
           )}
         >
           {invitation.role?.toUpperCase() ?? "-"}
@@ -50,7 +50,7 @@ const InvitationsTableRow = ({ invitation }: {
       <TableData>
         <div className={cn(
           "flex items-center gap-1.25 text-[10px] text-accent-primary",
-          {"text-accent-3": isActive}
+          {"text-accent-info": isActive}
         )}>
           <div className="h-1.5 w-1.5 rounded-full bg-current" />
           <span>{invitation.status?.replace(/^./, (c: string) => c.toUpperCase()) ?? "-"}</span>

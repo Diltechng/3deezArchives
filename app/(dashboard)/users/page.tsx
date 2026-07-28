@@ -119,7 +119,7 @@ const UsersPage = () => {
                       className={cn(
                         "py-0.75 px-2 rounded-[3px] tracking-[0.08rem] text-[9px] border",
                         isAdmin? "text-accent-primary border-accent-primary bg-accent-primary/20"
-                        : "text-accent-3 border-accent-3 bg-accent-3/20"
+                        : "text-accent-info border-accent-info bg-accent-info/20"
                       )}
                     >
                       {user.role?.toUpperCase() ?? "-"}
@@ -138,7 +138,7 @@ const UsersPage = () => {
                   <td className="py-2.5 px-3">
                     <div className={cn(
                       "flex items-center gap-1.25 text-[10px]",
-                      isActive && "text-accent-3"
+                      isActive && "text-accent-info"
                     )}>
                       <div className="h-1.5 w-1.5 rounded-full bg-current" />
                       <span>{user.status?.replace(/^./, (c: string) => c.toUpperCase()) ?? "-"}</span>

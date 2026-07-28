@@ -13,7 +13,7 @@ const PostSkeleton = () => (
       <p className="h-4 rounded-[3px] text-[11px] font-sans truncate animate-shimmer bg-shimmer" />
       <p className="h-4 rounded-[3px] text-[10px] text-text-3 animate-shimmer bg-shimmer" />
       <div className="flex gap-2 justify-between">
-        <div className="h-4 w-20 py-0.5 px-1.75 rounded-[3px] text-[9px] truncate border animate-shimmer border-border-2/20 text-accent-3 bg-shimmer" />
+        <div className="h-4 w-20 py-0.5 px-1.75 rounded-[3px] text-[9px] truncate border animate-shimmer border-border-2/20 text-accent-info bg-shimmer" />
         <div className="h-4 w-12 text-[10px] font-sans truncate rounded-[3px] border animate-shimmer bg-shimmer border-border-2/20 text-text-3" />
       </div>
     </div>
@@ -40,7 +40,7 @@ const PostCard = ({ post }: {
       <p className="text-[11px] font-sans truncate">{post.title}</p>
       <p className="text-[10px] text-text-3">{dayjs(post.dateOfMoment).format("YYYY-MM-DD")}</p>
       <div className="flex gap-2 justify-between">
-        <div className="py-0.5 px-1.75 rounded-[3px] text-[9px] truncate text-accent-3 bg-accent-3/20">{post?.category?.name}</div>
+        <div className="py-0.5 px-1.75 rounded-[3px] text-[9px] truncate text-accent-info bg-accent-info/20">{post?.category?.name}</div>
         <div className="text-[10px] font-sans truncate text-text-3">{post?.uploadedByUser?.name}</div>
       </div>
     </div>
