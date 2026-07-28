@@ -21,3 +21,8 @@ export interface MediaUploadItem {
     url: string;
   } | null;
 }
+
+export interface Media {
+  id: string;
+  secureUrl: string;
+};

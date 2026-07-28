@@ -1,7 +1,7 @@
 import { PostVisibility } from "@/shared/constants/enums";
 import { X as XDelete } from "lucide-react";
 import { useState } from "react";
-import { GalleryCategory } from "../types";
+import { GalleryCategory, Media } from "../types";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreatePostInput, CreatePostSchema } from "@/shared/schemas";
@@ -18,21 +18,27 @@ const PostForm = ({ categories, onClose, initialData }: {
   categories?: GalleryCategory[]
   onClose?: () => any;
   initialData?: {
+    id: string;
     title: string;
     description: string;
     visibility: PostVisibility;
     dateOfMoment: string;
     categoryId: string;
     tags: string[];
-    media: {
-      ids: string;
-      coverId: string;
-    }
+    coverMedia: Media;
+    media: Media[];
   };
 }) => {
   const queryClient = useQueryClient();
+  
   const uploadMutation = useMutation({
     mutationFn: async (data: CreatePostInput) => {
+      if (initialData) {
+        const response = await api.patch(`/gallery/posts/${initialData.id}`, data);
+
+        return response;
+      }
+
       const response = await api.post("/gallery/posts", data);
 
       return await response.data;
@@ -54,8 +60,6 @@ const PostForm = ({ categories, onClose, initialData }: {
 
   const [tagInput, setTagInput] = useState("");
 
-  console.log(categories);
-
   const { watch, setValue, register, handleSubmit, control, formState: { errors, isSubmitting } } = useForm({
     resolver: zodResolver(CreatePostSchema),
     defaultValues: {
@@ -65,7 +69,10 @@ const PostForm = ({ categories, onClose, initialData }: {
       categoryId: initialData?.categoryId,
       visibility: initialData?.visibility,
       tags: initialData?.tags ?? [],
-      media: { ids: [] }
+      media: {
+        ids: initialData?.media.map(media => media.id) ?? [],
+        coverId: initialData?.coverMedia.id
+       }
     }
   });
 
@@ -102,6 +109,10 @@ const PostForm = ({ categories, onClose, initialData }: {
         <FormFieldCard title="Image File">
           <PostMediaField
             value={media}
+            initialData={initialData && {
+              postId: initialData.id,
+              media: initialData.media
+            }}
             onChange={(next) => setValue("media", next)}
             error={errors.media?.ids ?? errors.media?.coverId}
           />
