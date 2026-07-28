@@ -16,22 +16,22 @@
 }
 
 @theme {
-  --color-background: #0a0a0a;
+  --color-background: #0c0f11;
 
-  --color-surface: #111111;
+  --color-surface: #161a1c;
   --color-surface-2: #1a1a1a;
   --color-surface-3: #222222;
   
-  --color-border: #a5252514;
+  --color-border: #292c2f;
   --color-border-2: #ffffff26;
   
   --color-accent-primary: #e8ff6b;
   --color-accent-danger: #ff6b6b;
   --color-accent-info: #6bffd4;
 
-  --color-text: #f0f0f0;
+  --color-text: #f2f2f2;
   --color-text-2: #888;
-  --color-text-3: #555;
+  --color-text-3: #94989c;
 
   --animate-caret-blink: caret-blink 1.2s ease-out infinite;
 

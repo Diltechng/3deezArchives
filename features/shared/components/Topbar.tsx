@@ -22,7 +22,7 @@ const Topbar = () => {
   const isAdmin = user?.role === "admin";
 
   return (
-    <header className="flex px-3.5 py-1.5 justify-between border-b border-border bg-surface-2">
+    <header className="flex px-3.5 py-1.5 justify-between border-b border-border bg-background">
       <div className="flex items-center gap-2 font-bold text-[14px] tracking-[0.04rem] text-accent-primary">
         <button
           className="md:hidden p-1.5 rounded-md text-text-2 hover:text-text hover:bg-surface-3"

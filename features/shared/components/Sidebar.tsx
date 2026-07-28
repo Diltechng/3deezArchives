@@ -38,7 +38,7 @@ const Sidebar = () => {
     <BackgroundOverlay className={cn("p-0 hidden md:block md:relative", { "block": mobileOpen })} onClick={closeMobile}>
       <aside
         className={cn(
-          "flex flex-col h-full px-3 py-5 w-fit border-r border-border bg-surface-2 overflow-y-auto",
+          "flex flex-col h-full px-3 py-5 w-fit border-r border-border bg-background overflow-y-auto",
           {"w-50": desktopOpen},
         )}
         onClick={e => e.stopPropagation()}
@@ -58,11 +58,11 @@ const Sidebar = () => {
                         <Link
                           href={item.pathname}
                           className={clsx(
-                            "flex items-center gap-2 py-2 px-2.5 w-full text-[12px] text-left font-sans rounded-lg duration-200",
-                            isActivePage? "bg-accent-primary/10 text-accent-primary": "text-text-2 hover:text-text hover:bg-surface-3",
+                            "flex items-center gap-3 py-2 px-2.5 w-full text-[13px] text-left font-sans rounded-lg duration-200",
+                            isActivePage? "bg-accent-primary/10 text-accent-primary": "text-text-2 hover:text-text hover:bg-surface",
                           )}
                         >
-                          <item.icon className="h-4 w-4" />
+                          <item.icon className="h-4.5 w-4.5" />
                           {desktopOpen? item.name: ""}
                         </Link>
                       </li>
