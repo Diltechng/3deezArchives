@@ -4,7 +4,7 @@ import { cn } from "../lib/utils";
 interface StateCardProps {
   icon: {
     component: React.ComponentType<any>;
-    color?: "accent-primary" | "accent-2" | "accent-3";
+    color?: "accent-primary" | "accent-danger" | "accent-3";
   }
   title: string;
   subtitle: string;
@@ -18,7 +18,7 @@ const StateCard = ({ icon, title, subtitle, className }: StateCardProps) => (
       className
     )
   }>
-    <div className={cn("p-3 h-13 aspect-square rounded-full bg-current/10", `text-${icon.color ?? "accent-2"}`)}>
+    <div className={cn("p-3 h-13 aspect-square rounded-full bg-current/10", `text-${icon.color ?? "accent-danger"}`)}>
       <icon.component className="h-full w-full" />
     </div>
     <div className="font-sans font-bold">

@@ -62,7 +62,7 @@ const PostDetailPage = () => {
                 Cancel
               </button>
               <button
-                className="py-2 px-3 rounded-md text-accent-2 bg-accent-2/10 hover:bg-accent-2/20"
+                className="py-2 px-3 rounded-md text-accent-danger bg-accent-danger/10 hover:bg-accent-danger/20"
                 onClick={() => handleDelete(data.data.id)}
               >
                 Delete
@@ -109,7 +109,7 @@ const PostDetailPage = () => {
             EDIT
           </button>
           <button
-            className="py-2 px-4 rounded-lg tracking-[0.6px] border border-accent-2 bg-accent-2/15 text-accent-2"
+            className="py-2 px-4 rounded-lg tracking-[0.6px] border border-accent-danger bg-accent-danger/15 text-accent-danger"
             onClick={() => setShowDeleteModal(true)}
           >DELETE</button>
         </div>

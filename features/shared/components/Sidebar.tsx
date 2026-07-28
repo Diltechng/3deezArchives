@@ -74,7 +74,7 @@ const Sidebar = () => {
           </nav>
           <button
             onClick={signout}
-            className="py-2 px-2.5 flex items-center gap-2 text-sm font-sans font-[12px] text-left rounded-lg duration-200 text-accent-2 hover:bg-surface-3"
+            className="py-2 px-2.5 flex items-center gap-2 text-sm font-sans font-[12px] text-left rounded-lg duration-200 text-accent-danger hover:bg-surface-3"
           >
             <LogOut className="h-4 w-4" />
             {desktopOpen? "Sign Out": ""}
