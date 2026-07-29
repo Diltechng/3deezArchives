@@ -3,8 +3,11 @@ import {
   sessions,
   invitations,
   organisations,
+  roles,
+
   userRelations,
-  organisationRelations
+  organisationRelations,
+  rolesRelations,
 } from "./users";
 import { media, categories, posts, postRelations, mediaRelations } from "./gallery";
 
@@ -19,11 +22,13 @@ export const schema = {
   posts,
   categories,
   organisations,
+  roles,
 
   postRelations,
   mediaRelations,
   userRelations,
   organisationRelations,
+  rolesRelations,
 } as const;
 
 export type DbSchema = typeof schema;
