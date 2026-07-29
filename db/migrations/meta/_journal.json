@@ -15,6 +15,13 @@
       "when": 1784786191652,
       "tag": "0001_set_users_name_field_to_not_null",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1785358200635,
+      "tag": "0002_brown_living_mummy",
+      "breakpoints": true
     }
   ]
 }
