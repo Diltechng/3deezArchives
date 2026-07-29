@@ -17,15 +17,18 @@
 
 @theme {
   --color-background: #0c0f11;
+  --color-foreground-secondary: #94989c;
 
   --color-surface: #161a1c;
-  --color-surface-2: #1a1a1a;
+  --color-surface-2: #323537;
   --color-surface-3: #222222;
   
   --color-border: #292c2f;
   --color-border-2: #ffffff26;
   
   --color-accent-primary: #e8ff6b;
+  --color-accent-secondary: #774ffd;
+  --color-accent-neutral: #727780;
   --color-accent-danger: #ff6b6b;
   --color-accent-info: #6bffd4;
 
