@@ -36,6 +36,13 @@
       "when": 1785360949808,
       "tag": "0004_add_roles_table",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1785361211833,
+      "tag": "0005_add_permissions_table",
+      "breakpoints": true
     }
   ]
 }
