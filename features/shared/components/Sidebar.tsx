@@ -2,16 +2,23 @@
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import clsx from "clsx";
-import { Images, LayoutDashboard, LogOut, Settings, SquareActivity, Users } from "lucide-react";
+import { ChevronsUpDown, Images, LayoutDashboard, LogOut, Settings, SquareActivity, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import useSidebar from "../hooks/useSidebar";
-import { cn } from "../lib/utils";
+import { cn, getInitials } from "../lib/utils";
 import BackgroundOverlay from "./BackgroundOverlay";
 import { useEffect } from "react";
+import Button from "../ui/Button";
+import { useCurrentUser } from "@/features/users/hooks/useCurrentUser";
+import { DropdownMenu } from "radix-ui";
+import logo from "@/public/3deez-logo.svg";
+import mobileLogo from "@/public/mobile-logo.webp";
+import Image from "next/image";
 
 const Sidebar = () => {
   const { signout } = useAuth();
+  const { user } = useCurrentUser();
   const { mobileOpen, desktopOpen, closeMobile } = useSidebar();
   const pathname = usePathname();
 
@@ -39,11 +46,36 @@ const Sidebar = () => {
       <aside
         className={cn(
           "flex flex-col h-full px-3 py-5 w-fit border-r border-border bg-background overflow-y-auto",
-          {"w-50": desktopOpen},
+          {"w-55": desktopOpen},
         )}
         onClick={e => e.stopPropagation()}
       >
         <div className="flex flex-col flex-1 justify-between">
+          <div className={cn("ml-2 px-2 mb-5 font-bold", { "mx-auto": !desktopOpen })}>
+            {desktopOpen
+              ? (
+                  <div>
+                    <Image
+                      src={logo}
+                      loading="lazy"
+                      alt="Company Logo"
+                      className="w-25"
+                    />
+                    <span className="text-foreground-secondary">
+                      Archives
+                    </span>
+                  </div>
+                )
+                : (
+                  <Image
+                    src={mobileLogo}
+                    loading="lazy"
+                    alt="Company Mobile Logo"
+                    className="w-6"
+                  />
+                )
+            }
+          </div>
           <nav className={cn("flex flex-col gap-1", {"gap-4": desktopOpen})} role="navigation">
             {navGroups.map(group => (
               <div key={group.name} className="flex flex-col gap-1">
@@ -72,13 +104,58 @@ const Sidebar = () => {
               </div>
             ))}
           </nav>
-          <button
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild>
+              <Button
+                className={cn("mt-auto mb-1", { "px-1": !desktopOpen })}
+                variant="outlined"
+              >
+                <div className={cn(
+                  "grid place-items-center w-8 h-8 text-xs rounded-full bg-accent-secondary",
+                  { "w-6 h-6 mx-auto text-[10px]": !desktopOpen }
+                )}>
+                  {user?.name && getInitials(user.name)}
+                </div>
+                {desktopOpen && (
+                  <>
+                    <div>
+                    <p>{user?.name}</p>
+                    <span className="text-[10px] capitalize text-foreground-secondary">{user?.role}</span>
+                    </div>
+                    <ChevronsUpDown className="ml-auto w-3 h-3" />
+                  </>
+                )}
+              </Button>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Portal>
+              <DropdownMenu.Content align="end" className="grid gap-1 p-2 z-10 font-sans rounded-md shadow-md border border-border bg-surface">
+                <DropdownMenu.Separator className="h-px bg-border" />
+                <DropdownMenu.Item asChild>
+                  <Button
+                    variant="text"
+                    onClick={signout}
+                    className="text-xs text-accent-danger hover:text-accent-danger hover:bg-accent-danger/10"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Sign Out
+                  </Button>
+                </DropdownMenu.Item>
+                <DropdownMenu.Arrow
+                  className="fill-border"
+                />
+                <DropdownMenu.Arrow
+                  className="relative -top-0.5 fill-surface"
+                />
+              </DropdownMenu.Content>
+            </DropdownMenu.Portal>
+          </DropdownMenu.Root>
+          {/* <button
             onClick={signout}
             className="py-2 px-2.5 flex items-center gap-2 text-sm font-sans font-[12px] text-left rounded-lg duration-200 text-accent-danger hover:bg-surface-3"
           >
             <LogOut className="h-4 w-4" />
             {desktopOpen? "Sign Out": ""}
-          </button>
+          </button> */}
         </div>
       </aside>
     </BackgroundOverlay>
