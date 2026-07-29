@@ -1,8 +1,7 @@
 "use client"
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import clsx from "clsx";
-import { ChevronsUpDown, Images, LayoutDashboard, LogOut, Settings, SquareActivity, Users } from "lucide-react";
+import { Building2, ChevronsUpDown, Images, LayoutDashboard, LogOut, Settings, SquareActivity, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import useSidebar from "../hooks/useSidebar";
@@ -26,14 +25,15 @@ const Sidebar = () => {
     name: "MAIN",
     navOptions: [
       { name: "Dashboard", pathname: "/dashboard", icon: LayoutDashboard },
-      { name: "Gallery", pathname: "/gallery", icon: Images }
+      { name: "Gallery", pathname: "/gallery", icon: Images },
     ]
   }, {
     name: "ADMIN",
     navOptions: [
+      { name: "Organizations", pathname: "/organizations", icon: Building2 },
       { name: "Users", pathname: "/users", icon: Users },
       { name: "Settings", pathname: "/settings", icon: Settings },
-      { name: "Activity Logs", pathname: "/activity-logs", icon: SquareActivity }
+      { name: "Activity Logs", pathname: "/activity-logs", icon: SquareActivity },
     ]
   }];
 
@@ -87,16 +87,14 @@ const Sidebar = () => {
                     
                     return (
                       <li key={item.name}>
-                        <Link
-                          href={item.pathname}
-                          className={clsx(
-                            "flex items-center gap-3 py-2 px-2.5 w-full text-[13px] text-left font-sans rounded-lg duration-200",
-                            isActivePage? "bg-accent-primary/10 text-accent-primary": "text-text-2 hover:text-text hover:bg-surface",
-                          )}
-                        >
-                          <item.icon className="h-4.5 w-4.5" />
-                          {desktopOpen? item.name: ""}
-                        </Link>
+                        <Button variant="text" asChild active={isActivePage}>
+                          <Link
+                            href={item.pathname}
+                          >
+                            <item.icon className="h-4.5 w-4.5" />
+                            {desktopOpen? item.name: ""}
+                          </Link>
+                        </Button>
                       </li>
                     )
                   })}
@@ -149,13 +147,6 @@ const Sidebar = () => {
               </DropdownMenu.Content>
             </DropdownMenu.Portal>
           </DropdownMenu.Root>
-          {/* <button
-            onClick={signout}
-            className="py-2 px-2.5 flex items-center gap-2 text-sm font-sans font-[12px] text-left rounded-lg duration-200 text-accent-danger hover:bg-surface-3"
-          >
-            <LogOut className="h-4 w-4" />
-            {desktopOpen? "Sign Out": ""}
-          </button> */}
         </div>
       </aside>
     </BackgroundOverlay>
