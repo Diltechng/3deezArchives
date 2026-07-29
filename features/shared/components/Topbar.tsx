@@ -1,8 +1,8 @@
-import { TextAlignStart } from "lucide-react";
+import { Bell, Plus, TextAlignStart } from "lucide-react";
 import { usePathname } from "next/navigation";
 import useSidebar from "../hooks/useSidebar";
 import { useCurrentUser } from "@/features/users/hooks/useCurrentUser";
-import { cn, getInitials } from "../lib/utils";
+import Button from "../ui/Button";
 
 const Topbar = () => {
   const { toggleDesktop, toggleMobile } = useSidebar();
@@ -22,20 +22,22 @@ const Topbar = () => {
   const isAdmin = user?.role === "admin";
 
   return (
-    <header className="flex px-3.5 py-1.5 justify-between border-b border-border bg-background">
+    <header className="sticky top-0 z-9 flex px-3.5 py-2 justify-between border-b border-border bg-background">
       <div className="flex items-center gap-2 font-bold text-[14px] tracking-[0.04rem] text-accent-primary">
-        <button
-          className="md:hidden p-1.5 rounded-md text-text-2 hover:text-text hover:bg-surface-3"
+        <Button
+          className="md:hidden p-1.5 rounded-md"
+          variant="text"
           onClick={toggleMobile}
         >
           <TextAlignStart className="h-5.5 w-5.5" />
-        </button>
-        <button
-          className="hidden md:block p-1.5 rounded-md text-text-2 hover:text-text hover:bg-surface-3"
+        </Button>
+        <Button
+          className="hidden md:block p-1.5 rounded-md"
+          variant="text"
           onClick={toggleDesktop}
         >
           <TextAlignStart className="h-5.5 w-5.5" />
-        </button>
+        </Button>
         <span>
           {"3DEEZ "}
           {pageName &&
@@ -44,15 +46,13 @@ const Topbar = () => {
         </span>
       </div>
       <div className="flex items-center justify-center gap-3">
-        <div className={cn(
-          "px-2 py-0.75 rounded-sm text-[9px] tracking-[0.08rem] uppercase border text-accent-info bg-accent-info/20 border-accent-info",
-          { "text-accent-primary bg-accent-primary/20 border-accent-primary": isAdmin }
-        )}>
-          {user?.role}
-        </div>
-        <div className="flex items-center justify-center rounded-full w-7 aspect-square text-[10px] border border-border-2 bg-surface-3 text-text-2">
-          {user && getInitials(user?.name)}
-        </div>
+        <Button variant="text" className="grid place-items-center rounded-full p-1.5">
+          <Bell className="w-5.5 h-5.5" />
+        </Button>
+        <Button className="px-3 py-1.5">
+          <Plus className="w-4 h-4" />
+          <span className="mt-px">Add Event</span>
+        </Button>
       </div>
     </header>
   )
