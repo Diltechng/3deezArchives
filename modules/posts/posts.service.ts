@@ -5,7 +5,7 @@ import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { PostVisibility, UserRole } from "@/shared/constants/enums";
 import { and, asc, desc, eq, gte, ilike, inArray, isNull, lte, ne, or, sql } from "drizzle-orm";
 import { softDelete } from "../shared/helpers/soft-delete";
-import { CreateNewPostInput, DeleteOnePostInput, GetOnePostInput, GetPostsInput, GetPostsOutput, UpdateOnePostInput } from "../media/media.types";
+import { CreateNewPostInput, DeleteOnePostInput, GetOnePostInput, GetPostsInput, UpdateOnePostInput } from "../media/media.types";
 
 class PostsService {
   async createNewPost(data: CreateNewPostInput) {
@@ -67,7 +67,7 @@ class PostsService {
     return result;
   }
 
-  async getPosts(data: GetPostsInput): Promise<GetPostsOutput> {
+  async getPosts(data: GetPostsInput) {
     const visibilityConditions = [
       or(
         and(
@@ -161,16 +161,21 @@ class PostsService {
             secureUrl: true,
           }
         },
+        media: {
+          columns: {
+            id: true
+          }
+        },
         uploadedByUser: {
           columns: {
             id: true,
             name: true,
             role: true,
-          }
+          },
         },
       },
     });
-
+    
     return {
       posts: result,
       meta: {
