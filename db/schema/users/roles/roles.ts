@@ -2,6 +2,7 @@ import { pgTable, text, uniqueIndex, uuid, varchar } from "drizzle-orm/pg-core";
 import { primaryId, timestamps } from "../../shared";
 import { organisations } from "../organisations";
 import { relations, sql } from "drizzle-orm";
+import { rolePermissions } from "./rolePermissions";
 import { users } from "../user";
 
 export const roles = pgTable("roles", {
@@ -17,6 +18,8 @@ export const roles = pgTable("roles", {
 ]);
 
 export const rolesRelations = relations(roles, ({ one, many }) => ({
+  rolePermissions: many(rolePermissions),
+  
   organisation: one(organisations, {
     fields: [roles.organisationId],
     references: [organisations.id]

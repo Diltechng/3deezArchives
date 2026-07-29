@@ -5,11 +5,13 @@ import {
   organisations,
   roles,
   permissions,
+  rolePermissions,
 
   userRelations,
   organisationRelations,
   rolesRelations,
   permissionsRelations,
+  rolePermissionsRelations,
 } from "./users";
 import { media, categories, posts, postRelations, mediaRelations } from "./gallery";
 
@@ -26,6 +28,7 @@ export const schema = {
   organisations,
   roles,
   permissions,
+  rolePermissions,
 
   postRelations,
   mediaRelations,
@@ -33,6 +36,7 @@ export const schema = {
   organisationRelations,
   rolesRelations,
   permissionsRelations,
+  rolePermissionsRelations,
 } as const;
 
 export type DbSchema = typeof schema;
