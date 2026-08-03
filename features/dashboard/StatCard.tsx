@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
-import { accentSolidCn, accentTextCn, cn } from "../shared/lib/utils";
-import { Accent } from "../shared/types/accent.types";
+import { accentSolidCn, accentTextCn, cn } from "../common/lib/utils";
+import { Accent } from "../common/types/accent.types";
 import Link from "next/link";
 
 export const StatCardSkeleton = () => (

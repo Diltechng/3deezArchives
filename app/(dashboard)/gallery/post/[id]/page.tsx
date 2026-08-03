@@ -1,9 +1,9 @@
 "use client"
 
 import PostForm from "@/features/posts/components/PostForm";
-import LoadingState from "@/features/shared/components/LoadingState";
-import useModal from "@/features/shared/hooks/useModal";
-import { api } from "@/features/shared/lib/api";
+import LoadingState from "@/features/common/components/LoadingState";
+import useModal from "@/features/common/hooks/useModal";
+import { api } from "@/features/common/lib/api";
 import { PostVisibility } from "@/shared/constants/enums";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";

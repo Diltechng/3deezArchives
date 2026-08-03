@@ -47,7 +47,7 @@ const Sidebar = () => {
       <aside
         className={cn(
           "flex flex-col h-full px-3 py-5 w-fit border-r border-border bg-background overflow-y-auto",
-          {"w-55": desktopOpen},
+          {"w-65": desktopOpen},
         )}
         onClick={e => e.stopPropagation()}
       >

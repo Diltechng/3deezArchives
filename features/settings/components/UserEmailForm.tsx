@@ -1,5 +1,5 @@
-import FormField from "@/features/shared/components/FormField"
-import { CancelButton, SubmitButton } from "@/features/shared/components/FormModal";
+import FormField from "@/features/common/components/FormField"
+import { CancelButton, SubmitButton } from "@/features/common/components/FormModal";
 
 interface UserEmailFormProps {
   onClose?: () => void;

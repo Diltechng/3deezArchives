@@ -1,9 +1,9 @@
 "use client"
-import PageHeader from "@/features/shared/components/PageHeader";
-import StateCard from "@/features/shared/components/StateCard";
-import useModal from "@/features/shared/hooks/useModal";
-import useSearchFilters from "@/features/shared/hooks/useSearchFilters";
-import { api } from "@/features/shared/lib/api";
+import PageHeader from "@/features/common/components/PageHeader";
+import StateCard from "@/features/common/components/StateCard";
+import useModal from "@/features/common/hooks/useModal";
+import useSearchFilters from "@/features/common/hooks/useSearchFilters";
+import { api } from "@/features/common/lib/api";
 import InvitationsTable from "@/features/invitations/components/InvitationsTable";
 import InvitationsTableRow, { InvitationsTableRowSkeleton } from "@/features/invitations/components/InvitationsTableRow";
 import InviteUserForm from "@/features/invitations/components/InviteUserForm";

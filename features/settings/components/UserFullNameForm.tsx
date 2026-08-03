@@ -1,7 +1,7 @@
-import FormField from "@/features/shared/components/FormField"
-import { CancelButton, SubmitButton } from "@/features/shared/components/FormModal";
-import { api } from "@/features/shared/lib/api";
-import { getErrorMessage } from "@/features/shared/lib/utils";
+import FormField from "@/features/common/components/FormField"
+import { CancelButton, SubmitButton } from "@/features/common/components/FormModal";
+import { api } from "@/features/common/lib/api";
+import { getErrorMessage } from "@/features/common/lib/utils";
 import { UpdateFullNameInput, UpdateFullNameSchema } from "@/shared/schemas/account/update.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

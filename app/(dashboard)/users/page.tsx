@@ -1,10 +1,10 @@
 "use client"
 import Can from "@/features/permissions/components/Can";
-import PageHeader from "@/features/shared/components/PageHeader";
-import useModal from "@/features/shared/hooks/useModal";
-import useSearchFilters from "@/features/shared/hooks/useSearchFilters";
-import { api } from "@/features/shared/lib/api";
-import { cn, getInitials } from "@/features/shared/lib/utils";
+import PageHeader from "@/features/common/components/PageHeader";
+import useModal from "@/features/common/hooks/useModal";
+import useSearchFilters from "@/features/common/hooks/useSearchFilters";
+import { api } from "@/features/common/lib/api";
+import { cn, getInitials } from "@/features/common/lib/utils";
 import { PERMISSIONS } from "@/shared/constants/permissions";
 import { GetUsersResponse } from "@/shared/contracts/users";
 import { useQuery } from "@tanstack/react-query";

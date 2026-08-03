@@ -10,10 +10,10 @@ import { useDebouncedCallback } from "use-debounce";
 import { GalleryCategory } from "@/features/posts/types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import FilterChip, { FilterChipSkeleton } from "@/features/posts/components/FilterChip";
-import PageHeader from "@/features/shared/components/PageHeader";
+import PageHeader from "@/features/common/components/PageHeader";
 import { GetPostsResponse } from "@/shared/contracts/posts";
-import { api } from "@/features/shared/lib/api";
-import useModal from "@/features/shared/hooks/useModal";
+import { api } from "@/features/common/lib/api";
+import useModal from "@/features/common/hooks/useModal";
 import PostForm from "@/features/posts/components/PostForm";
 
 const GalleryPage = () => {
