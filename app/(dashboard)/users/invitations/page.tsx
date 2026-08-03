@@ -6,7 +6,7 @@ import useSearchFilters from "@/features/common/hooks/useSearchFilters";
 import { api } from "@/features/common/lib/api";
 import InvitationsTable from "@/features/invitations/components/InvitationsTable";
 import InvitationsTableRow, { InvitationsTableRowSkeleton } from "@/features/invitations/components/InvitationsTableRow";
-import InviteUserForm from "@/features/invitations/components/InviteUserForm";
+import { InviteUserFormModal } from "@/features/invitations/components/InviteUserFormModal";
 import { useQuery } from "@tanstack/react-query";
 import { Inbox, SearchX, TriangleAlert } from "lucide-react";
 import { useState } from "react";
@@ -51,7 +51,7 @@ const InvitationsPage = () => {
         <Can permission={PERMISSIONS.USERS_INVITE}>
           <button 
             className="button-primary uppercase"
-            onClick={() => openFormModal(InviteUserForm, {
+            onClick={() => openFormModal(InviteUserFormModal, {
               title: "Invite User",
               subtitle: "Grant access to the archives",
             })}

@@ -3,23 +3,24 @@ import { FormModalVariant } from "../types/FormModal.types";
 
 interface ValueTypes {
   modals: ModalType[];
-  openFormModal: <T>(component: ModalType["component"], data: ModalData<T>) => void;
+  openFormModal: <T>(component: ModalComponent<any>, data: FormModalData<T>) => void;
   closeModal: (modalId: string) => void;
 }
 
-export interface ModalType<T = unknown> {
+export interface ModalType<T = any> {
   id: string;
-  type: "form";
-  component: React.ComponentType<any>;
-  data: ModalData<T>;
+  component: ModalComponent<any>;
+  data: T;
 }
 
-type ModalData<T> = {
+export type ModalComponent<T = unknown> = React.ComponentType<T>;
+
+export type FormModalData<T = unknown> = {
   title: string;
   subtitle?: string;
-  initialData?: unknown;
+  initialData?: T;
   variant?: FormModalVariant;
-} & T;
+};
 
 export const ModalContext = createContext<ValueTypes | null>(null);
 
@@ -28,21 +29,36 @@ const ModalProvider = ({ children }: {
 }) => {
   const [modals, setModals] = useState<ModalType[]>([]);
   
-  function openFormModal<T>(component: ModalType["component"], data: ModalData<T>) {
+  function openModal<T>(
+    component: ModalComponent<any>,
+    data: T
+  ) {
     const id = crypto.randomUUID();
     setModals(prev => [...prev, {
       id,
-      type: "form",
       component,
       data,
     }]);
   }
 
-  function closeModal(modalId: string) {
-    setModals(prev => prev.filter(modal => modal.id !== modalId));
+  function openFormModal<T>(
+    component: ModalComponent<FormModalData<T>>,
+    data: FormModalData<T>,
+  ) {
+    openModal(
+      component,
+      data
+    );
   }
 
-  const values = useMemo(() => ({
+  function closeModal(modalId: string) {
+    setModals(
+      prev =>
+        prev.filter(modal => modal.id !== modalId)
+    );
+  }
+
+  const value = useMemo(() => ({
     modals,
     openFormModal,
     closeModal,
@@ -50,7 +66,7 @@ const ModalProvider = ({ children }: {
 
 
   return (
-    <ModalContext.Provider value={values}>
+    <ModalContext.Provider value={value}>
       {children}
     </ModalContext.Provider>
   )

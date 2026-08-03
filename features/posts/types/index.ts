@@ -1,5 +1,6 @@
 import { SerializeDates } from "@/shared/types/api";
 import { PostListItem } from "@/shared/contracts/posts";
+import { PostVisibility } from "@/shared/constants/enums";
 
 export type GalleryPost = SerializeDates<PostListItem>;
 
@@ -26,3 +27,15 @@ export interface Media {
   id: string;
   secureUrl: string;
 };
+
+export interface PostFormInitialData {
+    id: string;
+    title: string;
+    description: string;
+    visibility: PostVisibility;
+    dateOfMoment: string;
+    categoryId: string;
+    tags: string[];
+    coverMedia: Media;
+    media: Media[];
+  };
