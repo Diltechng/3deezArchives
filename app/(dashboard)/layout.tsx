@@ -1,7 +1,7 @@
 "use client"
-import ModalRenderer from "@/features/shared/components/ModalRenderer";
-import Sidebar from "@/features/shared/components/Sidebar";
-import Topbar from "@/features/shared/components/Topbar";
+import ModalRenderer from "@/features/common/components/ModalRenderer";
+import Sidebar from "@/features/common/components/Sidebar";
+import Topbar from "@/features/common/components/Topbar";
 
 const DashboardLayout = ({ children }: Readonly<{
   children: React.ReactNode;

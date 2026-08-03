@@ -1,6 +1,6 @@
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { api } from "@/features/shared/lib/api";
-import { getErrorMessage } from "@/features/shared/lib/utils";
+import { api } from "@/features/common/lib/api";
+import { getErrorMessage } from "@/features/common/lib/utils";
 import { GetUserProfileResponse } from "@/shared/contracts/users";
 import { useQuery } from "@tanstack/react-query";
 

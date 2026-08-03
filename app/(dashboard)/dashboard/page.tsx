@@ -3,10 +3,10 @@
 import { RecentEventItemCard, RecentEventItemCardSkeleton } from "@/features/dashboard/RecentEventItemCard";
 import { StatCard, StatCardSkeleton } from "@/features/dashboard/StatCard";
 import { useEventFormModal } from "@/features/posts/hooks/useEventFormModal";
-import PageHeader from "@/features/shared/components/PageHeader"
-import { api } from "@/features/shared/lib/api";
-import Button from "@/features/shared/ui/Button";
-import { NoEvent } from "@/features/shared/ui/icons/NoEvent";
+import PageHeader from "@/features/common/components/PageHeader"
+import { api } from "@/features/common/lib/api";
+import Button from "@/features/common/ui/Button";
+import { NoEvent } from "@/features/common/ui/icons/NoEvent";
 import { useCurrentUser } from "@/features/users/hooks/useCurrentUser";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Calendar, CalendarClock, FolderOpen, Plus, UsersRound } from "lucide-react";

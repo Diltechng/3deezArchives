@@ -1,6 +1,6 @@
 "use client"
 
-import { api } from "@/features/shared/lib/api";
+import { api } from "@/features/common/lib/api";
 import { SignInInput } from "@/shared/schemas";
 import axios from "axios";
 import { useRouter } from "next/navigation";

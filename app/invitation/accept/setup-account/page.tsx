@@ -2,9 +2,9 @@
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useInvitation } from "@/features/invitation/hooks/useInvitation";
-import FormField from "@/features/shared/components/FormField";
-import { SubmitButton } from "@/features/shared/components/FormModal";
-import { api } from "@/features/shared/lib/api";
+import FormField from "@/features/common/components/FormField";
+import { SubmitButton } from "@/features/common/components/FormModal";
+import { api } from "@/features/common/lib/api";
 import { INVITATION_TOKEN_HEADER } from "@/shared/constants";
 import { AcceptInviteSchema } from "@/shared/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
