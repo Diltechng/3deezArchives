@@ -62,7 +62,7 @@ const PostDetailPage = () => {
                 Cancel
               </button>
               <button
-                className="py-2 px-3 rounded-md text-accent-2 bg-accent-2/10 hover:bg-accent-2/20"
+                className="py-2 px-3 rounded-md text-accent-danger bg-accent-danger/10 hover:bg-accent-danger/20"
                 onClick={() => handleDelete(data.data.id)}
               >
                 Delete
@@ -108,7 +108,7 @@ const PostDetailPage = () => {
             EDIT
           </button>
           <button
-            className="py-2 px-4 rounded-lg tracking-[0.6px] border border-accent-2 bg-accent-2/15 text-accent-2"
+            className="py-2 px-4 rounded-lg tracking-[0.6px] border border-accent-danger bg-accent-danger/15 text-accent-danger"
             onClick={() => setShowDeleteModal(true)}
           >DELETE</button>
         </div>
@@ -128,7 +128,7 @@ const PostDetailPage = () => {
           <div className="flex flex-col gap-1.5">
             <div className="flex justify-between">
               <span className="text-[9px] tracking-[0.6px] text-text-3">CATEGORY</span>
-              <span className="py-0.5 px-1.75 rounded-[3px] text-[9px] text-accent bg-accent/10">{data.data.category.name}</span>
+              <span className="py-0.5 px-1.75 rounded-[3px] text-[9px] text-accent-primary bg-accent-primary/10">{data.data.category.name}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-[9px] tracking-[0.6px] text-text-3">DATE</span>
@@ -140,7 +140,7 @@ const PostDetailPage = () => {
             </div>
             <div className="flex justify-between">
               <span className="text-[9px] tracking-[0.6px] text-text-3">VISIBILITY</span>
-              <span className="rounded-[3px] font-sans text-[11px] text-accent-3">{visibility[data.data.visibility as PostVisibility]}</span>
+              <span className="rounded-[3px] font-sans text-[11px] text-accent-info">{visibility[data.data.visibility as PostVisibility]}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-[9px] tracking-[0.6px] text-text-3">TAGS</span>

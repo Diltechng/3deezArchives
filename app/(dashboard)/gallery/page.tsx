@@ -10,7 +10,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { GalleryCategory } from "@/features/posts/types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import FilterChip, { FilterChipSkeleton } from "@/features/posts/components/FilterChip";
-import ContentHeader from "@/features/shared/components/ContentHeader";
+import PageHeader from "@/features/shared/components/PageHeader";
 import { GetPostsResponse } from "@/shared/contracts/posts";
 import { api } from "@/features/shared/lib/api";
 import useModal from "@/features/shared/hooks/useModal";
@@ -124,7 +124,7 @@ const GalleryPage = () => {
 
   return (
     <section className="flex flex-col flex-1">
-      <ContentHeader title="Gallery" subtitle={`${postsCount} images across ${categoriesCount} categories`}>
+      <PageHeader title="Gallery" subtitle={`${postsCount} images across ${categoriesCount} categories`}>
         <div className="flex gap-2">
           <div className="flex overflow-hidden rounded-lg border border-border-2">
             <button
@@ -157,7 +157,7 @@ const GalleryPage = () => {
             UPLOAD
           </button>
         </div>
-      </ContentHeader>
+      </PageHeader>
       <div className="input-core mb-4">
         <input
           className="w-full"

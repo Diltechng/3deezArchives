@@ -1,6 +1,6 @@
 "use client"
 import Can from "@/features/permissions/components/Can";
-import ContentHeader from "@/features/shared/components/ContentHeader";
+import PageHeader from "@/features/shared/components/PageHeader";
 import useModal from "@/features/shared/hooks/useModal";
 import useSearchFilters from "@/features/shared/hooks/useSearchFilters";
 import { api } from "@/features/shared/lib/api";
@@ -56,7 +56,7 @@ const UsersPage = () => {
 
   return (
     <div>
-      <ContentHeader title="Users" subtitle={`${totalUsers} members · ${totalAdmins} admins · ${totalStaffs} staff`}>
+      <PageHeader title="Users" subtitle={`${totalUsers} members · ${totalAdmins} admins · ${totalStaffs} staff`}>
         <Can permission={PERMISSIONS.INVITATIONS_VIEW}>
           <Link 
             className="button-primary uppercase"
@@ -65,7 +65,7 @@ const UsersPage = () => {
             Invitations
           </Link>
         </Can>
-      </ContentHeader>
+      </PageHeader>
       <div className="input-core mb-4">
         <input
           className="w-full"
@@ -99,7 +99,7 @@ const UsersPage = () => {
                     <div className="flex gap-2 items-center">
                       <div className={cn(
                         "flex justify-center items-center rounded-full w-7 aspect-square text-[10px] uppercase border",
-                        isAdmin? "text-accent border-accent bg-accent/20"
+                        isAdmin? "text-accent-primary border-accent-primary bg-accent-primary/20"
                         : "text-text-2 border-border-2 bg-surface-3"
                       )}>
                         {getInitials(user.fullName)}
@@ -118,8 +118,8 @@ const UsersPage = () => {
                     <span
                       className={cn(
                         "py-0.75 px-2 rounded-[3px] tracking-[0.08rem] text-[9px] border",
-                        isAdmin? "text-accent border-accent bg-accent/20"
-                        : "text-accent-3 border-accent-3 bg-accent-3/20"
+                        isAdmin? "text-accent-primary border-accent-primary bg-accent-primary/20"
+                        : "text-accent-info border-accent-info bg-accent-info/20"
                       )}
                     >
                       {user.role?.toUpperCase() ?? "-"}
@@ -127,7 +127,7 @@ const UsersPage = () => {
                   </td>
                   <td className={cn(
                     "py-2.5 px-3 text-[11px]",
-                    isAdmin? "text-accent"
+                    isAdmin? "text-accent-primary"
                     : "text-text-2"
                   )}>
                     {user.postsCount ?? "-"}
@@ -138,7 +138,7 @@ const UsersPage = () => {
                   <td className="py-2.5 px-3">
                     <div className={cn(
                       "flex items-center gap-1.25 text-[10px]",
-                      isActive && "text-accent-3"
+                      isActive && "text-accent-info"
                     )}>
                       <div className="h-1.5 w-1.5 rounded-full bg-current" />
                       <span>{user.status?.replace(/^./, (c: string) => c.toUpperCase()) ?? "-"}</span>
@@ -146,10 +146,10 @@ const UsersPage = () => {
                   </td>
                   <td className="py-2.5 px-3">
                     <div className="flex gap-1.5">
-                      <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-2 hover:border-accent">
+                      <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-2 hover:border-accent-primary">
 
                       </button>
-                      <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-2 hover:border-accent">
+                      <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-2 hover:border-accent-primary">
 
                       </button>
                     </div>

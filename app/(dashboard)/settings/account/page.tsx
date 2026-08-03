@@ -4,7 +4,7 @@ import SettingsItem from "@/features/settings/components/SettingsItems";
 import UserEmailForm from "@/features/settings/components/UserEmailForm";
 import UserFullNameForm from "@/features/settings/components/UserFullNameForm";
 import UserPasswordForm from "@/features/settings/components/UserPasswordForm";
-import ContentHeader from "@/features/shared/components/ContentHeader"
+import PageHeader from "@/features/shared/components/PageHeader"
 import LoadingSpinner from "@/features/shared/components/LoadingSpinner";
 import useModal from "@/features/shared/hooks/useModal";
 import { useCurrentUser } from "@/features/users/hooks/useCurrentUser";
@@ -16,7 +16,7 @@ const AccountSettingsPage = () => {
 
   return (
     <>
-      <ContentHeader title="Account" subtitle="" />
+      <PageHeader title="Account" subtitle="" />
       {isLoading || !user
         ? (
           <div className="h-full w-full grid place-items-center font-medium text-lg text-text-2">

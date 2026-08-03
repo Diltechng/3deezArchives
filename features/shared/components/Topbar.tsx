@@ -1,8 +1,9 @@
-import { TextAlignStart } from "lucide-react";
+import { Bell, Plus, TextAlignStart } from "lucide-react";
 import { usePathname } from "next/navigation";
 import useSidebar from "../hooks/useSidebar";
 import { useCurrentUser } from "@/features/users/hooks/useCurrentUser";
-import { cn, getInitials } from "../lib/utils";
+import Button from "../ui/Button";
+import { useEventFormModal } from "@/features/posts/hooks/useEventFormModal";
 
 const Topbar = () => {
   const { toggleDesktop, toggleMobile } = useSidebar();
@@ -19,40 +20,41 @@ const Topbar = () => {
   
   const pageName = routeMap[pathName];
   const { user } = useCurrentUser();
+  const { openAddEventModal } = useEventFormModal();
   const isAdmin = user?.role === "admin";
 
   return (
-    <header className="flex px-3.5 py-1.5 justify-between border-b border-border bg-surface-2">
-      <div className="flex items-center gap-2 font-bold text-[14px] tracking-[0.04rem] text-accent">
-        <button
-          className="md:hidden p-1.5 rounded-md text-text-2 hover:text-text hover:bg-surface-3"
+    <header className="sticky top-0 z-9 flex px-3.5 py-2 justify-between border-b border-border bg-background">
+      <div className="flex items-center gap-2 font-bold text-[14px] tracking-[0.04rem]">
+        <Button
+          className="md:hidden w-9 flex justify-center items-center rounded-md"
+          variant="outlined"
           onClick={toggleMobile}
         >
-          <TextAlignStart className="h-5.5 w-5.5" />
-        </button>
-        <button
-          className="hidden md:block p-1.5 rounded-md text-text-2 hover:text-text hover:bg-surface-3"
+          <TextAlignStart className="h-4.5 w-4.5 shrink-0" />
+        </Button>
+        <Button
+          className="hidden md:flex w-9 justify-center items-center rounded-md"
+          variant="outlined"
           onClick={toggleDesktop}
         >
-          <TextAlignStart className="h-5.5 w-5.5" />
-        </button>
-        <span>
+          <TextAlignStart className="h-4.5 w-4.5 shrink-0" />
+        </Button>
+        {/* <span>
           {"3DEEZ "}
           {pageName &&
               <span className="font-medium text-text-2">{`/ ${pageName}`}</span>
           }
-        </span>
+        </span> */}
       </div>
       <div className="flex items-center justify-center gap-3">
-        <div className={cn(
-          "px-2 py-0.75 rounded-sm text-[9px] tracking-[0.08rem] uppercase border text-accent-3 bg-accent-3/20 border-accent-3",
-          { "text-accent bg-accent/20 border-accent": isAdmin }
-        )}>
-          {user?.role}
-        </div>
-        <div className="flex items-center justify-center rounded-full w-7 aspect-square text-[10px] border border-border-2 bg-surface-3 text-text-2">
-          {user && getInitials(user?.name)}
-        </div>
+        <Button variant="outlined" className="flex justify-center items-center rounded-md w-9">
+          <Bell className="w-4.5 h-4.5 shrink-0" />
+        </Button>
+        <Button className="px-3 py-1.5 gap-1" onClick={openAddEventModal}>
+          <Plus className="w-4 h-4" />
+          <span className="font-medium">Add Event</span>
+        </Button>
       </div>
     </header>
   )

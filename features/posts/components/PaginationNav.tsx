@@ -98,7 +98,7 @@ const PaginationNav = ({ currentPage, totalPages, hasNextPage, hasPreviousPage, 
               key={`${page}-${index}`}
               className={clsx(
                 "p-1 w-8 aspect-square rounded-lg border",
-                currentPage === page? "border-transparent text-black bg-accent": "border-border-2 bg-surface hover:text-text hover:bg-surface-2"
+                currentPage === page? "border-transparent text-black bg-accent-primary": "border-border-2 bg-surface hover:text-text hover:bg-surface-2"
               )}
               onClick={() => onPageChange(page)}
             >

@@ -7,12 +7,12 @@ const DashboardLayout = ({ children }: Readonly<{
   children: React.ReactNode;
 }>) => {
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex h-screen">
       <ModalRenderer />
-      <Topbar />
-      <div className="flex flex-1 overflow-hidden">
-        <Sidebar />
-        <main className="p-6 flex flex-col flex-1 overflow-y-auto">
+      <Sidebar />
+      <div className="flex flex-1 flex-col overflow-y-auto">
+        <Topbar />
+        <main className="p-4 md:p-6 flex flex-col flex-1">
           {children}
         </main>
       </div>

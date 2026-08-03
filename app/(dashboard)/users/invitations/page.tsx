@@ -1,6 +1,5 @@
 "use client"
-
-import ContentHeader from "@/features/shared/components/ContentHeader";
+import PageHeader from "@/features/shared/components/PageHeader";
 import StateCard from "@/features/shared/components/StateCard";
 import useModal from "@/features/shared/hooks/useModal";
 import useSearchFilters from "@/features/shared/hooks/useSearchFilters";
@@ -48,7 +47,7 @@ const InvitationsPage = () => {
 
   return (
     <div className="flex flex-col flex-1">
-      <ContentHeader title="Invitations" subtitle={`${totalInvitations} active invitations`}>
+      <PageHeader title="Invitations" subtitle={`${totalInvitations} active invitations`}>
         <Can permission={PERMISSIONS.USERS_INVITE}>
           <button 
             className="button-primary uppercase"
@@ -60,7 +59,7 @@ const InvitationsPage = () => {
             Invite User
           </button>
         </Can>
-      </ContentHeader>
+      </PageHeader>
       <div className="input-core mb-4">
         <input
           className="w-full"
@@ -87,12 +86,12 @@ const InvitationsPage = () => {
                 " />
             : (hasFilters
               ? (
-                <StateCard icon={{ component: SearchX, color: "accent" }} title="No Results Found" subtitle="
+                <StateCard icon={{ component: SearchX, color: "accent-primary" }} title="No Results Found" subtitle="
                     We couldn't find anything matching your current search and filters.
                     Try adjusting your filters or clearing them to see more results.
                 " />
               ): (
-                <StateCard icon={{ component: Inbox, color: "accent" }} title="No Invitations" subtitle="
+                <StateCard icon={{ component: Inbox, color: "accent-primary" }} title="No Invitations" subtitle="
                   There are currently no invitations.
                 " />
               )

@@ -40,8 +40,8 @@ const InvitationsTableRow = ({ invitation }: {
         <span
           className={cn(
             "py-0.75 px-2 rounded-[3px] tracking-[0.08rem] text-[9px] border",
-            isAdmin? "text-accent border-accent bg-accent/20"
-            : "text-accent-3 border-accent-3 bg-accent-3/20"
+            isAdmin? "text-accent-primary border-accent-primary bg-accent-primary/20"
+            : "text-accent-info border-accent-info bg-accent-info/20"
           )}
         >
           {invitation.role?.toUpperCase() ?? "-"}
@@ -49,8 +49,8 @@ const InvitationsTableRow = ({ invitation }: {
       </TableData>
       <TableData>
         <div className={cn(
-          "flex items-center gap-1.25 text-[10px] text-accent",
-          {"text-accent-3": isActive}
+          "flex items-center gap-1.25 text-[10px] text-accent-primary",
+          {"text-accent-info": isActive}
         )}>
           <div className="h-1.5 w-1.5 rounded-full bg-current" />
           <span>{invitation.status?.replace(/^./, (c: string) => c.toUpperCase()) ?? "-"}</span>
@@ -58,10 +58,10 @@ const InvitationsTableRow = ({ invitation }: {
       </TableData>
       <TableData>
         <div className="flex gap-1.5">
-          <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-2 hover:border-accent">
+          <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-2 hover:border-accent-primary">
 
           </button>
-          <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-2 hover:border-accent">
+          <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-2 hover:border-accent-primary">
 
           </button>
         </div>
