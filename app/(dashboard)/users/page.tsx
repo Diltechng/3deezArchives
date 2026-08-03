@@ -1,6 +1,6 @@
 "use client"
 import Can from "@/features/permissions/components/Can";
-import ContentHeader from "@/features/shared/components/ContentHeader";
+import PageHeader from "@/features/shared/components/PageHeader";
 import useModal from "@/features/shared/hooks/useModal";
 import useSearchFilters from "@/features/shared/hooks/useSearchFilters";
 import { api } from "@/features/shared/lib/api";
@@ -56,7 +56,7 @@ const UsersPage = () => {
 
   return (
     <div>
-      <ContentHeader title="Users" subtitle={`${totalUsers} members · ${totalAdmins} admins · ${totalStaffs} staff`}>
+      <PageHeader title="Users" subtitle={`${totalUsers} members · ${totalAdmins} admins · ${totalStaffs} staff`}>
         <Can permission={PERMISSIONS.INVITATIONS_VIEW}>
           <Link 
             className="button-primary uppercase"
@@ -65,7 +65,7 @@ const UsersPage = () => {
             Invitations
           </Link>
         </Can>
-      </ContentHeader>
+      </PageHeader>
       <div className="input-core mb-4">
         <input
           className="w-full"

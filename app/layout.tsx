@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Space_Mono, DM_Sans } from "next/font/google";
+import { Geist, Geist_Mono, Space_Mono, DM_Sans, Inter } from "next/font/google";
 import "./globals.css";
 import ToastContainer from "@/features/shared/components/ToastContainer";
 import { Providers } from "@/features/shared/providers";
@@ -8,6 +8,12 @@ import ProtectedPage from "@/features/shared/components/ProtectedPage";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
@@ -40,7 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${spaceMono.variable} ${dMSans.variable} antialiased text-text bg-background`}
+        className={`${geistSans.variable} ${spaceMono.variable} ${inter.variable} ${dMSans.variable} antialiased text-text bg-background`}
       >
         <Providers>
           

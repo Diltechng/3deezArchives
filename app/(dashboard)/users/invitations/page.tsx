@@ -1,6 +1,5 @@
 "use client"
-
-import ContentHeader from "@/features/shared/components/ContentHeader";
+import PageHeader from "@/features/shared/components/PageHeader";
 import StateCard from "@/features/shared/components/StateCard";
 import useModal from "@/features/shared/hooks/useModal";
 import useSearchFilters from "@/features/shared/hooks/useSearchFilters";
@@ -48,7 +47,7 @@ const InvitationsPage = () => {
 
   return (
     <div className="flex flex-col flex-1">
-      <ContentHeader title="Invitations" subtitle={`${totalInvitations} active invitations`}>
+      <PageHeader title="Invitations" subtitle={`${totalInvitations} active invitations`}>
         <Can permission={PERMISSIONS.USERS_INVITE}>
           <button 
             className="button-primary uppercase"
@@ -60,7 +59,7 @@ const InvitationsPage = () => {
             Invite User
           </button>
         </Can>
-      </ContentHeader>
+      </PageHeader>
       <div className="input-core mb-4">
         <input
           className="w-full"

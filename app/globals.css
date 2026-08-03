@@ -13,11 +13,12 @@
 @theme inline {
   --font-mono: var(--font-space-mono);
   --font-sans: var(--font-dm-sans);
+  --font-inter: var(--font-inter);
 }
 
 @theme {
   --color-background: #0c0f11;
-  --color-foreground-secondary: #94989c;
+  --color-foreground-secondary: #9797a3;
 
   --color-surface: #161a1c;
   --color-surface-2: #323537;
@@ -61,7 +62,7 @@
 
 @layer base {
   body {
-    @apply font-mono text-text bg-background
+    @apply font-inter text-text bg-background
   }
 
   body * {

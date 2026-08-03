@@ -19,7 +19,7 @@ const Button = ({ className, variant="contained", active=false, asChild=false, I
       {...props}
       onClick={onClick}
       className={cn(
-        "flex items-center gap-2 py-2 px-2.5 text-[13px] text-left font-sans rounded-lg duration-200",
+        "flex items-center gap-2 py-2 px-2.5 text-[13px] text-left rounded-lg duration-200",
         
         variant === "contained" && (
           "bg-accent-primary text-background"

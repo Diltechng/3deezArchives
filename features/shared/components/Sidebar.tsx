@@ -1,7 +1,7 @@
 "use client"
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { Building2, ChevronsUpDown, Images, LayoutDashboard, LogOut, Settings, SquareActivity, Users } from "lucide-react";
+import { Building2, ChevronsUpDown, Folders, Images, LayoutDashboard, LogOut, Settings, SquareActivity, UserCircle, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import useSidebar from "../hooks/useSidebar";
@@ -26,11 +26,12 @@ const Sidebar = () => {
     navOptions: [
       { name: "Dashboard", pathname: "/dashboard", icon: LayoutDashboard },
       { name: "Gallery", pathname: "/gallery", icon: Images },
+      { name: "Categories", pathname: "/categories", icon: Folders },
     ]
   }, {
     name: "ADMIN",
     navOptions: [
-      { name: "Organizations", pathname: "/organizations", icon: Building2 },
+      { name: "Organisations", pathname: "/organisations", icon: Building2 },
       { name: "Users", pathname: "/users", icon: Users },
       { name: "Settings", pathname: "/settings", icon: Settings },
       { name: "Activity Logs", pathname: "/activity-logs", icon: SquareActivity },
@@ -51,30 +52,19 @@ const Sidebar = () => {
         onClick={e => e.stopPropagation()}
       >
         <div className="flex flex-col flex-1 justify-between">
-          <div className={cn("ml-2 px-2 mb-5 font-bold", { "mx-auto": !desktopOpen })}>
-            {desktopOpen
-              ? (
-                  <div>
-                    <Image
-                      src={logo}
-                      loading="lazy"
-                      alt="Company Logo"
-                      className="w-25"
-                    />
-                    <span className="text-foreground-secondary">
-                      Archives
-                    </span>
-                  </div>
-                )
-                : (
-                  <Image
-                    src={mobileLogo}
-                    loading="lazy"
-                    alt="Company Mobile Logo"
-                    className="w-6"
-                  />
-                )
-            }
+          <div className={cn("ml-2 px-2 mb-5 flex gap-2 items-center", { "mx-auto": !desktopOpen })}>
+            <Image
+              src={mobileLogo}
+              loading="lazy"
+              alt="Company Mobile Logo"
+              className="w-6"
+            />
+            {desktopOpen && (<div>
+              <div className="font-extrabold uppercase">3Deez</div>
+              <div className="text-[10px] uppercase tracking-wider text-foreground-secondary">
+                Archives
+              </div>
+            </div>)}
           </div>
           <nav className={cn("flex flex-col gap-1", {"gap-4": desktopOpen})} role="navigation">
             {navGroups.map(group => (
@@ -87,7 +77,7 @@ const Sidebar = () => {
                     
                     return (
                       <li key={item.name}>
-                        <Button variant="text" asChild active={isActivePage}>
+                        <Button variant="text" asChild active={isActivePage} className="px-3 py-2.5">
                           <Link
                             href={item.pathname}
                           >
@@ -126,24 +116,36 @@ const Sidebar = () => {
               </Button>
             </DropdownMenu.Trigger>
             <DropdownMenu.Portal>
-              <DropdownMenu.Content align="end" className="grid gap-1 p-2 z-10 font-sans rounded-md shadow-md border border-border bg-surface">
+              <DropdownMenu.Content align="end" sideOffset={8} className="grid gap-1 p-2 w-(--radix-dropdown-menu-trigger-width) z-10 font-sans rounded-md shadow-md border border-border bg-surface">
+                <DropdownMenu.Item asChild>
+                  <Button
+                    variant="text"
+                    className="text-sm hover:bg-surface-2"
+                  >
+                    <UserCircle className="h-4 w-4" />
+                    Profile
+                  </Button>
+                </DropdownMenu.Item>
+                <DropdownMenu.Item asChild>
+                  <Button
+                    variant="text"
+                    className="text-sm hover:bg-surface-2"
+                  >
+                    <Settings className="h-4 w-4" />
+                    Settings
+                  </Button>
+                </DropdownMenu.Item>
                 <DropdownMenu.Separator className="h-px bg-border" />
                 <DropdownMenu.Item asChild>
                   <Button
                     variant="text"
                     onClick={signout}
-                    className="text-xs text-accent-danger hover:text-accent-danger hover:bg-accent-danger/10"
+                    className="text-sm text-accent-danger hover:text-accent-danger hover:bg-accent-danger/10"
                   >
                     <LogOut className="h-4 w-4" />
                     Sign Out
                   </Button>
                 </DropdownMenu.Item>
-                <DropdownMenu.Arrow
-                  className="fill-border"
-                />
-                <DropdownMenu.Arrow
-                  className="relative -top-0.5 fill-surface"
-                />
               </DropdownMenu.Content>
             </DropdownMenu.Portal>
           </DropdownMenu.Root>
