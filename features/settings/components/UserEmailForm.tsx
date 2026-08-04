@@ -1,22 +1,35 @@
 import FormField from "@/features/common/components/FormField"
-import { CancelButton, SubmitButton } from "@/features/common/components/FormModal";
+import { Modal } from "@/features/common/components/Modal";
+import { ModalBody } from "@/features/common/components/ModalBody";
+import { ModalFooter } from "@/features/common/components/ModalFooter";
+import { ModalHeader } from "@/features/common/components/ModalHeader";
+import Button from "@/features/common/ui/Button";
 
 interface UserEmailFormProps {
+  title: string;
   onClose?: () => void;
 }
 
-const UserEmailForm = ({ onClose }: UserEmailFormProps) => {
+const UserEmailForm = ({ title, onClose }: UserEmailFormProps) => {
   return (
-    <form>
-      <FormField label="Email">
-        <input className="input-core" placeholder="Email address" />
-      </FormField>
-
-      <div className="flex gap-2 pt-3 justify-end mt-auto">
-        <CancelButton onClick={onClose} />
-        <SubmitButton />
-      </div>
-    </form>
+    <Modal>
+      <ModalHeader title={title} />
+      <ModalBody>
+        <form>
+          <FormField label="Email">
+            <input className="input-core" placeholder="Email address" />
+          </FormField>
+        </form>
+      </ModalBody>
+      <ModalFooter>
+        <Button variant="outlined" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button>
+          Update
+        </Button>
+      </ModalFooter>
+    </Modal>
   )
 }
 

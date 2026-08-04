@@ -8,21 +8,36 @@ interface ButtonProps {
   asChild?: boolean;
   variant?: "contained" | "text" | "outlined"
   className?: string;
+  disabled?: boolean;
+  form?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const Button = ({ className, variant="contained", active=false, asChild=false, Icon, children, onClick, ...props }: ButtonProps) => {
+const Button = ({
+  className,
+  variant="contained",
+  form,
+  active=false,
+  asChild=false,
+  disabled=false,
+  Icon,
+  children,
+  onClick,
+  ...props
+}: ButtonProps) => {
   const Comp = asChild? Slot.Root: "button";
 
   return (
     <Comp
       {...props}
+      form={form}
+      disabled={disabled}
       onClick={onClick}
       className={cn(
         "flex items-center gap-2 py-2 px-2.5 text-[13px] text-left rounded-lg duration-200",
         
         variant === "contained" && (
-          "bg-accent-primary text-background"
+          "font-semibold bg-accent-primary text-background"
         ),
 
         variant === "outlined" && (

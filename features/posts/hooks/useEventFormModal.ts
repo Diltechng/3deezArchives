@@ -1,11 +1,11 @@
 import useModal from "@/features/common/hooks/useModal"
-import PostForm from "../components/PostForm";
+import { PostFormModal } from "../components/PostFormModal";
 
 export const useEventFormModal = () => {
   const { openFormModal } = useModal();
 
   const openAddEventModal = () => {
-    openFormModal(PostForm, {
+    openFormModal(PostFormModal, {
       title: "Add Event"
     });
   }

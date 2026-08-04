@@ -1,6 +1,6 @@
 "use client"
 
-import PostForm from "@/features/posts/components/PostForm";
+import { PostFormModal } from "@/features/posts/components/PostFormModal";
 import LoadingState from "@/features/common/components/LoadingState";
 import useModal from "@/features/common/hooks/useModal";
 import { api } from "@/features/common/lib/api";
@@ -88,7 +88,7 @@ const PostDetailPage = () => {
 
               const categories = response.data.data;
 
-              openFormModal(PostForm, {
+              openFormModal(PostFormModal, {
                 title: "Edit Post",
                 initialData: {
                   id: data.data.id,
@@ -100,8 +100,7 @@ const PostDetailPage = () => {
                   tags: data.data.tags,
                   coverMedia: data.data.coverMedia,
                   media: data.data.media,
-                },
-                categories,
+                }
               }
             )}}
           >

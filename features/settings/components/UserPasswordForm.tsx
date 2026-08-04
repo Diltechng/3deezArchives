@@ -1,7 +1,11 @@
 import FormField from "@/features/common/components/FormField"
-import { CancelButton, SubmitButton } from "@/features/common/components/FormModal";
+import { Modal } from "@/features/common/components/Modal";
+import { ModalBody } from "@/features/common/components/ModalBody";
+import { ModalFooter } from "@/features/common/components/ModalFooter";
+import { ModalHeader } from "@/features/common/components/ModalHeader";
 import { api } from "@/features/common/lib/api";
 import { getErrorMessage } from "@/features/common/lib/utils";
+import Button from "@/features/common/ui/Button";
 import { UpdatePasswordInput, UpdatePasswordSchema } from "@/shared/schemas/account/update.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -10,10 +14,11 @@ import { toast } from "react-toastify";
 import z from "zod";
 
 interface UserPasswordFormProps {
+  title: string;
   onClose?: () => void;
 }
 
-const UserPasswordForm = ({ onClose }: UserPasswordFormProps) => {
+const UserPasswordForm = ({ title, onClose }: UserPasswordFormProps) => {
   const UpdatePasswordFormSchema = UpdatePasswordSchema.extend({
     confirmPassword: z.string(),
   }).refine((data) => data.newPassword === data.confirmPassword, {
@@ -47,24 +52,32 @@ const UserPasswordForm = ({ onClose }: UserPasswordFormProps) => {
   }
   
   return (
-    <form onSubmit={handleSubmit(onSumbit)}>
-      <div className="grid gap-4">
-        <FormField label="Current Password" error={errors.currentPassword}>
-          <input {...register("currentPassword")} className="input-core" placeholder="Current password" />
-        </FormField>
-        <FormField label="New Password" error={errors.newPassword}>
-          <input {...register("newPassword")} className="input-core" placeholder="New password" />
-        </FormField>
-        <FormField label="Confirm New Password" error={errors.confirmPassword}>
-          <input {...register("confirmPassword")} className="input-core" placeholder="Confirm new password" />
-        </FormField>
-      </div>
-
-      <div className="flex gap-2 pt-3 justify-end mt-auto">
-        <CancelButton onClick={onClose} />
-        <SubmitButton disabled={updatePasswordMutation.isPending} />
-      </div>
-    </form>
+    <Modal>
+      <ModalHeader title={title} />
+      <ModalBody>
+        <form id="update-password-form" onSubmit={handleSubmit(onSumbit)}>
+          <div className="grid gap-4">
+            <FormField label="Current Password" error={errors.currentPassword}>
+              <input {...register("currentPassword")} className="input-core" placeholder="Current password" />
+            </FormField>
+            <FormField label="New Password" error={errors.newPassword}>
+              <input {...register("newPassword")} className="input-core" placeholder="New password" />
+            </FormField>
+            <FormField label="Confirm New Password" error={errors.confirmPassword}>
+              <input {...register("confirmPassword")} className="input-core" placeholder="Confirm new password" />
+            </FormField>
+          </div>
+        </form>
+      </ModalBody>
+      <ModalFooter>
+        <Button variant="outlined" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button form="update-password-form" disabled={updatePasswordMutation.isPending}>
+          Update
+        </Button>
+      </ModalFooter>
+    </Modal>
   )
 }
 

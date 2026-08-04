@@ -2,7 +2,7 @@ import { ClassValue } from "clsx";
 import { cn } from "../lib/utils";
 
 const BackgroundOverlay = ({ children, className, onClick }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: ClassValue;
   onClick?: () => void;
 }) => (
