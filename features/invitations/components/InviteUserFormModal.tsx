@@ -16,6 +16,7 @@ import { ModalHeader } from "@/features/common/components/ModalHeader";
 import { ModalFooter } from "@/features/common/components/ModalFooter";
 import Button from "@/features/common/ui/Button";
 import { ModalBody } from "@/features/common/components/ModalBody";
+import { Input } from "@/features/common/ui/Input";
 
 interface InviteUserFormModalProps {
   title: string;
@@ -79,7 +80,7 @@ export const InviteUserFormModal = ({ title, subtitle, onClose }: InviteUserForm
         <form id="invite-user-form" className="flex-1 flex flex-col" onSubmit={handleSubmit(onSumbit)}>
           <FormFieldCard title="Account Info">
             <FormField label="Email Address" error={errors.email}>
-              <input {...register("email")} className="input-core" placeholder="Email address" />
+              <Input {...register("email")} className="input-core" placeholder="Email address" />
             </FormField>
           </FormFieldCard>
           <FormFieldCard title="Access Role">
@@ -87,7 +88,7 @@ export const InviteUserFormModal = ({ title, subtitle, onClose }: InviteUserForm
               <div className="flex gap-2">
                 {roles.map(role => (
                   <FormFieldLabel key={role.value} className={cn(
-                    "p-2.5 flex-1 tracking-[0.06em] rounded-lg text-center text-[9px] cursor-pointer duration-200 border border-border-2 text-text-2",
+                    "p-2.5 flex-1 tracking-[0.06em] rounded-lg text-center text-[9px] cursor-pointer duration-200 border border-border text-foreground-secondary",
                     {"border-accent-primary text-accent-primary bg-accent-primary/5": (selectedRole === role.value)}
                   )}>
                     <input className="hidden" type="radio" value={role.value} {...register("role")} />
@@ -100,42 +101,42 @@ export const InviteUserFormModal = ({ title, subtitle, onClose }: InviteUserForm
               </div>
               <FormFieldCardTitle title="Permissions" className="mt-3.5" />
               <div className="grid grid-cols-2 gap-2">
-                <div className="py-2 px-2.5 flex gap-2 items-center rounded-lg font-sans text-[11px] text-text-2 bg-surface-3">
+                <div className="py-2 px-2.5 flex gap-2 items-center rounded-lg font-sans text-[11px] text-foreground-secondary bg-surface">
                   <div className={cn(
-                    "w-3.5 h-3.5 rounded-[3px] border border-border-2",
+                    "w-3.5 h-3.5 rounded-[3px] border border-border",
                     {"bg-accent-primary border-transparent": true}
                   )}></div>
                   {" View gallery"}
                 </div>
-                <div className="py-2 px-2.5 flex gap-2 items-center rounded-lg font-sans text-[11px] text-text-2 bg-surface-3">
+                <div className="py-2 px-2.5 flex gap-2 items-center rounded-lg font-sans text-[11px] text-foreground-secondary bg-surface">
                   <div className={cn(
                     "w-3.5 h-3.5 rounded-[3px] border border-border-2",
                     {"bg-accent-primary border-transparent": true}
                   )}></div>
                   {" Upload posts"}
                 </div>
-                <div className="py-2 px-2.5 flex gap-2 items-center rounded-lg font-sans text-[11px] text-text-2 bg-surface-3">
+                <div className="py-2 px-2.5 flex gap-2 items-center rounded-lg font-sans text-[11px] text-foreground-secondary bg-surface">
                   <div className={cn(
                     "w-3.5 h-3.5 rounded-[3px] border border-border-2",
                     {"bg-accent-primary border-transparent": selectedRole === "admin"}
                   )}></div>
                   {" Delete posts"}
                 </div>
-                <div className="py-2 px-2.5 flex gap-2 items-center rounded-lg font-sans text-[11px] text-text-2 bg-surface-3">
+                <div className="py-2 px-2.5 flex gap-2 items-center rounded-lg font-sans text-[11px] text-foreground-secondary bg-surface">
                   <div className={cn(
                     "w-3.5 h-3.5 rounded-[3px] border border-border-2",
                     {"bg-accent-primary border-transparent": selectedRole === "admin"}
                   )}></div>
                   {" Manage users"}
                 </div>
-                <div className="py-2 px-2.5 flex gap-2 items-center rounded-lg font-sans text-[11px] text-text-2 bg-surface-3">
+                <div className="py-2 px-2.5 flex gap-2 items-center rounded-lg font-sans text-[11px] text-foreground-secondary bg-surface">
                   <div className={cn(
                     "w-3.5 h-3.5 rounded-[3px] border border-border-2",
                     {"bg-accent-primary border-transparent": selectedRole === "admin"}
                   )}></div>
                   {" Edit categories"}
                 </div>
-                <div className="py-2 px-2.5 flex gap-2 items-center rounded-lg font-sans text-[11px] text-text-2 bg-surface-3">
+                <div className="py-2 px-2.5 flex gap-2 items-center rounded-lg font-sans text-[11px] text-foreground-secondary bg-surface">
                   <div className={cn(
                     "w-3.5 h-3.5 rounded-[3px] border border-border-2",
                     {"bg-accent-primary border-transparent": selectedRole === "admin"}

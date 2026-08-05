@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 import { CreatePostInput, UploadMediaSchema } from "@/shared/schemas";
 import z from "zod";
 import { api } from "@/features/common/lib/api";
-import axios from "axios";
 import { CldImage } from "next-cloudinary";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -164,8 +163,8 @@ const PostMediaField = ({ error, value, initialData, onChange }: {
   return (
     <>
       <FormField error={error}>
-        <div className="input-core h-30 border-dashed">
-          <label className="flex flex-col justify-center items-center gap-1.5 h-full w-full font-sans text-[11px] text-text-3">
+        <div className="h-30 rounded-lg border border-dashed border-border bg-surface focus:border-accent-primary">
+          <label className="flex flex-col justify-center items-center gap-1.5 h-full w-full font-sans text-[11px] text-foreground-secondary">
             <span>Drop image here or click to browse</span>
             <span>JPG, PNG, WEBP — max 10MB</span>
             <input
@@ -179,7 +178,7 @@ const PostMediaField = ({ error, value, initialData, onChange }: {
         </div>
       </FormField>
       {media.length !== 0 &&
-        <div className="p-4 grid grid-cols-3 lg:grid-cols-4 gap-4 rounded-lg border border-border-2 bg-surface-3">
+        <div className="p-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 rounded-lg border border-border bg-surface">
           {media.map(file => (
             <div
               key={file.remote?.id ?? file.local.id}

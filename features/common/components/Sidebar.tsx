@@ -116,7 +116,7 @@ const Sidebar = () => {
               </Button>
             </DropdownMenu.Trigger>
             <DropdownMenu.Portal>
-              <DropdownMenu.Content align="end" sideOffset={8} className="grid gap-1 p-2 w-(--radix-dropdown-menu-trigger-width) z-10 font-sans rounded-md shadow-md border border-border bg-surface">
+              <DropdownMenu.Content align="start" sideOffset={8} className="grid gap-1 p-2 min-w-50 w-(--radix-dropdown-menu-trigger-width) z-10 font-sans rounded-md shadow-md border border-border bg-surface">
                 <DropdownMenu.Item asChild>
                   <Button
                     variant="text"
