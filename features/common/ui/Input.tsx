@@ -1,29 +1,20 @@
+import { ComponentPropsWithoutRef, forwardRef } from "react";
 import { cn } from "../lib/utils";
 
-interface InputProps {
-  id?: string;
-  type?: React.HTMLInputTypeAttribute;
-  placeholder?: string;
-  className?: string;
-  value?: string;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
-}
+type InputProps = ComponentPropsWithoutRef<"input">;
 
-export const Input = ({ id, type, placeholder, className, value, onChange, onKeyDown, ...props }: InputProps) => {
-  return (
-    <input
-      id={id}
-      value={value}
-      onChange={onChange}
-      onKeyDown={onKeyDown}
-      className={cn(
-        "px-3 py-2.25 text-sm rounded-lg duration-200 border border-border bg-surface focus:border-accent-primary",
-        className,
-      )}
-      type={type}
-      placeholder={placeholder}
-      {...props}
-    />
-  )
-}
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ type="text", className, ...props }, ref) => {
+    return (
+      <input
+        ref={ref}
+        type={type}
+        className={cn(
+          "px-3 py-2.25 text-sm rounded-lg duration-200 border border-border bg-surface focus:border-accent-primary",
+          className,
+        )}
+        {...props}
+      />
+    )
+  }
+);
