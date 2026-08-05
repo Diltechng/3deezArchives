@@ -116,7 +116,7 @@ export const PostFormModal = ({ title, subtitle, onClose, initialData }: PostFor
     <Modal>
       <ModalHeader title={title} subtitle={subtitle} />
       <ModalBody>
-        <form id="post-form" className="flex-1 flex flex-col" onSubmit={handleSubmit(onSubmit)}>
+        <form id="post-form" className="flex-1 flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
           <FormFieldCard title="Image File">
             <PostMediaField
               value={media}

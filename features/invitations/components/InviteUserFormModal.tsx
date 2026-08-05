@@ -77,7 +77,7 @@ export const InviteUserFormModal = ({ title, subtitle, onClose }: InviteUserForm
     <Modal>
       <ModalHeader title={title} subtitle={subtitle} />
       <ModalBody>
-        <form id="invite-user-form" className="flex-1 flex flex-col" onSubmit={handleSubmit(onSumbit)}>
+        <form id="invite-user-form" className="flex-1 flex flex-col gap-4" onSubmit={handleSubmit(onSumbit)}>
           <FormFieldCard title="Account Info">
             <FormField label="Email Address" error={errors.email}>
               <Input {...register("email")} className="input-core" placeholder="Email address" />

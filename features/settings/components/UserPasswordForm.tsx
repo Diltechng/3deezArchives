@@ -52,7 +52,7 @@ const UserPasswordForm = ({ title, onClose }: UserPasswordFormProps) => {
   }
   
   return (
-    <Modal>
+    <Modal size="small">
       <ModalHeader title={title} />
       <ModalBody>
         <form id="update-password-form" onSubmit={handleSubmit(onSumbit)}>

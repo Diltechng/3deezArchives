@@ -8,7 +8,7 @@ const FormFieldCard = ({ children, className, title, columns }: {
   title?: string;
 }) => (
   <div className={cn(
-    "px-2 py-4 rounded-lg mb-4",
+    "px-2 py-4 rounded-lg",
     className
   )}>
     <FormFieldCardTitle title={title} />
