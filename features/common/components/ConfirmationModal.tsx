@@ -25,7 +25,7 @@ export const ConfirmationModal = ({
     onClose();
   }
   return (
-    <Modal className="max-w-130">
+    <Modal size="small">
       <ModalHeader title={title} />
       {message && <ModalBody className="px-5.5 py-5 text-[13px] text-foreground-secondary">
         {message}

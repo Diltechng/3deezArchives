@@ -12,7 +12,7 @@ interface UserEmailFormProps {
 
 const UserEmailForm = ({ title, onClose }: UserEmailFormProps) => {
   return (
-    <Modal>
+    <Modal size="small">
       <ModalHeader title={title} />
       <ModalBody>
         <form>

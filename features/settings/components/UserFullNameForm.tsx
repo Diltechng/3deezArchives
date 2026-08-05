@@ -47,7 +47,7 @@ const UserFullNameForm = ({ title, onClose }: UserFullNameFormProps) => {
   }
 
   return (
-    <Modal>
+    <Modal size="small">
       <ModalHeader title={title} />
       <ModalBody>
         <form id="update-full-name-form" onSubmit={handleSubmit(onSubmit)}>
