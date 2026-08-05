@@ -34,7 +34,7 @@ const Button = ({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "flex items-center gap-2 py-2 px-2.5 text-[13px] text-left rounded-lg duration-200",
+        "flex items-center gap-2 py-2 px-4 text-[13px] text-left rounded-lg duration-200",
         
         variant === "contained" && (
           "font-semibold bg-accent-primary text-background"

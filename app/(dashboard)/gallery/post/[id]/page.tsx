@@ -10,15 +10,12 @@ import dayjs from "dayjs";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
 
 const PostDetailPage = () => {
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-
   const params = useParams();
   const router = useRouter();
 
-  const { openFormModal } = useModal();
+  const { openFormModal, confirm } = useModal();
   
   const { isLoading, data } = useQuery({
     queryKey: ["posts", params.id],
@@ -51,26 +48,6 @@ const PostDetailPage = () => {
 
   return (
     <section className="flex-1">
-      {showDeleteModal && (
-        <div className="fixed flex flex-col p-8 top-0 bottom-0 left-0 right-0 z-10 backdrop-blur-sm bg-black/20">
-          <div className="flex flex-col gap-4 m-auto rounded-xl border border-border-2 bg-surface py-6 px-6">
-            <p>Are you sure you want to delete this post?</p>
-            <div className="flex justify-end gap-4 text-[13px]">
-              <button
-                className="py-2 px-3 rounded-md text-text-2 bg-surface-3/40 hover:bg-surface-3 hover:text-text"
-                onClick={() => setShowDeleteModal(false)}>
-                Cancel
-              </button>
-              <button
-                className="py-2 px-3 rounded-md text-accent-danger bg-accent-danger/10 hover:bg-accent-danger/20"
-                onClick={() => handleDelete(data.data.id)}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
       <div className="flex gap-1.5 mb-3.5 text-[10px]">
         <span className="text-text-2">Gallery</span>
         <span className="">{data.data.title}</span>
@@ -108,7 +85,18 @@ const PostDetailPage = () => {
           </button>
           <button
             className="py-2 px-4 rounded-lg tracking-[0.6px] border border-accent-danger bg-accent-danger/15 text-accent-danger"
-            onClick={() => setShowDeleteModal(true)}
+            onClick={async () => {
+              const confirmedDelete = await confirm({
+                title: "Delete Event",
+                message: "Are you sure you want to delete this post?",
+                confirmLabel: "Delete",
+                variant: "danger",
+              });
+
+              if (confirmedDelete) {
+                handleDelete(data.data.id)
+              }
+            }}
           >DELETE</button>
         </div>
       </div>

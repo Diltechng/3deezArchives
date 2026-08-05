@@ -1,10 +1,12 @@
+import { cn } from "../lib/utils";
 import { Backdrop } from "../ui/Backdrop";
 
 interface ModalProps {
+  className?: string;
   children: React.ReactNode;
 }
 
-export const Modal = ({ children }: ModalProps) => {
+export const Modal = ({ className, children }: ModalProps) => {
   return (
     // Overlay
     <div className="fixed grid place-items-center inset-0 z-90">
@@ -12,10 +14,11 @@ export const Modal = ({ children }: ModalProps) => {
       
       {/* Modal Surface */}
       <div
-        className="
-          relative flex flex-col h-full w-full max-w-170 sm:h-fit sm:max-h-9/10 py-6
-          sm:rounded-2xl shadow-lg overflow-hidden sm:border border-border bg-background
-        "
+        className={cn(
+          "relative flex flex-col h-full w-full max-w-170 sm:h-fit sm:max-h-9/10",
+          "sm:rounded-2xl shadow-lg overflow-hidden sm:border border-border bg-background",
+          className,
+        )}
       >
         {children}
       </div>

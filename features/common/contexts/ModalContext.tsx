@@ -1,9 +1,11 @@
 import { createContext, useMemo, useState } from "react"
 import { FormModalVariant } from "../types/FormModal.types";
+import { ConfirmationModal } from "../components/ConfirmationModal";
 
 interface ValueTypes {
   modals: ModalType[];
   openFormModal: <T>(component: ModalComponent<any>, data: FormModalData<T>) => void;
+  confirm: (data: ConfirmModalData) => Promise<boolean>;
   closeModal: (modalId: string) => void;
 }
 
@@ -21,6 +23,14 @@ export type FormModalData<T = unknown> = {
   initialData?: T;
   variant?: FormModalVariant;
 };
+
+export type ConfirmModalData = {
+  title: string;
+  message: string;
+  confirmLabel?: string;
+  cancelLabel?: string;
+  variant?: "default" | "danger";
+}
 
 export const ModalContext = createContext<ValueTypes | null>(null);
 
@@ -51,6 +61,18 @@ const ModalProvider = ({ children }: {
     );
   }
 
+  function confirm(data: ConfirmModalData) {
+    return new Promise<boolean>((resolve) => {
+      openModal(
+        ConfirmationModal,
+        {
+          ...data,
+          resolve,
+        }
+      );
+    });
+  }
+
   function closeModal(modalId: string) {
     setModals(
       prev =>
@@ -60,6 +82,7 @@ const ModalProvider = ({ children }: {
 
   const value = useMemo(() => ({
     modals,
+    confirm,
     openFormModal,
     closeModal,
   }), [modals]);
