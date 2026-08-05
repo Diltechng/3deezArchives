@@ -1,8 +1,8 @@
 import { PostVisibility } from "@/shared/constants/enums";
 import { X as XDelete } from "lucide-react";
 import { useState } from "react";
-import { GalleryCategory, PostFormInitialData } from "../types";
-import { useForm, useWatch } from "react-hook-form";
+import { PostFormInitialData } from "../types";
+import { useController, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreatePostInput, CreatePostSchema } from "@/shared/schemas";
 import { toast } from "react-toastify";
@@ -18,6 +18,10 @@ import { ModalFooter } from "@/features/common/components/ModalFooter";
 import Button from "@/features/common/ui/Button";
 import { ModalBody } from "@/features/common/components/ModalBody";
 import { useCategories } from "@/features/categories/hooks/useCategories";
+import { Input } from "@/features/common/ui/Input";
+import { Select, SelectItem } from "@/features/common/ui/Select";
+import { Textarea } from "@/features/common/ui/Textarea";
+import { getErrorMessage } from "@/features/common/lib/utils";
 
 interface PostFormModalProps {
   title: string;
@@ -47,12 +51,7 @@ export const PostFormModal = ({ title, subtitle, onClose, initialData }: PostFor
       if (onClose) onClose();
     },
     onError: (error: any) => {
-      const message = (axios.isAxiosError(error))
-        ? error.response?.data?.error?.message
-        : error?.message ||
-        "Something went wrong. Please try again";
-      
-      toast.error(message);
+      toast.error(getErrorMessage(error));
     }
   });
   
@@ -66,7 +65,7 @@ export const PostFormModal = ({ title, subtitle, onClose, initialData }: PostFor
     defaultValues: {
       title: initialData?.title,
       description: initialData?.description,
-      dateOfMoment: initialData?.dateOfMoment,
+      dateOfMoment: initialData?.dateOfMoment ?? new Date().toISOString().split("T")[0],
       categoryId: initialData?.categoryId,
       visibility: initialData?.visibility,
       tags: initialData?.tags ?? [],
@@ -78,6 +77,15 @@ export const PostFormModal = ({ title, subtitle, onClose, initialData }: PostFor
   });
 
   const tags = watch("tags");
+  
+  const {
+    field: visibiliyField,
+    fieldState: visibilityState,
+  } = useController({ name: "visibility", control });
+  const {
+    field: categoryField,
+    fieldState: categoryState,
+  } = useController({ name: "categoryId", control, });
 
   const media = useWatch({
     control,
@@ -120,41 +128,49 @@ export const PostFormModal = ({ title, subtitle, onClose, initialData }: PostFor
               error={errors.media?.ids ?? errors.media?.coverId}
             />
           </FormFieldCard>
-          <FormFieldCard title="Image Details" columns={2}>
-            <FormField label="Title" error={errors.title} className="col-span-2">
-              <input
-                className="input-core"
+          <FormFieldCard title="Image Details" className="[&>div]:sm:grid-cols-2">
+            <FormField label="Title" error={errors.title} className="sm:col-span-2">
+              <Input
                 {...register("title")}
                 id="title"
                 placeholder="eg. Studio Session Vol.4"
               />
             </FormField>
-            <FormField label="Description" error={errors.description} className="col-span-2">
-              <textarea
+            <FormField label="Description" error={errors.description} className="sm:col-span-2">
+              <Textarea
                 {...register("description")}
-                className="input-core resize-none flex-1 min-w-0 h-100"
+                className="resize-none min-w-0 h-30"
                 placeholder="Describe this moment."
               />
             </FormField>
             <FormField label="Category" error={errors.categoryId}>
-              <select {...register("categoryId")} className="input-core">
+              {/* <select {...register("categoryId")} className="input-core">
                 <option>-- Select a category --</option>
                 {categoriesData?.data && categoriesData?.data?.map((category: any) => (
                   <option key={category.id} value={category.id}>{category.name}</option>
                 ))}
-              </select>
+              </select> */}
+              <Select
+                label="Select a category"
+                value={categoryField.value}
+                onValueChange={categoryField.onChange}
+              >
+                {categoriesData?.data && categoriesData?.data?.map((category: any) => (
+                  <SelectItem key={category.id} value={category.id}>{category.name}</SelectItem>
+                ))}
+              </Select>
             </FormField>
-            <FormField label="Date of Moment" error={errors.dateOfMoment}>
-              <input
+            <FormField label="Date of Moment" error={categoryState.error}>
+              <Input
+                className="[&::-webkit-calendar-picker-indicator]:invert"
                 {...register("dateOfMoment")}
-                className="input-core"
                 type="date"
               />
             </FormField>
             <FormField label="Tags" error={errors.tags}>
-              <div className="input-core flex-wrap">
+              <div className="p-2.25 flex flex-wrap gap-1 text-sm rounded-lg duration-200 border border-border bg-surface focus-within:border-accent-primary">
                 {tags.length
-                  ? <div className="flex gap-0.5 flex-wrap">
+                  ? <div className="flex gap-1 flex-wrap">
                     {tags.map(tag => (
                       <div key={tag} className="flex gap-1 items-center border border-border-2 py-0.5 px-2 rounded-[3px] bg-surface">
                         <span>{tag}</span>
@@ -180,9 +196,8 @@ export const PostFormModal = ({ title, subtitle, onClose, initialData }: PostFor
                 />
               </div>
             </FormField>
-            <FormField label="Visibility" error={errors.visibility}>
-              <select {...register("visibility")} className="input-core">
-                <option>-- Choose --</option>
+            <FormField label="Visibility" error={visibilityState.error}>
+              <Select label="Select a visibility" value={visibiliyField.value} onValueChange={visibiliyField.onChange}>
                 {[{
                   name: "Public",
                   value: PostVisibility.PUBLIC
@@ -193,9 +208,9 @@ export const PostFormModal = ({ title, subtitle, onClose, initialData }: PostFor
                   name: "Private",
                   value: PostVisibility.PRIVATE
                 }].map(option => (
-                  <option key={option.value} value={option.value}>{option.name}</option>
+                  <SelectItem key={option.value} value={option.value}>{option.name}</SelectItem>
                 ))}
-              </select>
+              </Select>
             </FormField>
           </FormFieldCard>
         </form>
