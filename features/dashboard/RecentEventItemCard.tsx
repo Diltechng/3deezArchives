@@ -24,7 +24,7 @@ export const RecentEventItemCard = ({ post, className }: {
   post: any;
   className?: ClassValue;
 }) => {
-  const { openFormModal } = useModal();
+  const { confirm } = useModal();
 
   return (
     <div className={cn(
@@ -90,17 +90,13 @@ export const RecentEventItemCard = ({ post, className }: {
               <Button
                 variant="text"
                 className="text-xs text-accent-danger hover:text-accent-danger hover:bg-accent-danger/10"
-                onClick={() => openFormModal(({ onClose }) => <div className="flex justify-end gap-2">
-                  <Button variant="outlined" onClick={onClose}>
-                    Cancel
-                  </Button>
-                  <Button>
-                    Confirm
-                  </Button>
-                </div>, {
-                  title: "Delete Event?",
-                  variant: "compact",
-                })}
+                onClick={async () => {
+                  console.log(await confirm({
+                    title: "Delete Event?",
+                    message: "Are you sure you want to delete this event?",
+                    variant: "danger",
+                  }));
+                }}
               >
                 <Trash2 className="w-4 h-4" />
                 Delete Event
