@@ -1,5 +1,5 @@
 import { PostVisibility } from "@/shared/constants/enums";
-import { X as XDelete } from "lucide-react";
+import { Calendar, X as XDelete } from "lucide-react";
 import { useState } from "react";
 import { PostFormInitialData } from "../types";
 import { useController, useForm, useWatch } from "react-hook-form";
@@ -144,12 +144,6 @@ export const PostFormModal = ({ title, subtitle, onClose, initialData }: PostFor
               />
             </FormField>
             <FormField label="Category" error={errors.categoryId}>
-              {/* <select {...register("categoryId")} className="input-core">
-                <option>-- Select a category --</option>
-                {categoriesData?.data && categoriesData?.data?.map((category: any) => (
-                  <option key={category.id} value={category.id}>{category.name}</option>
-                ))}
-              </select> */}
               <Select
                 label="Select a category"
                 value={categoryField.value}
@@ -161,11 +155,14 @@ export const PostFormModal = ({ title, subtitle, onClose, initialData }: PostFor
               </Select>
             </FormField>
             <FormField label="Date of Moment" error={categoryState.error}>
-              <Input
-                className="[&::-webkit-calendar-picker-indicator]:invert"
-                {...register("dateOfMoment")}
-                type="date"
-              />
+              <div className="relative flex items-center">
+                <Input
+                  className="calendar-indicator-none w-full"
+                  {...register("dateOfMoment")}
+                  type="date"
+                />
+                <Calendar className="absolute w-4 h-4 right-3 pointer-events-none" />
+              </div>
             </FormField>
             <FormField label="Tags" error={errors.tags}>
               <div className="p-2.25 flex flex-wrap gap-1 text-sm rounded-lg duration-200 border border-border bg-surface focus-within:border-accent-primary">
