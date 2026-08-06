@@ -1,7 +1,7 @@
 import { withErrorHandler } from "@/lib/api/error-handler";
 import { withInvitationGuard } from "@/lib/api/invitation-guard";
 import { invitationsService } from "@/modules/invitations/invitations.service";
-import { ResponseData } from "@/shared/types/api";
+import { VerifyInvitationResponse } from "@/shared/contracts/invitations.contract";
 import { NextResponse } from "next/server";
 
 export const GET = withErrorHandler(
@@ -12,7 +12,7 @@ export const GET = withErrorHandler(
       invitationToken: ctx.invite.invitationToken,
     });
 
-    return NextResponse.json<ResponseData>({
+    return NextResponse.json<VerifyInvitationResponse>({
       success: true,
       message: "Invitation token verified successfully",
       data: result

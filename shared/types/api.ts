@@ -1,6 +1,7 @@
 import { AccessTokenPayload, InvitationJwtPayloadInput } from "@/shared/schemas";
 import { NextResponse } from "next/server";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
+import { ISODateString } from "../contracts/common.contract";
 
 export type ApiResponse =
   | NextResponse
@@ -18,7 +19,7 @@ export type InvitationReqContext<TParams> = {
   invite: InvitationJwtPayloadInput;
 } & RouteContext<TParams>;
 
-export type ResponseData<Data = unknown, Meta extends object = {}> = {
+export type ResponseData<Data = unknown, Meta extends object = Record<string, unknown>> = {
   success: boolean;
   message: string;
   data?: Data;
@@ -31,7 +32,7 @@ export type ResponseData<Data = unknown, Meta extends object = {}> = {
 };
 
 export type SerializeDates<T> =
-  T extends Date ? string :
+  T extends Date ? ISODateString :
   T extends Array<infer U> ? SerializeDates<U>[] :
   T extends object ? { [K in keyof T]: SerializeDates<T[K]> } :
   T;

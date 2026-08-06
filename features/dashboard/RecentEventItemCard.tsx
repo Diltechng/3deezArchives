@@ -7,6 +7,8 @@ import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 import { DropdownMenu } from "radix-ui";
 import useModal from "../common/hooks/useModal";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { postsService } from "../posts/services/post.service";
 
 
 export const RecentEventItemCardSkeleton = () => (
@@ -25,6 +27,27 @@ export const RecentEventItemCard = ({ post, className }: {
   className?: ClassValue;
 }) => {
   const { confirm } = useModal();
+  const queryClient = useQueryClient();
+
+  const deleteEventMutation = useMutation({
+    mutationFn: postsService.deleteById,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["posts"]
+      });
+    }
+  });
+
+  const handleDeleteEvent = async (id: string) => {
+    const confirmedDelete = await confirm({
+      title: "Delete Event?",
+      message: "Are you sure you want to delete this event?",
+      variant: "danger",
+    });
+
+    if (confirmedDelete)
+      deleteEventMutation.mutate(id);
+  }
 
   return (
     <div className={cn(
@@ -90,13 +113,7 @@ export const RecentEventItemCard = ({ post, className }: {
               <Button
                 variant="text"
                 className="text-xs text-accent-danger hover:text-accent-danger hover:bg-accent-danger/10"
-                onClick={async () => {
-                  console.log(await confirm({
-                    title: "Delete Event?",
-                    message: "Are you sure you want to delete this event?",
-                    variant: "danger",
-                  }));
-                }}
+                onClick={async () => await handleDeleteEvent(post.id)}
               >
                 <Trash2 className="w-4 h-4" />
                 Delete Event
