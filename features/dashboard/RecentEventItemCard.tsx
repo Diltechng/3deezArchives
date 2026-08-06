@@ -8,7 +8,7 @@ import Link from "next/link";
 import { DropdownMenu } from "radix-ui";
 import useModal from "../common/hooks/useModal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postsService } from "../posts/services/post.service";
+import { eventsService } from "../posts/services/event.service";
 
 
 export const RecentEventItemCardSkeleton = () => (
@@ -30,7 +30,7 @@ export const RecentEventItemCard = ({ post, className }: {
   const queryClient = useQueryClient();
 
   const deleteEventMutation = useMutation({
-    mutationFn: postsService.deleteById,
+    mutationFn: eventsService.deleteEventById,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["posts"]

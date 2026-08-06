@@ -9,7 +9,7 @@ import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEventFormModal } from "@/features/posts/hooks/useEventFormModal";
-import { postsService } from "@/features/posts/services/post.service";
+import { eventsService } from "@/features/posts/services/event.service";
 
 const EventDetailPage = () => {
   const params = useParams();
@@ -25,11 +25,11 @@ const EventDetailPage = () => {
   
   const eventQuery = useQuery({
     queryKey: ["posts", params.id],
-    queryFn: () => postsService.getPostById(id)
+    queryFn: () => eventsService.getEventById(id)
   });
 
   const deleteEventMutation = useMutation({
-    mutationFn: postsService.deleteById,
+    mutationFn: eventsService.deleteEventById,
     onSuccess: () => router.replace("/gallery"),
   });
 
