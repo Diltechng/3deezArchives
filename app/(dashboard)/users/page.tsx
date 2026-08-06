@@ -6,7 +6,7 @@ import useSearchFilters from "@/features/common/hooks/useSearchFilters";
 import { api } from "@/features/common/lib/api";
 import { cn, getInitials } from "@/features/common/lib/utils";
 import { PERMISSIONS } from "@/shared/constants/permissions";
-import { GetUsersResponse } from "@/shared/contracts/users";
+import { GetUsersResponse } from "@/shared/contracts/users.contract";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";

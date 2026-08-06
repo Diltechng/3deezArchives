@@ -1,7 +1,7 @@
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { api } from "@/features/common/lib/api";
 import { getErrorMessage } from "@/features/common/lib/utils";
-import { GetUserProfileResponse } from "@/shared/contracts/users";
+import { GetUserProfileResponse } from "@/shared/contracts/users.contract";
 import { useQuery } from "@tanstack/react-query";
 
 export function useCurrentUser() {

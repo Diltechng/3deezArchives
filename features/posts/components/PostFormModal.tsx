@@ -109,7 +109,6 @@ export const PostFormModal = ({ title, subtitle, onClose, initialData }: PostFor
 
   function onSubmit(data: CreatePostInput) {
     uploadMutation.mutate(data);
-    uploadMutation.isError
   }
 
   return (

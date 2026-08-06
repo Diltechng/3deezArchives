@@ -1,7 +1,6 @@
 import { UserRole, UserStatus } from "../constants/enums";
-import { ResponseData, SerializeDates } from "../types/api";
 import { Pagination } from "../types/pagination";
-import { TResponse } from "./Response";
+import { TResponse } from "./common.contract";
 
 export interface GetUsersMeta {
   pagination: Pagination;
@@ -25,6 +24,14 @@ export type UserProfileData = {
   role: UserRole;
 }
 
+export class PostUserDto {
+  constructor(
+    public readonly id: string,
+    public readonly name: string | null,
+    public readonly role: string,
+  ) {}
+}
+
 export type GetUserProfileResponse = TResponse<UserProfileData>
 
-export type GetUsersResponse = ResponseData<UserListItem[], GetUsersMeta>;
+export type GetUsersResponse = TResponse<UserListItem[], GetUsersMeta>;

@@ -8,7 +8,7 @@ import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { UserRole } from "@/shared/constants/enums";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
-import { GetUserProfileResponse } from "@/shared/contracts/users";
+import { GetUserProfileResponse } from "@/shared/contracts/users.contract";
 
 export const GET = withErrorHandler(
   withAuthGuard(async (req: NextRequest, ctx) => {
