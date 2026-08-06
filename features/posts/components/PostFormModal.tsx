@@ -1,7 +1,7 @@
 import { PostVisibility } from "@/shared/constants/enums";
 import { Calendar, X as XDelete } from "lucide-react";
 import { useState } from "react";
-import { PostFormInitialData } from "../types";
+import { EventFormInitialData } from "../types";
 import { useController, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreatePostInput, CreatePostSchema } from "@/shared/schemas";
@@ -27,7 +27,7 @@ interface PostFormModalProps {
   title: string;
   subtitle?: string;
   onClose?: () => any;
-  initialData?: PostFormInitialData;
+  initialData?: EventFormInitialData;
 }
 
 export const PostFormModal = ({ title, subtitle, onClose, initialData }: PostFormModalProps) => {

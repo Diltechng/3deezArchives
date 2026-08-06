@@ -28,7 +28,7 @@ export interface Media {
   secureUrl: string;
 };
 
-export interface PostFormInitialData {
+export interface EventFormInitialData {
   id: string;
   title: string;
   description: string;
