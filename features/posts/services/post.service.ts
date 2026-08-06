@@ -1,5 +1,6 @@
 import { api } from "@/features/common/lib/api";
-import { DeletePostByIdResponse, GetPostsResponse } from "@/shared/contracts/posts.contract";
+import { EntityId } from "@/shared/contracts/common.contract";
+import { DeletePostByIdResponse, GetPostByIdResponse, GetPostsResponse } from "@/shared/contracts/posts.contract";
 
 interface GetPostQueryParams {
   limit: number;
@@ -42,7 +43,13 @@ export const postsService = {
     return response.data;
   },
 
-  async deleteById(id: string) {
+  async getPostById(id: EntityId) {
+    const response = await api.get<GetPostByIdResponse>(`/gallery/posts/${id}`);
+
+    return response.data;
+  },
+
+  async deleteById(id: EntityId) {
     const response = await api.delete<DeletePostByIdResponse>(`/gallery/posts/${id}`);
 
     return response.data;

@@ -10,7 +10,15 @@ export const useEventFormModal = () => {
     });
   }
 
+  const openEditEventModal = (initialData: any) => {
+    openFormModal(PostFormModal, {
+      title: "Edit Event",
+      initialData,
+    });
+  }
+
   return {
     openAddEventModal,
+    openEditEventModal,
   }
 }

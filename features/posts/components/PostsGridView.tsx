@@ -24,7 +24,7 @@ const PostCard = ({ post }: {
   post: GalleryPost;
 }) => (
   <Link
-    href={`/gallery/post/${post.id}`}
+    href={`/gallery/event/${post.id}`}
     className="flex flex-col overflow-hidden rounded-lg border border-border"
   >
     <div className="relative w-full aspect-square">

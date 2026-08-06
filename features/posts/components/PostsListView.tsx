@@ -25,7 +25,7 @@ const PostRow = ({ post }: {
   post: GalleryPost;
 }) => (
   <Link
-    href={`/gallery/post/${post.id}`}
+    href={`/gallery/event/${post.id}`}
     className="flex gap-2 h-30 p-1.5 overflow-hidden rounded-lg border border-border bg-surface"
   >
     <div className="relative h-full aspect-square rounded-md overflow-hidden">

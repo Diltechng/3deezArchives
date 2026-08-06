@@ -54,7 +54,7 @@ export const RecentEventItemCard = ({ post, className }: {
       "py-2.5 flex items-center justify-between text-sm border-b border-border",
       className
     )}>
-      <Link href={`/gallery/post/${post.id}`} className="flex gap-2 items-center">
+      <Link href={`/gallery/event/${post.id}`} className="flex gap-2 items-center">
         <div className="relative shrink-0 w-20 h-15 overflow-hidden rounded-lg">
           <CldImage
             src={post.coverMedia.secureUrl}
