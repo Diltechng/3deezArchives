@@ -2,7 +2,7 @@ import { SerializeDates } from "@/shared/types/api";
 import { PostListItem } from "@/shared/contracts/posts.contract";
 import { PostVisibility } from "@/shared/constants/enums";
 
-export type GalleryPost = SerializeDates<PostListItem>;
+export type GalleryEvent = SerializeDates<PostListItem>;
 
 export interface GalleryCategory {
   id: string;

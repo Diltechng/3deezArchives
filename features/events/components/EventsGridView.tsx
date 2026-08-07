@@ -1,5 +1,5 @@
 import { CldImage } from "next-cloudinary"
-import { GalleryPost } from "../types"
+import { GalleryEvent } from "../types"
 import dayjs from "dayjs"
 import Link from "next/link"
 
@@ -21,7 +21,7 @@ const EventCardSkeleton = () => (
 );
 
 const EventCard = ({ event }: {
-  event: GalleryPost;
+  event: GalleryEvent;
 }) => (
   <Link
     href={`/gallery/event/${event.id}`}
@@ -49,7 +49,7 @@ const EventCard = ({ event }: {
 
 export const EventsGridView = ({ isLoading, events }: {
   isLoading?: boolean;
-  events: GalleryPost[] | undefined;
+  events: GalleryEvent[] | undefined;
 }) => {
   if (!isLoading && !events?.length) {
     return <div>No Events.</div>

@@ -1,5 +1,5 @@
 import { CldImage } from "next-cloudinary"
-import { GalleryPost } from "../types"
+import { GalleryEvent } from "../types"
 import dayjs from "dayjs"
 import Link from "next/link"
 
@@ -22,7 +22,7 @@ const EventRowSkeleton = () => (
 )
 
 const EventRow = ({ event }: {
-  event: GalleryPost;
+  event: GalleryEvent;
 }) => (
   <Link
     href={`/gallery/event/${event.id}`}
@@ -50,7 +50,7 @@ const EventRow = ({ event }: {
 
 export const EventsListView = ({ isLoading, events }: {
   isLoading?: boolean;
-  events: GalleryPost[] | undefined;
+  events: GalleryEvent[] | undefined;
 }) => {
   return (
     <div className="grid grid-cols-1 gap-3">
