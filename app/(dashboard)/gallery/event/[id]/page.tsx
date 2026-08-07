@@ -8,8 +8,8 @@ import dayjs from "dayjs";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useEventFormModal } from "@/features/posts/hooks/useEventFormModal";
-import { eventsService } from "@/features/posts/services/event.service";
+import { useEventFormModal } from "@/features/events/hooks/useEventFormModal";
+import { eventsService } from "@/features/events/services/event.service";
 
 const EventDetailPage = () => {
   const params = useParams();

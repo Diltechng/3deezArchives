@@ -5,9 +5,9 @@ import Button from "@/features/common/ui/Button";
 import { NoEvent } from "@/features/common/ui/icons/NoEvent";
 import { ArrowRight, Plus } from "lucide-react";
 import Link from "next/link";
-import { useEventFormModal } from "../posts/hooks/useEventFormModal";
+import { useEventFormModal } from "../events/hooks/useEventFormModal";
 import { useQuery } from "@tanstack/react-query";
-import { eventsService } from "../posts/services/event.service";
+import { eventsService } from "../events/services/event.service";
 
 export const RecentEventsCard = () => {
   const { openAddEventModal } = useEventFormModal();

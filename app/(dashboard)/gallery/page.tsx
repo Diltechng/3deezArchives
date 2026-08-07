@@ -3,18 +3,18 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import { Grid, List } from "lucide-react";
-import { EventsGridView } from "@/features/posts/components/EventsGridView";
-import { EventsListView } from "@/features/posts/components/EventsListView";
-import PaginationNav from "@/features/posts/components/PaginationNav";
+import { EventsGridView } from "@/features/events/components/EventsGridView";
+import { EventsListView } from "@/features/events/components/EventsListView";
+import PaginationNav from "@/features/events/components/PaginationNav";
 import { useDebouncedCallback } from "use-debounce";
-import { GalleryCategory } from "@/features/posts/types";
+import { GalleryCategory } from "@/features/events/types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import FilterChip, { FilterChipSkeleton } from "@/features/posts/components/FilterChip";
+import FilterChip, { FilterChipSkeleton } from "@/features/events/components/FilterChip";
 import PageHeader from "@/features/common/components/PageHeader";
 import { GetPostsResponse } from "@/shared/contracts/posts.contract";
 import { api } from "@/features/common/lib/api";
 import useModal from "@/features/common/hooks/useModal";
-import { EventFormModal } from "@/features/posts/components/EventFormModal";
+import { EventFormModal } from "@/features/events/components/EventFormModal";
 
 const GalleryPage = () => {
   const LIMIT = 12;

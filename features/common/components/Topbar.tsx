@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation";
 import useSidebar from "../hooks/useSidebar";
 import { useCurrentUser } from "@/features/users/hooks/useCurrentUser";
 import Button from "../ui/Button";
-import { useEventFormModal } from "@/features/posts/hooks/useEventFormModal";
+import { useEventFormModal } from "@/features/events/hooks/useEventFormModal";
 
 const Topbar = () => {
   const { toggleDesktop, toggleMobile } = useSidebar();
