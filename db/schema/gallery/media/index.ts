@@ -22,7 +22,6 @@ export const media = pgTable("media", {
   deletedBy: uuid("deleted_by").references(() => users.id, { onDelete: "set null" }),
 
   uploadedAt: timestamp("uploaded_at", { withTimezone: true }).notNull(),
-  deletedAt: timestamp("deleted_at", { withTimezone: true }),
   ...timestamps,
 }, (table) => [
   unique("media_id_uploaded_by_uq").on(table.id, table.uploadedBy)
