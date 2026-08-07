@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { api } from "@/features/common/lib/api";
 import FormField from "@/features/common/components/FormField";
 import FormFieldCard from "@/features/common/components/FormFieldCard";
-import PostMediaField from "./PostMediaField";
+import { EventMediaField } from "./EventMediaField";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Modal } from "@/features/common/components/Modal";
 import { ModalHeader } from "@/features/common/components/ModalHeader";
@@ -116,10 +116,10 @@ export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventF
       <ModalBody>
         <form id="event-form" className="flex-1 flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
           <FormFieldCard title="Image File">
-            <PostMediaField
+            <EventMediaField
               value={media}
               initialData={initialData && {
-                postId: initialData.id,
+                eventId: initialData.id,
                 media: initialData.media
               }}
               onChange={(next) => setValue("media", next)}
