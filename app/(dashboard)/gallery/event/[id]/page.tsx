@@ -24,7 +24,7 @@ const EventDetailPage = () => {
   }
   
   const eventQuery = useQuery({
-    queryKey: ["posts", params.id],
+    queryKey: ["events", params.id],
     queryFn: () => eventsService.getEventById(id)
   });
 

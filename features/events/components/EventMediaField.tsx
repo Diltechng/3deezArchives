@@ -88,7 +88,7 @@ export const EventMediaField = ({ error, value, initialData, onChange }: EventMe
       });
 
       if(initialData)
-        queryClient.invalidateQueries({  queryKey: ["posts", initialData.eventId] });
+        queryClient.invalidateQueries({  queryKey: ["events", initialData.eventId] });
     },
 
     onError: (error, localId) => {

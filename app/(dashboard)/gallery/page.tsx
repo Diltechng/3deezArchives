@@ -39,7 +39,7 @@ const GalleryPage = () => {
 
 
   const { isLoading: isLoadingPosts, data: postsData, error: postsError, } = useQuery({
-    queryKey: ["posts", currentPage, search, currentCategory, dateFrom, dateTo],
+    queryKey: ["events", currentPage, search, currentCategory, dateFrom, dateTo],
     queryFn: async () => {
       const searchParams = new URLSearchParams({
         limit: String(LIMIT),

@@ -45,7 +45,7 @@ export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventF
       return await response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["events"] });
       
       if (onClose) onClose();
     },

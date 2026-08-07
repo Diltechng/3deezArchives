@@ -33,7 +33,7 @@ export const RecentEventItemCard = ({ post, className }: {
     mutationFn: eventsService.deleteEventById,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["posts"]
+        queryKey: ["events"]
       });
     }
   });

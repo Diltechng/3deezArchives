@@ -13,7 +13,7 @@ export const RecentEventsCard = () => {
   const { openAddEventModal } = useEventFormModal();
 
   const recentEventsQuery = useQuery({
-    queryKey: ["posts"],
+    queryKey: ["events"],
     queryFn: () => eventsService.getEvents({ limit: 5, page: 1 }),
   });
 
