@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import { Grid, List } from "lucide-react";
 import { EventsGridView } from "@/features/posts/components/EventsGridView";
-import PostsListView from "@/features/posts/components/PostsListView";
+import { EventsListView } from "@/features/posts/components/EventsListView";
 import PaginationNav from "@/features/posts/components/PaginationNav";
 import { useDebouncedCallback } from "use-debounce";
 import { GalleryCategory } from "@/features/posts/types";
@@ -212,7 +212,7 @@ const GalleryPage = () => {
         {isGrid ?
           <EventsGridView isLoading={isLoadingPosts} events={postsData?.data} />
         :
-          <PostsListView isLoading={isLoadingPosts} posts={postsData?.data} />
+          <EventsListView isLoading={isLoadingPosts} events={postsData?.data} />
         }
       </div>
       {(postsData?.meta && (postsData.meta.pagination.hasNextPage || postsData.meta.pagination.hasPreviousPage)) && 
