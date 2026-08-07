@@ -13,25 +13,29 @@
 @theme inline {
   --font-mono: var(--font-space-mono);
   --font-sans: var(--font-dm-sans);
+  --font-inter: var(--font-inter);
 }
 
 @theme {
-  --color-background: #0a0a0a;
+  --color-background: #0c0f11;
+  --color-foreground-secondary: #9797a3;
 
-  --color-surface: #111111;
-  --color-surface-2: #1a1a1a;
+  --color-surface: #161a1c;
+  --color-surface-2: #323537;
   --color-surface-3: #222222;
   
-  --color-border: #a5252514;
+  --color-border: #292c2f;
   --color-border-2: #ffffff26;
   
-  --color-accent: #e8ff6b;
-  --color-accent-2: #ff6b6b;
-  --color-accent-3: #6bffd4;
+  --color-accent-primary: #e8ff6b;
+  --color-accent-secondary: #774ffd;
+  --color-accent-neutral: #727780;
+  --color-accent-danger: #ff6570;
+  --color-accent-info: #6bffd4;
 
-  --color-text: #f0f0f0;
+  --color-text: #f2f2f2;
   --color-text-2: #888;
-  --color-text-3: #555;
+  --color-text-3: #94989c;
 
   --animate-caret-blink: caret-blink 1.2s ease-out infinite;
 
@@ -58,7 +62,7 @@
 
 @layer base {
   body {
-    @apply font-mono text-text bg-background
+    @apply font-inter text-text bg-background
   }
 
   body * {
@@ -84,15 +88,24 @@
 
 @utility input-core {
   @apply  flex items-center font-sans gap-2 py-1.75 px-3 w-full text-[12px] rounded-lg duration-200 border;
-  @apply border-border-2 bg-surface-3 focus-within:border-accent;
+  @apply border-border-2 bg-surface-3 focus-within:border-accent-primary;
 }
 
 @utility button-primary {
   @apply px-4 py-2 rounded-lg duration-200 tracking-[0.06rem] font-bold text-[10px];
-  @apply text-black bg-accent hover:bg-accent/85;
+  @apply text-black bg-accent-primary hover:bg-accent-primary/85;
 }
 
 @utility button-ghost {
   @apply px-4 py-2 rounded-lg duration-200 tracking-[0.06rem] text-[10px] border;
   @apply border-border-2 bg-surface-3 hover:opacity-85;
+}
+
+@utility calendar-indicator-none {
+  @apply relative
+    [&::-webkit-calendar-picker-indicator]:opacity-0
+    [&::-webkit-calendar-picker-indicator]:absolute
+    [&::-webkit-calendar-picker-indicator]:right-0
+    [&::-webkit-calendar-picker-indicator]:w-full
+    [&::-webkit-calendar-picker-indicator]:h-full;
 }

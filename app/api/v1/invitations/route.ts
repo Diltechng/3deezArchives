@@ -4,7 +4,7 @@ import { withPermissionGuard } from "@/lib/api/permission-guard"
 import { invitationsService } from "@/modules/invitations/invitations.service";
 import { validateGetInvitationsQuery } from "@/modules/invitations/invitations.validation";
 import { PERMISSIONS } from "@/shared/constants/permissions";
-import { ResponseData } from "@/shared/types/api";
+import { GetInvitationsResponse } from "@/shared/contracts/invitations.contract";
 import { NextResponse } from "next/server";
 
 export const GET = withErrorHandler(
@@ -36,7 +36,7 @@ export const GET = withErrorHandler(
         filters: validatedFilters
       });
 
-      return NextResponse.json<ResponseData>({
+      return NextResponse.json<GetInvitationsResponse>({
         success: true,
         message: "Invitations queried successfully",
         data: invitations,

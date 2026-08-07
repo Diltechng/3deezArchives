@@ -1,8 +1,9 @@
 "use client"
 
-import { cn } from "@/features/shared/lib/utils";
-import Button from "@/features/shared/ui/Button";
+import { cn } from "@/features/common/lib/utils";
+import Button from "@/features/common/ui/Button";
 import { CircleUserRound, Settings } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const SettingsNav = () => {
@@ -24,11 +25,14 @@ const SettingsNav = () => {
         {navItems.map((navItem) => (
           <li key={navItem.name}>
             <Button
-              href={navItem.url}
               Icon={navItem.icon}
               active={pathname === navItem.url}
+              asChild
+              variant="text"
             >
-              {navItem.name}
+              <Link href={navItem.url}>
+                {navItem.name}
+              </Link>
             </Button>
           </li>
         ))}

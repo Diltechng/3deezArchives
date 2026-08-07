@@ -1,12 +1,12 @@
 "use client"
 
-import { api } from "@/features/shared/lib/api";
+import { api } from "@/features/common/lib/api";
 import { SignInInput } from "@/shared/schemas";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import { ROUTE_WHITELIST } from "../constants";
-import { GetUserProfileResponse, UserProfileData } from "@/shared/contracts/users";
+import { GetUserProfileResponse, UserProfileData } from "@/shared/contracts/users.contract";
 
 type AuthStatus =
   | "unknown"

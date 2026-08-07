@@ -2,9 +2,8 @@
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useInvitation } from "@/features/invitation/hooks/useInvitation";
-import FormField from "@/features/shared/components/FormField";
-import { SubmitButton } from "@/features/shared/components/FormModal";
-import { api } from "@/features/shared/lib/api";
+import FormField from "@/features/common/components/FormField";
+import { api } from "@/features/common/lib/api";
 import { INVITATION_TOKEN_HEADER } from "@/shared/constants";
 import { AcceptInviteSchema } from "@/shared/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,6 +14,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import z from "zod";
+import Button from "@/features/common/ui/Button";
 
 const AcceptInviteFormSchema = AcceptInviteSchema.extend({
   confirmPassword: z.string(),
@@ -68,7 +68,7 @@ const AccountSetupPage = () => {
     <section className="h-full flex justify-center p-10">
       {!invitationData && (
         <div className="my-auto py-8 px-12 min-h-50 h-full max-h-70 min-w-50 w-full max-w-130 flex flex-col gap-4 justify-center items-center rounded-lg text-center border border-border-2 bg-surface">
-          <div className="p-3 h-13 aspect-square rounded-full text-accent-2 bg-accent-2/10">
+          <div className="p-3 h-13 aspect-square rounded-full text-accent-danger bg-accent-danger/10">
             <Ban className="h-full w-full" />
           </div>
           <div className="font-sans font-bold">
@@ -108,7 +108,9 @@ const AccountSetupPage = () => {
               </div>
             </div>
             <div className="mt-6 pt-4 border-t border-border-2">
-              <SubmitButton className="w-full py-3 text-[13px]" disabled={!termsAccepted || isSubmitting} />
+              <Button className="w-full py-3 text-[13px]" disabled={!termsAccepted || isSubmitting}>
+                Submit
+              </Button>
             </div>
           </form>
         </div>

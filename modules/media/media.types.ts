@@ -5,7 +5,7 @@ import {
   UpdatePostInput,
   GetPostsQueryInput,
 } from "@/shared/schemas";
-import { GetPostsMeta, PostListItem } from "@/shared/contracts/posts";
+import { GetPostsMeta, PostListItem } from "@/shared/contracts/posts.contract";
 
 
 export interface UploadFileInput {

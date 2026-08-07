@@ -1,13 +1,12 @@
 "use client"
-
-import ContentHeader from "@/features/shared/components/ContentHeader";
-import StateCard from "@/features/shared/components/StateCard";
-import useModal from "@/features/shared/hooks/useModal";
-import useSearchFilters from "@/features/shared/hooks/useSearchFilters";
-import { api } from "@/features/shared/lib/api";
+import PageHeader from "@/features/common/components/PageHeader";
+import StateCard from "@/features/common/components/StateCard";
+import useModal from "@/features/common/hooks/useModal";
+import useSearchFilters from "@/features/common/hooks/useSearchFilters";
+import { api } from "@/features/common/lib/api";
 import InvitationsTable from "@/features/invitations/components/InvitationsTable";
 import InvitationsTableRow, { InvitationsTableRowSkeleton } from "@/features/invitations/components/InvitationsTableRow";
-import InviteUserForm from "@/features/invitations/components/InviteUserForm";
+import { InviteUserFormModal } from "@/features/invitations/components/InviteUserFormModal";
 import { useQuery } from "@tanstack/react-query";
 import { Inbox, SearchX, TriangleAlert } from "lucide-react";
 import { useState } from "react";
@@ -48,11 +47,11 @@ const InvitationsPage = () => {
 
   return (
     <div className="flex flex-col flex-1">
-      <ContentHeader title="Invitations" subtitle={`${totalInvitations} active invitations`}>
+      <PageHeader title="Invitations" subtitle={`${totalInvitations} active invitations`}>
         <Can permission={PERMISSIONS.USERS_INVITE}>
           <button 
             className="button-primary uppercase"
-            onClick={() => openFormModal(InviteUserForm, {
+            onClick={() => openFormModal(InviteUserFormModal, {
               title: "Invite User",
               subtitle: "Grant access to the archives",
             })}
@@ -60,7 +59,7 @@ const InvitationsPage = () => {
             Invite User
           </button>
         </Can>
-      </ContentHeader>
+      </PageHeader>
       <div className="input-core mb-4">
         <input
           className="w-full"
@@ -87,12 +86,12 @@ const InvitationsPage = () => {
                 " />
             : (hasFilters
               ? (
-                <StateCard icon={{ component: SearchX, color: "accent" }} title="No Results Found" subtitle="
+                <StateCard icon={{ component: SearchX, color: "accent-primary" }} title="No Results Found" subtitle="
                     We couldn't find anything matching your current search and filters.
                     Try adjusting your filters or clearing them to see more results.
                 " />
               ): (
-                <StateCard icon={{ component: Inbox, color: "accent" }} title="No Invitations" subtitle="
+                <StateCard icon={{ component: Inbox, color: "accent-primary" }} title="No Invitations" subtitle="
                   There are currently no invitations.
                 " />
               )

@@ -1,5 +1,5 @@
 import { GetUsersQueryInput } from "@/shared/schemas";
-import { GetUsersMeta, UserListItem } from "@/shared/contracts/users";
+import { GetUsersMeta, UserListItem } from "@/shared/contracts/users.contract";
 
 export interface GetUsersInput {
   filters: GetUsersQueryInput;
