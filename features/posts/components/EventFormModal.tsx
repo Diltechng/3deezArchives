@@ -10,8 +10,7 @@ import { api } from "@/features/common/lib/api";
 import FormField from "@/features/common/components/FormField";
 import FormFieldCard from "@/features/common/components/FormFieldCard";
 import PostMediaField from "./PostMediaField";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Modal } from "@/features/common/components/Modal";
 import { ModalHeader } from "@/features/common/components/ModalHeader";
 import { ModalFooter } from "@/features/common/components/ModalFooter";
@@ -23,14 +22,14 @@ import { Select, SelectItem } from "@/features/common/ui/Select";
 import { Textarea } from "@/features/common/ui/Textarea";
 import { getErrorMessage } from "@/features/common/lib/utils";
 
-interface PostFormModalProps {
+interface EventFormModalProps {
   title: string;
   subtitle?: string;
   onClose?: () => any;
   initialData?: EventFormInitialData;
 }
 
-export const PostFormModal = ({ title, subtitle, onClose, initialData }: PostFormModalProps) => {
+export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventFormModalProps) => {
   const queryClient = useQueryClient();
   
   const uploadMutation = useMutation({
@@ -115,7 +114,7 @@ export const PostFormModal = ({ title, subtitle, onClose, initialData }: PostFor
     <Modal>
       <ModalHeader title={title} subtitle={subtitle} />
       <ModalBody>
-        <form id="post-form" className="flex-1 flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+        <form id="event-form" className="flex-1 flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
           <FormFieldCard title="Image File">
             <PostMediaField
               value={media}
@@ -215,7 +214,7 @@ export const PostFormModal = ({ title, subtitle, onClose, initialData }: PostFor
         <Button variant="outlined" onClick={onClose}>
           Cancel
         </Button>
-        <Button form="post-form" disabled={isSubmitting}>
+        <Button form="event-form" disabled={isSubmitting}>
           Submit
         </Button>
       </ModalFooter>
