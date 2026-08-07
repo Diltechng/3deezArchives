@@ -5,16 +5,16 @@ import Button from "@/features/common/ui/Button";
 import { NoEvent } from "@/features/common/ui/icons/NoEvent";
 import { ArrowRight, Plus } from "lucide-react";
 import Link from "next/link";
-import { useEventFormModal } from "../posts/hooks/useEventFormModal";
+import { useEventFormModal } from "../events/hooks/useEventFormModal";
 import { useQuery } from "@tanstack/react-query";
-import { postsService } from "../posts/services/post.service";
+import { eventsService } from "../events/services/event.service";
 
 export const RecentEventsCard = () => {
   const { openAddEventModal } = useEventFormModal();
 
   const recentEventsQuery = useQuery({
-    queryKey: ["posts"],
-    queryFn: () => postsService.getPosts({ limit: 5, page: 1 }),
+    queryKey: ["events"],
+    queryFn: () => eventsService.getEvents({ limit: 5, page: 1 }),
   });
 
 

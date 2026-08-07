@@ -1,9 +1,9 @@
 import { CldImage } from "next-cloudinary"
-import { GalleryPost } from "../types"
+import { GalleryEvent } from "../types"
 import dayjs from "dayjs"
 import Link from "next/link"
 
-const PostSkeleton = () => (
+const EventCardSkeleton = () => (
   <div
     className="flex flex-col overflow-hidden rounded-lg border border-border"
   >
@@ -20,50 +20,48 @@ const PostSkeleton = () => (
   </div>
 );
 
-const PostCard = ({ post }: {
-  post: GalleryPost;
+const EventCard = ({ event }: {
+  event: GalleryEvent;
 }) => (
   <Link
-    href={`/gallery/post/${post.id}`}
+    href={`/gallery/event/${event.id}`}
     className="flex flex-col overflow-hidden rounded-lg border border-border"
   >
     <div className="relative w-full aspect-square">
       <CldImage
         className="w-full h-full object-cover"
-        src={post?.coverMedia?.secureUrl ?? ""}
+        src={event?.coverMedia?.secureUrl ?? ""}
         alt=""
         fill
         sizes="25vw"
       />
     </div>
     <div className="flex flex-col gap-1 p-2.5 border-t border-border bg-surface">
-      <p className="text-[11px] font-sans truncate">{post.title}</p>
-      <p className="text-[10px] text-text-3">{dayjs(post.dateOfMoment).format("YYYY-MM-DD")}</p>
+      <p className="text-[11px] font-sans truncate">{event.title}</p>
+      <p className="text-[10px] text-text-3">{dayjs(event.dateOfMoment).format("YYYY-MM-DD")}</p>
       <div className="flex gap-2 justify-between">
-        <div className="py-0.5 px-1.75 rounded-[3px] text-[9px] truncate text-accent-info bg-accent-info/20">{post?.category?.name}</div>
-        <div className="text-[10px] font-sans truncate text-text-3">{post?.uploadedByUser?.name}</div>
+        <div className="py-0.5 px-1.75 rounded-[3px] text-[9px] truncate text-accent-info bg-accent-info/20">{event?.category?.name}</div>
+        <div className="text-[10px] font-sans truncate text-text-3">{event?.uploadedByUser?.name}</div>
       </div>
     </div>
   </Link>
 );
 
-const PostsGridView = ({ isLoading, posts }: {
+export const EventsGridView = ({ isLoading, events }: {
   isLoading?: boolean;
-  posts: GalleryPost[] | undefined;
+  events: GalleryEvent[] | undefined;
 }) => {
-  if (!isLoading && !posts?.length) {
-    return <div>No Posts.</div>
+  if (!isLoading && !events?.length) {
+    return <div>No Events.</div>
   }
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
       {isLoading
-        ? [...Array(3)].map((_, i) => <PostSkeleton key={i} />)
-        : posts?.length
-          ? posts.map(post => <PostCard key={post.id} post={post} />)
+        ? [...Array(3)].map((_, i) => <EventCardSkeleton key={i} />)
+        : events?.length
+          ? events.map(event => <EventCard key={event.id} event={event} />)
           : ""
       }
     </div>
  )
 }
-
-export default PostsGridView;

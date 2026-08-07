@@ -1,20 +1,21 @@
 "use client"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import { Grid, List } from "lucide-react";
-import PostsGridView from "@/features/posts/components/PostsGridView";
-import PostsListView from "@/features/posts/components/PostsListView";
-import PaginationNav from "@/features/posts/components/PaginationNav";
+import { EventsGridView } from "@/features/events/components/EventsGridView";
+import { EventsListView } from "@/features/events/components/EventsListView";
+import PaginationNav from "@/features/events/components/PaginationNav";
 import { useDebouncedCallback } from "use-debounce";
-import { GalleryCategory } from "@/features/posts/types";
+import { GalleryCategory } from "@/features/events/types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import FilterChip, { FilterChipSkeleton } from "@/features/posts/components/FilterChip";
+import FilterChip, { FilterChipSkeleton } from "@/features/events/components/FilterChip";
 import PageHeader from "@/features/common/components/PageHeader";
 import { GetPostsResponse } from "@/shared/contracts/posts.contract";
 import { api } from "@/features/common/lib/api";
 import useModal from "@/features/common/hooks/useModal";
-import { PostFormModal } from "@/features/posts/components/PostFormModal";
+import { EventFormModal } from "@/features/events/components/EventFormModal";
+import { GetCategoriesResponse } from "@/shared/contracts/categories.contract";
 
 const GalleryPage = () => {
   const LIMIT = 12;
@@ -29,8 +30,8 @@ const GalleryPage = () => {
   const dateFrom = searchParams.get("from") ?? "";
   const dateTo = searchParams.get("to") ?? "";
 
-  const [categoriesCount, setCatrgoriesCount] = useState(0);
-  const [postsCount, setPostsCount] = useState(0);
+  const [categoriesCount, setCategoriesCount] = useState(0);
+  const [eventsCount, setEventsCount] = useState(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [displayMode, setDisplayMode] = useState<"list" | "grid">("grid");
   const [activeDateFilter, setActiveDateFilter] = useState("");
@@ -38,8 +39,8 @@ const GalleryPage = () => {
   const isGrid = displayMode === "grid";
 
 
-  const { isLoading: isLoadingPosts, data: postsData, error: postsError, } = useQuery({
-    queryKey: ["posts", currentPage, search, currentCategory, dateFrom, dateTo],
+  const eventsQuery = useQuery({
+    queryKey: ["events", currentPage, search, currentCategory, dateFrom, dateTo],
     queryFn: async () => {
       const searchParams = new URLSearchParams({
         limit: String(LIMIT),
@@ -66,23 +67,33 @@ const GalleryPage = () => {
 
       const data: GetPostsResponse = response.data;
 
-      setPostsCount(data.meta?.pagination.total ?? 0);
+      setEventsCount(data.meta?.pagination.total ?? 0);
 
       return data;
     }
   });
 
-  const { error: categoriesError, isLoading: isLoadingCategories, data: categoriesData } = useQuery({
+  const events = eventsQuery.data?.data;
+  const eventsPagination = eventsQuery.data?.meta?.pagination;
+  const isLoadingEvents = eventsQuery.isLoading;
+  const eventsError = eventsQuery.error;
+
+  const categoriesQuery = useQuery({
     queryKey: ["categries"],
     queryFn: async () => {
-      const response = await api.get("/gallery/categories");
+      const response = await api.get<GetCategoriesResponse>("/gallery/categories");
 
-      const data = response.data;
-      setCatrgoriesCount(data.data.length);
-
-      return data;
+      return response.data;
     }
   });
+
+  const categoriesError = categoriesQuery.error;
+  const isLoadingCategories = categoriesQuery.isLoading;
+  const categories = categoriesQuery.data?.data;
+
+  useEffect(() => {
+    setCategoriesCount(categories?.length ?? 0);
+  }, [categories]);
 
   function clearFilters() {
     updateFilter({
@@ -124,7 +135,7 @@ const GalleryPage = () => {
 
   return (
     <section className="flex flex-col flex-1">
-      <PageHeader title="Gallery" subtitle={`${postsCount} images across ${categoriesCount} categories`}>
+      <PageHeader title="Gallery" subtitle={`${eventsCount} images across ${categoriesCount} categories`}>
         <div className="flex gap-2">
           <div className="flex overflow-hidden rounded-lg border border-border-2">
             <button
@@ -148,7 +159,7 @@ const GalleryPage = () => {
           </div>
           <button 
             className="button-primary"
-            onClick={() => openFormModal(PostFormModal, {
+            onClick={() => openFormModal(EventFormModal, {
               title: "Upload Images",
               subtitle: "Add a moment to the archives",
             })}
@@ -169,10 +180,10 @@ const GalleryPage = () => {
       <div className="flex flex-wrap gap-1.5 mb-3.5">
         {isLoadingCategories
           ? [...Array(4)].map((_, i) => <FilterChipSkeleton key={i} />)
-          : <>
+          : categories && <>
             {[
               { id: "all", name: "All", slug: "all" },
-              ...categoriesData.data
+              ...categories
             ].map((category: GalleryCategory) => (
               <FilterChip
                 key={category.id}
@@ -210,17 +221,17 @@ const GalleryPage = () => {
       </div>
       <div className="mb-4">
         {isGrid ?
-          <PostsGridView isLoading={isLoadingPosts} posts={postsData?.data} />
+          <EventsGridView isLoading={isLoadingEvents} events={events} />
         :
-          <PostsListView isLoading={isLoadingPosts} posts={postsData?.data} />
+          <EventsListView isLoading={isLoadingEvents} events={events} />
         }
       </div>
-      {(postsData?.meta && (postsData.meta.pagination.hasNextPage || postsData.meta.pagination.hasPreviousPage)) && 
+      {(eventsPagination && (eventsPagination.hasNextPage || eventsPagination.hasPreviousPage)) && 
         <PaginationNav
           currentPage={currentPage}
-          hasNextPage={postsData.meta.pagination.hasNextPage}
-          hasPreviousPage={postsData.meta.pagination.hasPreviousPage}
-          totalPages={postsData.meta.pagination.totalPages}
+          hasNextPage={eventsPagination.hasNextPage}
+          hasPreviousPage={eventsPagination.hasPreviousPage}
+          totalPages={eventsPagination.totalPages}
           onPageChange={setCurrentPage}
         />
       }

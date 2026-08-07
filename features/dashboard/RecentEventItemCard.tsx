@@ -8,7 +8,7 @@ import Link from "next/link";
 import { DropdownMenu } from "radix-ui";
 import useModal from "../common/hooks/useModal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postsService } from "../posts/services/post.service";
+import { eventsService } from "../events/services/event.service";
 
 
 export const RecentEventItemCardSkeleton = () => (
@@ -30,10 +30,10 @@ export const RecentEventItemCard = ({ post, className }: {
   const queryClient = useQueryClient();
 
   const deleteEventMutation = useMutation({
-    mutationFn: postsService.deleteById,
+    mutationFn: eventsService.deleteEventById,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["posts"]
+        queryKey: ["events"]
       });
     }
   });
@@ -54,7 +54,7 @@ export const RecentEventItemCard = ({ post, className }: {
       "py-2.5 flex items-center justify-between text-sm border-b border-border",
       className
     )}>
-      <Link href={`/gallery/post/${post.id}`} className="flex gap-2 items-center">
+      <Link href={`/gallery/event/${post.id}`} className="flex gap-2 items-center">
         <div className="relative shrink-0 w-20 h-15 overflow-hidden rounded-lg">
           <CldImage
             src={post.coverMedia.secureUrl}

@@ -12,15 +12,17 @@ import { api } from "@/features/common/lib/api";
 import { CldImage } from "next-cloudinary";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const PostMediaField = ({ error, value, initialData, onChange }: {
+interface EventMediaCardProps {
   error?: Merge<FieldError, (FieldError | undefined)[]> | FieldError;
   value?: CreatePostInput["media"];
   initialData?: {
-    postId: string;
+    eventId: string;
     media: Media[]
   };
   onChange?: (next: CreatePostInput["media"]) => void;
-}) => {
+}
+
+export const EventMediaField = ({ error, value, initialData, onChange }: EventMediaCardProps) => {
   const initialMedia: MediaUploadItem[] = [
     ...(initialData
     ? initialData.media.map(media => ({
@@ -61,7 +63,7 @@ const PostMediaField = ({ error, value, initialData, onChange }: {
       formDataPayload.append("file", file);
 
       const { data } = initialData
-        ? await api.post(`/gallery/posts/${initialData.postId}/media`, formDataPayload)
+        ? await api.post(`/gallery/posts/${initialData.eventId}/media`, formDataPayload)
         : await api.post("/gallery/media", formDataPayload);
 
       return { localId, media: data.data }
@@ -86,7 +88,7 @@ const PostMediaField = ({ error, value, initialData, onChange }: {
       });
 
       if(initialData)
-        queryClient.invalidateQueries({  queryKey: ["posts", initialData.postId] });
+        queryClient.invalidateQueries({  queryKey: ["events", initialData.eventId] });
     },
 
     onError: (error, localId) => {
@@ -250,5 +252,3 @@ const PostMediaField = ({ error, value, initialData, onChange }: {
     </>
   );
 }
-
-export default PostMediaField;
