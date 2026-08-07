@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import { Grid, List } from "lucide-react";
-import PostsGridView from "@/features/posts/components/PostsGridView";
+import { EventsGridView } from "@/features/posts/components/EventsGridView";
 import PostsListView from "@/features/posts/components/PostsListView";
 import PaginationNav from "@/features/posts/components/PaginationNav";
 import { useDebouncedCallback } from "use-debounce";
@@ -210,7 +210,7 @@ const GalleryPage = () => {
       </div>
       <div className="mb-4">
         {isGrid ?
-          <PostsGridView isLoading={isLoadingPosts} posts={postsData?.data} />
+          <EventsGridView isLoading={isLoadingPosts} events={postsData?.data} />
         :
           <PostsListView isLoading={isLoadingPosts} posts={postsData?.data} />
         }
