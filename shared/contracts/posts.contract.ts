@@ -31,9 +31,9 @@ export class PostDto {
     public readonly tags: string[] | null,
     public readonly visibility: PostVisibility,
     public readonly dateOfMoment: Date,
+    public readonly coverMedia: PostMediaDto | null,
     public readonly media: PostMediaDto[],
     public readonly category: PostCategoryDto | null,
-    public readonly coverMedia: PostMediaDto | null,
     public readonly uploadedByUser: PostUserDto | null,
   ) {}
 }
@@ -61,7 +61,7 @@ export class UpdatedPostDto {
 
 export type GetPostByIdResponse = TResponse<PostDto>;
 
-export type GetPostsResponse = TResponse<PostListItem[], GetPostsMeta>;
+export type GetPostsResponse = TResponse<PostDto[], GetPostsMeta>;
 
 export type DeletePostByIdResponse = TResponse<DeletedPostDto>;
 
