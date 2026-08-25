@@ -63,7 +63,7 @@ const HomePage = () => {
                   label="Categories"
                   value={`${statsData.data.totalCategories ?? "-"}`}
                   accent="secondary"
-                  href="#"
+                  href="/categories"
                   linkName="View all categories"
                 />
               </>
