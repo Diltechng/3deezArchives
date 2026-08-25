@@ -4,7 +4,7 @@ import { InviteUserInput, InviteUserSchema } from "@/shared/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
 import { UserRole } from "@/shared/constants/enums";
-import FormFieldLabel from "@/features/common/components/FormFieldLabel";
+import { FormFieldLabel } from "@/features/common/components/FormFieldLabel";
 import { cn } from "@/features/common/lib/utils";
 import { FormFieldCardTitle } from "@/features/common/components/FormFieldCardTitle";
 import { api } from "@/features/common/lib/api";
