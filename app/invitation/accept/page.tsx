@@ -1,7 +1,7 @@
 "use client"
 
 import { useInvitation } from "@/features/invitation/hooks/useInvitation";
-import LoadingSpinner from "@/features/common/components/LoadingSpinner";
+import { LoadingSpinner } from "@/features/common/components/LoadingSpinner";
 import { api } from "@/features/common/lib/api";
 import { INVITATION_TOKEN_HEADER } from "@/shared/constants";
 import { Check, MailOpen } from "lucide-react";

@@ -11,7 +11,7 @@ import FormField from "@/features/common/components/FormField";
 import { Input } from "@/features/common/ui/Input";
 import { AlertTriangle, Eye, EyeOff, Lock, Mail, X } from "lucide-react";
 import { useState } from "react";
-import LoadingSpinner from "@/features/common/components/LoadingSpinner";
+import { LoadingSpinner } from "@/features/common/components/LoadingSpinner";
 import { getErrorMessage } from "@/features/common/lib/utils";
 
 const SignInPage = () => {
