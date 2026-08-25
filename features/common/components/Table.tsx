@@ -23,4 +23,4 @@ const Table = ({ headers, children }: {
   )
 }
 
-export default Table;
+export { Table };
