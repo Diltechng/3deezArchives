@@ -10,7 +10,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { GalleryCategory } from "@/features/events/types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import FilterChip, { FilterChipSkeleton } from "@/features/events/components/FilterChip";
-import PageHeader from "@/features/common/components/PageHeader";
+import { PageHeader } from "@/features/common/components/PageHeader";
 import { GetPostsResponse } from "@/shared/contracts/posts.contract";
 import { api } from "@/features/common/lib/api";
 import useModal from "@/features/common/hooks/useModal";

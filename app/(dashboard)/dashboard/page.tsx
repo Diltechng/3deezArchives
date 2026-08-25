@@ -1,7 +1,7 @@
 "use client"
 
 import { StatCard, StatCardSkeleton } from "@/features/dashboard/StatCard";
-import PageHeader from "@/features/common/components/PageHeader"
+import { PageHeader } from "@/features/common/components/PageHeader"
 import { api } from "@/features/common/lib/api";
 import { useCurrentUser } from "@/features/users/hooks/useCurrentUser";
 import { useQuery } from "@tanstack/react-query";

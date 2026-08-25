@@ -4,7 +4,7 @@ import SettingsItem from "@/features/settings/components/SettingsItems";
 import UserEmailForm from "@/features/settings/components/UserEmailForm";
 import UserFullNameForm from "@/features/settings/components/UserFullNameForm";
 import UserPasswordForm from "@/features/settings/components/UserPasswordForm";
-import PageHeader from "@/features/common/components/PageHeader"
+import { PageHeader } from "@/features/common/components/PageHeader"
 import { LoadingSpinner } from "@/features/common/components/LoadingSpinner";
 import useModal from "@/features/common/hooks/useModal";
 import { useCurrentUser } from "@/features/users/hooks/useCurrentUser";
