@@ -3,19 +3,20 @@ import { SignInInput, SignInSchema } from "@/shared/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import logo from "@/public/3deez-logo.svg";
 import Image from "next/image";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { Button } from "@/features/common/ui/Button";
 import FormField from "@/features/common/components/FormField";
 import { Input } from "@/features/common/ui/Input";
-import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { AlertTriangle, Eye, EyeOff, Lock, Mail, X } from "lucide-react";
 import { useState } from "react";
 import LoadingSpinner from "@/features/common/components/LoadingSpinner";
+import { getErrorMessage } from "@/features/common/lib/utils";
 
 const SignInPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { signin } = useAuth();
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<SignInInput>({
@@ -23,13 +24,12 @@ const SignInPage = () => {
   });
 
   async function onSubmit(data: SignInInput) {
+    setError(null);
+
     try {
       await signin(data);
     } catch (error) {
-      toast.error((error instanceof Error)
-        ? error.message
-        : "Something went wrong"
-      );
+      setError(getErrorMessage(error));
     }
 
   }
@@ -52,7 +52,22 @@ const SignInPage = () => {
         <form
           className="flex flex-col w-full max-w-100 mx-auto border-t pt-7 px-10 border-border-2" 
           method="POST"
-          onSubmit={handleSubmit(onSubmit)} >
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          {error && (
+            <div className="mb-5 p-3 flex items-center gap-1 rounded-lg border border-accent-danger bg-accent-danger/10">
+              <div className="p-1.5">
+                <AlertTriangle className="size-5" />
+              </div>
+              <p>{error}</p>
+              <Button
+                variant="text"
+                onClick={() => setError(null)}
+                className="ml-auto p-1.5 text-text hover:bg-accent-danger/10">
+                <X className="size-5" />
+              </Button>
+            </div>
+          )}
           
           <div className="flex flex-col gap-5">
             <FormField label="Email" error={errors.email}>
