@@ -20,4 +20,4 @@ const ModalRenderer = () => {
   );
 }
 
-export default ModalRenderer;
+export { ModalRenderer };

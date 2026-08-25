@@ -1,5 +1,5 @@
 "use client"
-import ModalRenderer from "@/features/common/components/ModalRenderer";
+import { ModalRenderer } from "@/features/common/components/ModalRenderer";
 import Sidebar from "@/features/common/components/Sidebar";
 import Topbar from "@/features/common/components/Topbar";
 
