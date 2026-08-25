@@ -1,4 +1,4 @@
-import PageHeader from "@/features/common/components/PageHeader";
+import { PageHeader } from "@/features/common/components/PageHeader";
 
 const SettingsPage = () => (
   <div>

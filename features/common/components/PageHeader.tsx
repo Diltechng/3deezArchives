@@ -12,4 +12,4 @@ const PageHeader = ({ title, subtitle, children }: {
   </header>
 );
 
-export default PageHeader;
+export { PageHeader };

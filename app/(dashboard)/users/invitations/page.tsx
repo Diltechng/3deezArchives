@@ -1,7 +1,7 @@
 "use client"
-import PageHeader from "@/features/common/components/PageHeader";
+import { PageHeader } from "@/features/common/components/PageHeader";
 import StateCard from "@/features/common/components/StateCard";
-import useModal from "@/features/common/hooks/useModal";
+import { useModal } from "@/features/common/hooks/useModal";
 import useSearchFilters from "@/features/common/hooks/useSearchFilters";
 import { api } from "@/features/common/lib/api";
 import InvitationsTable from "@/features/invitations/components/InvitationsTable";
