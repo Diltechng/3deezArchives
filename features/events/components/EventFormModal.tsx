@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CreatePostInput, CreatePostSchema } from "@/shared/schemas";
 import { toast } from "react-toastify";
 import { api } from "@/features/common/lib/api";
-import FormField from "@/features/common/components/FormField";
+import { FormField } from "@/features/common/components/FormField";
 import FormFieldCard from "@/features/common/components/FormFieldCard";
 import { EventMediaField } from "./EventMediaField";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

@@ -1,4 +1,4 @@
-import FormField from "@/features/common/components/FormField"
+import { FormField } from "@/features/common/components/FormField"
 import { Modal } from "@/features/common/components/Modal";
 import { ModalBody } from "@/features/common/components/ModalBody";
 import { ModalFooter } from "@/features/common/components/ModalFooter";

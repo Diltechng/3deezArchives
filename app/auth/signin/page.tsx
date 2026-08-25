@@ -7,7 +7,7 @@ import logo from "@/public/3deez-logo.svg";
 import Image from "next/image";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { Button } from "@/features/common/ui/Button";
-import FormField from "@/features/common/components/FormField";
+import { FormField } from "@/features/common/components/FormField";
 import { Input } from "@/features/common/ui/Input";
 import { AlertTriangle, Eye, EyeOff, Lock, Mail, X } from "lucide-react";
 import { useState } from "react";

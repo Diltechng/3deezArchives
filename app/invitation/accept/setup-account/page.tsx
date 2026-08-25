@@ -2,7 +2,7 @@
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useInvitation } from "@/features/invitation/hooks/useInvitation";
-import FormField from "@/features/common/components/FormField";
+import { FormField } from "@/features/common/components/FormField";
 import { api } from "@/features/common/lib/api";
 import { INVITATION_TOKEN_HEADER } from "@/shared/constants";
 import { AcceptInviteSchema } from "@/shared/schemas";
