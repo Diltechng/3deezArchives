@@ -5,7 +5,7 @@ import {
   UpdatePostInput,
   GetPostsQueryInput,
 } from "@/shared/schemas";
-import { GetPostsMeta, PostListItem } from "@/shared/contracts/posts.contract";
+import { GetPostsMeta, PostDto } from "@/shared/contracts/posts.contract";
 
 
 export interface UploadFileInput {
@@ -64,6 +64,6 @@ export interface DeleteOnePostInput {
 }
 
 export interface GetPostsOutput {
-  posts: PostListItem[];
+  posts: PostDto[];
   meta: GetPostsMeta;
 }

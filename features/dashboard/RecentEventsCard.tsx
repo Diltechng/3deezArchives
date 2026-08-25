@@ -40,8 +40,8 @@ export const RecentEventsCard = () => {
             <RecentEventItemCardSkeleton />
           </>
           : recentEvents.length
-            ? recentEvents.map((post: any, i: number) => (
-              <RecentEventItemCard key={post.id} post={post} className={{"border-none": (i === (recentEvents.length - 1))}} />
+            ? recentEvents.map((event: any, i: number) => (
+              <RecentEventItemCard key={event.id} event={event} className={{"border-none": (i === (recentEvents.length - 1))}} />
             ))
           : (
             <div className="flex flex-col items-center text-center mt-4 mb-2">

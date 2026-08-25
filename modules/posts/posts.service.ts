@@ -159,11 +159,22 @@ class PostsService {
           columns: {
             id: true,
             secureUrl: true,
+            createdAt: true,
+            bytes: true,
+            width: true,
+            height: true,
+            uploadedBy: true,
           }
         },
         media: {
           columns: {
-            id: true
+            id: true,
+            secureUrl: true,
+            createdAt: true,
+            bytes: true,
+            width: true,
+            height: true,
+            uploadedBy: true,
           }
         },
         uploadedByUser: {
