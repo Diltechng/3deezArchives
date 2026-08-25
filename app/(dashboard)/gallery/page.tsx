@@ -13,7 +13,7 @@ import FilterChip, { FilterChipSkeleton } from "@/features/events/components/Fil
 import { PageHeader } from "@/features/common/components/PageHeader";
 import { GetPostsResponse } from "@/shared/contracts/posts.contract";
 import { api } from "@/features/common/lib/api";
-import useModal from "@/features/common/hooks/useModal";
+import { useModal } from "@/features/common/hooks/useModal";
 import { EventFormModal } from "@/features/events/components/EventFormModal";
 import { GetCategoriesResponse } from "@/shared/contracts/categories.contract";
 
