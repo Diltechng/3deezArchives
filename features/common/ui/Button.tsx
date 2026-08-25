@@ -4,7 +4,6 @@ import { Slot } from "radix-ui";
 
 interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   children?: React.ReactNode;
-  Icon?: React.ComponentType<{ className: string }>;
   active?: boolean;
   asChild?: boolean;
   variant?: "contained" | "text" | "outlined";
@@ -16,11 +15,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     variant="contained",
     active=false,
     asChild=false,
-    Icon,
-    children,
     ...props
   }, ref) => {
-    const Comp = asChild? Slot.Root: "button";
+    const Comp = asChild? Slot.Slot: "button";
 
     return (
       <Comp
@@ -43,10 +40,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           ),
           className,
         )}
-      >
-        {Icon && <Icon className="h-5 w-5" />}
-        <Slot.Slottable>{children}</Slot.Slottable>
-      </Comp>
+      />
     )
   }
 );
