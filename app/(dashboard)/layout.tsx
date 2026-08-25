@@ -1,6 +1,6 @@
 "use client"
 import { ModalRenderer } from "@/features/common/components/ModalRenderer";
-import Sidebar from "@/features/common/components/Sidebar";
+import { Sidebar } from "@/features/common/components/Sidebar";
 import Topbar from "@/features/common/components/Topbar";
 
 const DashboardLayout = ({ children }: Readonly<{
