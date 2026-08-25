@@ -4,7 +4,7 @@ import { useAuth } from "@/features/auth/hooks/useAuth";
 import { Building2, ChevronsUpDown, Folders, Images, LayoutDashboard, LogOut, Settings, SquareActivity, UserCircle, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import useSidebar from "../hooks/useSidebar";
+import { useSidebar } from "../hooks/useSidebar";
 import { cn, getInitials } from "../lib/utils";
 import BackgroundOverlay from "./BackgroundOverlay";
 import { useEffect } from "react";
