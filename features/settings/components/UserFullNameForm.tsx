@@ -60,7 +60,7 @@ const UserFullNameForm = ({ title, onClose }: UserFullNameFormProps) => {
         <Button variant="outlined" onClick={onClose}>
           Cancel
         </Button>
-        <Button form="update-full-name-form" disabled={updateFullNameMutation.isPending}>
+        <Button form="update-full-name-form" type="submit" disabled={updateFullNameMutation.isPending}>
           Update
         </Button>
       </ModalFooter>

@@ -22,7 +22,7 @@ const UserEmailForm = ({ title, onClose }: UserEmailFormProps) => {
         </form>
       </ModalBody>
       <ModalFooter>
-        <Button variant="outlined" onClick={onClose}>
+        <Button variant="outlined" type="submit" onClick={onClose}>
           Cancel
         </Button>
         <Button>

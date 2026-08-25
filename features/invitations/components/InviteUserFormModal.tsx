@@ -152,7 +152,7 @@ export const InviteUserFormModal = ({ title, subtitle, onClose }: InviteUserForm
         <Button variant="outlined" onClick={onClose}>
           Cancel
         </Button>
-        <Button form="invite-user-form" disabled={inviteMutation.isPending}>
+        <Button form="invite-user-form" type="submit" disabled={inviteMutation.isPending}>
           Submit
         </Button>
       </ModalFooter>

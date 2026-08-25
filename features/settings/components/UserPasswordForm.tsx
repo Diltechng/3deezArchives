@@ -73,7 +73,7 @@ const UserPasswordForm = ({ title, onClose }: UserPasswordFormProps) => {
         <Button variant="outlined" onClick={onClose}>
           Cancel
         </Button>
-        <Button form="update-password-form" disabled={updatePasswordMutation.isPending}>
+        <Button form="update-password-form" type="submit" disabled={updatePasswordMutation.isPending}>
           Update
         </Button>
       </ModalFooter>

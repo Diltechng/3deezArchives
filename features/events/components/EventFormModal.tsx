@@ -214,7 +214,7 @@ export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventF
         <Button variant="outlined" onClick={onClose}>
           Cancel
         </Button>
-        <Button form="event-form" disabled={isSubmitting}>
+        <Button form="event-form" type="submit" disabled={isSubmitting}>
           Submit
         </Button>
       </ModalFooter>

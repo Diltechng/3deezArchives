@@ -12,6 +12,7 @@ interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({
     className,
+    type="button",
     variant="contained",
     active=false,
     asChild=false,
@@ -22,9 +23,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Comp
         ref={ref}
-        {...props}
+        type={asChild? undefined: type}
         className={cn(
-          "flex items-center gap-2 py-2 px-4 text-[13px] text-left rounded-lg duration-200",
+          "flex items-center gap-2 py-2 px-4 text-sm text-left rounded-lg duration-200",
           
           variant === "contained" && (
             "font-semibold bg-accent-primary text-background"
@@ -40,6 +41,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           ),
           className,
         )}
+        {...props}
       />
     )
   }

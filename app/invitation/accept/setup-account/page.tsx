@@ -108,7 +108,7 @@ const AccountSetupPage = () => {
               </div>
             </div>
             <div className="mt-6 pt-4 border-t border-border-2">
-              <Button className="w-full py-3 text-[13px]" disabled={!termsAccepted || isSubmitting}>
+              <Button className="w-full py-3 text-[13px]" type="submit" disabled={!termsAccepted || isSubmitting}>
                 Submit
               </Button>
             </div>
