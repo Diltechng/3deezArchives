@@ -37,4 +37,4 @@ const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
   return children;
 }
 
-export default ProtectedPage;
+export { ProtectedPage };
