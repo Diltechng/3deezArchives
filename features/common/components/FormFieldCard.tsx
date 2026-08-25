@@ -21,4 +21,4 @@ const FormFieldCard = ({ children, className, title, columns }: {
   </div>
 );
 
-export default FormFieldCard;
+export { FormFieldCard };
