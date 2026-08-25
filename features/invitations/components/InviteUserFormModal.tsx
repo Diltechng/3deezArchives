@@ -1,4 +1,4 @@
-import FormField from "@/features/common/components/FormField";
+import { FormField } from "@/features/common/components/FormField";
 import FormFieldCard from "@/features/common/components/FormFieldCard";
 import { InviteUserInput, InviteUserSchema } from "@/shared/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,7 +14,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Modal } from "@/features/common/components/Modal";
 import { ModalHeader } from "@/features/common/components/ModalHeader";
 import { ModalFooter } from "@/features/common/components/ModalFooter";
-import Button from "@/features/common/ui/Button";
+import { Button } from "@/features/common/ui/Button";
 import { ModalBody } from "@/features/common/components/ModalBody";
 import { Input } from "@/features/common/ui/Input";
 
@@ -152,7 +152,7 @@ export const InviteUserFormModal = ({ title, subtitle, onClose }: InviteUserForm
         <Button variant="outlined" onClick={onClose}>
           Cancel
         </Button>
-        <Button form="invite-user-form" disabled={inviteMutation.isPending}>
+        <Button form="invite-user-form" type="submit" disabled={inviteMutation.isPending}>
           Submit
         </Button>
       </ModalFooter>

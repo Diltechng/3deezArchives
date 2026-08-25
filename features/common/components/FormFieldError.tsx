@@ -1,7 +1,12 @@
+import { AlertTriangle } from "lucide-react";
+
 const FormFieldError = ({ message }: {
   message?: string;
 }) => (
-  <p className="ml-2 text-[11px] text-red-400">{"* " + message}</p>
+  <div className="flex gap-1 items-center text-red-400">
+    <AlertTriangle className="size-3.5" />
+    <p className="text-[11px]">{message}</p>
+  </div>
 );
 
 export default FormFieldError;
