@@ -7,9 +7,17 @@ import { toast } from "react-toastify";
 import logo from "@/public/3deez-logo.svg";
 import Image from "next/image";
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import { Button } from "@/features/common/ui/Button";
+import FormField from "@/features/common/components/FormField";
+import { Input } from "@/features/common/ui/Input";
+import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
+import LoadingSpinner from "@/features/common/components/LoadingSpinner";
 
 const SignInPage = () => {
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const { signin } = useAuth();
+
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<SignInInput>({
     resolver: zodResolver(SignInSchema)
   });
@@ -47,37 +55,48 @@ const SignInPage = () => {
           onSubmit={handleSubmit(onSubmit)} >
           
           <div className="flex flex-col gap-5">
-            <div className="flex flex-col">
-              <label className="text-[13px] text-neutral-700">Email</label>
-              <input
+            <FormField label="Email" error={errors.email}>
+              <Input
                 {...register("email")}
                 type="email"
                 placeholder="Enter your email"
-                className="input-core" />
-              {errors.email && <p className="ml-2 text-[13px] text-red-600">{"* " + errors.email.message}</p>}
-            </div>
-            <div className="flex flex-col">
-              <label className="text-[13px] text-neutral-700">Password</label>
-              <input
-                {...register("password")}
-                type="password"
-                placeholder="Enter your password"
-                className="input-core" />
-              <button type="button">
-
-              </button>
-              {errors.password && <p className="ml-2 text-[13px] text-red-600">{"* " + errors.password.message}</p>}
-            </div>
+              />
+            </FormField>
+            <FormField label="Password" error={errors.password}>
+              <div className="relative">
+                <Input
+                  {...register("password")}
+                  type={passwordVisible ? "text": "password"}
+                  placeholder="Enter your password"
+                  className="w-full pr-10"
+                />
+                <Button
+                  variant="text"
+                  type="button"
+                  className="absolute -translate-y-1/2 top-1/2 right-2 p-1.5 rounded-full"
+                  onClick={() => setPasswordVisible(prev => !prev)}
+                >
+                  {passwordVisible
+                    ? <EyeOff className="size-5" />
+                    : <Eye className="size-5" />
+                  }
+                </Button>
+              </div>
+            </FormField>
           </div>
 
           <Link href="#" className="text-[13px] my-5 text-right text-sky-600" >Forgot password</Link>
           
-          <button
+          <Button
             type="submit"
             disabled={isSubmitting}
-            className="button-primary disabled:bg-neutral-700">
-            {isSubmitting? "Signing in...": "Sign In"}
-          </button>
+            className="px-3 py-2.5 justify-center disabled:bg-neutral-700"
+          >
+            {isSubmitting
+              ? <LoadingSpinner radius={5} />
+              : "Sign In"
+            }
+          </Button>
         </form>
       </div>
     </div>
