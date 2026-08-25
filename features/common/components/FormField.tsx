@@ -1,6 +1,6 @@
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 import { cn } from "../lib/utils";
-import FormFieldError from "./FormFieldError";
+import { FormFieldError } from "./FormFieldError";
 import FormFieldLabel from "./FormFieldLabel";
 
 const FormField = ({ children, htmlFor, label, error, className }: {
