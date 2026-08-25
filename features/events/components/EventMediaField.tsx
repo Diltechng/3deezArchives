@@ -1,5 +1,5 @@
 import { FormField } from "@/features/common/components/FormField";
-import LoadingState from "@/features/common/components/LoadingState";
+import { LoadingState } from "@/features/common/components/LoadingState";
 import { AlertCircle, RefreshCw, Star, Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { FieldError, Merge } from "react-hook-form"

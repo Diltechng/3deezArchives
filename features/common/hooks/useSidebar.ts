@@ -10,4 +10,4 @@ function useSidebar() {
   return context;
 }
 
-export default useSidebar;
+export { useSidebar };

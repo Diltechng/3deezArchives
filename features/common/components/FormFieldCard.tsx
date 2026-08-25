@@ -1,5 +1,5 @@
 import { cn } from "../lib/utils";
-import FormFieldCardTitle from "./FormFieldCardTitle";
+import { FormFieldCardTitle } from "./FormFieldCardTitle";
 
 const FormFieldCard = ({ children, className, title, columns }: {
   children?: React.ReactNode;
@@ -21,4 +21,4 @@ const FormFieldCard = ({ children, className, title, columns }: {
   </div>
 );
 
-export default FormFieldCard;
+export { FormFieldCard };

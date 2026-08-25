@@ -1,7 +1,7 @@
 "use client"
 
 import { useAuth } from "@/features/auth/hooks/useAuth"
-import LoadingState from "./LoadingState"
+import { LoadingState } from "./LoadingState"
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -37,4 +37,4 @@ const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
   return children;
 }
 
-export default ProtectedPage;
+export { ProtectedPage };

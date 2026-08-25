@@ -22,4 +22,4 @@ const ToastContainer = () => {
   );
 }
 
-export default ToastContainer;
+export { ToastContainer };

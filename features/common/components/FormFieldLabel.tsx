@@ -14,4 +14,4 @@ const FormFieldLabel = ({ label, htmlFor, className, children }: {
   </label>
 );
 
-export default FormFieldLabel;
+export { FormFieldLabel };

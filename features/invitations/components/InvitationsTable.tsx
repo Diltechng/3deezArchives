@@ -1,4 +1,4 @@
-import Table from "@/features/common/components/Table";
+import { Table } from "@/features/common/components/Table";
 
 const InvitationsTable = ({ children }: {
   children: React.ReactNode;

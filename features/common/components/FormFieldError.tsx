@@ -9,4 +9,4 @@ const FormFieldError = ({ message }: {
   </div>
 );
 
-export default FormFieldError;
+export { FormFieldError };
