@@ -30,4 +30,4 @@ const StateCard = ({ icon, title, subtitle, className }: StateCardProps) => (
   </div>
 );
 
-export default StateCard;
+export default { StateCard };
