@@ -10,7 +10,7 @@ import { useAuth } from "@/features/auth/hooks/useAuth";
 import { Button } from "@/features/common/ui/Button";
 import FormField from "@/features/common/components/FormField";
 import { Input } from "@/features/common/ui/Input";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { useState } from "react";
 import LoadingSpinner from "@/features/common/components/LoadingSpinner";
 
@@ -56,19 +56,28 @@ const SignInPage = () => {
           
           <div className="flex flex-col gap-5">
             <FormField label="Email" error={errors.email}>
-              <Input
-                {...register("email")}
-                type="email"
-                placeholder="Enter your email"
-              />
+              <div className="relative">
+                <div className="absolute -translate-y-1/2 top-1/2 left-2 p-1.5">
+                  <Mail className="size-4.5" />
+                </div>
+                <Input
+                  {...register("email")}
+                  type="email"
+                  placeholder="Enter your email"
+                  className="w-full pl-11"
+                />
+              </div>
             </FormField>
             <FormField label="Password" error={errors.password}>
               <div className="relative">
+                <div className="absolute -translate-y-1/2 top-1/2 left-2 p-1.5">
+                  <Lock className="size-4.5" />
+                </div>
                 <Input
                   {...register("password")}
                   type={passwordVisible ? "text": "password"}
                   placeholder="Enter your password"
-                  className="w-full pr-10"
+                  className="w-full pl-11 pr-10"
                 />
                 <Button
                   variant="text"
