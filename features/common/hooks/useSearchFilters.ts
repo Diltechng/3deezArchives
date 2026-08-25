@@ -53,4 +53,4 @@ function useSearchFilters<T extends string>() {
   }
 }
 
-export default useSearchFilters;
+export { useSearchFilters };

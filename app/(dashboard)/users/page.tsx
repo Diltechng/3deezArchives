@@ -2,7 +2,7 @@
 import Can from "@/features/permissions/components/Can";
 import { PageHeader } from "@/features/common/components/PageHeader";
 import { useModal } from "@/features/common/hooks/useModal";
-import useSearchFilters from "@/features/common/hooks/useSearchFilters";
+import { useSearchFilters } from "@/features/common/hooks/useSearchFilters";
 import { api } from "@/features/common/lib/api";
 import { cn, getInitials } from "@/features/common/lib/utils";
 import { PERMISSIONS } from "@/shared/constants/permissions";
