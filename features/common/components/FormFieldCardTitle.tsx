@@ -12,4 +12,4 @@ const FormFieldCardTitle = ({ title, className }: {
   </div>
 )
 
-export default FormFieldCardTitle;
+export { FormFieldCardTitle };
