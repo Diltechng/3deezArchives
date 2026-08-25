@@ -1,6 +1,6 @@
 "use client"
 
-import LoadingState from "@/features/common/components/LoadingState";
+import { LoadingState } from "@/features/common/components/LoadingState";
 import { useModal } from "@/features/common/hooks/useModal";
 import { PostVisibility } from "@/shared/constants/enums";
 import { useMutation, useQuery } from "@tanstack/react-query";
