@@ -3,7 +3,7 @@ import { Modal } from "@/features/common/components/Modal";
 import { ModalBody } from "@/features/common/components/ModalBody";
 import { ModalFooter } from "@/features/common/components/ModalFooter";
 import { ModalHeader } from "@/features/common/components/ModalHeader";
-import Button from "@/features/common/ui/Button";
+import { Button } from "@/features/common/ui/Button";
 
 interface UserEmailFormProps {
   title: string;

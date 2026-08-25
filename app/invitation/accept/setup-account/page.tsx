@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import z from "zod";
-import Button from "@/features/common/ui/Button";
+import { Button } from "@/features/common/ui/Button";
 
 const AcceptInviteFormSchema = AcceptInviteSchema.extend({
   confirmPassword: z.string(),

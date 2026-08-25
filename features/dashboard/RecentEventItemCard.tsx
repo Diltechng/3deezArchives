@@ -1,5 +1,5 @@
 import { accentFadedCn, accentFromName, accentTextCn, cn } from "@/features/common/lib/utils";
-import Button from "@/features/common/ui/Button";
+import { Button } from "@/features/common/ui/Button";
 import { ClassValue } from "clsx";
 import dayjs from "dayjs";
 import { EllipsisVertical, Image, Info, Pencil, Trash2 } from "lucide-react";

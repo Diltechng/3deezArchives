@@ -1,5 +1,5 @@
 import { ConfirmModalData } from "../contexts/ModalContext";
-import Button from "../ui/Button";
+import { Button } from "../ui/Button";
 import { Modal } from "./Modal";
 import { ModalBody } from "./ModalBody";
 import { ModalFooter } from "./ModalFooter";

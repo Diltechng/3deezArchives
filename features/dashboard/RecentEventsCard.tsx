@@ -1,7 +1,7 @@
 "use client"
 
 import { RecentEventItemCard, RecentEventItemCardSkeleton } from "@/features/dashboard/RecentEventItemCard";
-import Button from "@/features/common/ui/Button";
+import { Button } from "@/features/common/ui/Button";
 import { NoEvent } from "@/features/common/ui/icons/NoEvent";
 import { ArrowRight, Plus } from "lucide-react";
 import Link from "next/link";

@@ -14,7 +14,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Modal } from "@/features/common/components/Modal";
 import { ModalHeader } from "@/features/common/components/ModalHeader";
 import { ModalFooter } from "@/features/common/components/ModalFooter";
-import Button from "@/features/common/ui/Button";
+import { Button } from "@/features/common/ui/Button";
 import { ModalBody } from "@/features/common/components/ModalBody";
 import { useCategories } from "@/features/categories/hooks/useCategories";
 import { Input } from "@/features/common/ui/Input";
