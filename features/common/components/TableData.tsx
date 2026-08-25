@@ -8,4 +8,4 @@ const TableData = ({ children }: {
   );
 }
 
-export default TableData;
+export { TableData };

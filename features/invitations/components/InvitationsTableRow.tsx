@@ -1,4 +1,4 @@
-import TableData from "@/features/common/components/TableData";
+import { TableData } from "@/features/common/components/TableData";
 import { cn } from "@/features/common/lib/utils";
 
 export const InvitationsTableRowSkeleton = () => (
