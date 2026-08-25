@@ -95,4 +95,4 @@ const ModalProvider = ({ children }: {
   )
 }
 
-export default ModalProvider;
+export { ModalProvider };

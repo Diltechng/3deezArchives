@@ -2,7 +2,7 @@
 
 import { AuthProvider } from "@/features/auth/contexts/AuthContext"
 import QueryProvider from "../contexts/QueryProvider";
-import ModalProvider from "../contexts/ModalContext";
+import { ModalProvider } from "../contexts/ModalContext";
 import SidebarProvider from "../contexts/SidebarContext";
 
 export const Providers = ({ children }: {
