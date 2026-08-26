@@ -3,25 +3,13 @@
 import { api } from "@/features/common/lib/api";
 import { SignInInput } from "@/shared/schemas";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
-import { ROUTE_WHITELIST } from "../constants";
 import { GetUserProfileResponse, UserProfileData } from "@/shared/contracts/users.contract";
-
-type AuthStatus =
-  | "unknown"
-  | "authenticated"
-  | "unauthenticated";
 
 type AuthContextType = {
   isLoading: boolean;
-  authStatus: AuthStatus;
   isAuthenticated: boolean;
-  accessToken: string | null;
   user: UserProfileData | null;
-  isWhiteListed: (pathname: string) => boolean;
-  clearSession: () => void;
-  refresh: () => Promise<string>;
   signin: (data: SignInInput) => Promise<void>;
   signout: () => void;
 }
@@ -31,34 +19,20 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const router = useRouter();
   const refreshPromiseRef = useRef<Promise<string> | null>(null);
 
   const [isLoading, setIsLoading] = useState(true);
   const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [authStatus, setAuthStatus] = useState<AuthStatus>("unknown");
   const [user, setUser] = useState<UserProfileData | null>(null);
 
   function clearSession() {
     setAccessToken(null);
-    setAuthStatus("unauthenticated");
+    setUser(null);
   }
 
   function setSession(accessToken: string,) {
     setAccessToken(accessToken);
-    setAuthStatus("authenticated")
-  }
-
-  function isWhiteListed(pathname: string) {
-    return ROUTE_WHITELIST.some(route => {
-      if (route.endsWith("/*")) {
-        const baseRoute = route.slice(0, -2);
-
-        return baseRoute === pathname || pathname.startsWith(baseRoute + "/");
-      }
-
-      return route === pathname;
-    });
+    setUser(null);
   }
 
   const refresh = useCallback(async () => {
@@ -102,8 +76,6 @@ export const AuthProvider = ({ children }: Readonly<{
       const { data } = response.data;
       
       setSession(data.accessToken);
-
-      router.replace("/dashboard");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(error.response?.data.error.message);
@@ -114,8 +86,6 @@ export const AuthProvider = ({ children }: Readonly<{
 
   async function signout() {
     await axios.delete("/api/v1/auth/sign-out");
-
-    router.replace("/auth/signin");
     
     clearSession();
   }
@@ -162,7 +132,6 @@ export const AuthProvider = ({ children }: Readonly<{
             return api(originalRequest);
           } catch (refreshError) {
             clearSession();
-            router.replace("/auth/signin");
             return Promise.reject(refreshError);
           }
         }
@@ -180,14 +149,9 @@ export const AuthProvider = ({ children }: Readonly<{
   const value: AuthContextType = {
     isLoading,
     isAuthenticated: !!accessToken,
-    accessToken,
-    authStatus,
     user,
-    clearSession,
-    refresh,
     signin,
     signout,
-    isWhiteListed,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
