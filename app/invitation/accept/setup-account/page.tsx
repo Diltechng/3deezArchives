@@ -2,7 +2,7 @@
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useInvitation } from "@/features/invitation/hooks/useInvitation";
-import FormField from "@/features/common/components/FormField";
+import { FormField } from "@/features/common/components/FormField";
 import { api } from "@/features/common/lib/api";
 import { INVITATION_TOKEN_HEADER } from "@/shared/constants";
 import { AcceptInviteSchema } from "@/shared/schemas";
@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import z from "zod";
-import Button from "@/features/common/ui/Button";
+import { Button } from "@/features/common/ui/Button";
 
 const AcceptInviteFormSchema = AcceptInviteSchema.extend({
   confirmPassword: z.string(),
@@ -108,7 +108,7 @@ const AccountSetupPage = () => {
               </div>
             </div>
             <div className="mt-6 pt-4 border-t border-border-2">
-              <Button className="w-full py-3 text-[13px]" disabled={!termsAccepted || isSubmitting}>
+              <Button className="w-full py-3 text-[13px]" type="submit" disabled={!termsAccepted || isSubmitting}>
                 Submit
               </Button>
             </div>

@@ -14,7 +14,6 @@ export function withPermissionGuard<TParams>(permission: Permission, handler: (r
       });
     };
 
-    console.log("Has permission to", permission);
     return handler(req, context);
   }
 }

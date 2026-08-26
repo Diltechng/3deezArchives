@@ -17,4 +17,4 @@ const FormField = ({ children, htmlFor, label, error, className }: {
   </div>
 )
 
-export default FormField
+export { FormField };

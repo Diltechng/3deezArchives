@@ -8,7 +8,7 @@ import useSidebar from "../hooks/useSidebar";
 import { cn, getInitials } from "../lib/utils";
 import BackgroundOverlay from "./BackgroundOverlay";
 import { useEffect } from "react";
-import Button from "../ui/Button";
+import { Button } from "../ui/Button";
 import { useCurrentUser } from "@/features/users/hooks/useCurrentUser";
 import { DropdownMenu } from "radix-ui";
 import logo from "@/public/3deez-logo.svg";

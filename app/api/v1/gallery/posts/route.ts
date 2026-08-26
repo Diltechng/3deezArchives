@@ -4,7 +4,7 @@ import { ResponseData } from "@/shared/types/api";
 import { postsService } from "@/modules/posts/posts.service";
 import { validateCreatePost, validateGetPostsQuery } from "@/modules/posts/posts.validation";
 import { NextResponse } from "next/server";
-import { GetPostsMeta, PostListItem } from "@/shared/contracts/posts.contract";
+import { GetPostsMeta, PostDto } from "@/shared/contracts/posts.contract";
 import { withPermissionGuard } from "@/lib/api/permission-guard";
 import { PERMISSIONS } from "@/shared/constants/permissions";
 
@@ -60,7 +60,7 @@ export const GET = withErrorHandler(
         filters: validatedFilters,
       });
 
-      return NextResponse.json<ResponseData<PostListItem[], GetPostsMeta>>({
+      return NextResponse.json<ResponseData<PostDto[], GetPostsMeta>>({
         success: true,
         message: `Fetched ${posts.length} posts successfully`,
         data: posts,

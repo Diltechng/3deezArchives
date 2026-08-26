@@ -2,7 +2,7 @@ import { ChevronDown } from "lucide-react";
 import { Select as SelectPrimitive } from "radix-ui"
 import React from "react";
 import { cn } from "../lib/utils";
-import Button from "./Button";
+import { Button } from "./Button";
 
 interface SelectProps {
   label: string;

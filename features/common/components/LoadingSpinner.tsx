@@ -9,4 +9,4 @@ const LoadingSpinner = ({ radius=10, width=3 }) => (
   />
 );
 
-export default LoadingSpinner;
+export { LoadingSpinner };

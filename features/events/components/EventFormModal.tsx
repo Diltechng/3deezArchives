@@ -7,14 +7,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CreatePostInput, CreatePostSchema } from "@/shared/schemas";
 import { toast } from "react-toastify";
 import { api } from "@/features/common/lib/api";
-import FormField from "@/features/common/components/FormField";
+import { FormField } from "@/features/common/components/FormField";
 import FormFieldCard from "@/features/common/components/FormFieldCard";
 import { EventMediaField } from "./EventMediaField";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Modal } from "@/features/common/components/Modal";
 import { ModalHeader } from "@/features/common/components/ModalHeader";
 import { ModalFooter } from "@/features/common/components/ModalFooter";
-import Button from "@/features/common/ui/Button";
+import { Button } from "@/features/common/ui/Button";
 import { ModalBody } from "@/features/common/components/ModalBody";
 import { useCategories } from "@/features/categories/hooks/useCategories";
 import { Input } from "@/features/common/ui/Input";
@@ -214,7 +214,7 @@ export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventF
         <Button variant="outlined" onClick={onClose}>
           Cancel
         </Button>
-        <Button form="event-form" disabled={isSubmitting}>
+        <Button form="event-form" type="submit" disabled={isSubmitting}>
           Submit
         </Button>
       </ModalFooter>

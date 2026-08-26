@@ -1,4 +1,4 @@
-import LoadingSpinner from "./LoadingSpinner";
+import { LoadingSpinner } from "./LoadingSpinner";
 
 const LoadingState = () => (
   <div className="flex justify-center items-center h-full w-full">

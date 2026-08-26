@@ -2,7 +2,7 @@ import { Bell, Plus, TextAlignStart } from "lucide-react";
 import { usePathname } from "next/navigation";
 import useSidebar from "../hooks/useSidebar";
 import { useCurrentUser } from "@/features/users/hooks/useCurrentUser";
-import Button from "../ui/Button";
+import { Button } from "../ui/Button";
 import { useEventFormModal } from "@/features/events/hooks/useEventFormModal";
 
 const Topbar = () => {
