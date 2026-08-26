@@ -3,7 +3,7 @@ import { SignInInput, SignInSchema } from "@/shared/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import logo from "@/public/3deez-logo.svg";
+import logo from "@/public/brand-logo.svg";
 import Image from "next/image";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { Button } from "@/features/common/ui/Button";
@@ -42,7 +42,7 @@ const SignInPage = () => {
             <Image
               src={logo}
               alt="Company Logo"
-              className="w-33"
+              className="w-70"
             />
           </div>
           <h2 className="text-sm text-neutral-600">
@@ -109,7 +109,7 @@ const SignInPage = () => {
             </FormField>
           </div>
 
-          <Link href="#" className="text-[13px] my-5 text-right text-sky-600" >Forgot password</Link>
+          <Link href="#" className="text-[13px] my-5 text-right text-[#7F56D9]" >Forgot password</Link>
           
           <Button
             type="submit"

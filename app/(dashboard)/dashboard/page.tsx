@@ -55,6 +55,7 @@ const HomePage = () => {
                   Icon={CalendarClock}
                   label="This Month"
                   value={`${statsData.data.totalPostsThisMonth ?? "-"}`}
+                  accent="neutral"
                   href="/gallery"
                   linkName="View events"
                 />
@@ -62,7 +63,7 @@ const HomePage = () => {
                   Icon={FolderOpen}
                   label="Categories"
                   value={`${statsData.data.totalCategories ?? "-"}`}
-                  accent="secondary"
+                  accent="danger"
                   href="/categories"
                   linkName="View all categories"
                 />
