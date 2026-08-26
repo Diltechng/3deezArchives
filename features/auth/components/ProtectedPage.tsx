@@ -1,32 +1,27 @@
 "use client"
 
 import { useAuth } from "@/features/auth/hooks/useAuth"
-import { LoadingState } from "./LoadingState"
+import { LoadingState } from "../../common/components/LoadingState"
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const { isLoading, authStatus, isWhiteListed } = useAuth();
-  const isAuthPage = pathname === "/auth" || pathname.startsWith("/auth/");
+  const { isLoading, isAuthenticated } = useAuth();
   const isIndexPage = pathname === "/";
 
   useEffect(() => {
     if (!isLoading) {
-      if (authStatus === "authenticated" && (isAuthPage || isIndexPage)) {
+      if (isAuthenticated && isIndexPage) {
         router.replace("/dashboard");
-      } else if (authStatus === "unauthenticated" && !isWhiteListed(pathname)) {
+      } else if (!isAuthenticated) {
         router.replace("/auth/signin");
       }
     }
-  }, [router, authStatus, isLoading]);
+  }, [router, isAuthenticated, isLoading]);
 
-  if (isLoading ||
-    ((authStatus === "unknown") ||
-    (authStatus === "unauthenticated" && !isWhiteListed(pathname)) ||
-    (authStatus === "authenticated" && (isAuthPage || isIndexPage)))
-  ) {
+  if (isLoading || !isAuthenticated) {
     return (
       <div className="w-full h-screen">
         <LoadingState />
