@@ -24,7 +24,7 @@ export const StatCard = ({ label, value, href, linkName="View all", accent="prim
         "w-8 h-8 sm:w-10 sm:h-10 shrink-0 grid place-items-center rounded-lg",
         { "bg-accent-primary text-surface": accent === "primary" },
         { "bg-accent-secondary": accent === "secondary" },
-        { "bg-accent-info": accent === "info" },
+        { "bg-accent-info text-surface": accent === "info" },
         { "bg-accent-danger": accent === "danger" },
         { "bg-accent-neutral": accent === "neutral" },
       )}>
@@ -41,8 +41,7 @@ export const StatCard = ({ label, value, href, linkName="View all", accent="prim
         { "text-accent-secondary": accent === "secondary" },
         { "text-accent-info": accent === "info" },
         { "text-accent-danger": accent === "danger" },
-        { "text-text":
-           accent === "neutral" },
+        { "text-text": accent === "neutral" },
     )}>
       {linkName} <ArrowRight className="inline w-3.25 h-3.25" />
     </Link>
