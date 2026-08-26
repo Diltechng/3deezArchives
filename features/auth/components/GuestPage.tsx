@@ -1,3 +1,5 @@
+"use client"
+
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
@@ -7,13 +9,13 @@ export const GuestPage = ({ children }: {
   children: React.ReactNode;
 }) => {
   const router = useRouter();
-  const { isLoading, isAuthenticated } = useAuth();
+  const { isLoading, redirectTo, isAuthenticated } = useAuth();
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      router.replace("/dashboard");
+      router.replace(redirectTo ?? "/dashboard");
     }
-  }, [router, isLoading, isAuthenticated]);
+  }, [router, isLoading, redirectTo, isAuthenticated]);
 
   if (isLoading || isAuthenticated) {
     return (

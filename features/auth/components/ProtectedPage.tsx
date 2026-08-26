@@ -8,7 +8,7 @@ import { useEffect } from "react";
 const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const { isLoading, isAuthenticated } = useAuth();
+  const { isLoading, setRedirectTo, isAuthenticated } = useAuth();
   const isIndexPage = pathname === "/";
 
   useEffect(() => {
@@ -17,6 +17,7 @@ const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
         router.replace("/dashboard");
       } else if (!isAuthenticated) {
         router.replace("/auth/signin");
+        setRedirectTo(isIndexPage ? null: pathname);
       }
     }
   }, [router, isAuthenticated, isLoading]);

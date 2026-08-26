@@ -3,13 +3,15 @@
 import { api } from "@/features/common/lib/api";
 import { SignInInput } from "@/shared/schemas";
 import axios from "axios";
-import { createContext, useCallback, useEffect, useRef, useState } from "react";
+import { createContext, Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from "react";
 import { GetUserProfileResponse, UserProfileData } from "@/shared/contracts/users.contract";
 
 type AuthContextType = {
   isLoading: boolean;
   isAuthenticated: boolean;
   user: UserProfileData | null;
+  redirectTo: string | null;
+  setRedirectTo: Dispatch<SetStateAction<string | null>>;
   signin: (data: SignInInput) => Promise<void>;
   signout: () => void;
 }
@@ -24,6 +26,7 @@ export const AuthProvider = ({ children }: Readonly<{
   const [isLoading, setIsLoading] = useState(true);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [user, setUser] = useState<UserProfileData | null>(null);
+  const [redirectTo, setRedirectTo] = useState<string | null>(null);
 
   function clearSession() {
     setAccessToken(null);
@@ -150,6 +153,8 @@ export const AuthProvider = ({ children }: Readonly<{
     isLoading,
     isAuthenticated: !!accessToken,
     user,
+    redirectTo,
+    setRedirectTo,
     signin,
     signout,
   };
