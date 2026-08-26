@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Space_Mono, DM_Sans, Inter } from "next/font/google";
 import "./globals.css";
-import ToastContainer from "@/features/common/components/ToastContainer";
+import { ToastContainer } from "@/features/common/components/ToastContainer";
 import { Providers } from "@/features/common/providers";
-import ProtectedPage from "@/features/common/components/ProtectedPage";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,8 +48,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${spaceMono.variable} ${inter.variable} ${dMSans.variable} antialiased text-text bg-background`}
       >
         <Providers>
-          
-          <ProtectedPage>{children}</ProtectedPage>
+          {children}
           <ToastContainer />
         </Providers>
       </body>

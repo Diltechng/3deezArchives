@@ -4,15 +4,15 @@ import { useAuth } from "@/features/auth/hooks/useAuth";
 import { Building2, ChevronsUpDown, Folders, Images, LayoutDashboard, LogOut, Settings, SquareActivity, UserCircle, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import useSidebar from "../hooks/useSidebar";
+import { useSidebar } from "../hooks/useSidebar";
 import { cn, getInitials } from "../lib/utils";
 import BackgroundOverlay from "./BackgroundOverlay";
 import { useEffect } from "react";
 import { Button } from "../ui/Button";
 import { useCurrentUser } from "@/features/users/hooks/useCurrentUser";
 import { DropdownMenu } from "radix-ui";
-import logo from "@/public/3deez-logo.svg";
-import mobileLogo from "@/public/mobile-logo.webp";
+import mobileLogo from "@/public/brand-logo-mobile.svg";
+import logo from "@/public/brand-logo.svg";
 import Image from "next/image";
 
 const Sidebar = () => {
@@ -52,19 +52,26 @@ const Sidebar = () => {
         onClick={e => e.stopPropagation()}
       >
         <div className="flex flex-col flex-1 justify-between">
-          <div className={cn("ml-2 px-2 mb-5 flex gap-2 items-center", { "mx-auto": !desktopOpen })}>
-            <Image
-              src={mobileLogo}
-              loading="lazy"
-              alt="Company Mobile Logo"
-              className="w-6"
-            />
-            {desktopOpen && (<div>
-              <div className="font-extrabold uppercase">3Deez</div>
-              <div className="text-[10px] uppercase tracking-wider text-foreground-secondary">
-                Archives
+          <div className={cn("px-4 mb-5 flex gap-2 items-center", { "mx-auto px-0": !desktopOpen })}>
+            {desktopOpen ? (
+              <div>
+                <Image
+                  src={logo}
+                  loading="lazy"
+                  alt="Company Logo"
+                  className="w-full"
+                />
               </div>
-            </div>)}
+            ) : (
+              <div>
+                <Image
+                  src={mobileLogo}
+                  loading="lazy"
+                  alt="Company Mobile Logo"
+                  className="w-10"
+                />
+              </div>
+            )}
           </div>
           <nav className={cn("flex flex-col gap-1", {"gap-4": desktopOpen})} role="navigation">
             {navGroups.map(group => (
@@ -155,4 +162,4 @@ const Sidebar = () => {
   );
 }
 
-export default Sidebar;
+export { Sidebar };

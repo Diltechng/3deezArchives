@@ -6,7 +6,7 @@ import { EllipsisVertical, Image, Info, Pencil, Trash2 } from "lucide-react";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 import { DropdownMenu } from "radix-ui";
-import useModal from "../common/hooks/useModal";
+import { useModal } from "../common/hooks/useModal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { eventsService } from "../events/services/event.service";
 import { useEventFormModal } from "../events/hooks/useEventFormModal";

@@ -47,4 +47,4 @@ const SidebarProvider = ({ children }: {
   );
 }
 
-export default SidebarProvider;
+export { SidebarProvider };

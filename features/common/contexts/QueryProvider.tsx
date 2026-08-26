@@ -15,4 +15,4 @@ const QueryProvider = ({ children }: Readonly<{
   );
 }
 
-export default QueryProvider;
+export { QueryProvider };

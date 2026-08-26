@@ -1,4 +1,4 @@
-import useModal from "@/features/common/hooks/useModal"
+import { useModal } from "@/features/common/hooks/useModal"
 import { EventFormModal } from "../components/EventFormModal";
 
 export const useEventFormModal = () => {

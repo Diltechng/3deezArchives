@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { accentSolidCn, accentTextCn, cn } from "../common/lib/utils";
+import { accentFadedCn, accentSolidCn, accentTextCn, cn } from "../common/lib/utils";
 import { Accent } from "../common/types/accent.types";
 import Link from "next/link";
 
@@ -22,7 +22,11 @@ export const StatCard = ({ label, value, href, linkName="View all", accent="prim
     <div className="flex gap-4">
       <div className={cn(
         "w-8 h-8 sm:w-10 sm:h-10 shrink-0 grid place-items-center rounded-lg",
-        accentSolidCn(accent)
+        { "bg-accent-primary text-surface": accent === "primary" },
+        { "bg-accent-secondary": accent === "secondary" },
+        { "bg-accent-info text-surface": accent === "info" },
+        { "bg-accent-danger": accent === "danger" },
+        { "bg-accent-neutral": accent === "neutral" },
       )}>
         <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
       </div>
@@ -31,7 +35,14 @@ export const StatCard = ({ label, value, href, linkName="View all", accent="prim
         <div className="font-extrabold text-3xl">{value}</div>
       </div>
     </div>
-    <Link href={href} className={cn("text-xs font-medium lg:ml-14", accentTextCn(accent))}>
+    <Link href={href} className={cn(
+      "text-xs font-medium lg:ml-14",
+        { "text-accent-primary": accent === "primary" },
+        { "text-accent-secondary": accent === "secondary" },
+        { "text-accent-info": accent === "info" },
+        { "text-accent-danger": accent === "danger" },
+        { "text-text": accent === "neutral" },
+    )}>
       {linkName} <ArrowRight className="inline w-3.25 h-3.25" />
     </Link>
   </div>

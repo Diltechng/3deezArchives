@@ -1,14 +1,17 @@
 "use client"
 import { SignUpProvider } from "@/features/auth/contexts/SignUpContext"
 import "./auth.css"
+import { GuestPage } from "@/features/auth/components/GuestPage"
 
 const AuthLayout = ({ children }: Readonly<{
   children: React.ReactNode
 }>) => {
   return (
-    <SignUpProvider>
-      {children}
-    </SignUpProvider>
+    <GuestPage>
+      <SignUpProvider>
+        {children}
+      </SignUpProvider>
+    </GuestPage>
   )
 }
 

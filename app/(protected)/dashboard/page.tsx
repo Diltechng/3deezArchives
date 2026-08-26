@@ -1,7 +1,7 @@
 "use client"
 
 import { StatCard, StatCardSkeleton } from "@/features/dashboard/StatCard";
-import PageHeader from "@/features/common/components/PageHeader"
+import { PageHeader } from "@/features/common/components/PageHeader"
 import { api } from "@/features/common/lib/api";
 import { useCurrentUser } from "@/features/users/hooks/useCurrentUser";
 import { useQuery } from "@tanstack/react-query";
@@ -55,6 +55,7 @@ const HomePage = () => {
                   Icon={CalendarClock}
                   label="This Month"
                   value={`${statsData.data.totalPostsThisMonth ?? "-"}`}
+                  accent="info"
                   href="/gallery"
                   linkName="View events"
                 />
@@ -62,8 +63,8 @@ const HomePage = () => {
                   Icon={FolderOpen}
                   label="Categories"
                   value={`${statsData.data.totalCategories ?? "-"}`}
-                  accent="secondary"
-                  href="#"
+                  accent="danger"
+                  href="/categories"
                   linkName="View all categories"
                 />
               </>

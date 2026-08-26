@@ -1,4 +1,4 @@
-import useModal from "../hooks/useModal";
+import { useModal } from "../hooks/useModal";
 
 const ModalRenderer = () => {
   const { modals, closeModal } = useModal();
@@ -20,4 +20,4 @@ const ModalRenderer = () => {
   );
 }
 
-export default ModalRenderer;
+export { ModalRenderer };
