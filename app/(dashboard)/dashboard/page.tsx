@@ -55,7 +55,7 @@ const HomePage = () => {
                   Icon={CalendarClock}
                   label="This Month"
                   value={`${statsData.data.totalPostsThisMonth ?? "-"}`}
-                  accent="neutral"
+                  accent="info"
                   href="/gallery"
                   linkName="View events"
                 />
