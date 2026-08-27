@@ -10,10 +10,10 @@ import BackgroundOverlay from "./BackgroundOverlay";
 import { useEffect } from "react";
 import { Button } from "../ui/Button";
 import { useCurrentUser } from "@/features/users/hooks/useCurrentUser";
-import { DropdownMenu } from "radix-ui";
 import mobileLogo from "@/public/brand-logo-mobile.svg";
 import logo from "@/public/brand-logo.svg";
 import Image from "next/image";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/Dropdown";
 
 const Sidebar = () => {
   const { signout } = useAuth();
@@ -99,8 +99,8 @@ const Sidebar = () => {
               </div>
             ))}
           </nav>
-          <DropdownMenu.Root>
-            <DropdownMenu.Trigger asChild>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
               <Button
                 className={cn("mt-auto mb-1", { "px-1": !desktopOpen })}
                 variant="outlined"
@@ -121,10 +121,9 @@ const Sidebar = () => {
                   </>
                 )}
               </Button>
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Portal>
-              <DropdownMenu.Content align="start" sideOffset={8} className="grid gap-1 p-2 min-w-50 w-(--radix-dropdown-menu-trigger-width) z-10 font-sans rounded-md shadow-md border border-border bg-surface">
-                <DropdownMenu.Item asChild>
+            </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" sideOffset={8} className="min-w-50 w-(--radix-dropdown-menu-trigger-width)">
+                <DropdownMenuItem asChild>
                   <Button
                     variant="text"
                     className="text-sm hover:bg-surface-2"
@@ -132,8 +131,8 @@ const Sidebar = () => {
                     <UserCircle className="h-4 w-4" />
                     Profile
                   </Button>
-                </DropdownMenu.Item>
-                <DropdownMenu.Item asChild>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
                   <Button
                     variant="text"
                     className="text-sm hover:bg-surface-2"
@@ -141,9 +140,9 @@ const Sidebar = () => {
                     <Settings className="h-4 w-4" />
                     Settings
                   </Button>
-                </DropdownMenu.Item>
-                <DropdownMenu.Separator className="h-px bg-border" />
-                <DropdownMenu.Item asChild>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
                   <Button
                     variant="text"
                     onClick={signout}
@@ -152,10 +151,9 @@ const Sidebar = () => {
                     <LogOut className="h-4 w-4" />
                     Sign Out
                   </Button>
-                </DropdownMenu.Item>
-              </DropdownMenu.Content>
-            </DropdownMenu.Portal>
-          </DropdownMenu.Root>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </aside>
     </BackgroundOverlay>
