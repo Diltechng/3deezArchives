@@ -54,9 +54,7 @@ const EventDetailPage = () => {
   const eventData = eventQuery.data?.data;
 
   if (isLoading) {
-    return (
-      <LoadingState />
-    )
+    return <LoadingState />
   }
 
   if (eventData) {

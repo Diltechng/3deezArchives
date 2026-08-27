@@ -24,9 +24,7 @@ const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
 
   if (isLoading || !isAuthenticated) {
     return (
-      <div className="w-full h-screen">
-        <LoadingState />
-      </div>
+      <LoadingState isFullScreen />
     )
   }
 

@@ -18,11 +18,7 @@ export const GuestPage = ({ children }: {
   }, [router, isLoading, redirectTo, isAuthenticated]);
 
   if (isLoading || isAuthenticated) {
-    return (
-      <div className="w-full h-screen">
-        <LoadingState />
-      </div>
-    )
+    return <LoadingState isFullScreen />
   }
 
   return children;

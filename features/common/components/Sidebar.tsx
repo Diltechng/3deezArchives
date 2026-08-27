@@ -10,10 +10,9 @@ import BackgroundOverlay from "./BackgroundOverlay";
 import { useEffect } from "react";
 import { Button } from "../ui/Button";
 import { useCurrentUser } from "@/features/users/hooks/useCurrentUser";
-import mobileLogo from "@/public/brand-logo-mobile.svg";
-import logo from "@/public/brand-logo.svg";
-import Image from "next/image";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/Dropdown";
+import { AppLogo } from "../ui/icons/AppLogo";
+import { AppLogoMobile } from "../ui/icons/AppLogoMobile";
 
 const Sidebar = () => {
   const { signout } = useAuth();
@@ -55,19 +54,13 @@ const Sidebar = () => {
           <div className={cn("px-4 mb-5 flex gap-2 items-center", { "mx-auto px-0": !desktopOpen })}>
             {desktopOpen ? (
               <div>
-                <Image
-                  src={logo}
-                  loading="lazy"
-                  alt="Company Logo"
+                <AppLogo
                   className="w-full"
                 />
               </div>
             ) : (
               <div>
-                <Image
-                  src={mobileLogo}
-                  loading="lazy"
-                  alt="Company Mobile Logo"
+                <AppLogoMobile
                   className="w-10"
                 />
               </div>
