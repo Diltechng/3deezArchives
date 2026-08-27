@@ -97,7 +97,7 @@ const SignInPage = () => {
                 <Button
                   variant="text"
                   type="button"
-                  className="absolute -translate-y-1/2 top-1/2 right-2 p-1.5 rounded-full"
+                  className="absolute -translate-y-1/2 top-1/2 right-2 p-1.5 rounded-full hover:bg-surface-2"
                   onClick={() => setPasswordVisible(prev => !prev)}
                 >
                   {passwordVisible
