@@ -20,6 +20,7 @@ export const posts = pgTable("posts", {
   uploadedBy: uuid("uploaded_by").references(() => users.id, { onDelete: "set null" }),
   deletedBy: uuid("deleted_by").references(() => users.id, { onDelete: "set null" }),
 
+  deletedAt: timestamp("deleted_at", { withTimezone: true }),
   ...timestamps,
 }, (table): PgTableExtraConfigValue[] => [
   foreignKey({
