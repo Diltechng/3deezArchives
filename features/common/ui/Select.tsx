@@ -57,7 +57,7 @@ const SelectContent = ({
 const SelectItem = ({ className, children, ...props }: React.ComponentProps<typeof SelectPrimitive.Item>) => (
   <Button asChild variant="text">
     <SelectPrimitive.Item
-      className={cn("rounded-md text-text hover:bg-surface-2", className)}
+      className={cn("rounded-md focus:outline-none text-text hover:bg-surface-2", className)}
       {...props}
     >
       <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
