@@ -18,7 +18,7 @@ import { Button } from "@/features/common/ui/Button";
 import { ModalBody } from "@/features/common/components/ModalBody";
 import { useCategories } from "@/features/categories/hooks/useCategories";
 import { Input } from "@/features/common/ui/Input";
-import { Select, SelectItem } from "@/features/common/ui/Select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/features/common/ui/Select";
 import { Textarea } from "@/features/common/ui/Textarea";
 import { getErrorMessage } from "@/features/common/lib/utils";
 
@@ -143,13 +143,17 @@ export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventF
             </FormField>
             <FormField label="Category" error={errors.categoryId}>
               <Select
-                label="Select a category"
                 value={categoryField.value}
                 onValueChange={categoryField.onChange}
               >
-                {categoriesData?.data && categoriesData?.data?.map((category: any) => (
-                  <SelectItem key={category.id} value={category.id}>{category.name}</SelectItem>
-                ))}
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {categoriesData?.data && categoriesData?.data?.map((category: any) => (
+                    <SelectItem key={category.id} value={category.id}>{category.name}</SelectItem>
+                  ))}
+                </SelectContent>
               </Select>
             </FormField>
             <FormField label="Date of Moment" error={categoryState.error}>
@@ -192,19 +196,24 @@ export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventF
               </div>
             </FormField>
             <FormField label="Visibility" error={visibilityState.error}>
-              <Select label="Select a visibility" value={visibiliyField.value} onValueChange={visibiliyField.onChange}>
-                {[{
-                  name: "Public",
-                  value: PostVisibility.PUBLIC
-                }, {
-                  name: "Admin Only",
-                  value: PostVisibility.ADMIN_ONLY
-                }, {
-                  name: "Private",
-                  value: PostVisibility.PRIVATE
-                }].map(option => (
-                  <SelectItem key={option.value} value={option.value}>{option.name}</SelectItem>
-                ))}
+              <Select value={visibiliyField.value} onValueChange={visibiliyField.onChange}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a visibility" />
+                </SelectTrigger>
+                <SelectContent>
+                  {[{
+                    name: "Public",
+                    value: PostVisibility.PUBLIC
+                  }, {
+                    name: "Admin Only",
+                    value: PostVisibility.ADMIN_ONLY
+                  }, {
+                    name: "Private",
+                    value: PostVisibility.PRIVATE
+                  }].map(option => (
+                    <SelectItem key={option.value} value={option.value}>{option.name}</SelectItem>
+                  ))}
+                </SelectContent>
               </Select>
             </FormField>
           </FormFieldCard>
