@@ -5,11 +5,11 @@ import dayjs from "dayjs";
 import { EllipsisVertical, Image, Info, Pencil, Trash2 } from "lucide-react";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
-import { DropdownMenu } from "radix-ui";
 import { useModal } from "../common/hooks/useModal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { eventsService } from "../events/services/event.service";
 import { useEventFormModal } from "../events/hooks/useEventFormModal";
+import { DropdownMenu, DropdownMenuArrow, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../common/ui/Dropdown";
 
 
 export const RecentEventItemCardSkeleton = () => (
@@ -90,62 +90,56 @@ export const RecentEventItemCard = ({ event, className }: {
           </div>
         </div>
       </Link>
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger asChild>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
           <button className="p-2 text-foreground-secondary">
             <EllipsisVertical className="w-4 h-4" />
           </button>
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Portal>
-          <DropdownMenu.Content align="end" className="grid gap-1 p-2 font-sans rounded-md shadow-md border border-border bg-surface">
-            <DropdownMenu.Item asChild>
-              <Button variant="text" className="text-xs hover:bg-surface-2" asChild>
-                <Link href={`/gallery/event/${event.id}`}>
-                  <Info className="w-4 h-4" />
-                  View Details
-                </Link>
-              </Button>
-            </DropdownMenu.Item>
-            <DropdownMenu.Item asChild>
-              <Button
-                variant="text"
-                className="text-xs hover:bg-surface-2"
-                onClick={() => openEditEventModal({
-                  id: event.id,
-                  title: event.title,
-                  description: event.description,
-                  visibility: event.visibility,
-                  dateOfMoment: event.dateOfMoment,
-                  categoryId: event.category?.id,
-                  tags: event.tags,
-                  coverMedia: event.coverMedia,
-                  media: event.media,
-                })}
-              >
-                <Pencil className="w-4 h-4" />
-                Edit Event
-              </Button>
-            </DropdownMenu.Item>
-            <DropdownMenu.Separator className="h-px bg-border" />
-            <DropdownMenu.Item asChild>
-              <Button
-                variant="text"
-                className="text-xs text-accent-danger hover:text-accent-danger hover:bg-accent-danger/10"
-                onClick={async () => await handleDeleteEvent(event.id)}
-              >
-                <Trash2 className="w-4 h-4" />
-                Delete Event
-              </Button>
-            </DropdownMenu.Item>
-            <DropdownMenu.Arrow
-              className="fill-border"
-            />
-            <DropdownMenu.Arrow
-              className="relative -top-0.5 fill-surface"
-            />
-          </DropdownMenu.Content>
-        </DropdownMenu.Portal>
-      </DropdownMenu.Root>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem asChild>
+            <Button variant="text" className="text-xs hover:bg-surface-2" asChild>
+              <Link href={`/gallery/event/${event.id}`}>
+                <Info className="w-4 h-4" />
+                View Details
+              </Link>
+            </Button>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Button
+              variant="text"
+              className="text-xs hover:bg-surface-2"
+              onClick={() => openEditEventModal({
+                id: event.id,
+                title: event.title,
+                description: event.description,
+                visibility: event.visibility,
+                dateOfMoment: event.dateOfMoment,
+                categoryId: event.category?.id,
+                tags: event.tags,
+                coverMedia: event.coverMedia,
+                media: event.media,
+              })}
+            >
+              <Pencil className="w-4 h-4" />
+              Edit Event
+            </Button>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem asChild>
+            <Button
+              variant="text"
+              className="text-xs text-accent-danger hover:text-accent-danger hover:bg-accent-danger/10"
+              onClick={async () => await handleDeleteEvent(event.id)}
+            >
+              <Trash2 className="w-4 h-4" />
+              Delete Event
+            </Button>
+          </DropdownMenuItem>
+          <DropdownMenuArrow className="fill-border" />
+          <DropdownMenuArrow className="relative -top-0.5" />
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   )
 }
