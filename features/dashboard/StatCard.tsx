@@ -22,11 +22,11 @@ export const StatCard = ({ label, value, href, linkName="View all", accent="prim
     <div className="flex gap-4">
       <div className={cn(
         "w-8 h-8 sm:w-10 sm:h-10 shrink-0 grid place-items-center rounded-lg",
-        { "bg-accent-primary text-surface": accent === "primary" },
-        { "bg-accent-secondary": accent === "secondary" },
-        { "bg-accent-info text-surface": accent === "info" },
-        { "bg-accent-danger": accent === "danger" },
-        { "bg-accent-neutral": accent === "neutral" },
+        { "bg-accent-primary/20 text-accent-primary": accent === "primary" },
+        { "bg-accent-secondary/20 text-accent-secondary": accent === "secondary" },
+        { "bg-accent-info/20 text-accent-info": accent === "info" },
+        { "bg-accent-danger/20 text-accent-danger": accent === "danger" },
+        { "bg-accent-neutral/20 text-accent-neutral": accent === "neutral" },
       )}>
         <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
       </div>
