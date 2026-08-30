@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useEventFormModal } from "../events/hooks/useEventFormModal";
 import { useQuery } from "@tanstack/react-query";
 import { eventsService } from "../events/services/event.service";
+import { Card } from "../common/ui/Card";
 
 export const RecentEventsCard = () => {
   const { openAddEventModal } = useEventFormModal();
@@ -23,7 +24,7 @@ export const RecentEventsCard = () => {
   const isError = recentEventsQuery.isError;
 
   return (
-    <div className="py-5 rounded-lg border border-border bg-surface">
+    <Card className="py-5">
       <div className="px-4 mb-2 flex justify-between items-center">
         <div className="text-sm font-semibold">
           Recent Events
@@ -56,6 +57,6 @@ export const RecentEventsCard = () => {
           )
         }
       </div>
-    </div>
+    </Card>
   )
 }
