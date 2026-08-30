@@ -16,7 +16,7 @@ import { Skeleton } from "../../common/ui/Skeleton";
 export const RecentEventItemCardSkeleton = ({ count=1 }) => (
   Array.from({ length: count }).map((_, i) =>  (
     <div key={i} className={cn(
-      "py-2.5 flex items-center justify-between text-sm border-b border-border",
+      "py-2.5 flex items-center justify-between text-sm border-b border-border-primary",
       {"border-none": (i === (count - 1))}
     )}>
       <div className="flex gap-2 items-center">
@@ -67,7 +67,7 @@ export const RecentEventItemCard = ({ event, className }: {
 
   return (
     <div className={cn(
-      "py-2.5 flex items-center justify-between text-sm border-b border-border",
+      "py-2.5 flex items-center justify-between text-sm border-b border-border-primary",
       className
     )}>
       <Link href={`/gallery/event/${event.id}`} className="flex gap-2 items-center">
@@ -150,7 +150,7 @@ export const RecentEventItemCard = ({ event, className }: {
               Delete Event
             </Button>
           </DropdownMenuItem>
-          <DropdownMenuArrow className="fill-border" />
+          <DropdownMenuArrow className="fill-border-primary" />
           <DropdownMenuArrow className="relative -top-0.5" />
         </DropdownMenuContent>
       </DropdownMenu>

@@ -167,7 +167,7 @@ export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventF
               </div>
             </FormField>
             <FormField label="Tags" error={errors.tags}>
-              <div className="p-2.25 flex flex-wrap gap-1 text-sm rounded-lg duration-200 border border-border bg-surface-primary focus-within:border-accent-primary">
+              <div className="p-2.25 flex flex-wrap gap-1 text-sm rounded-lg duration-200 border border-border-primary bg-surface-primary focus-within:border-accent-primary">
                 {tags.length
                   ? <div className="flex gap-1 flex-wrap">
                     {tags.map(tag => (

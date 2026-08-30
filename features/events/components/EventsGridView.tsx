@@ -5,11 +5,11 @@ import Link from "next/link"
 
 const EventCardSkeleton = () => (
   <div
-    className="flex flex-col overflow-hidden rounded-lg border border-border"
+    className="flex flex-col overflow-hidden rounded-lg border border-border-primary"
   >
     <div className="relative w-full aspect-square animate-shimmer bg-shimmer">
     </div>
-    <div className="flex flex-col flex-1 gap-1 p-2.5 border-t border-border bg-surface-primary">
+    <div className="flex flex-col flex-1 gap-1 p-2.5 border-t border-border-primary bg-surface-primary">
       <p className="h-4 rounded-[3px] text-[11px] font-sans truncate animate-shimmer bg-shimmer" />
       <p className="h-4 rounded-[3px] text-[10px] text-text-3 animate-shimmer bg-shimmer" />
       <div className="flex gap-2 justify-between">
@@ -25,7 +25,7 @@ const EventCard = ({ event }: {
 }) => (
   <Link
     href={`/gallery/event/${event.id}`}
-    className="flex flex-col overflow-hidden rounded-lg border border-border"
+    className="flex flex-col overflow-hidden rounded-lg border border-border-primary"
   >
     <div className="relative w-full aspect-square">
       <CldImage
@@ -36,7 +36,7 @@ const EventCard = ({ event }: {
         sizes="25vw"
       />
     </div>
-    <div className="flex flex-col gap-1 p-2.5 border-t border-border bg-surface-primary">
+    <div className="flex flex-col gap-1 p-2.5 border-t border-border-primary bg-surface-primary">
       <p className="text-[11px] font-sans truncate">{event.title}</p>
       <p className="text-[10px] text-text-3">{dayjs(event.dateOfMoment).format("YYYY-MM-DD")}</p>
       <div className="flex gap-2 justify-between">

@@ -74,14 +74,14 @@ const UsersPage = () => {
           onChange={e => handleSearch(e.target.value)}
         />
       </div>
-      <div className="overflow-hidden rounded-lg border border-border bg-surface-primary">
+      <div className="overflow-hidden rounded-lg border border-border-primary bg-surface-primary">
         {usersData?.data?.length && <table className="w-full text-[12px]">
           <thead>
             <tr>
               {["MEMBER", "ROLE", "UPLOADS", "LAST ACTIVE", "STATUS", "ACTIONS"].map(title =>
                 <th
                   key={title}
-                  className="font-mono text-[9px] tracking-[0.08rem] py-2 px-3 text-left border-b border-border text-text-3 bg-surface-secondary"
+                  className="font-mono text-[9px] tracking-[0.08rem] py-2 px-3 text-left border-b border-border-primary text-text-3 bg-surface-secondary"
                 >
                   {title}
                 </th>

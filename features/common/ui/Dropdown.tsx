@@ -14,7 +14,7 @@ const DropdownMenuContent = ({ align="end", className, ...props }: React.Compone
     <DropdownMenuPrimitive.Content
       align={align}
       className={cn(
-        "grid gap-1 p-2 z-10 font-sans rounded-md shadow-md border border-border bg-surface-primary",
+        "grid gap-1 p-2 z-10 font-sans rounded-md shadow-md border border-border-primary bg-surface-primary",
         className
       )}
       {...props}
@@ -31,7 +31,7 @@ const DropdownMenuArrow = ({ className, ...props }: React.ComponentProps<typeof 
 );
 
 const DropdownMenuSeparator = ({ className, ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.Separator>) => (
-  <DropdownMenuPrimitive.Separator className={cn("h-px bg-border", className)} {...props} />
+  <DropdownMenuPrimitive.Separator className={cn("h-px bg-border-primary", className)} {...props} />
 );
 
 export {

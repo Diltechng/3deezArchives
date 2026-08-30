@@ -16,7 +16,7 @@ const SelectTrigger = ({ className, children, ...props }: React.ComponentProps<t
   <SelectPrimitive.Trigger
     className={cn(
       "flex justify-between items-center px-3 py-2.25 text-sm rounded-lg duration-200 focus:outline-none",
-      "[&>span:first-child]:truncate border border-border bg-surface-primary focus:border-accent-primary",
+      "[&>span:first-child]:truncate border border-border-primary bg-surface-primary focus:border-accent-primary",
       className
     )}
     {...props}
@@ -42,7 +42,7 @@ const SelectContent = ({
       side={side}
       sideOffset={sideOffset}
       className={cn(
-        "z-900 border rounded-lg border-border bg-surface-primary w-(--radix-select-trigger-width)",
+        "z-900 border rounded-lg border-border-primary bg-surface-primary w-(--radix-select-trigger-width)",
         className,
       )}
       {...props}

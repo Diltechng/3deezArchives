@@ -24,7 +24,7 @@ const Topbar = () => {
   const isAdmin = user?.role === "admin";
 
   return (
-    <header className="sticky top-0 z-9 flex px-3.5 py-2 justify-between border-b border-border bg-background">
+    <header className="sticky top-0 z-9 flex px-3.5 py-2 justify-between border-b border-border-primary bg-background">
       <div className="flex items-center gap-2 font-bold text-[14px] tracking-[0.04rem]">
         <Button
           className="md:hidden w-9 flex justify-center items-center rounded-md"
