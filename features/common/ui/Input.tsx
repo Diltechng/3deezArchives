@@ -10,7 +10,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         ref={ref}
         type={type}
         className={cn(
-          "px-3 py-2.25 text-sm rounded-lg duration-200 border border-border bg-surface focus:border-accent-primary",
+          "px-3 py-2.25 text-sm rounded-lg duration-200 border border-border bg-surface-primary focus:border-accent-primary",
           className,
         )}
         {...props}

@@ -165,7 +165,7 @@ export const EventMediaField = ({ error, value, initialData, onChange }: EventMe
   return (
     <>
       <FormField error={error}>
-        <div className="h-30 rounded-lg border border-dashed border-border bg-surface focus:border-accent-primary">
+        <div className="h-30 rounded-lg border border-dashed border-border bg-surface-primary focus:border-accent-primary">
           <label className="flex flex-col justify-center items-center gap-1.5 h-full w-full font-sans text-[11px] text-foreground-secondary">
             <span>Drop image here or click to browse</span>
             <span>JPG, PNG, WEBP — max 10MB</span>
@@ -180,7 +180,7 @@ export const EventMediaField = ({ error, value, initialData, onChange }: EventMe
         </div>
       </FormField>
       {media.length !== 0 &&
-        <div className="p-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 rounded-lg border border-border bg-surface">
+        <div className="p-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 rounded-lg border border-border bg-surface-primary">
           {media.map(file => (
             <div
               key={file.remote?.id ?? file.local.id}

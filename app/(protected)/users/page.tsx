@@ -74,7 +74,7 @@ const UsersPage = () => {
           onChange={e => handleSearch(e.target.value)}
         />
       </div>
-      <div className="overflow-hidden rounded-lg border border-border bg-surface">
+      <div className="overflow-hidden rounded-lg border border-border bg-surface-primary">
         {usersData?.data?.length && <table className="w-full text-[12px]">
           <thead>
             <tr>

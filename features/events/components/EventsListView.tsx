@@ -5,11 +5,11 @@ import Link from "next/link"
 
 const EventRowSkeleton = () => (
   <div
-    className="flex gap-2 h-30 p-1.5 overflow-hidden rounded-lg border border-border bg-surface"
+    className="flex gap-2 h-30 p-1.5 overflow-hidden rounded-lg border border-border bg-surface-primary"
   >
     <div className="relative h-full aspect-square rounded-md overflow-hidden animate-shimmer bg-shimmer">
     </div>
-    <div className="flex flex-col flex-1 gap-1 p-2.5 justify-between border-t border-border bg-surface">
+    <div className="flex flex-col flex-1 gap-1 p-2.5 justify-between border-t border-border bg-surface-primary">
       <p className="h-4 rounded-[3px] text-[11px] font-sans truncate animate-shimmer bg-shimmer" />
       <p className="h-4 w-25 rounded-[3px] text-[10px] text-text-3 animate-shimmer bg-shimmer" />
       <div className="flex gap-2 justify-between">
@@ -26,7 +26,7 @@ const EventRow = ({ event }: {
 }) => (
   <Link
     href={`/gallery/event/${event.id}`}
-    className="flex gap-2 h-30 p-1.5 overflow-hidden rounded-lg border border-border bg-surface"
+    className="flex gap-2 h-30 p-1.5 overflow-hidden rounded-lg border border-border bg-surface-primary"
   >
     <div className="relative h-full aspect-square rounded-md overflow-hidden">
       <CldImage

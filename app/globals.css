@@ -20,7 +20,7 @@
   --color-background: #0c0f11;
   --color-foreground-secondary: #9797a3;
 
-  --color-surface: #161a1c;
+  --color-surface-primary: #161a1c;
   --color-surface-secondary: #323537;
   --color-surface-3: #222222;
   
@@ -66,7 +66,7 @@
   }
 
   body * {
-    @apply scrollbar-thin scrollbar-thumb-surface-3 scrollbar-track-surface scrollbar-thumb-rounded-full
+    @apply scrollbar-thin scrollbar-thumb-surface-3 scrollbar-track-surface-primary scrollbar-thumb-rounded-full
   }
 
   input, textarea {

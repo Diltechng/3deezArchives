@@ -134,7 +134,7 @@ const EventDetailPage = () => {
             </div>
           </div>
         </div>
-        <div className="p-5 rounded-lg bg-surface">
+        <div className="p-5 rounded-lg bg-surface-primary">
           <div className="text-[12px] mb-2 text-text-2">ALL IMAGES</div>
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
             {eventData.media.map((media: any) =>

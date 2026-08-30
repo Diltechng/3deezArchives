@@ -82,7 +82,7 @@ const PaginationNav = ({ currentPage, totalPages, hasNextPage, hasPreviousPage, 
     <div className="flex justify-between items-center p-2.5 font-sans rounded-lg border text-text-2 border-border-2">
       <div className="flex gap-2">
         <button
-          className="p-1 w-8 aspect-square rounded-lg border border-border-2 bg-surface hover:text-text hover:bg-surface-secondary disabled:text-text-3 disabled:bg-surface"
+          className="p-1 w-8 aspect-square rounded-lg border border-border-2 bg-surface-primary hover:text-text hover:bg-surface-secondary disabled:text-text-3 disabled:bg-surface-primary"
           disabled={!hasPreviousPage}
           onClick={toPreviousPage}
         >{"<"}</button>
@@ -98,7 +98,7 @@ const PaginationNav = ({ currentPage, totalPages, hasNextPage, hasPreviousPage, 
               key={`${page}-${index}`}
               className={clsx(
                 "p-1 w-8 aspect-square rounded-lg border",
-                currentPage === page? "border-transparent text-black bg-accent-primary": "border-border-2 bg-surface hover:text-text hover:bg-surface-secondary"
+                currentPage === page? "border-transparent text-black bg-accent-primary": "border-border-2 bg-surface-primary hover:text-text hover:bg-surface-secondary"
               )}
               onClick={() => onPageChange(page)}
             >
@@ -107,7 +107,7 @@ const PaginationNav = ({ currentPage, totalPages, hasNextPage, hasPreviousPage, 
           )
         ))}
         <button
-          className="p-1 w-8 aspect-square rounded-lg border border-border-2 bg-surface hover:text-text hover:bg-surface-secondary disabled:text-text-3 disabled:bg-surface"
+          className="p-1 w-8 aspect-square rounded-lg border border-border-2 bg-surface-primary hover:text-text hover:bg-surface-secondary disabled:text-text-3 disabled:bg-surface-primary"
           disabled={!hasNextPage}
           onClick={toNextPage}
         >{">"}</button>

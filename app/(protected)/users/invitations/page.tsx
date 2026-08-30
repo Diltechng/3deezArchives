@@ -75,7 +75,7 @@ const InvitationsPage = () => {
           </InvitationsTable>
         ): invitationsData?.data?.length
           ? (
-            <div className="overflow-auto rounded-lg border border-border bg-surface">
+            <div className="overflow-auto rounded-lg border border-border bg-surface-primary">
               <InvitationsTable>
                 {invitationsData.data.map((i: any) => <InvitationsTableRow key={i.id} invitation={i} />)}
               </InvitationsTable>
