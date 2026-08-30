@@ -9,7 +9,7 @@ interface LoadingSpinnerProps {
 const LoadingSpinner = ({ className, radius=10, width=3 }: LoadingSpinnerProps) => (
   <div
     className={cn(
-      "rounded-full border border-border-2 border-t-accent-primary animate-spin",
+      "rounded-full border border-border-secondary border-t-accent-primary animate-spin",
       className
     )}
     style={{

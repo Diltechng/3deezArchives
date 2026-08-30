@@ -67,7 +67,7 @@ const AccountSetupPage = () => {
   return (
     <section className="h-full flex justify-center p-10">
       {!invitationData && (
-        <div className="my-auto py-8 px-12 min-h-50 h-full max-h-70 min-w-50 w-full max-w-130 flex flex-col gap-4 justify-center items-center rounded-lg text-center border border-border-2 bg-surface-primary">
+        <div className="my-auto py-8 px-12 min-h-50 h-full max-h-70 min-w-50 w-full max-w-130 flex flex-col gap-4 justify-center items-center rounded-lg text-center border border-border-secondary bg-surface-primary">
           <div className="p-3 h-13 aspect-square rounded-full text-accent-danger bg-accent-danger/10">
             <Ban className="h-full w-full" />
           </div>
@@ -81,7 +81,7 @@ const AccountSetupPage = () => {
       )}
       {invitationData && (
         <div className="w-full max-w-120">
-          <form className="p-6 rounded-2xl border border-border-2 bg-surface-primary" onSubmit={handleSubmit(onSumbit)}>
+          <form className="p-6 rounded-2xl border border-border-secondary bg-surface-primary" onSubmit={handleSubmit(onSumbit)}>
             <div className="grid gap-4">
               <FormField label="Email Address">
                 <input className="input-core text-text-2 disabled:cursor-not-allowed" disabled value={invitationData?.email} />    
@@ -107,7 +107,7 @@ const AccountSetupPage = () => {
                 </p>
               </div>
             </div>
-            <div className="mt-6 pt-4 border-t border-border-2">
+            <div className="mt-6 pt-4 border-t border-border-secondary">
               <Button className="w-full py-3 text-[13px]" type="submit" disabled={!termsAccepted || isSubmitting}>
                 Submit
               </Button>

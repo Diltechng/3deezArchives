@@ -110,35 +110,35 @@ export const InviteUserFormModal = ({ title, subtitle, onClose }: InviteUserForm
                 </div>
                 <div className="py-2 px-2.5 flex gap-2 items-center rounded-lg font-sans text-[11px] text-foreground-secondary bg-surface-primary">
                   <div className={cn(
-                    "w-3.5 h-3.5 rounded-[3px] border border-border-2",
+                    "w-3.5 h-3.5 rounded-[3px] border border-border-secondary",
                     {"bg-accent-primary border-transparent": true}
                   )}></div>
                   {" Upload posts"}
                 </div>
                 <div className="py-2 px-2.5 flex gap-2 items-center rounded-lg font-sans text-[11px] text-foreground-secondary bg-surface-primary">
                   <div className={cn(
-                    "w-3.5 h-3.5 rounded-[3px] border border-border-2",
+                    "w-3.5 h-3.5 rounded-[3px] border border-border-secondary",
                     {"bg-accent-primary border-transparent": selectedRole === "admin"}
                   )}></div>
                   {" Delete posts"}
                 </div>
                 <div className="py-2 px-2.5 flex gap-2 items-center rounded-lg font-sans text-[11px] text-foreground-secondary bg-surface-primary">
                   <div className={cn(
-                    "w-3.5 h-3.5 rounded-[3px] border border-border-2",
+                    "w-3.5 h-3.5 rounded-[3px] border border-border-secondary",
                     {"bg-accent-primary border-transparent": selectedRole === "admin"}
                   )}></div>
                   {" Manage users"}
                 </div>
                 <div className="py-2 px-2.5 flex gap-2 items-center rounded-lg font-sans text-[11px] text-foreground-secondary bg-surface-primary">
                   <div className={cn(
-                    "w-3.5 h-3.5 rounded-[3px] border border-border-2",
+                    "w-3.5 h-3.5 rounded-[3px] border border-border-secondary",
                     {"bg-accent-primary border-transparent": selectedRole === "admin"}
                   )}></div>
                   {" Edit categories"}
                 </div>
                 <div className="py-2 px-2.5 flex gap-2 items-center rounded-lg font-sans text-[11px] text-foreground-secondary bg-surface-primary">
                   <div className={cn(
-                    "w-3.5 h-3.5 rounded-[3px] border border-border-2",
+                    "w-3.5 h-3.5 rounded-[3px] border border-border-secondary",
                     {"bg-accent-primary border-transparent": selectedRole === "admin"}
                   )}></div>
                   {" System settings"}

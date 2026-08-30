@@ -26,7 +26,7 @@
   --color-surface-tertiary: #222222;
   
   --color-border-primary: #292c2f;
-  --color-border-2: #ffffff26;
+  --color-border-secondary: #ffffff26;
   
   --color-accent-primary: #e8ff6b;
   --color-accent-secondary: #774ffd;
@@ -88,7 +88,7 @@
 
 @utility input-core {
   @apply  flex items-center font-sans gap-2 py-1.75 px-3 w-full text-[12px] rounded-lg duration-200 border;
-  @apply border-border-2 bg-surface-tertiary focus-within:border-accent-primary;
+  @apply border-border-secondary bg-surface-tertiary focus-within:border-accent-primary;
 }
 
 @utility button-primary {
@@ -98,7 +98,7 @@
 
 @utility button-ghost {
   @apply px-4 py-2 rounded-lg duration-200 tracking-[0.06rem] text-[10px] border;
-  @apply border-border-2 bg-surface-tertiary hover:opacity-85;
+  @apply border-border-secondary bg-surface-tertiary hover:opacity-85;
 }
 
 @utility calendar-indicator-none {

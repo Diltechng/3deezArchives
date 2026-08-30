@@ -79,10 +79,10 @@ const PaginationNav = ({ currentPage, totalPages, hasNextPage, hasPreviousPage, 
   }
   
   return (
-    <div className="flex justify-between items-center p-2.5 font-sans rounded-lg border text-text-2 border-border-2">
+    <div className="flex justify-between items-center p-2.5 font-sans rounded-lg border text-text-2 border-border-secondary">
       <div className="flex gap-2">
         <button
-          className="p-1 w-8 aspect-square rounded-lg border border-border-2 bg-surface-primary hover:text-foreground-primary hover:bg-surface-secondary disabled:text-text-3 disabled:bg-surface-primary"
+          className="p-1 w-8 aspect-square rounded-lg border border-border-secondary bg-surface-primary hover:text-foreground-primary hover:bg-surface-secondary disabled:text-text-3 disabled:bg-surface-primary"
           disabled={!hasPreviousPage}
           onClick={toPreviousPage}
         >{"<"}</button>
@@ -98,7 +98,7 @@ const PaginationNav = ({ currentPage, totalPages, hasNextPage, hasPreviousPage, 
               key={`${page}-${index}`}
               className={clsx(
                 "p-1 w-8 aspect-square rounded-lg border",
-                currentPage === page? "border-transparent text-black bg-accent-primary": "border-border-2 bg-surface-primary hover:text-foreground-primary hover:bg-surface-secondary"
+                currentPage === page? "border-transparent text-black bg-accent-primary": "border-border-secondary bg-surface-primary hover:text-foreground-primary hover:bg-surface-secondary"
               )}
               onClick={() => onPageChange(page)}
             >
@@ -107,7 +107,7 @@ const PaginationNav = ({ currentPage, totalPages, hasNextPage, hasPreviousPage, 
           )
         ))}
         <button
-          className="p-1 w-8 aspect-square rounded-lg border border-border-2 bg-surface-primary hover:text-foreground-primary hover:bg-surface-secondary disabled:text-text-3 disabled:bg-surface-primary"
+          className="p-1 w-8 aspect-square rounded-lg border border-border-secondary bg-surface-primary hover:text-foreground-primary hover:bg-surface-secondary disabled:text-text-3 disabled:bg-surface-primary"
           disabled={!hasNextPage}
           onClick={toNextPage}
         >{">"}</button>
@@ -118,7 +118,7 @@ const PaginationNav = ({ currentPage, totalPages, hasNextPage, hasPreviousPage, 
           id="page-select"
           value={currentPage}
           onChange={e => onPageChange(Number(e.target.value))}
-          className="py-1 px-2 rounded-lg border border-border-2"
+          className="py-1 px-2 rounded-lg border border-border-secondary"
         >
           {range(1, totalPages).map(page => (
             <option key={page} value={page}>{page}</option>

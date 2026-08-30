@@ -100,7 +100,7 @@ const UsersPage = () => {
                       <div className={cn(
                         "flex justify-center items-center rounded-full w-7 aspect-square text-[10px] uppercase border",
                         isAdmin? "text-accent-primary border-accent-primary bg-accent-primary/20"
-                        : "text-text-2 border-border-2 bg-surface-tertiary"
+                        : "text-text-2 border-border-secondary bg-surface-tertiary"
                       )}>
                         {getInitials(user.fullName)}
                       </div>
@@ -146,10 +146,10 @@ const UsersPage = () => {
                   </td>
                   <td className="py-2.5 px-3">
                     <div className="flex gap-1.5">
-                      <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-2 hover:border-accent-primary">
+                      <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-secondary hover:border-accent-primary">
 
                       </button>
-                      <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-2 hover:border-accent-primary">
+                      <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-secondary hover:border-accent-primary">
 
                       </button>
                     </div>

@@ -38,7 +38,7 @@ const AccountSettingsPage = () => {
           </div>
         )
         : (
-          <div className="border-t border-border-2">
+          <div className="border-t border-border-secondary">
             <SettingsItem label="Name" value={user.name} onEdit={() => {
               openFormModal(UserFullNameForm, {
                 title: "Edit name",

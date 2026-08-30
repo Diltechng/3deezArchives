@@ -137,7 +137,7 @@ const GalleryPage = () => {
     <section className="flex flex-col flex-1">
       <PageHeader title="Gallery" subtitle={`${eventsCount} images across ${categoriesCount} categories`}>
         <div className="flex gap-2">
-          <div className="flex overflow-hidden rounded-lg border border-border-2">
+          <div className="flex overflow-hidden rounded-lg border border-border-secondary">
             <button
               onClick={() => setDisplayMode("list")}
               className={clsx(

@@ -171,7 +171,7 @@ export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventF
                 {tags.length
                   ? <div className="flex gap-1 flex-wrap">
                     {tags.map(tag => (
-                      <div key={tag} className="flex gap-1 items-center border border-border-2 py-0.5 px-2 rounded-[3px] bg-surface-primary">
+                      <div key={tag} className="flex gap-1 items-center border border-border-secondary py-0.5 px-2 rounded-[3px] bg-surface-primary">
                         <span>{tag}</span>
                         <button onClick={() => setValue("tags", tags.filter(storedTag => storedTag !== tag))}>
                           <XDelete className="h-3.5 w-3.5" />

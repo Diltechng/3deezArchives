@@ -13,8 +13,8 @@ const EventRowSkeleton = () => (
       <p className="h-4 rounded-[3px] text-[11px] font-sans truncate animate-shimmer bg-shimmer" />
       <p className="h-4 w-25 rounded-[3px] text-[10px] text-text-3 animate-shimmer bg-shimmer" />
       <div className="flex gap-2 justify-between">
-        <div className="h-4 w-20 py-0.5 px-1.75 rounded-[3px] text-[9px] truncate border animate-shimmer border-border-2/20 text-accent-info bg-shimmer" />
-        <div className="h-4 w-12 text-[10px] font-sans truncate rounded-[3px] border animate-shimmer bg-shimmer border-border-2/20 text-text-3" />
+        <div className="h-4 w-20 py-0.5 px-1.75 rounded-[3px] text-[9px] truncate border animate-shimmer border-border-secondary/20 text-accent-info bg-shimmer" />
+        <div className="h-4 w-12 text-[10px] font-sans truncate rounded-[3px] border animate-shimmer bg-shimmer border-border-secondary/20 text-text-3" />
       </div>
     </div>
   </div>
