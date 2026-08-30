@@ -35,9 +35,7 @@ export const RecentEventsCard = () => {
       <div className="px-4 flex flex-col">
         {isLoading
           ? <>
-            <RecentEventItemCardSkeleton />
-            <RecentEventItemCardSkeleton />
-            <RecentEventItemCardSkeleton />
+            <RecentEventItemCardSkeleton count={3} />
           </>
           : recentEvents.length
             ? recentEvents.map((event: any, i: number) => (
