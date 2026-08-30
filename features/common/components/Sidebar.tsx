@@ -119,7 +119,7 @@ const Sidebar = () => {
                 <DropdownMenuItem asChild>
                   <Button
                     variant="text"
-                    className="text-sm hover:bg-surface-2"
+                    className="text-sm hover:bg-surface-secondary"
                   >
                     <UserCircle className="h-4 w-4" />
                     Profile
@@ -128,7 +128,7 @@ const Sidebar = () => {
                 <DropdownMenuItem asChild>
                   <Button
                     variant="text"
-                    className="text-sm hover:bg-surface-2"
+                    className="text-sm hover:bg-surface-secondary"
                   >
                     <Settings className="h-4 w-4" />
                     Settings

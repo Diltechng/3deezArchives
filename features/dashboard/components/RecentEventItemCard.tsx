@@ -112,7 +112,7 @@ export const RecentEventItemCard = ({ event, className }: {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem asChild>
-            <Button variant="text" className="text-xs hover:bg-surface-2" asChild>
+            <Button variant="text" className="text-xs hover:bg-surface-secondary" asChild>
               <Link href={`/gallery/event/${event.id}`}>
                 <Info className="w-4 h-4" />
                 View Details
@@ -122,7 +122,7 @@ export const RecentEventItemCard = ({ event, className }: {
           <DropdownMenuItem asChild>
             <Button
               variant="text"
-              className="text-xs hover:bg-surface-2"
+              className="text-xs hover:bg-surface-secondary"
               onClick={() => openEditEventModal({
                 id: event.id,
                 title: event.title,

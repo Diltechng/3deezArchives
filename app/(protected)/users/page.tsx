@@ -81,7 +81,7 @@ const UsersPage = () => {
               {["MEMBER", "ROLE", "UPLOADS", "LAST ACTIVE", "STATUS", "ACTIONS"].map(title =>
                 <th
                   key={title}
-                  className="font-mono text-[9px] tracking-[0.08rem] py-2 px-3 text-left border-b border-border text-text-3 bg-surface-2"
+                  className="font-mono text-[9px] tracking-[0.08rem] py-2 px-3 text-left border-b border-border text-text-3 bg-surface-secondary"
                 >
                   {title}
                 </th>

@@ -142,7 +142,7 @@ const GalleryPage = () => {
               onClick={() => setDisplayMode("list")}
               className={clsx(
                 "py-1.5 px-2.5",
-                displayMode === "list"? "": "bg-surface-3 hover:bg-surface-2/70"
+                displayMode === "list"? "": "bg-surface-3 hover:bg-surface-secondary/70"
               )}
             >
               <List className="h-5 w-5" />
@@ -151,7 +151,7 @@ const GalleryPage = () => {
               onClick={() => setDisplayMode("grid")}
               className={clsx(
                 "py-1.5 px-2.5",
-                displayMode === "grid"? "": "bg-surface-3 hover:bg-surface-2/70"
+                displayMode === "grid"? "": "bg-surface-3 hover:bg-surface-secondary/70"
               )}
             >
               <Grid className="h-5 w-5" />

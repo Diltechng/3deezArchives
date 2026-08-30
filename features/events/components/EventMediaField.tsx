@@ -229,7 +229,7 @@ export const EventMediaField = ({ error, value, initialData, onChange }: EventMe
                         </button>
                       </div>}
                     </div>
-                    {(value?.coverId && file.remote.id === value.coverId) && <div className="absolute bottom-2 right-2 flex gap-1 items-center py-1 px-2 rounded-sm font-sans text-xs text-surface-2 bg-accent-primary">
+                    {(value?.coverId && file.remote.id === value.coverId) && <div className="absolute bottom-2 right-2 flex gap-1 items-center py-1 px-2 rounded-sm font-sans text-xs text-surface-secondary bg-accent-primary">
                       <Star className="fill-current h-3 w-3" /> Cover
                     </div>}
                   </>
