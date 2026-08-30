@@ -83,7 +83,7 @@
 }
 
 @utility bg-shimmer {
-  @apply bg-linear-to-r from-surface via-surface-3 to-surface bg-size-[200%_100%];
+  @apply bg-linear-to-r from-[#1d2325] via-[#2f3234] to-[#1d2325] bg-size-[200%_100%];
 }
 
 @utility input-core {
