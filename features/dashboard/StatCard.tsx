@@ -3,6 +3,7 @@ import { cn } from "../common/lib/utils";
 import { Accent } from "../common/types/accent.types";
 import Link from "next/link";
 import { Skeleton } from "../common/ui/Skeleton";
+import { Card } from "../common/ui/Card";
 
 interface StatCardProps {
   label: string;
@@ -23,7 +24,7 @@ export const StatCard = ({
   accent="primary",
   isLoading = false
 }: StatCardProps) => (
-  <div className="flex flex-col justify-between gap-2 p-3.5 rounded-lg bg-surface border border-border">
+  <Card className="flex flex-col justify-between gap-2 p-3.5">
     <div className="flex gap-4">
       {isLoading
       ? <Skeleton className="size-8 sm:size-10" />
@@ -66,5 +67,5 @@ export const StatCard = ({
         </Link>
       )
     }
-  </div>
+  </Card>
 );
