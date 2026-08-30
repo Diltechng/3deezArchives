@@ -21,8 +21,8 @@ export const RecentEventItemCardSkeleton = ({ count=1 }) => (
     )}>
       <div className="flex gap-2 items-center">
         <Skeleton className="shrink-0 w-20 h-15 rounded-lg" />
-        <div className="grid gap-1 font-sans text-text-2">
-          <div className="flex flex-col md:flex-row gap-1 items-start md:items-center text-foreground-primary truncate">
+        <div className="grid gap-1">
+          <div className="flex flex-col md:flex-row gap-1 items-start md:items-center">
             <Skeleton className="h-4 w-60" />
             <Skeleton className="h-4 w-20" />
           </div>
@@ -80,7 +80,7 @@ export const RecentEventItemCard = ({ event, className }: {
             fill
           />
         </div>
-        <div className="grid gap-1 font-sans text-text-2">
+        <div className="grid gap-1 font-sans text-foreground-secondary">
           <div className="flex flex-col md:flex-row gap-1 items-start md:items-center text-foreground-primary truncate">
             {event.title}
             <div
