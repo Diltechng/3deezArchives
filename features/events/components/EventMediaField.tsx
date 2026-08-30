@@ -207,7 +207,7 @@ export const EventMediaField = ({ error, value, initialData, onChange }: EventMe
                     <div className="absolute top-0 p-2 h-full w-full duration-200 opacity-0 hover:opacity-100 bg-linear-to-t from-black/60 via-black/20 to-transparent">
                       {!(value?.coverId && file.remote.id === value.coverId) && <div className="flex justify-end gap-1 h-7">
                         <button
-                          className="p-1 aspect-square rounded-sm border border-border-2 bg-surface-3"
+                          className="p-1 aspect-square rounded-sm border border-border-2 bg-surface-tertiary"
                           type="button"
                           onClick={() => {
                             if (!file.remote?.id || !value) return;
@@ -221,7 +221,7 @@ export const EventMediaField = ({ error, value, initialData, onChange }: EventMe
                           <Star className="h-full w-full" />
                         </button>
                         <button
-                          className="p-1 aspect-square rounded-sm border border-border-2 bg-surface-3"
+                          className="p-1 aspect-square rounded-sm border border-border-2 bg-surface-tertiary"
                           type="button"
                           onClick={() => handleRemoveMedia(file.remote?.id)}
                         >

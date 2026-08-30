@@ -100,7 +100,7 @@ const UsersPage = () => {
                       <div className={cn(
                         "flex justify-center items-center rounded-full w-7 aspect-square text-[10px] uppercase border",
                         isAdmin? "text-accent-primary border-accent-primary bg-accent-primary/20"
-                        : "text-text-2 border-border-2 bg-surface-3"
+                        : "text-text-2 border-border-2 bg-surface-tertiary"
                       )}>
                         {getInitials(user.fullName)}
                       </div>

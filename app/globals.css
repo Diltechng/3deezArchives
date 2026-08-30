@@ -22,7 +22,7 @@
 
   --color-surface-primary: #161a1c;
   --color-surface-secondary: #323537;
-  --color-surface-3: #222222;
+  --color-surface-tertiary: #222222;
   
   --color-border: #292c2f;
   --color-border-2: #ffffff26;
@@ -66,7 +66,7 @@
   }
 
   body * {
-    @apply scrollbar-thin scrollbar-thumb-surface-3 scrollbar-track-surface-primary scrollbar-thumb-rounded-full
+    @apply scrollbar-thin scrollbar-thumb-surface-tertiary scrollbar-track-surface-primary scrollbar-thumb-rounded-full
   }
 
   input, textarea {
@@ -88,7 +88,7 @@
 
 @utility input-core {
   @apply  flex items-center font-sans gap-2 py-1.75 px-3 w-full text-[12px] rounded-lg duration-200 border;
-  @apply border-border-2 bg-surface-3 focus-within:border-accent-primary;
+  @apply border-border-2 bg-surface-tertiary focus-within:border-accent-primary;
 }
 
 @utility button-primary {
@@ -98,7 +98,7 @@
 
 @utility button-ghost {
   @apply px-4 py-2 rounded-lg duration-200 tracking-[0.06rem] text-[10px] border;
-  @apply border-border-2 bg-surface-3 hover:opacity-85;
+  @apply border-border-2 bg-surface-tertiary hover:opacity-85;
 }
 
 @utility calendar-indicator-none {

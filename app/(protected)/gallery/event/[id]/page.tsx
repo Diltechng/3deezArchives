@@ -69,9 +69,9 @@ const EventDetailPage = () => {
             {eventData.title}
           </div>
           <div className="flex gap-1.5 text-[10px]">
-            <button className="py-2 px-4 rounded-lg tracking-[0.6px] border border-border-2 bg-surface-3">DOWNLOAD</button>
+            <button className="py-2 px-4 rounded-lg tracking-[0.6px] border border-border-2 bg-surface-tertiary">DOWNLOAD</button>
             <button
-              className="py-2 px-4 rounded-lg tracking-[0.6px] border border-border-2 bg-surface-3"
+              className="py-2 px-4 rounded-lg tracking-[0.6px] border border-border-2 bg-surface-tertiary"
               onClick={() => {
                 openEditEventModal({
                   id: eventData.id,
