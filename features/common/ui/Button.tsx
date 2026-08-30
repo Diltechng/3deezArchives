@@ -37,7 +37,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
           variant === "text" && cn(active
             ? "bg-accent-primary/10 text-accent-primary"
-            : "text-foreground-secondary hover:text-text hover:bg-surface-primary"
+            : "text-foreground-secondary hover:text-foreground-primary hover:bg-surface-primary"
           ),
           className,
         )}

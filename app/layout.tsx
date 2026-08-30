@@ -45,7 +45,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${spaceMono.variable} ${inter.variable} ${dMSans.variable} antialiased text-text bg-background`}
+        className={`${geistSans.variable} ${spaceMono.variable} ${inter.variable} ${dMSans.variable} antialiased text-foreground-primary bg-background`}
       >
         <Providers>
           {children}

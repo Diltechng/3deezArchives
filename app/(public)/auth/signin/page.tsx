@@ -63,7 +63,7 @@ const SignInPage = () => {
               <Button
                 variant="text"
                 onClick={() => setError(null)}
-                className="ml-auto p-1.5 text-text hover:bg-accent-danger/10">
+                className="ml-auto p-1.5 text-foreground-primary hover:bg-accent-danger/10">
                 <X className="size-5" />
               </Button>
             </div>

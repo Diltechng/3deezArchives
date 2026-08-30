@@ -18,6 +18,7 @@
 
 @theme {
   --color-background: #0c0f11;
+  --color-foreground-primary: #f2f2f2;
   --color-foreground-secondary: #9797a3;
 
   --color-surface-primary: #161a1c;
@@ -33,7 +34,6 @@
   --color-accent-danger: #ff6570;
   --color-accent-info: #6bffd4;
 
-  --color-text: #f2f2f2;
   --color-text-2: #888;
   --color-text-3: #94989c;
 
@@ -62,7 +62,7 @@
 
 @layer base {
   body {
-    @apply font-inter text-text bg-background
+    @apply font-inter text-foreground-primary bg-background
   }
 
   body * {
