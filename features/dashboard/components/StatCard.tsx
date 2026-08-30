@@ -1,9 +1,9 @@
 import { ArrowRight } from "lucide-react";
-import { cn } from "../common/lib/utils";
-import { Accent } from "../common/types/accent.types";
+import { cn } from "../../common/lib/utils";
+import { Accent } from "../../common/types/accent.types";
 import Link from "next/link";
-import { Skeleton } from "../common/ui/Skeleton";
-import { Card } from "../common/ui/Card";
+import { Skeleton } from "../../common/ui/Skeleton";
+import { Card } from "../../common/ui/Card";
 
 interface StatCardProps {
   label: string;

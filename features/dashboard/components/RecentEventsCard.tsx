@@ -1,14 +1,14 @@
 "use client"
 
-import { RecentEventItemCard, RecentEventItemCardSkeleton } from "@/features/dashboard/RecentEventItemCard";
+import { RecentEventItemCard, RecentEventItemCardSkeleton } from "@/features/dashboard/components/RecentEventItemCard";
 import { Button } from "@/features/common/ui/Button";
 import { NoEvent } from "@/features/common/ui/icons/NoEvent";
 import { ArrowRight, Plus } from "lucide-react";
 import Link from "next/link";
-import { useEventFormModal } from "../events/hooks/useEventFormModal";
+import { useEventFormModal } from "../../events/hooks/useEventFormModal";
 import { useQuery } from "@tanstack/react-query";
-import { eventsService } from "../events/services/event.service";
-import { Card } from "../common/ui/Card";
+import { eventsService } from "../../events/services/event.service";
+import { Card } from "../../common/ui/Card";
 
 export const RecentEventsCard = () => {
   const { openAddEventModal } = useEventFormModal();
