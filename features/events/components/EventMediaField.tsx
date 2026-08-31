@@ -165,7 +165,7 @@ export const EventMediaField = ({ error, value, initialData, onChange }: EventMe
   return (
     <>
       <FormField error={error}>
-        <div className="h-30 rounded-lg border border-dashed border-border bg-surface focus:border-accent-primary">
+        <div className="h-30 rounded-lg border border-dashed border-border-primary bg-surface-primary focus:border-accent-primary">
           <label className="flex flex-col justify-center items-center gap-1.5 h-full w-full font-sans text-[11px] text-foreground-secondary">
             <span>Drop image here or click to browse</span>
             <span>JPG, PNG, WEBP — max 10MB</span>
@@ -180,7 +180,7 @@ export const EventMediaField = ({ error, value, initialData, onChange }: EventMe
         </div>
       </FormField>
       {media.length !== 0 &&
-        <div className="p-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 rounded-lg border border-border bg-surface">
+        <div className="p-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 rounded-lg border border-border-primary bg-surface-primary">
           {media.map(file => (
             <div
               key={file.remote?.id ?? file.local.id}
@@ -207,7 +207,7 @@ export const EventMediaField = ({ error, value, initialData, onChange }: EventMe
                     <div className="absolute top-0 p-2 h-full w-full duration-200 opacity-0 hover:opacity-100 bg-linear-to-t from-black/60 via-black/20 to-transparent">
                       {!(value?.coverId && file.remote.id === value.coverId) && <div className="flex justify-end gap-1 h-7">
                         <button
-                          className="p-1 aspect-square rounded-sm border border-border-2 bg-surface-3"
+                          className="p-1 aspect-square rounded-sm border border-border-secondary bg-surface-tertiary"
                           type="button"
                           onClick={() => {
                             if (!file.remote?.id || !value) return;
@@ -221,7 +221,7 @@ export const EventMediaField = ({ error, value, initialData, onChange }: EventMe
                           <Star className="h-full w-full" />
                         </button>
                         <button
-                          className="p-1 aspect-square rounded-sm border border-border-2 bg-surface-3"
+                          className="p-1 aspect-square rounded-sm border border-border-secondary bg-surface-tertiary"
                           type="button"
                           onClick={() => handleRemoveMedia(file.remote?.id)}
                         >
@@ -229,7 +229,7 @@ export const EventMediaField = ({ error, value, initialData, onChange }: EventMe
                         </button>
                       </div>}
                     </div>
-                    {(value?.coverId && file.remote.id === value.coverId) && <div className="absolute bottom-2 right-2 flex gap-1 items-center py-1 px-2 rounded-sm font-sans text-xs text-surface-2 bg-accent-primary">
+                    {(value?.coverId && file.remote.id === value.coverId) && <div className="absolute bottom-2 right-2 flex gap-1 items-center py-1 px-2 rounded-sm font-sans text-xs text-surface-secondary bg-accent-primary">
                       <Star className="fill-current h-3 w-3" /> Cover
                     </div>}
                   </>

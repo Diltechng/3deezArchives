@@ -18,14 +18,15 @@
 
 @theme {
   --color-background: #0c0f11;
+  --color-foreground-primary: #f2f2f2;
   --color-foreground-secondary: #9797a3;
 
-  --color-surface: #161a1c;
-  --color-surface-2: #323537;
-  --color-surface-3: #222222;
+  --color-surface-primary: #161a1c;
+  --color-surface-secondary: #323537;
+  --color-surface-tertiary: #222222;
   
-  --color-border: #292c2f;
-  --color-border-2: #ffffff26;
+  --color-border-primary: #292c2f;
+  --color-border-secondary: #ffffff26;
   
   --color-accent-primary: #e8ff6b;
   --color-accent-secondary: #774ffd;
@@ -33,7 +34,6 @@
   --color-accent-danger: #ff6570;
   --color-accent-info: #6bffd4;
 
-  --color-text: #f2f2f2;
   --color-text-2: #888;
   --color-text-3: #94989c;
 
@@ -62,11 +62,11 @@
 
 @layer base {
   body {
-    @apply font-inter text-text bg-background
+    @apply font-inter text-foreground-primary bg-background
   }
 
   body * {
-    @apply scrollbar-thin scrollbar-thumb-surface-3 scrollbar-track-surface scrollbar-thumb-rounded-full
+    @apply scrollbar-thin scrollbar-thumb-surface-tertiary scrollbar-track-surface-primary scrollbar-thumb-rounded-full
   }
 
   input, textarea {
@@ -83,12 +83,12 @@
 }
 
 @utility bg-shimmer {
-  @apply bg-linear-to-r from-surface via-surface-3 to-surface bg-size-[200%_100%];
+  @apply bg-linear-to-r from-[#1d2325] via-[#2f3234] to-[#1d2325] bg-size-[200%_100%];
 }
 
 @utility input-core {
   @apply  flex items-center font-sans gap-2 py-1.75 px-3 w-full text-[12px] rounded-lg duration-200 border;
-  @apply border-border-2 bg-surface-3 focus-within:border-accent-primary;
+  @apply border-border-secondary bg-surface-tertiary focus-within:border-accent-primary;
 }
 
 @utility button-primary {
@@ -98,7 +98,7 @@
 
 @utility button-ghost {
   @apply px-4 py-2 rounded-lg duration-200 tracking-[0.06rem] text-[10px] border;
-  @apply border-border-2 bg-surface-3 hover:opacity-85;
+  @apply border-border-secondary bg-surface-tertiary hover:opacity-85;
 }
 
 @utility calendar-indicator-none {

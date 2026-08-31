@@ -69,9 +69,9 @@ const EventDetailPage = () => {
             {eventData.title}
           </div>
           <div className="flex gap-1.5 text-[10px]">
-            <button className="py-2 px-4 rounded-lg tracking-[0.6px] border border-border-2 bg-surface-3">DOWNLOAD</button>
+            <button className="py-2 px-4 rounded-lg tracking-[0.6px] border border-border-secondary bg-surface-tertiary">DOWNLOAD</button>
             <button
-              className="py-2 px-4 rounded-lg tracking-[0.6px] border border-border-2 bg-surface-3"
+              className="py-2 px-4 rounded-lg tracking-[0.6px] border border-border-secondary bg-surface-tertiary"
               onClick={() => {
                 openEditEventModal({
                   id: eventData.id,
@@ -134,7 +134,7 @@ const EventDetailPage = () => {
             </div>
           </div>
         </div>
-        <div className="p-5 rounded-lg bg-surface">
+        <div className="p-5 rounded-lg bg-surface-primary">
           <div className="text-[12px] mb-2 text-text-2">ALL IMAGES</div>
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
             {eventData.media.map((media: any) =>

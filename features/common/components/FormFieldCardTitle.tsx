@@ -5,7 +5,7 @@ const FormFieldCardTitle = ({ title, className }: {
   className?: string;
 }) => (
   <div className={cn(
-    "pb-2.5 mb-4 tracking-[0.06em] uppercase text-[11px] border-b text-text-2 border-border",
+    "pb-2.5 mb-4 tracking-[0.06em] uppercase text-[11px] border-b text-text-2 border-border-primary",
     className
   )}>
     {title}

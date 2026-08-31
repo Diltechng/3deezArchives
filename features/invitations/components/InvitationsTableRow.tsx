@@ -4,18 +4,18 @@ import { cn } from "@/features/common/lib/utils";
 export const InvitationsTableRowSkeleton = () => (
   <tr>
     <TableData>
-      <div className="h-4 w-full font-sans rounded-[3px] border border-border-2/20 bg-shimmer animate-shimmer" />
+      <div className="h-4 w-full font-sans rounded-[3px] border border-border-secondary/20 bg-shimmer animate-shimmer" />
     </TableData>
     <TableData>
-      <div className="h-5 w-full max-w-20 rounded-[3px] tracking-[0.08rem] text-[9px] border border-border-2/20 bg-shimmer animate-shimmer" />
+      <div className="h-5 w-full max-w-20 rounded-[3px] tracking-[0.08rem] text-[9px] border border-border-secondary/20 bg-shimmer animate-shimmer" />
     </TableData>
     <TableData>
-      <div className="h-4 w-full max-w-18 flex items-center gap-1.25 text-[10px] rounded-[3px] border border-border-2/20 bg-shimmer animate-shimmer" />
+      <div className="h-4 w-full max-w-18 flex items-center gap-1.25 text-[10px] rounded-[3px] border border-border-secondary/20 bg-shimmer animate-shimmer" />
     </TableData>
     <TableData>
       <div className="flex gap-1.5">
-        <div className="flex justify-center items-center h-6.5 w-6.5 rounded-[3px] border border-border-2/20 bg-shimmer animate-shimmer" />
-        <button className="flex justify-center items-center h-6.5 w-6.5 rounded-[3px] border border-border-2/20 bg-shimmer animate-shimmer">
+        <div className="flex justify-center items-center h-6.5 w-6.5 rounded-[3px] border border-border-secondary/20 bg-shimmer animate-shimmer" />
+        <button className="flex justify-center items-center h-6.5 w-6.5 rounded-[3px] border border-border-secondary/20 bg-shimmer animate-shimmer">
 
         </button>
       </div>
@@ -58,10 +58,10 @@ const InvitationsTableRow = ({ invitation }: {
       </TableData>
       <TableData>
         <div className="flex gap-1.5">
-          <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-2 hover:border-accent-primary">
+          <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-secondary hover:border-accent-primary">
 
           </button>
-          <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-2 hover:border-accent-primary">
+          <button className="flex justify-center items-center h-6.5 w-6.5 rounded-lg border text-text-2 border-border-secondary hover:border-accent-primary">
 
           </button>
         </div>

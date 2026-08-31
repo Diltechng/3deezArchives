@@ -5,22 +5,36 @@ import dayjs from "dayjs";
 import { EllipsisVertical, Image, Info, Pencil, Trash2 } from "lucide-react";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
-import { useModal } from "../common/hooks/useModal";
+import { useModal } from "../../common/hooks/useModal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { eventsService } from "../events/services/event.service";
-import { useEventFormModal } from "../events/hooks/useEventFormModal";
-import { DropdownMenu, DropdownMenuArrow, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../common/ui/Dropdown";
+import { eventsService } from "../../events/services/event.service";
+import { useEventFormModal } from "../../events/hooks/useEventFormModal";
+import { DropdownMenu, DropdownMenuArrow, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../../common/ui/Dropdown";
+import { Skeleton } from "../../common/ui/Skeleton";
 
 
-export const RecentEventItemCardSkeleton = () => (
-  <div className="py-2.5 flex items-start gap-2.5 text-[11px] animate-shimmer border-b border-border bg-shimmer">
-    <div className="h-1.5 w-1.5 mt-0.75 rounded-full animate-shimmer border border-border-2/30 bg-shimmer" />
-    <div className="flex-1 font-sans text-text-2">
-      <div className="h-3 w-20 mb-2 rounded-[3px] animate-shimmer border border-border-2/30 bg-shimmer" />
-      <div className="h-3 w-1/3 rounded-[3px] animate-shimmer border border-border-2/30 bg-shimmer" />
+export const RecentEventItemCardSkeleton = ({ count=1 }) => (
+  Array.from({ length: count }).map((_, i) =>  (
+    <div key={i} className={cn(
+      "py-2.5 flex items-center justify-between text-sm border-b border-border-primary",
+      {"border-none": (i === (count - 1))}
+    )}>
+      <div className="flex gap-2 items-center">
+        <Skeleton className="shrink-0 w-20 h-15 rounded-lg" />
+        <div className="grid gap-1">
+          <div className="flex flex-col md:flex-row gap-1 items-start md:items-center">
+            <Skeleton className="h-4 w-60" />
+            <Skeleton className="h-4 w-20" />
+          </div>
+          <Skeleton className="h-3 w-50" />
+          <Skeleton className="h-4 w-8" />
+        </div>
+      </div>
+      <div className="px-2">
+        <Skeleton className="h-8 w-4" />
+      </div>
     </div>
-    <div className="mt-0.5 h-3 w-8 rounded-[3px] animate-shimmer border border-border-2/30 bg-shimmer" />
-  </div>
+  ))
 );
 
 export const RecentEventItemCard = ({ event, className }: {
@@ -53,7 +67,7 @@ export const RecentEventItemCard = ({ event, className }: {
 
   return (
     <div className={cn(
-      "py-2.5 flex items-center justify-between text-sm border-b border-border",
+      "py-2.5 flex items-center justify-between text-sm border-b border-border-primary",
       className
     )}>
       <Link href={`/gallery/event/${event.id}`} className="flex gap-2 items-center">
@@ -66,8 +80,8 @@ export const RecentEventItemCard = ({ event, className }: {
             fill
           />
         </div>
-        <div className="grid gap-1 font-sans text-text-2">
-          <div className="flex flex-col md:flex-row gap-1 items-start md:items-center text-text truncate">
+        <div className="grid gap-1 font-sans text-foreground-secondary">
+          <div className="flex flex-col md:flex-row gap-1 items-start md:items-center text-foreground-primary truncate">
             {event.title}
             <div
               className={cn(
@@ -98,7 +112,7 @@ export const RecentEventItemCard = ({ event, className }: {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem asChild>
-            <Button variant="text" className="text-xs hover:bg-surface-2" asChild>
+            <Button variant="text" className="text-xs hover:bg-surface-secondary" asChild>
               <Link href={`/gallery/event/${event.id}`}>
                 <Info className="w-4 h-4" />
                 View Details
@@ -108,7 +122,7 @@ export const RecentEventItemCard = ({ event, className }: {
           <DropdownMenuItem asChild>
             <Button
               variant="text"
-              className="text-xs hover:bg-surface-2"
+              className="text-xs hover:bg-surface-secondary"
               onClick={() => openEditEventModal({
                 id: event.id,
                 title: event.title,
@@ -136,7 +150,7 @@ export const RecentEventItemCard = ({ event, className }: {
               Delete Event
             </Button>
           </DropdownMenuItem>
-          <DropdownMenuArrow className="fill-border" />
+          <DropdownMenuArrow className="fill-border-primary" />
           <DropdownMenuArrow className="relative -top-0.5" />
         </DropdownMenuContent>
       </DropdownMenu>

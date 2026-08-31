@@ -19,7 +19,7 @@ const SettingsItem = ({ label, value, chevron="right", editable=true, onEdit }: 
   const ChevronType = chevronMap[chevron];
 
   return (
-    <div className="flex justify-between items-center py-5 px-2 text-sm font-sans border-b border-border-2">
+    <div className="flex justify-between items-center py-5 px-2 text-sm font-sans border-b border-border-secondary">
       <div>
         {label}
       </div>
