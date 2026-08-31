@@ -1,9 +1,9 @@
 import { ArrowRight } from "lucide-react";
-import { cn } from "../common/lib/utils";
-import { Accent } from "../common/types/accent.types";
+import { cn } from "../../common/lib/utils";
+import { Accent } from "../../common/types/accent.types";
 import Link from "next/link";
-import { Skeleton } from "../common/ui/Skeleton";
-import { Card } from "../common/ui/Card";
+import { Skeleton } from "../../common/ui/Skeleton";
+import { Card } from "../../common/ui/Card";
 
 interface StatCardProps {
   label: string;
@@ -61,7 +61,7 @@ export const StatCard = ({
             { "text-accent-secondary": accent === "secondary" },
             { "text-accent-info": accent === "info" },
             { "text-accent-danger": accent === "danger" },
-            { "text-text": accent === "neutral" },
+            { "text-foreground-primary": accent === "neutral" },
         )}>
           {linkName} <ArrowRight className="inline w-3.25 h-3.25" />
         </Link>

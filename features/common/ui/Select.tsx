@@ -16,7 +16,7 @@ const SelectTrigger = ({ className, children, ...props }: React.ComponentProps<t
   <SelectPrimitive.Trigger
     className={cn(
       "flex justify-between items-center px-3 py-2.25 text-sm rounded-lg duration-200 focus:outline-none",
-      "[&>span:first-child]:truncate border border-border bg-surface focus:border-accent-primary",
+      "[&>span:first-child]:truncate border border-border-primary bg-surface-primary focus:border-accent-primary",
       className
     )}
     {...props}
@@ -42,7 +42,7 @@ const SelectContent = ({
       side={side}
       sideOffset={sideOffset}
       className={cn(
-        "z-900 border rounded-lg border-border bg-surface w-(--radix-select-trigger-width)",
+        "z-900 border rounded-lg border-border-primary bg-surface-primary w-(--radix-select-trigger-width)",
         className,
       )}
       {...props}
@@ -57,7 +57,7 @@ const SelectContent = ({
 const SelectItem = ({ className, children, ...props }: React.ComponentProps<typeof SelectPrimitive.Item>) => (
   <Button asChild variant="text">
     <SelectPrimitive.Item
-      className={cn("rounded-md focus:outline-none text-text hover:bg-surface-2", className)}
+      className={cn("rounded-md focus:outline-none text-foreground-primary hover:bg-surface-secondary", className)}
       {...props}
     >
       <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>

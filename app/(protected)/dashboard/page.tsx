@@ -1,12 +1,12 @@
 "use client"
 
-import { StatCard } from "@/features/dashboard/StatCard";
+import { StatCard } from "@/features/dashboard/components/StatCard";
 import { PageHeader } from "@/features/common/components/PageHeader"
 import { api } from "@/features/common/lib/api";
 import { useCurrentUser } from "@/features/users/hooks/useCurrentUser";
 import { useQuery } from "@tanstack/react-query";
 import { Calendar, CalendarClock, FolderOpen, UsersRound } from "lucide-react";
-import { RecentEventsCard } from "@/features/dashboard/RecentEventsCard";
+import { RecentEventsCard } from "@/features/dashboard/components/RecentEventsCard";
 import { Accent } from "@/features/common/types/accent.types";
 
 interface DashboardStat {

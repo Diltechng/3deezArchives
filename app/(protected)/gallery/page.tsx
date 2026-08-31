@@ -137,12 +137,12 @@ const GalleryPage = () => {
     <section className="flex flex-col flex-1">
       <PageHeader title="Gallery" subtitle={`${eventsCount} images across ${categoriesCount} categories`}>
         <div className="flex gap-2">
-          <div className="flex overflow-hidden rounded-lg border border-border-2">
+          <div className="flex overflow-hidden rounded-lg border border-border-secondary">
             <button
               onClick={() => setDisplayMode("list")}
               className={clsx(
                 "py-1.5 px-2.5",
-                displayMode === "list"? "": "bg-surface-3 hover:bg-surface-2/70"
+                displayMode === "list"? "": "bg-surface-tertiary hover:bg-surface-secondary/70"
               )}
             >
               <List className="h-5 w-5" />
@@ -151,7 +151,7 @@ const GalleryPage = () => {
               onClick={() => setDisplayMode("grid")}
               className={clsx(
                 "py-1.5 px-2.5",
-                displayMode === "grid"? "": "bg-surface-3 hover:bg-surface-2/70"
+                displayMode === "grid"? "": "bg-surface-tertiary hover:bg-surface-secondary/70"
               )}
             >
               <Grid className="h-5 w-5" />

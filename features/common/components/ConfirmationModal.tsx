@@ -40,7 +40,7 @@ export const ConfirmationModal = ({
         <Button
           data-variant={variant}
           className="
-            data-[variant=danger]:bg-accent-danger data-[variant=danger]:text-text
+            data-[variant=danger]:bg-accent-danger data-[variant=danger]:text-foreground-primary
           "
           onClick={() => handleResolve(true)}
         >

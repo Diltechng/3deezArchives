@@ -32,12 +32,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           ),
 
           variant === "outlined" && (
-            "border border-border hover:bg-surface"
+            "border border-border-primary hover:bg-surface-primary"
           ),
 
           variant === "text" && cn(active
             ? "bg-accent-primary/10 text-accent-primary"
-            : "text-foreground-secondary hover:text-text hover:bg-surface"
+            : "text-foreground-secondary hover:text-foreground-primary hover:bg-surface-primary"
           ),
           className,
         )}

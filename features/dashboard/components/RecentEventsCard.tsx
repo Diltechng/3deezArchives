@@ -1,14 +1,51 @@
 "use client"
 
-import { RecentEventItemCard, RecentEventItemCardSkeleton } from "@/features/dashboard/RecentEventItemCard";
+import { RecentEventItemCard, RecentEventItemCardSkeleton } from "@/features/dashboard/components/RecentEventItemCard";
 import { Button } from "@/features/common/ui/Button";
 import { NoEvent } from "@/features/common/ui/icons/NoEvent";
-import { ArrowRight, Plus } from "lucide-react";
+import { AlertCircle, ArrowRight, Plus, RefreshCw } from "lucide-react";
 import Link from "next/link";
-import { useEventFormModal } from "../events/hooks/useEventFormModal";
+import { useEventFormModal } from "../../events/hooks/useEventFormModal";
 import { useQuery } from "@tanstack/react-query";
-import { eventsService } from "../events/services/event.service";
-import { Card } from "../common/ui/Card";
+import { eventsService } from "../../events/services/event.service";
+import { Card } from "../../common/ui/Card";
+
+interface ErrorStateProps {
+  onRetry?: () => void;
+  errorMessage?: string;
+}
+
+export const RecentEventsErrorState: React.FC<ErrorStateProps> = ({
+  onRetry,
+  errorMessage = "We couldn't retrieve your recent events. Please check your connection or try again.",
+}) => {
+  return (
+    // Main Error Container
+    <Card className="w-full p-12 flex flex-col items-center justify-center text-center min-h-100">
+      {/* Icon container */}
+      <div className="w-16 h-16 rounded-full bg-accent-danger/10 border border-accent-danger/20 flex items-center justify-center mb-5 text-accent-danger">
+        <AlertCircle className="w-8 h-8" />
+      </div>
+
+      <h2 className="text-xl font-semibold text-foreground-primary mb-2">
+        Failed to load recent events
+      </h2>
+      <p className="text-sm text-foreground-secondary max-w-md mb-8 leading-relaxed">
+        {errorMessage}
+      </p>
+
+      {/* Action Controls */}
+      <button
+        onClick={onRetry}
+        className="flex items-center gap-2 px-5 py-2.5 bg-accent-primary hover:bg-accent-primary text-background font-semibold text-sm rounded-lg transition-colors cursor-pointer"
+      >
+        <RefreshCw className="w-4 h-4" />
+        Retry
+      </button>
+    </Card>
+  );
+};
+
 
 export const RecentEventsCard = () => {
   const { openAddEventModal } = useEventFormModal();
@@ -22,6 +59,11 @@ export const RecentEventsCard = () => {
   const recentEvents = recentEventsQuery.data?.data ?? [];
   const isLoading = recentEventsQuery.isLoading;
   const isError = recentEventsQuery.isError;
+  const refetch = recentEventsQuery.refetch;
+
+  if (isError) {
+    return <RecentEventsErrorState onRetry={() => refetch()} />
+  }
 
   return (
     <Card className="py-5">

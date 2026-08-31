@@ -14,7 +14,7 @@ interface StateCardProps {
 const StateCard = ({ icon, title, subtitle, className }: StateCardProps) => (
   <div className={
     cn(
-      "my-auto mx-auto py-8 px-12 min-h-50 h-full max-h-70 min-w-50 w-full max-w-130 flex flex-col gap-4 justify-center items-center rounded-lg text-center border border-border-2 bg-surface",
+      "my-auto mx-auto py-8 px-12 min-h-50 h-full max-h-70 min-w-50 w-full max-w-130 flex flex-col gap-4 justify-center items-center rounded-lg text-center border border-border-secondary bg-surface-primary",
       className
     )
   }>

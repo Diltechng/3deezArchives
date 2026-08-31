@@ -36,7 +36,7 @@ const SignInPage = () => {
 
   return (
     <div className="flex w-full h-screen overflow-x-auto">
-      <div className="flex flex-col gap-5 h-full sm:h-fit py-10 sm:min-w-50 w-full sm:max-w-100 shadow-2xl sm:border sm:rounded-2xl my-auto mx-auto border-border-2">
+      <div className="flex flex-col gap-5 h-full sm:h-fit py-10 sm:min-w-50 w-full sm:max-w-100 shadow-2xl sm:border sm:rounded-2xl my-auto mx-auto border-border-secondary">
         <div className="flex flex-col gap-3 text-center">
           <div className="mx-auto">
             <Image
@@ -50,7 +50,7 @@ const SignInPage = () => {
           </h2>
         </div>
         <form
-          className="flex flex-col w-full max-w-100 mx-auto border-t pt-7 px-10 border-border-2" 
+          className="flex flex-col w-full max-w-100 mx-auto border-t pt-7 px-10 border-border-secondary" 
           method="POST"
           onSubmit={handleSubmit(onSubmit)}
         >
@@ -63,7 +63,7 @@ const SignInPage = () => {
               <Button
                 variant="text"
                 onClick={() => setError(null)}
-                className="ml-auto p-1.5 text-text hover:bg-accent-danger/10">
+                className="ml-auto p-1.5 text-foreground-primary hover:bg-accent-danger/10">
                 <X className="size-5" />
               </Button>
             </div>
@@ -97,7 +97,7 @@ const SignInPage = () => {
                 <Button
                   variant="text"
                   type="button"
-                  className="absolute -translate-y-1/2 top-1/2 right-2 p-1.5 rounded-full hover:bg-surface-2"
+                  className="absolute -translate-y-1/2 top-1/2 right-2 p-1.5 rounded-full hover:bg-surface-secondary"
                   onClick={() => setPasswordVisible(prev => !prev)}
                 >
                   {passwordVisible

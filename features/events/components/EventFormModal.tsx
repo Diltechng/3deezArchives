@@ -167,11 +167,11 @@ export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventF
               </div>
             </FormField>
             <FormField label="Tags" error={errors.tags}>
-              <div className="p-2.25 flex flex-wrap gap-1 text-sm rounded-lg duration-200 border border-border bg-surface focus-within:border-accent-primary">
+              <div className="p-2.25 flex flex-wrap gap-1 text-sm rounded-lg duration-200 border border-border-primary bg-surface-primary focus-within:border-accent-primary">
                 {tags.length
                   ? <div className="flex gap-1 flex-wrap">
                     {tags.map(tag => (
-                      <div key={tag} className="flex gap-1 items-center border border-border-2 py-0.5 px-2 rounded-[3px] bg-surface">
+                      <div key={tag} className="flex gap-1 items-center border border-border-secondary py-0.5 px-2 rounded-[3px] bg-surface-primary">
                         <span>{tag}</span>
                         <button onClick={() => setValue("tags", tags.filter(storedTag => storedTag !== tag))}>
                           <XDelete className="h-3.5 w-3.5" />
