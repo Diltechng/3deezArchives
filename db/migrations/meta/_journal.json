@@ -15,6 +15,41 @@
       "when": 1784786191652,
       "tag": "0001_set_users_name_field_to_not_null",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1785358200635,
+      "tag": "0002_brown_living_mummy",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1785360035920,
+      "tag": "0003_add_organisations_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1785360949808,
+      "tag": "0004_add_roles_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1785361211833,
+      "tag": "0005_add_permissions_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1785361410621,
+      "tag": "0006_add_role_permissions_join_table",
+      "breakpoints": true
     }
   ]
 }
