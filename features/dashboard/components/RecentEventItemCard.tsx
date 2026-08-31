@@ -11,6 +11,7 @@ import { eventsService } from "../../events/services/event.service";
 import { useEventFormModal } from "../../events/hooks/useEventFormModal";
 import { DropdownMenu, DropdownMenuArrow, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../../common/ui/Dropdown";
 import { Skeleton } from "../../common/ui/Skeleton";
+import { QUERY_KEYS } from "@/lib/query-keys";
 
 
 export const RecentEventItemCardSkeleton = ({ count=1 }) => (
@@ -49,7 +50,7 @@ export const RecentEventItemCard = ({ event, className }: {
     mutationFn: eventsService.deleteEventById,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["events"]
+        queryKey: [QUERY_KEYS.EVENTS]
       });
     }
   });
