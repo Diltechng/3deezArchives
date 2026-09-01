@@ -2,7 +2,7 @@ import { defineConfig } from "drizzle-kit";
 import { resolve } from "path";
 import dotenv from "dotenv";
 
-const path = resolve(__dirname, ".env");
+const path = resolve(__dirname, ".env.local");
 const config = dotenv.config({ path });
 const url = process.env.DATABASE_URL || config.parsed?.DATABASE_URL;
 
