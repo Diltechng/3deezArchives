@@ -9,6 +9,7 @@ import { useEventFormModal } from "../../events/hooks/useEventFormModal";
 import { useQuery } from "@tanstack/react-query";
 import { eventsService } from "../../events/services/event.service";
 import { Card } from "../../common/ui/Card";
+import { QUERY_KEYS } from "@/lib/query-keys";
 
 interface ErrorStateProps {
   onRetry?: () => void;
@@ -51,7 +52,7 @@ export const RecentEventsCard = () => {
   const { openAddEventModal } = useEventFormModal();
 
   const recentEventsQuery = useQuery({
-    queryKey: ["events"],
+    queryKey: [QUERY_KEYS.EVENTS],
     queryFn: () => eventsService.getEvents({ limit: 5, page: 1 }),
   });
 

@@ -50,6 +50,13 @@
       "when": 1785361410621,
       "tag": "0006_add_role_permissions_join_table",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1788277104026,
+      "tag": "0007_add_code_field_to_roles_table",
+      "breakpoints": true
     }
   ]
 }

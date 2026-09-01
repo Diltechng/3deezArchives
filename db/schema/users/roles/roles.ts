@@ -9,6 +9,7 @@ export const roles = pgTable("roles", {
   id: primaryId("id"),
   organisationId: uuid("organisation_id").references(() => organisations.id).notNull(),
   name: varchar("name", { length: 255 }).notNull(),
+  code: varchar("code", { length: 128 }).notNull(),
   description: text("description"),
   ...timestamps
 }, (table) => [

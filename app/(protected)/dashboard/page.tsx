@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Calendar, CalendarClock, FolderOpen, UsersRound } from "lucide-react";
 import { RecentEventsCard } from "@/features/dashboard/components/RecentEventsCard";
 import { Accent } from "@/features/common/types/accent.types";
+import { QUERY_KEYS } from "@/lib/query-keys";
 
 interface DashboardStat {
   label: string;
@@ -20,7 +21,7 @@ interface DashboardStat {
 
 const HomePage = () => {
   const dashboardStatsQuery = useQuery({
-    queryKey: ["dashboard_stats"],
+    queryKey: [QUERY_KEYS.DASHBOARD_STATS],
     queryFn: async () => {
       const response = await api.get("/dashboard/stats");
 
