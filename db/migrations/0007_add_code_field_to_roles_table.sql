@@ -1,0 +1,1 @@
+ALTER TABLE "roles" ADD COLUMN "code" varchar(128) NOT NULL;
