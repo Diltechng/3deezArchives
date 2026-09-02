@@ -78,6 +78,13 @@
       "when": 1788358588638,
       "tag": "0010_add_organisations_and_role_foreign_key_constraints_and_field_to_invitations",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1788358660257,
+      "tag": "0011_add_organisations_foreign_key_constraints_and_field_to_sessions",
+      "breakpoints": true
     }
   ]
 }
