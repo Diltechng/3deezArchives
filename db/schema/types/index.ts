@@ -1,4 +1,4 @@
-import { users } from "../iam/user";
+import { users } from "../iam/users";
 
 export type Users = typeof users.$inferSelect;
 
