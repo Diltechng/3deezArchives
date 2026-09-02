@@ -12,10 +12,10 @@ import {
   rolesRelations,
   permissionsRelations,
   rolePermissionsRelations,
-} from "./users";
+} from "./iam";
 import { media, categories, posts, postRelations, mediaRelations } from "./gallery";
 
-export * from "./users";
+export * from "./iam";
 export * from "./gallery";
 
 export const schema = {

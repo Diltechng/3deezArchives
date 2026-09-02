@@ -1,6 +1,6 @@
 import { pgTable, uuid, text, varchar, timestamp, pgEnum, boolean } from "drizzle-orm/pg-core";
 import { userRoleEnum, timestamps } from "../../shared";
-import { users } from "../user";
+import { users } from "../users";
 import { InvitationStatusValues } from "@/shared/constants/enums";
 
 

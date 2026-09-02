@@ -3,7 +3,7 @@ import { primaryId, timestamps } from "../../shared";
 import { organisations } from "../organisations";
 import { relations, sql } from "drizzle-orm";
 import { rolePermissions } from "./rolePermissions";
-import { users } from "../user";
+import { users } from "../users";
 
 export const roles = pgTable("roles", {
   id: primaryId("id"),

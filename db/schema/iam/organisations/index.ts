@@ -1,7 +1,7 @@
 import { pgTable, text, varchar } from "drizzle-orm/pg-core";
 import { primaryId, timestamps } from "../../shared";
 import { relations } from "drizzle-orm";
-import { users } from "../user";
+import { users } from "../users";
 import { roles } from "../roles";
 import { categories, media, posts } from "../../gallery";
 
