@@ -13,8 +13,12 @@ export const roles = pgTable("roles", {
   description: text("description"),
   ...timestamps
 }, (table) => [
-  uniqueIndex("roles_organisation_id_name_unique_index")
+  uniqueIndex("roles_organisation_id_name_unique_idx")
     .on(table.organisationId, table.name)
+    .where(sql`${table.deletedAt} IS NULL`),
+
+  uniqueIndex("roles_organisation_id_code_unique_idx")
+    .on(table.organisationId, table.code)
     .where(sql`${table.deletedAt} IS NULL`),
 ]);
 

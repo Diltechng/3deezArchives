@@ -92,6 +92,13 @@
       "when": 1788359973619,
       "tag": "0012_remove_unique_constraint_from_organistions_name",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1788365696018,
+      "tag": "0013_create_roles_code_partial_unique_index",
+      "breakpoints": true
     }
   ]
 }
