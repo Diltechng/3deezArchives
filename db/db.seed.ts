@@ -7,7 +7,7 @@ import { DbClient } from "./types";
 
 async function seed(db: DbClient) {
   await seedOrganisations(db);
-  await seedRoles(db);
+  const roleMap = await seedRoles(db);
   await seedAdmin(db);
   await seedCategories(db);
   
