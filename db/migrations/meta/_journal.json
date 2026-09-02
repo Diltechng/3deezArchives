@@ -64,6 +64,13 @@
       "when": 1788278929116,
       "tag": "0008_create_partial_unique_index_on_users_email",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1788358510440,
+      "tag": "0009_add_organisations_and_role_foreign_key_constraints_and_field_to_users",
+      "breakpoints": true
     }
   ]
 }

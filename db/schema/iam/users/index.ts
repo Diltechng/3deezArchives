@@ -1,8 +1,10 @@
-import { pgTable, text, boolean, pgEnum, uniqueIndex } from "drizzle-orm/pg-core";
+import { pgTable, text, boolean, pgEnum, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 import { userRoleEnum, timestamps, primaryId } from "../../shared";
 import { UserStatusValues } from "@/shared/constants/enums";
 import { relations, sql } from "drizzle-orm";
 import { media, posts } from "../../gallery";
+import { organisations } from "../organisations";
+import { roles } from "../roles";
 
 /**
  * Users table
@@ -14,6 +16,8 @@ export const users = pgTable(
   "users",
   {
     id: primaryId("id"),
+    organisationId: uuid("organisation_id").references(() => organisations.id, { onDelete: "restrict" }),
+    roleId: uuid("role_id").references(() => roles.id, { onDelete: "restrict" }),
     email: text("email").notNull(),
     name: text("name").notNull(),
     passwordHash: text("password_hash").notNull(),
