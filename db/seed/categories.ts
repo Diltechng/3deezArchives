@@ -1,8 +1,8 @@
-import { db } from "..";
 import { toSlug } from "@/shared/utils/slug";
 import { categories } from "../schema";
+import { DbClient } from "../types";
 
-export async function seedCategories() {
+export async function seedCategories(db: DbClient) {
   await db.insert(categories).values([{
     name: "Company Milestones",
     slug: toSlug("Company Milestones"),

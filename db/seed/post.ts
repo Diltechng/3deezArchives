@@ -1,9 +1,9 @@
-import { db } from "..";
 import { categories, media, posts } from "../schema";
 import { faker } from "@faker-js/faker";
 import { isNull } from "drizzle-orm";
+import { DbClient } from "../types";
 
-async function seedPosts() {
+async function seedPosts(db: DbClient) {
   const categorIds = (await db.select().from(categories)).map(category => category.id);
   const coverMediaIds = (await db.select().from(media).where(isNull(media.deletedAt))).map(mediaItem => mediaItem.id);
   

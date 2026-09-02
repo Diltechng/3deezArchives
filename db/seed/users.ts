@@ -1,9 +1,9 @@
-import { db } from "..";
 import { users } from "../schema";
 import bcrypt from "bcrypt";
 import { UserRole } from "@/shared/constants/enums";
+import { DbClient } from "../types";
 
-export async function seedAdmin() {
+export async function seedAdmin(db: DbClient) {
   const adminEmail = process.env.ADMIN_EMAIL;
   const adminPassword = process.env.ADMIN_PASSWORD;
   const adminName = process.env.ADMIN_NAME;

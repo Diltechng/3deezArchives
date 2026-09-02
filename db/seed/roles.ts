@@ -1,8 +1,8 @@
-import { db } from "..";
 import { roles } from "../schema";
 import { PLATFORM_ORGANISATION_ID } from "./organisations";
+import { DbClient } from "../types";
 
-export async function seedRoles() {
+export async function seedRoles(db: DbClient) {
   await db.insert(roles)
     .values({
       name: "Super Administrator",
