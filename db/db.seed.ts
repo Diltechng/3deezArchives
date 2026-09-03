@@ -5,13 +5,15 @@ import { seedOrganisations } from "./seed/organisations";
 import { seedRoles } from "./seed/roles";
 import { seedPermissions } from "./seed/permissions";
 import { DbClient } from "./types";
+import { seedRolePermissions } from "./seed/rolePermissions";
 
 async function seed(db: DbClient) {
   await seedOrganisations(db);
   const roleMap = await seedRoles(db);
+  const permissionMap = await seedPermissions(db);
+  await seedRolePermissions(db, roleMap, permissionMap);
   await seedAdmin(db);
   await seedCategories(db);
-  await seedPermissions(db);
   
   process.exit(0);
 }
