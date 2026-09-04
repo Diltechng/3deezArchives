@@ -1,4 +1,4 @@
-import { pgTable, text, boolean, pgEnum, uniqueIndex, uuid } from "drizzle-orm/pg-core";
+import { pgTable, text, boolean, pgEnum, uniqueIndex, uuid, foreignKey } from "drizzle-orm/pg-core";
 import { userRoleEnum, timestamps, primaryId } from "../../shared";
 import { UserStatusValues } from "@/shared/constants/enums";
 import { relations, sql } from "drizzle-orm";
@@ -30,6 +30,13 @@ export const users = pgTable(
     uniqueIndex("users_email_unique_idx")
       .on(table.email)
       .where(sql`${table.deletedAt} IS NULL`),
+
+    foreignKey({
+        name: "users_organisation_id_role_id_fk",
+        columns: [table.organisationId, table.roleId],
+        foreignColumns: [roles.organisationId, roles.id],
+      })
+      .onDelete("restrict"),
   ]
 );
 
