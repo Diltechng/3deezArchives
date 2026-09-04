@@ -1,4 +1,4 @@
-import { pgTable, text, uniqueIndex, uuid, varchar } from "drizzle-orm/pg-core";
+import { pgTable, text, unique, uniqueIndex, uuid, varchar } from "drizzle-orm/pg-core";
 import { primaryId, timestamps } from "../../shared";
 import { organisations } from "../organisations";
 import { relations, sql } from "drizzle-orm";
@@ -20,6 +20,9 @@ export const roles = pgTable("roles", {
   uniqueIndex("roles_organisation_id_code_unique_idx")
     .on(table.organisationId, table.code)
     .where(sql`${table.deletedAt} IS NULL`),
+
+  unique("roles_organisation_id_id_unique")
+    .on(table.organisationId, table.id)
 ]);
 
 export const rolesRelations = relations(roles, ({ one, many }) => ({

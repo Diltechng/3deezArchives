@@ -99,6 +99,13 @@
       "when": 1788365696018,
       "tag": "0013_create_roles_code_partial_unique_index",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1788537837053,
+      "tag": "0014_create_composite_uniqe_index_on_roles_org_id_and_id_fields",
+      "breakpoints": true
     }
   ]
 }

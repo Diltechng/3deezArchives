@@ -1,0 +1,1 @@
+ALTER TABLE "roles" ADD CONSTRAINT "roles_organisation_id_id_unique" UNIQUE("organisation_id","id");
