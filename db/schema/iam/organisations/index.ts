@@ -1,13 +1,13 @@
-import { pgTable, text, varchar } from "drizzle-orm/pg-core";
+import { pgTable, text, uniqueIndex, varchar } from "drizzle-orm/pg-core";
 import { primaryId, timestamps } from "../../shared";
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import { users } from "../users";
 import { roles } from "../roles";
 import { categories, media, posts } from "../../gallery";
 
 export const organisations = pgTable("organisations", {
   id: primaryId("id"),
-  name: varchar("name", { length: 255 }).unique().notNull(),
+  name: varchar("name", { length: 255 }).notNull(),
   description: text("description"),
   ...timestamps
 });

@@ -2,6 +2,8 @@ import { pgTable, uuid, text, varchar, timestamp, pgEnum, boolean } from "drizzl
 import { userRoleEnum, timestamps } from "../../shared";
 import { users } from "../users";
 import { InvitationStatusValues } from "@/shared/constants/enums";
+import { organisations } from "../organisations";
+import { roles } from "../roles";
 
 
 export const invitationStatusEnum = pgEnum("invitation_status", InvitationStatusValues);
@@ -9,6 +11,8 @@ export const invitationStatusEnum = pgEnum("invitation_status", InvitationStatus
 export const invitations = pgTable("invites", {
   // identity
   id: uuid().defaultRandom().primaryKey(),
+  organisationId: uuid("organisation_id").references(() => organisations.id, { onDelete: "cascade" }),
+  roleId: uuid("role_id").references(() => roles.id, { onDelete: "cascade" }),
   email: text("email").notNull(),
   role: userRoleEnum("role").default("staff").notNull(),
   

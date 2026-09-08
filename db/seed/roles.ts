@@ -1,8 +1,8 @@
-import { db } from "..";
 import { roles } from "../schema";
 import { PLATFORM_ORGANISATION_ID } from "./organisations";
+import { DbClient } from "../types";
 
-export async function seedRoles() {
+export async function seedRoles(db: DbClient) {
   await db.insert(roles)
     .values({
       name: "Super Administrator",
@@ -12,5 +12,11 @@ export async function seedRoles() {
     })
     .onConflictDoNothing();
 
-    console.log("Roles seeded successfully");
+  console.log("Roles seeded successfully");
+
+  const result = await db.select({ id: roles.id, code: roles.code }).from(roles);
+
+  const roleMap = Object.fromEntries(result.map(role => [role.code, role.id]));
+
+  return roleMap;
 }

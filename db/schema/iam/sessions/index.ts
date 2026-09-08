@@ -1,9 +1,11 @@
 import { pgTable, timestamp, uuid, varchar, boolean } from "drizzle-orm/pg-core";
 import { users } from "../users";
 import { timestamps } from "../../shared";
+import { organisations } from "../organisations";
 
 export const sessions = pgTable("sessions", {
   id: uuid("id").defaultRandom().primaryKey(),
+  organisationId: uuid("organisation_id").references(() => organisations.id, { onDelete: "restrict" }),
   userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
   tokenHash: varchar("token_hash").notNull().unique(),
 

@@ -1,9 +1,10 @@
 // import "server-only";
 import "dotenv/config";
 import dotenv from "dotenv";
-import { drizzle, NodePgDatabase } from "drizzle-orm/node-postgres";
+import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import { DbSchema, schema } from "./schema";
+import { schema } from "./schema";
+import { DbClient } from "./types";
 
 dotenv.config({ path: ".env.local" });
 
@@ -21,4 +22,4 @@ if (process.env.NODE_ENV !== "production") {
   globalForDb.pool = pool;
 }
 
-export const db: NodePgDatabase<DbSchema> = drizzle(pool, { schema });
+export const db: DbClient = drizzle(pool, { schema });

@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD CONSTRAINT "users_organisation_id_role_id_fk" FOREIGN KEY ("organisation_id","role_id") REFERENCES "public"."roles"("organisation_id","id") ON DELETE restrict ON UPDATE no action;
