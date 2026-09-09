@@ -1,3 +1,4 @@
+"use client"
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type Nullable<T extends Record<string, unknown>> = { [P in keyof T]: T[P] | null };
@@ -7,7 +8,7 @@ function useQueryParams<T extends Record<string, string | null>>(defaultQueryPar
   const pathname = usePathname();
   const router = useRouter();
 
-  function updateSearchParams(queryParams: Partial<Nullable<T>>) {
+  function updateQueryParams(queryParams: Partial<Nullable<T>>) {
     const params = new URLSearchParams(searchParams.toString());
 
     for (const [key, value] of Object.entries(queryParams)) {
@@ -22,7 +23,7 @@ function useQueryParams<T extends Record<string, string | null>>(defaultQueryPar
   }
   
   return {
-    updateSearchParams,
+    updateQueryParams,
     params: Object.fromEntries(
       [
         ...searchParams

@@ -33,7 +33,7 @@ const GalleryPage = () => {
 
   const { openAddEventModal } = useEventFormModal();
   const {
-    params: queryParams, updateSearchParams } = useQueryParams<SearchParams>({
+    params: queryParams, updateQueryParams } = useQueryParams<SearchParams>({
     category: "all",
     from: null,
     to: null,
@@ -114,7 +114,7 @@ const GalleryPage = () => {
   }, [categories]);
 
   function handleClearFilters() {
-    updateSearchParams({
+    updateQueryParams({
       category: null,
       from: null,
       to: null
@@ -123,7 +123,7 @@ const GalleryPage = () => {
 
   const handleSearch = useDebouncedCallback((term: string) => {
     setCurrentPage(1);
-    updateSearchParams({ search: term || null });
+    updateQueryParams({ search: term || null });
   }, 300);
 
   const categoriesFilters = [
@@ -216,7 +216,7 @@ const GalleryPage = () => {
 
   function updateDateQueryParams(value: string) {
     if (value === "all") {
-      updateSearchParams({
+      updateQueryParams({
         from: null,
         to: null
       });
@@ -225,7 +225,7 @@ const GalleryPage = () => {
       if (!filter) return;
 
       const range = filter.range();
-      updateSearchParams({
+      updateQueryParams({
         from: range.from,
         to: range.to
       });
@@ -285,13 +285,13 @@ const GalleryPage = () => {
               <Select
                 defaultValue={currentCategory}
                 onValueChange={value => (
-                  updateSearchParams({
+                  updateQueryParams({
                     category: value === "all" ? null : value
                   })
                 )}
               >
                 <SelectTrigger className="min-w-0 w-full">
-                  <label className="font-medium text-foreground-secondary">Categories:</label>
+                  <label className="font-medium text-foreground-secondary">Category:</label>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="w-70" align="end">
@@ -357,7 +357,7 @@ const GalleryPage = () => {
                   <Button
                     variant="text"
                     className="hover:bg-surface-secondary"
-                    onClick={() => updateSearchParams({ sortBy: sortOption.value })}
+                    onClick={() => updateQueryParams({ sortBy: sortOption.value })}
                   >
                     {sortOption.name}
                   </Button>
