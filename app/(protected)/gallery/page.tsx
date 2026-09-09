@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowUpDown, Grid, List, ListFilter, Search } from "lucide-react";
+import { ArrowUpDown, Grid, List, ListFilter, Plus, Search } from "lucide-react";
 import { EventsGridView } from "@/features/events/components/EventsGridView";
 import { EventsListView } from "@/features/events/components/EventsListView";
 import PaginationNav from "@/features/events/components/PaginationNav";
@@ -9,8 +9,6 @@ import { useDebouncedCallback } from "use-debounce";
 import { PageHeader } from "@/features/common/components/PageHeader";
 import { GetPostsResponse } from "@/shared/contracts/posts.contract";
 import { api } from "@/features/common/lib/api";
-import { useModal } from "@/features/common/hooks/useModal";
-import { EventFormModal } from "@/features/events/components/EventFormModal";
 import { GetCategoriesResponse } from "@/shared/contracts/categories.contract";
 import { QUERY_KEYS } from "@/lib/query-keys";
 import { Input } from "@/features/common/ui/Input";
@@ -19,6 +17,8 @@ import { DropdownMenu, DropdownMenuArrow, DropdownMenuContent, DropdownMenuItem,
 import { cn } from "@/features/common/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/features/common/ui/Select";
 import { useQueryParams } from "@/features/common/hooks/useQueryParams";
+import { NoEvent } from "@/features/common/ui/icons/NoEvent";
+import { useEventFormModal } from "@/features/events/hooks/useEventFormModal";
 
 type SearchParams = {
   category: "all" | (string & {});
@@ -31,7 +31,7 @@ type SearchParams = {
 const GalleryPage = () => {
   const LIMIT = 12;
 
-  const { openFormModal } = useModal();
+  const { openAddEventModal } = useEventFormModal();
   const {
     params: queryParams, updateSearchParams } = useQueryParams<SearchParams>({
     category: "all",
@@ -48,6 +48,8 @@ const GalleryPage = () => {
     search,
     sortBy,
   } = queryParams;
+
+  const isFiltering = (currentCategory !== "all" || dateFrom || dateTo || search);
 
   const [categoriesCount, setCategoriesCount] = useState(0);
   const [eventsCount, setEventsCount] = useState(0);
@@ -256,10 +258,7 @@ const GalleryPage = () => {
           </div>
           <button 
             className="button-primary"
-            onClick={() => openFormModal(EventFormModal, {
-              title: "Upload Images",
-              subtitle: "Add a moment to the archives",
-            })}
+            onClick={() => openAddEventModal()}
           >
             UPLOAD
           </button>
@@ -370,11 +369,36 @@ const GalleryPage = () => {
           </DropdownMenu>
         </div>
       </div>
-      <div className="mb-4">
-        {isGrid ?
-          <EventsGridView isLoading={isLoadingEvents} events={events} />
-        :
-          <EventsListView isLoading={isLoadingEvents} events={events} />
+      <div className="relative flex flex-col flex-1 mb-4">
+        {
+          (!isLoadingEvents && !events?.length)
+            ? (
+              isFiltering
+              ? (
+                <div className="my-auto flex flex-col items-center text-center">
+                  <NoEvent className="w-full max-w-50 aspect-video" />
+                  <p className="mb-2 text-lg font-bold">No Events Found</p>
+                  <p className="max-w-80 text-sm mb-4 text-foreground-secondary">
+                    We couldn't find anything matching your current search and filters.
+                    Try adjusting your filters or clearing them to see more results.
+                  </p>
+                </div>
+              )
+              : (
+                <div className="my-auto flex flex-col items-center text-center">
+                  <NoEvent className="w-full max-w-50 aspect-video" />
+                  <p className="mb-2 text-lg font-bold">No Events Yet</p>
+                  <p className="max-w-80 text-sm mb-4 text-foreground-secondary">
+                    Get started by adding your first event to build your organization's archive.
+                  </p>
+                </div>
+              )
+            )
+            : (
+              isGrid
+                ? <EventsGridView isLoading={isLoadingEvents} events={events} />
+                : <EventsListView isLoading={isLoadingEvents} events={events} />
+            )
         }
       </div>
       {(eventsPagination && (eventsPagination.hasNextPage || eventsPagination.hasPreviousPage)) && 
