@@ -8,8 +8,8 @@ interface GetEventsQueryParams {
   search?: string;
   categorySlug?: string;
   date?: {
-    to: string;
-    from: string;
+    to: string | undefined;
+    from: string | undefined;
   };
   sortBy?: string;
   visibility?: string;

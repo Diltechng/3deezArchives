@@ -3,7 +3,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type Nullable<T extends Record<string, unknown>> = { [P in keyof T]: T[P] | null };
 
-function useQueryParams<T extends Record<string, string | null>>(defaultQueryParams?: T) {
+function useQueryParams<T extends Record<string, string | undefined>>(defaultQueryParams?: T) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();

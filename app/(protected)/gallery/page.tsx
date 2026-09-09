@@ -7,7 +7,6 @@ import { EventsListView } from "@/features/events/components/EventsListView";
 import PaginationNav from "@/features/events/components/PaginationNav";
 import { useDebouncedCallback } from "use-debounce";
 import { PageHeader } from "@/features/common/components/PageHeader";
-import { GetPostsResponse } from "@/shared/contracts/posts.contract";
 import { api } from "@/features/common/lib/api";
 import { GetCategoriesResponse } from "@/shared/contracts/categories.contract";
 import { QUERY_KEYS } from "@/lib/query-keys";
@@ -19,12 +18,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useQueryParams } from "@/features/common/hooks/useQueryParams";
 import { NoEvent } from "@/features/common/ui/icons/NoEvent";
 import { useEventFormModal } from "@/features/events/hooks/useEventFormModal";
+import { eventsService } from "@/features/events/services/event.service";
 
 type SearchParams = {
   category: "all" | (string & {});
-  search: string | null;
-  from: string | null;
-  to: string | null;
+  search?: string;
+  from?: string;
+  to?: string;
   sortBy: "latest" | "oldest";
 };
 
@@ -35,9 +35,6 @@ const GalleryPage = () => {
   const {
     params: queryParams, updateQueryParams } = useQueryParams<SearchParams>({
     category: "all",
-    from: null,
-    to: null,
-    search: null,
     sortBy: "latest"
   });
 
@@ -61,36 +58,17 @@ const GalleryPage = () => {
 
   const eventsQuery = useQuery({
     queryKey: [QUERY_KEYS.EVENTS, currentPage, search, currentCategory, dateFrom, dateTo],
-    queryFn: async () => {
-      const searchParams = new URLSearchParams({
-        limit: String(LIMIT),
-        page: String(currentPage),
-      });
-
-      if (search) {
-        searchParams.set("search", search);
-      }
-
-      if (currentCategory &&  currentCategory !== "all") {
-        searchParams.set("category", currentCategory);
-      }
-
-      if (dateFrom) {
-        searchParams.set("from", dateFrom);
-      }
-
-      if (dateTo) {
-        searchParams.set("to", dateTo);
-      }
-
-      const response = await api.get(`/gallery/posts?${searchParams}`);
-
-      const data: GetPostsResponse = response.data;
-
-      setEventsCount(data.meta?.pagination.total ?? 0);
-
-      return data;
-    }
+    queryFn: () => eventsService.getEvents({
+      limit: LIMIT,
+      page: currentPage,
+      categorySlug: currentCategory,
+      search,
+      sortBy,
+      date: {
+        from: dateFrom,
+        to: dateTo,
+      },
+    })
   });
 
   const events = eventsQuery.data?.data;
@@ -112,6 +90,10 @@ const GalleryPage = () => {
   useEffect(() => {
     setCategoriesCount(categories?.length ?? 0);
   }, [categories]);
+
+  useEffect(() => {
+    setEventsCount(events?.length ?? 0);
+  }, [events])
 
   function handleClearFilters() {
     updateQueryParams({
