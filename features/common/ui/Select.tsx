@@ -9,21 +9,21 @@ const Select = ({ ...props }: React.ComponentProps<typeof SelectPrimitive.Root>)
 );
 
 const SelectValue = ({ ...props }: React.ComponentProps<typeof SelectPrimitive.Value>) => (
-  <SelectPrimitive.Value {...props} />
+  <SelectPrimitive.Value data-select-value {...props} />
 );
 
 const SelectTrigger = ({ className, children, ...props }: React.ComponentProps<typeof SelectPrimitive.Trigger>) => (
   <SelectPrimitive.Trigger
     className={cn(
-      "flex justify-between items-center px-3 py-2.25 text-sm rounded-lg duration-200 focus:outline-none",
-      "[&>span:first-child]:truncate border border-border-primary bg-surface-primary focus:border-accent-primary",
+      "flex gap-1 items-center px-3 py-2.25 text-sm rounded-lg duration-200 focus:outline-none",
+      "*:data-select-value:truncate border border-border-primary bg-surface-primary focus:border-accent-primary",
       className
     )}
     {...props}
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <ChevronDown className="size-4" />
+      <ChevronDown className="ml-auto shrink-0 size-4" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 );
