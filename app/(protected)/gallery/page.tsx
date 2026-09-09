@@ -256,12 +256,12 @@ const GalleryPage = () => {
               <Grid className="h-5 w-5" />
             </button>
           </div>
-          <button 
-            className="button-primary"
+          <Button 
             onClick={() => openAddEventModal()}
           >
-            UPLOAD
-          </button>
+            <Plus className="size-4" />
+            Add Event
+          </Button>
         </div>
       </PageHeader>
       <div className="flex flex-col sm:flex-row gap-2 mb-4">
