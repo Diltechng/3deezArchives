@@ -1,4 +1,4 @@
-import { PostVisibility } from "@/shared/constants/enums";
+import { EventVisibility } from "@/shared/constants/enums";
 import { Calendar, X as XDelete } from "lucide-react";
 import { useState } from "react";
 import { EventFormInitialData } from "../types";
@@ -203,13 +203,13 @@ export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventF
                 <SelectContent>
                   {[{
                     name: "Public",
-                    value: PostVisibility.PUBLIC
+                    value: EventVisibility.PUBLIC
                   }, {
                     name: "Admin Only",
-                    value: PostVisibility.ADMIN_ONLY
+                    value: EventVisibility.ADMIN_ONLY
                   }, {
                     name: "Private",
-                    value: PostVisibility.PRIVATE
+                    value: EventVisibility.PRIVATE
                   }].map(option => (
                     <SelectItem key={option.value} value={option.value}>{option.name}</SelectItem>
                   ))}

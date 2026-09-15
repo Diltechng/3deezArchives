@@ -1,4 +1,4 @@
-import { PostVisibility } from "../constants/enums";
+import { EventVisibility } from "../constants/enums";
 import { PostCategoryDto } from "./categories.contract";
 import { EntityId, TPagination, TResponse } from "./common.contract";
 import { PostCoverMediaSummaryDto, PostMediaDto, PostMediaSummaryDto } from "./media.contract";
@@ -7,7 +7,7 @@ import { PostUserDto } from "./users.contract";
 export class PostListItem {
   constructor(
     public readonly id: EntityId,
-    public readonly visibility: PostVisibility,
+    public readonly visibility: EventVisibility,
     public readonly createdAt: Date,
     public readonly updatedAt: Date,
     public readonly title: string,
@@ -29,7 +29,7 @@ export class PostDto {
     public readonly title: string,
     public readonly description: string | null,
     public readonly tags: string[] | null,
-    public readonly visibility: PostVisibility,
+    public readonly visibility: EventVisibility,
     public readonly dateOfMoment: Date,
     public readonly coverMedia: PostMediaDto | null,
     public readonly media: PostMediaDto[],

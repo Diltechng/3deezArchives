@@ -1,10 +1,10 @@
 import { foreignKey, index, pgEnum, pgTable, PgTableExtraConfigValue, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
-import { PostVisibilityValues } from "@/shared/constants/enums";
+import { EventVisibilityValues } from "@/shared/constants/enums";
 import { timestamps } from "@/db/schema/shared";
 import { media, users, categories } from "@/db/schema";
 import { relations } from "drizzle-orm";
 
-export const visibilityEnum = pgEnum("visibility", PostVisibilityValues);
+export const visibilityEnum = pgEnum("visibility", EventVisibilityValues);
 
 export const posts = pgTable("posts", {
   id: uuid("id").defaultRandom().primaryKey(),

@@ -1,16 +1,16 @@
 // ==================================================================
-// ======================= Post Visibility =======================
+// ======================= Event Visibility =======================
 // ==================================================================
 
-export const PostVisibility = {
+export const EventVisibility = {
   PRIVATE: "private",
   ADMIN_ONLY: "admin_only",
   PUBLIC: "public",
 } as const;
 
-export const PostVisibilityValues = Object.values(PostVisibility) as [
-  PostVisibility,
-  ...PostVisibility[]
+export const EventVisibilityValues = Object.values(EventVisibility) as [
+  EventVisibility,
+  ...EventVisibility[]
 ];
 
-export type PostVisibility = (typeof PostVisibility)[keyof typeof PostVisibility];
+export type EventVisibility = (typeof EventVisibility)[keyof typeof EventVisibility];

@@ -1,4 +1,4 @@
-import { PostVisibilityValues } from "@/shared/constants/enums";
+import { EventVisibilityValues } from "@/shared/constants/enums";
 import z from "zod";
 
 export const EventIdSchema = z.uuid("Please enter a valid event ID").trim();
@@ -22,7 +22,7 @@ export const EventTagsSchema = z.string("Please enter a valid tag.").trim().arra
 export type EventTags = z.infer<typeof EventTagsSchema>;
 
 
-export const EventVisibilitySchema = z.enum(PostVisibilityValues, "Please enter a valid visibility status");
+export const EventVisibilitySchema = z.enum(EventVisibilityValues, "Please enter a valid visibility status");
 export type EventVisibility = z.infer<typeof EventVisibilitySchema>;
 
 

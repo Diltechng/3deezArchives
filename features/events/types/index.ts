@@ -1,6 +1,6 @@
 import { SerializeDates } from "@/shared/types/api";
 import { PostDto } from "@/shared/contracts/posts.contract";
-import { PostVisibility } from "@/shared/constants/enums";
+import { EventVisibility } from "@/shared/constants/enums";
 
 export type GalleryEvent = SerializeDates<PostDto>;
 
@@ -32,7 +32,7 @@ export interface EventFormInitialData {
   id: string;
   title: string;
   description: string | undefined;
-  visibility: PostVisibility;
+  visibility: EventVisibility;
   dateOfMoment: string;
   categoryId: string | undefined;
   tags: string[] | undefined;

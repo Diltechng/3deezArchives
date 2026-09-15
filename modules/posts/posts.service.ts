@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { categories, media, posts } from "@/db/schema";
 import { BadRequestError, ForbiddenError, InternalServerError, NotFoundError } from "@/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
-import { PostVisibility, UserRole } from "@/shared/constants/enums";
+import { EventVisibility, UserRole } from "@/shared/constants/enums";
 import { and, asc, desc, eq, gte, ilike, inArray, isNull, lte, ne, or, sql } from "drizzle-orm";
 import { softDelete } from "../shared/helpers/soft-delete";
 import { CreateNewPostInput, DeleteOnePostInput, GetOnePostInput, GetPostsInput, UpdateOnePostInput } from "../media/media.types";
@@ -71,17 +71,17 @@ class PostsService {
     const visibilityConditions = [
       or(
         and(
-          eq(posts.visibility, PostVisibility.PRIVATE),
+          eq(posts.visibility, EventVisibility.PRIVATE),
           eq(posts.uploadedBy, data.userId)
         ),
-        ne(posts.visibility, PostVisibility.PRIVATE),
+        ne(posts.visibility, EventVisibility.PRIVATE),
       ),
       isNull(posts.deletedAt)
     ];
 
     if (data.userRole !== UserRole.ADMIN) {
       visibilityConditions.push(
-        ne(posts.visibility, PostVisibility.ADMIN_ONLY)
+        ne(posts.visibility, EventVisibility.ADMIN_ONLY)
       )
     }
 
@@ -206,17 +206,17 @@ class PostsService {
     const visibilityConditions = [
       or(
         and(
-          eq(posts.visibility, PostVisibility.PRIVATE),
+          eq(posts.visibility, EventVisibility.PRIVATE),
           eq(posts.uploadedBy, data.userId)
         ),
-        ne(posts.visibility, PostVisibility.PRIVATE),
+        ne(posts.visibility, EventVisibility.PRIVATE),
       ),
       isNull(posts.deletedAt)
     ];
 
     if (data.userRole !== UserRole.ADMIN) {
       visibilityConditions.push(
-        ne(posts.visibility, PostVisibility.ADMIN_ONLY)
+        ne(posts.visibility, EventVisibility.ADMIN_ONLY)
       )
     }
 
