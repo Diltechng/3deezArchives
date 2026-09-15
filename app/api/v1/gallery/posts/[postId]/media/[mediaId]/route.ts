@@ -12,7 +12,7 @@ export const DELETE = withErrorHandler(
   withAuthGuard<{
     mediaId: string;
     postId: string;
-  }>(withPermissionGuard(PERMISSIONS.POSTS_UPDATE, async (_, ctx) => {
+  }>(withPermissionGuard(PERMISSIONS.EVENTS_UPDATE, async (_, ctx) => {
       const { mediaId, postId } = await ctx.params;
       
       const validatedMediaId = validateMediaId(mediaId);

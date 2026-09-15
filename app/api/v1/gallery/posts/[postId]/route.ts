@@ -10,7 +10,7 @@ import { DeletePostByIdResponse, PostDto, UpdatePostByIdResponse } from "@/share
 
 export const GET = withErrorHandler(
   withAuthGuard<{ postId: string; }>(
-    withPermissionGuard(PERMISSIONS.POSTS_VIEW, async (req, ctx) => {
+    withPermissionGuard(PERMISSIONS.EVENTS_VIEW, async (req, ctx) => {
       const postId = (await ctx.params).postId;
 
       const validatedId = validatePostId(postId);
@@ -32,7 +32,7 @@ export const GET = withErrorHandler(
 
 export const PATCH = withErrorHandler(
   withAuthGuard<{ postId: string; }>(
-    withPermissionGuard(PERMISSIONS.POSTS_UPDATE, async (req, ctx) => {
+    withPermissionGuard(PERMISSIONS.EVENTS_UPDATE, async (req, ctx) => {
       const postId = (await ctx.params).postId;
       const body = await req.json();
       
@@ -57,7 +57,7 @@ export const PATCH = withErrorHandler(
 
 export const DELETE = withErrorHandler(
   withAuthGuard<{ postId: unknown; }>(
-    withPermissionGuard(PERMISSIONS.POSTS_DELETE, async (req, ctx) => {
+    withPermissionGuard(PERMISSIONS.EVENTS_DELETE, async (req, ctx) => {
       const { postId } = await ctx.params;
 
       const validatedPostId = validatePostId(postId);

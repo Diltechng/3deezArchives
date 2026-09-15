@@ -10,7 +10,7 @@ import { PERMISSIONS } from "@/shared/constants/permissions.constants";
 
 export const POST = withErrorHandler(
   withAuthGuard<{ postId: string; }>(
-    withPermissionGuard(PERMISSIONS.POSTS_CREATE, async (req, ctx) => {
+    withPermissionGuard(PERMISSIONS.EVENTS_CREATE, async (req, ctx) => {
       const postId = (await ctx.params).postId;
       const formData = await req.formData();
       

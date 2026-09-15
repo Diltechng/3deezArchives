@@ -10,7 +10,7 @@ import { PERMISSIONS } from "@/shared/constants/permissions.constants";
 
 export const POST = withErrorHandler(
   withAuthGuard(
-    withPermissionGuard(PERMISSIONS.POSTS_CREATE, async (req, ctx) => {
+    withPermissionGuard(PERMISSIONS.EVENTS_CREATE, async (req, ctx) => {
       const body = await req.json();
 
       const validatedData = validateCreatePost(body);
@@ -31,7 +31,7 @@ export const POST = withErrorHandler(
 
 export const GET = withErrorHandler(
   withAuthGuard(
-    withPermissionGuard(PERMISSIONS.POSTS_VIEW, async (req, ctx) => {
+    withPermissionGuard(PERMISSIONS.EVENTS_VIEW, async (req, ctx) => {
       const { searchParams } = req.nextUrl;
       
       const search = searchParams.get("search");

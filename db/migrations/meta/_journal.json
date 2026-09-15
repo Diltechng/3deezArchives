@@ -127,6 +127,13 @@
       "when": 1789476204240,
       "tag": "0017_update_permissions_enum_new_events_permissions",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1789476408388,
+      "tag": "0018_rename_posts_permissions_to_events_permissions",
+      "breakpoints": true
     }
   ]
 }
