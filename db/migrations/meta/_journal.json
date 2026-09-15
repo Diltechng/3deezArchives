@@ -148,6 +148,13 @@
       "when": 1789479413015,
       "tag": "0020_rename_post_in_events_fields_to_events",
       "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1789482188885,
+      "tag": "0021_rename_post_id_field_in_media_to_event_id",
+      "breakpoints": true
     }
   ]
 }

@@ -17,5 +17,5 @@ export const organisationRelations = relations(organisations, ({ many }) => ({
   roles: many(roles),
   categories: many(categories),
   media: many(media),
-  posts: many(events),
+  events: many(events),
 }));

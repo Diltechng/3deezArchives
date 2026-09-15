@@ -45,7 +45,7 @@ export const userRelations = relations(users, ({ one, many }) => ({
     relationName: "userMedia",
   }),
 
-  posts: many(events, {
-    relationName: "userPosts",
+  events: many(events, {
+    relationName: "userEvents",
   }),
 }));

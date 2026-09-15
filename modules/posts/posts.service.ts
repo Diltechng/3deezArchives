@@ -20,7 +20,7 @@ class PostsService {
       .where(and(
         eq(media.id, data.data.media.coverId),
         eq(media.uploadedBy, data.userId),
-        isNull(media.postId),
+        isNull(media.eventId),
       ));
 
     if (!validMedia) {
@@ -49,7 +49,7 @@ class PostsService {
       }).where(and(
         inArray(media.id, data.data.media.ids),
         eq(media.uploadedBy, data.userId),
-        isNull(media.postId),
+        isNull(media.eventId),
       )).returning({
         id: media.id,
         secureUrl: media.secureUrl,
@@ -280,7 +280,7 @@ class PostsService {
         eq(media.id, data.data.media.coverId),
         eq(media.uploadedBy, data.userId),
         isNull(media.deletedAt),
-        eq(media.postId, data.postId),
+        eq(media.eventId, data.postId),
       ];
 
       const [validCoverMedia] = await db
@@ -368,7 +368,7 @@ class PostsService {
       const deletedMedia = await softDelete(tx, media, {
         actorId: data.userId,
         where: and(
-          eq(media.postId, deletedPost.id)
+          eq(media.eventId, deletedPost.id)
         )
       }).returning({ id: media.id });
 

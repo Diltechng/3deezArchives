@@ -154,7 +154,7 @@ class MediaService {
 
     if (data.postId) {
       deleteConditions.push(
-        eq(media.postId, data.postId)
+        eq(media.eventId, data.postId)
       );
     } 
 
@@ -204,7 +204,7 @@ class MediaService {
         .where(
           or(
             and(
-              isNull(media.postId),
+              isNull(media.eventId),
               lte(media.createdAt, cutOffDate)
             ),
             lte(media.deletedAt, cutOffDate),

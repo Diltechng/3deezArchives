@@ -17,7 +17,7 @@ export const media = pgTable("media", {
   width: integer("width"),
   height: integer("height"),
 
-  postId: uuid("post_id").references(() => events.id, { onDelete: "cascade" }),
+  eventId: uuid("event_id").references(() => events.id, { onDelete: "cascade" }),
   uploadedBy: uuid("uploaded_by").references(() => users.id, { onDelete: "set null" }),
   deletedBy: uuid("deleted_by").references(() => users.id, { onDelete: "set null" }),
 
@@ -28,10 +28,10 @@ export const media = pgTable("media", {
 ]);
 
 export const mediaRelations = relations(media, ({ one }) => ({
-  post: one(events, {
-    fields: [media.postId],
+  event: one(events, {
+    fields: [media.eventId],
     references: [events.id],
-    relationName: "postMedia"
+    relationName: "eventMedia"
   }),
 
   uploadedByUser: one(users, {
