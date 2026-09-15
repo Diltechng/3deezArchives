@@ -1,23 +1,13 @@
-import { UserRole } from "@/shared/constants/enums";
-import {
-  PostIdInput,
-  CreatePostInput,
-  UpdatePostInput,
-  GetPostsQueryInput,
-} from "@/shared/schemas";
-import { GetPostsMeta, PostDto } from "@/shared/contracts/posts.contract";
-
-
 export interface UploadFileInput {
   file: File,
   userId: string;
-  postId?: string;
+  eventId?: string;
 }
 
 export interface DeleteOneFileInput {
   mediaId: string;
   userId: string;
-  postId?: string;
+  eventId?: string;
 }
 
 export interface DeleteFilesInput {
@@ -31,39 +21,4 @@ export interface UpdateOneFileInput {
   data: {
 
   }
-}
-
-export interface CreateNewPostInput {
-  data: CreatePostInput;
-  userId: string;
-}
-
-export interface GetPostsInput {
-  userId: string;
-  userRole: UserRole;
-  filters: GetPostsQueryInput;
-}
-
-export interface GetOnePostInput {
-  postId: PostIdInput;
-  userId: string;
-  userRole: UserRole;
-}
-
-export interface UpdateOnePostInput {
-  postId: PostIdInput;
-  data: UpdatePostInput;
-  userId: string;
-  userRole: UserRole;
-}
-
-export interface DeleteOnePostInput {
-  postId: PostIdInput;
-  userId: string;
-  userRole: UserRole;
-}
-
-export interface GetPostsOutput {
-  posts: PostDto[];
-  meta: GetPostsMeta;
 }

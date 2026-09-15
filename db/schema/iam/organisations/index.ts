@@ -3,7 +3,7 @@ import { primaryId, timestamps } from "../../shared";
 import { relations, sql } from "drizzle-orm";
 import { users } from "../users";
 import { roles } from "../roles";
-import { categories, media, posts } from "../../gallery";
+import { categories, media, events } from "../../gallery";
 
 export const organisations = pgTable("organisations", {
   id: primaryId("id"),
@@ -17,5 +17,5 @@ export const organisationRelations = relations(organisations, ({ many }) => ({
   roles: many(roles),
   categories: many(categories),
   media: many(media),
-  posts: many(posts),
+  events: many(events),
 }));

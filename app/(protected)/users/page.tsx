@@ -5,7 +5,7 @@ import { useModal } from "@/features/common/hooks/useModal";
 import { useSearchFilters } from "@/features/common/hooks/useSearchFilters";
 import { api } from "@/features/common/lib/api";
 import { cn, getInitials } from "@/features/common/lib/utils";
-import { PERMISSIONS } from "@/shared/constants/permissions";
+import { PERMISSIONS } from "@/shared/constants/permissions.constants";
 import { GetUsersResponse } from "@/shared/contracts/users.contract";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
@@ -89,7 +89,7 @@ const UsersPage = () => {
             </tr>
           </thead>
           <tbody>
-            {usersData.data.map((user: any) => {
+            {usersData.data.map((user) => {
               const isAdmin = user.role === "admin";
               const isActive = user.status === "active";
 
@@ -130,10 +130,10 @@ const UsersPage = () => {
                     isAdmin? "text-accent-primary"
                     : "text-text-2"
                   )}>
-                    {user.postsCount ?? "-"}
+                    {user.eventsCount ?? "-"}
                   </td>
                   <td className="py-2.5 px-3 text-[10px] text-text-3">
-                    {user.lastActive ?? "-"}
+                    {"-"}
                   </td>
                   <td className="py-2.5 px-3">
                     <div className={cn(

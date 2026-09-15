@@ -2,7 +2,7 @@
 
 import { LoadingState } from "@/features/common/components/LoadingState";
 import { useModal } from "@/features/common/hooks/useModal";
-import { PostVisibility } from "@/shared/constants/enums";
+import { EventVisibility } from "@/shared/constants/enums";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { CldImage } from "next-cloudinary";
@@ -45,9 +45,9 @@ const EventDetailPage = () => {
   }
 
   const visibility = {
-    [PostVisibility.ADMIN_ONLY]: "Admin Only",
-    [PostVisibility.PUBLIC]: "Public",
-    [PostVisibility.PRIVATE]: "Private",
+    [EventVisibility.ADMIN_ONLY]: "Admin Only",
+    [EventVisibility.PUBLIC]: "Public",
+    [EventVisibility.PRIVATE]: "Private",
   }
 
   const isLoading = eventQuery.isLoading;
@@ -123,7 +123,7 @@ const EventDetailPage = () => {
               </div>
               <div className="flex justify-between">
                 <span className="text-[9px] tracking-[0.6px] text-text-3">VISIBILITY</span>
-                <span className="rounded-[3px] font-sans text-[11px] text-accent-info">{visibility[eventData.visibility as PostVisibility]}</span>
+                <span className="rounded-[3px] font-sans text-[11px] text-accent-info">{visibility[eventData.visibility as EventVisibility]}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[9px] tracking-[0.6px] text-text-3">TAGS</span>

@@ -13,7 +13,7 @@ import {
   permissionsRelations,
   rolePermissionsRelations,
 } from "./iam";
-import { media, categories, posts, postRelations, mediaRelations } from "./gallery";
+import { media, categories, events, eventRelations, mediaRelations } from "./gallery";
 
 export * from "./iam";
 export * from "./gallery";
@@ -23,14 +23,14 @@ export const schema = {
   sessions,
   invitations,
   media,
-  posts,
+  events,
   categories,
   organisations,
   roles,
   permissions,
   rolePermissions,
 
-  postRelations,
+  eventRelations,
   mediaRelations,
   userRelations,
   organisationRelations,

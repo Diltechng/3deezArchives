@@ -1,5 +1,5 @@
 import { useCurrentUser } from "@/features/users/hooks/useCurrentUser";
-import { Permission } from "@/shared/constants/permissions";
+import { Permission } from "@/shared/constants/permissions.constants";
 import { hasPermission } from "@/shared/constants/policies";
 
 function usePermissions() {

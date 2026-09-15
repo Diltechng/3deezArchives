@@ -1,7 +1,7 @@
 import z from "zod";
-import { PostVisibilitySchema } from ".";
+import { EventVisibilitySchema } from ".";
 
-export const GetPostsQuerySchema = z.object({
+export const GetEventsQuerySchema = z.object({
   page: z.coerce.number("Limit must be a valid number.")
     .int("Page must be a valid integer.")
     .positive("Page must be a positive integer.")
@@ -31,7 +31,7 @@ export const GetPostsQuerySchema = z.object({
   }),
   
   sortBy: z.enum(["latest", "oldest"]).default("latest"),
-  visibility: PostVisibilitySchema.optional(),
+  visibility: EventVisibilitySchema.optional(),
 });
 
-export type GetPostsQueryInput = z.infer<typeof GetPostsQuerySchema>;
+export type GetEventsQuery = z.infer<typeof GetEventsQuerySchema>;

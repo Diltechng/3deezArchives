@@ -1,8 +1,8 @@
 import { db } from "@/db";
-import { categories, posts, users } from "@/db/schema";
+import { categories, events, users } from "@/db/schema";
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
-import { postsService } from "@/modules/posts/posts.service";
+import { eventsService } from "@/modules/events/events.service";
 import { and, count, gte, isNull } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
@@ -13,18 +13,18 @@ export const GET = withErrorHandler(
     startOfThisMonth.setHours(0, 0, 0, 0);
 
     const [
-      [{ count: totalPosts }],
-      [{ count: totalPostsThisMonth }],
+      [{ count: totalEvents }],
+      [{ count: totalEventsThisMonth }],
       [{ count: totalUsers }],
       [{ count: totalCategories }]
     ] = await Promise.all([
-      db.select({ count: count() }).from(posts).where(isNull(posts.deletedAt)),
-      db.select({ count: count() }).from(posts).where(and(gte(posts.createdAt, startOfThisMonth), isNull(posts.deletedAt))),
+      db.select({ count: count() }).from(events).where(isNull(events.deletedAt)),
+      db.select({ count: count() }).from(events).where(and(gte(events.createdAt, startOfThisMonth), isNull(events.deletedAt))),
       db.select({ count: count() }).from(users),
       db.select({ count: count() }).from(categories),
     ]);
 
-    const { posts: postsItems } = await postsService.getPosts({
+    const { events: eventsList } = await eventsService.getEvents({
       filters: {
         limit: 4,
         page: 1,
@@ -39,11 +39,11 @@ export const GET = withErrorHandler(
       success: true,
       message: "Fetched dashboard stats successfully",
       data: {
-        totalPosts,
-        totalPostsThisMonth,
+        totalEvents,
+        totalEventsThisMonth,
         totalUsers,
         totalCategories,
-        recentPosts: postsItems,
+        recentEvents: eventsList,
       }
     });
   })

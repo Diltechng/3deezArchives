@@ -3,7 +3,7 @@
 import { useInvitation } from "@/features/invitation/hooks/useInvitation";
 import { LoadingSpinner } from "@/features/common/components/LoadingSpinner";
 import { api } from "@/features/common/lib/api";
-import { INVITATION_TOKEN_HEADER } from "@/shared/constants";
+import { INVITATION_TOKEN_HEADER } from "@/shared/constants/headers.constants";
 import { Check, MailOpen } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react";

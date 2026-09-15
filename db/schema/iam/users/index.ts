@@ -2,7 +2,7 @@ import { pgTable, text, boolean, pgEnum, uniqueIndex, uuid, foreignKey } from "d
 import { userRoleEnum, timestamps, primaryId } from "../../shared";
 import { UserStatusValues } from "@/shared/constants/enums";
 import { relations, sql } from "drizzle-orm";
-import { media, posts } from "../../gallery";
+import { media, events } from "../../gallery";
 import { organisations } from "../organisations";
 import { roles } from "../roles";
 
@@ -45,7 +45,7 @@ export const userRelations = relations(users, ({ one, many }) => ({
     relationName: "userMedia",
   }),
 
-  posts: many(posts, {
-    relationName: "userPosts",
+  events: many(events, {
+    relationName: "userEvents",
   }),
 }));

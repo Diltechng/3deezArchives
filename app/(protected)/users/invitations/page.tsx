@@ -12,7 +12,7 @@ import { Inbox, SearchX, TriangleAlert } from "lucide-react";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import Can from "@/features/permissions/components/Can";
-import { PERMISSIONS } from "@/shared/constants/permissions";
+import { PERMISSIONS } from "@/shared/constants/permissions.constants";
 
 const InvitationsPage = () => {
   const LIMIT = 10;

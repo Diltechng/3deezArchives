@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { media, posts } from "@/db/schema";
+import { media, events } from "@/db/schema";
 import { cloudinary } from "@/lib/cloudinary";
 import { ConflictError, ForbiddenError, InternalServerError } from "@/lib/errors";
 import { MediaNotFoundError } from "./media.errors";
@@ -23,26 +23,26 @@ export const mediaSelect = {
   mimeType: media.mimeType,
 }
 
-async function assertPostOwnerShip(userId: string, postId: string) {
-  const [validPost] = await db
-    .select({ id: posts.id })
-    .from(posts)
+async function assertEventOwnerShip(userId: string, eventId: string) {
+  const [validEvent] = await db
+    .select({ id: events.id })
+    .from(events)
     .where(and(
-      eq(posts.id, postId),
-      eq(posts.uploadedBy, userId),
-      isNull(posts.deletedAt),
+      eq(events.id, eventId),
+      eq(events.uploadedBy, userId),
+      isNull(events.deletedAt),
     ));
-  if (!validPost) {
-    throw new ForbiddenError("Invalid post selection", {
-      code: ApiErrorCode.INVALID_POST_SELECTION
+  if (!validEvent) {
+    throw new ForbiddenError("Invalid event selection", {
+      code: ApiErrorCode.INVALID_EVENT_SELECTION
     });
   }
 }
 
 class MediaService {
   async uploadFile(data: UploadFileInput) {
-    if (data.postId) {
-      await assertPostOwnerShip(data.userId, data.postId);
+    if (data.eventId) {
+      await assertEventOwnerShip(data.userId, data.eventId);
     }
 
 
@@ -73,8 +73,8 @@ class MediaService {
         publicId: uploadedFile.public_id,
         secureUrl: uploadedFile.secure_url,
         
-        ...(data.postId && {
-          postId: data.postId
+        ...(data.eventId && {
+          eventId: data.eventId
         }),
 
         mimeType: data.file.type,
@@ -128,16 +128,16 @@ class MediaService {
   }
 
   async deleteOneFile(data: DeleteOneFileInput) {
-    if (data.postId) {
-      await assertPostOwnerShip(data.userId, data.postId);
+    if (data.eventId) {
+      await assertEventOwnerShip(data.userId, data.eventId);
       const [coverReference] = await db
-        .select({ id: posts.id })
-        .from(posts)
+        .select({ id: events.id })
+        .from(events)
         .where(
           and(
-            eq(posts.id, data.postId),
-            eq(posts.coverMediaId, data.mediaId),
-            isNull(posts.deletedAt)
+            eq(events.id, data.eventId),
+            eq(events.coverMediaId, data.mediaId),
+            isNull(events.deletedAt)
           )
         );
       
@@ -152,9 +152,9 @@ class MediaService {
       eq(media.id, data.mediaId),
     ];
 
-    if (data.postId) {
+    if (data.eventId) {
       deleteConditions.push(
-        eq(media.postId, data.postId)
+        eq(media.eventId, data.eventId)
       );
     } 
 
@@ -204,7 +204,7 @@ class MediaService {
         .where(
           or(
             and(
-              isNull(media.postId),
+              isNull(media.eventId),
               lte(media.createdAt, cutOffDate)
             ),
             lte(media.deletedAt, cutOffDate),

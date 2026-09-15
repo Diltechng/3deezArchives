@@ -1,12 +1,12 @@
-import { Permission, PERMISSION_CATEGORY, PERMISSION_DESCRIPTIONS, PermissionValues } from "@/shared/constants/permissions";
+import { Permission, PERMISSION_CATEGORY_MAP, PERMISSION_DESCRIPTION_MAP, ALL_PERMISSIONS } from "@/shared/constants/permissions.constants";
 import { permissions } from "../schema";
 import { DbClient } from "../types";
 
 export async function seedPermissions(db: DbClient) {
-  const permissionsData = PermissionValues.map(permission => ({
+  const permissionsData = ALL_PERMISSIONS.map(permission => ({
     name: permission,
-    category: PERMISSION_CATEGORY[permission],
-    description: PERMISSION_DESCRIPTIONS[permission],
+    category: PERMISSION_CATEGORY_MAP[permission],
+    description: PERMISSION_DESCRIPTION_MAP[permission],
   }))
 
   await db.insert(permissions)

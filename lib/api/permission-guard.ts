@@ -1,4 +1,4 @@
-import { Permission } from "@/shared/constants/permissions";
+import { Permission } from "@/shared/constants/permissions.constants";
 import { hasPermission } from "@/shared/constants/policies";
 import { ApiResponse, AuthReqContext } from "@/shared/types/api";
 import { NextRequest } from "next/server";

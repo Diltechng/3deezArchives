@@ -1,6 +1,6 @@
 import { EntityId } from "./common.contract";
 
-export class PostMediaDto {
+export class EventMediaDto {
   constructor(
     public readonly id: EntityId,
     public readonly createdAt: Date,
@@ -12,14 +12,14 @@ export class PostMediaDto {
   ) {}
 }
 
-export class PostCoverMediaSummaryDto {
+export class EventCoverMediaSummaryDto {
   constructor(
     public readonly id: EntityId,
     public readonly secureUrl: string,
   ) {}
 }
 
-export class PostMediaSummaryDto {
+export class EventMediaSummaryDto {
   constructor(
     public readonly id: EntityId,
   ) {}

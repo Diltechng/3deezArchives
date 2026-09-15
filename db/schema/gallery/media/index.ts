@@ -1,5 +1,5 @@
 import { integer, pgTable, text, timestamp, unique, uuid, varchar } from "drizzle-orm/pg-core";
-import { users, posts } from "@/db/schema";
+import { users, events } from "@/db/schema";
 import { timestamps } from "@/db/schema/shared";
 import { relations } from "drizzle-orm";
 
@@ -17,7 +17,7 @@ export const media = pgTable("media", {
   width: integer("width"),
   height: integer("height"),
 
-  postId: uuid("post_id").references(() => posts.id, { onDelete: "cascade" }),
+  eventId: uuid("event_id").references(() => events.id, { onDelete: "cascade" }),
   uploadedBy: uuid("uploaded_by").references(() => users.id, { onDelete: "set null" }),
   deletedBy: uuid("deleted_by").references(() => users.id, { onDelete: "set null" }),
 
@@ -28,10 +28,10 @@ export const media = pgTable("media", {
 ]);
 
 export const mediaRelations = relations(media, ({ one }) => ({
-  post: one(posts, {
-    fields: [media.postId],
-    references: [posts.id],
-    relationName: "postMedia"
+  event: one(events, {
+    fields: [media.eventId],
+    references: [events.id],
+    relationName: "eventMedia"
   }),
 
   uploadedByUser: one(users, {

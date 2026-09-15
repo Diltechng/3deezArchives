@@ -113,6 +113,48 @@
       "when": 1788538493600,
       "tag": "0015_create_composite_fk_on_users_role_id_and_org_id",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1789471472902,
+      "tag": "0016_update_permissions_enum_with_organisations_and_roles_permissions",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1789476204240,
+      "tag": "0017_update_permissions_enum_new_events_permissions",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1789476408388,
+      "tag": "0018_rename_posts_permissions_to_events_permissions",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1789479186998,
+      "tag": "0019_rename_posts_table_to_events_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1789479413015,
+      "tag": "0020_rename_post_in_events_fields_to_events",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1789482188885,
+      "tag": "0021_rename_post_id_field_in_media_to_event_id",
+      "breakpoints": true
     }
   ]
 }

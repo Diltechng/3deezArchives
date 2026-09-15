@@ -10,11 +10,11 @@ export interface GetUsersMeta {
 
 export interface UserListItem {
  id: string;
- fullName: string | null;
+ fullName: string;
  email: string;
  role: UserRole;
  status: UserStatus;
- postsCount: number;
+ eventsCount: number;
 };
 
 export type UserProfileData = {
@@ -24,7 +24,7 @@ export type UserProfileData = {
   role: UserRole;
 }
 
-export class PostUserDto {
+export class EventUserDto {
   constructor(
     public readonly id: string,
     public readonly name: string | null,

@@ -1,12 +1,12 @@
 import { foreignKey, index, pgEnum, pgTable, PgTableExtraConfigValue, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
-import { PostVisibilityValues } from "@/shared/constants/enums";
+import { EventVisibilityValues } from "@/shared/constants/enums";
 import { timestamps } from "@/db/schema/shared";
 import { media, users, categories } from "@/db/schema";
 import { relations } from "drizzle-orm";
 
-export const visibilityEnum = pgEnum("visibility", PostVisibilityValues);
+export const visibilityEnum = pgEnum("visibility", EventVisibilityValues);
 
-export const posts = pgTable("posts", {
+export const events = pgTable("events", {
   id: uuid("id").defaultRandom().primaryKey(),
   
   title: varchar("title", { length: 255 }).notNull(),
@@ -23,44 +23,44 @@ export const posts = pgTable("posts", {
   ...timestamps,
 }, (table): PgTableExtraConfigValue[] => [
   foreignKey({
-    name: "posts_cover_image_id_media_id_fk",
+    name: "events_cover_image_id_media_id_fk",
     columns: [table.coverMediaId],
     foreignColumns: [media.id],
   }).onDelete("set null"),
 
   foreignKey({
-    name: "posts_cover_media_ownership_fk",
+    name: "events_cover_media_ownership_fk",
     columns: [table.coverMediaId, table.uploadedBy],
     foreignColumns: [media.id, media.uploadedBy],
   }),
-  index("posts_category_id_idx").on(table.categoryId),
-  index("posts_date_of_moment_idx").on(table.dateOfMoment),
+  index("events_category_id_idx").on(table.categoryId),
+  index("events_date_of_moment_idx").on(table.dateOfMoment),
 ]);
 
-export const postRelations = relations(posts, ({ one, many }) => ({
+export const eventRelations = relations(events, ({ one, many }) => ({
   media: many(media, {
-    relationName: "postMedia",
+    relationName: "eventMedia",
   }),
   
   category: one(categories, {
-    fields: [posts.categoryId],
+    fields: [events.categoryId],
     references: [categories.id],
   }),
 
   coverMedia: one(media, {
-    fields: [posts.coverMediaId],
+    fields: [events.coverMediaId],
     references: [media.id],
-    relationName: "postCoverMedia",
+    relationName: "eventCoverMedia",
   }),
 
   uploadedByUser: one(users, {
-    fields: [posts.uploadedBy],
+    fields: [events.uploadedBy],
     references: [users.id],
-    relationName: "userPosts"
+    relationName: "userEvents"
   }),
 
   deletedByUser: one(users, {
-    fields: [posts.deletedBy],
+    fields: [events.deletedBy],
     references: [users.id],
   }),
 }));

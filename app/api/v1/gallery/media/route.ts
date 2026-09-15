@@ -5,11 +5,11 @@ import { mediaService } from "@/modules/media/media.service";
 import { validateUploadMedia } from "@/modules/media/media.validation";
 import { NextResponse } from "next/server";
 import { withPermissionGuard } from "@/lib/api/permission-guard";
-import { PERMISSIONS } from "@/shared/constants/permissions";
+import { PERMISSIONS } from "@/shared/constants/permissions.constants";
 
 export const POST = withErrorHandler(
   withAuthGuard(
-    withPermissionGuard(PERMISSIONS.POSTS_CREATE, async (req, ctx) => {
+    withPermissionGuard(PERMISSIONS.EVENTS_CREATE, async (req, ctx) => {
       const formData = await req.formData();
 
       const file = formData.get("file") as File;
@@ -32,7 +32,7 @@ export const POST = withErrorHandler(
 
 export const GET = withErrorHandler(
   withAuthGuard(
-    withPermissionGuard(PERMISSIONS.POSTS_VIEW, async () => {
+    withPermissionGuard(PERMISSIONS.EVENTS_VIEW, async () => {
       const media = await mediaService.getFiles();
       
       return NextResponse.json<ResponseData>({

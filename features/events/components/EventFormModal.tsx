@@ -1,10 +1,10 @@
-import { PostVisibility } from "@/shared/constants/enums";
+import { EventVisibility } from "@/shared/constants/enums";
 import { Calendar, X as XDelete } from "lucide-react";
 import { useState } from "react";
 import { EventFormInitialData } from "../types";
 import { useController, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreatePostInput, CreatePostSchema } from "@/shared/schemas";
+import { CreateEventPayload, CreateEventSchema } from "@/shared/schemas";
 import { toast } from "react-toastify";
 import { api } from "@/features/common/lib/api";
 import { FormField } from "@/features/common/components/FormField";
@@ -21,6 +21,7 @@ import { Input } from "@/features/common/ui/Input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/features/common/ui/Select";
 import { Textarea } from "@/features/common/ui/Textarea";
 import { getErrorMessage } from "@/features/common/lib/utils";
+import { eventsService } from "../services/event.service";
 
 interface EventFormModalProps {
   title: string;
@@ -33,16 +34,12 @@ export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventF
   const queryClient = useQueryClient();
   
   const uploadMutation = useMutation({
-    mutationFn: async (data: CreatePostInput) => {
+    mutationFn: async (data: CreateEventPayload) => {
       if (initialData) {
-        const response = await api.patch(`/gallery/posts/${initialData.id}`, data);
-
-        return response;
+        return await eventsService.updateEventById(initialData.id, data);
       }
 
-      const response = await api.post("/gallery/posts", data);
-
-      return await response.data;
+      return await eventsService.createEvent(data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["events"] });
@@ -60,7 +57,7 @@ export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventF
   const [tagInput, setTagInput] = useState("");
 
   const { watch, setValue, register, handleSubmit, control, formState: { errors, isSubmitting } } = useForm({
-    resolver: zodResolver(CreatePostSchema),
+    resolver: zodResolver(CreateEventSchema),
     defaultValues: {
       title: initialData?.title,
       description: initialData?.description,
@@ -106,7 +103,7 @@ export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventF
     setTagInput("");
   }
 
-  function onSubmit(data: CreatePostInput) {
+  function onSubmit(data: CreateEventPayload) {
     uploadMutation.mutate(data);
   }
 
@@ -203,13 +200,13 @@ export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventF
                 <SelectContent>
                   {[{
                     name: "Public",
-                    value: PostVisibility.PUBLIC
+                    value: EventVisibility.PUBLIC
                   }, {
                     name: "Admin Only",
-                    value: PostVisibility.ADMIN_ONLY
+                    value: EventVisibility.ADMIN_ONLY
                   }, {
                     name: "Private",
-                    value: PostVisibility.PRIVATE
+                    value: EventVisibility.PRIVATE
                   }].map(option => (
                     <SelectItem key={option.value} value={option.value}>{option.name}</SelectItem>
                   ))}
