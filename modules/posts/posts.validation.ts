@@ -10,7 +10,7 @@ export function validateCreatePost(data: unknown) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
     throw new BadRequestError("Invalid or malformed create post data", {
-      code: ApiErrorCode.INVALID_CREATE_POST_DATA,
+      code: ApiErrorCode.INVALID_CREATE_EVENT_DATA,
       details: flattenedError
     });
   }
@@ -25,7 +25,7 @@ export function validatePostId(data: unknown) {
     const flattenedError = z.flattenError(result.error).formErrors;
     
     throw new BadRequestError("Invalid post ID", {
-      code: ApiErrorCode.INVALID_POST_ID,
+      code: ApiErrorCode.INVALID_EVENT_ID,
       details: flattenedError
     });
   }
@@ -40,7 +40,7 @@ export function validateUpdatePost(data: unknown) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
     throw new BadRequestError("Invalid or malformed update post data", {
-      code: ApiErrorCode.INVALID_UPDATE_POST_DATA,
+      code: ApiErrorCode.INVALID_UPDATE_EVENT_DATA,
       details: flattenedError
     });
   }

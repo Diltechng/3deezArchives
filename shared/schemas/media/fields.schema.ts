@@ -8,7 +8,7 @@ export type CoverMediaIdInput = z.infer<typeof CoverMediaIdSchema>
 
 export const MediaIdArraySchema = MediaIdSchema
   .array()
-  .min(1, "At least one media must be attached to this post.")
+  .min(1, "At least one media must be attached to this event.")
   .refine(arr => new Set(arr).size === arr.length, {
     error: "Duplicate media IDs are not allowed."
   });

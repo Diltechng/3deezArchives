@@ -267,7 +267,7 @@ class PostsService {
 
     if (!result) {
       throw new NotFoundError("Post does not exist or is not accessible to you.", {
-        code: ApiErrorCode.POST_NOT_FOUND
+        code: ApiErrorCode.EVENT_NOT_FOUND
       });
     }
 
@@ -307,7 +307,7 @@ class PostsService {
 
     if (!updateEntries.length) {
       throw new BadRequestError("You must provide at least one field to update", {
-        code: ApiErrorCode.INVALID_UPDATE_POST_DATA
+        code: ApiErrorCode.INVALID_UPDATE_EVENT_DATA
       });
     }
 
@@ -335,7 +335,7 @@ class PostsService {
     
     if (!updatedPost) {
       throw new NotFoundError("Could not update this post because it is not found", {
-        code: ApiErrorCode.POST_NOT_FOUND,
+        code: ApiErrorCode.EVENT_NOT_FOUND,
       })
     }
 

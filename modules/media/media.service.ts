@@ -34,7 +34,7 @@ async function assertPostOwnerShip(userId: string, postId: string) {
     ));
   if (!validPost) {
     throw new ForbiddenError("Invalid post selection", {
-      code: ApiErrorCode.INVALID_POST_SELECTION
+      code: ApiErrorCode.INVALID_EVENT_SELECTION
     });
   }
 }
