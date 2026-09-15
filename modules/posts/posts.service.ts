@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { categories, media, posts } from "@/db/schema";
+import { categories, media, events } from "@/db/schema";
 import { BadRequestError, ForbiddenError, InternalServerError, NotFoundError } from "@/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { EventVisibility, UserRole } from "@/shared/constants/enums";
@@ -30,7 +30,7 @@ class PostsService {
     }
 
     const result = await db.transaction(async tx => {
-      const [storedPost] = await tx.insert(posts).values({
+      const [storedPost] = await tx.insert(events).values({
         title: data.data.title,
         visibility: data.data.visibility,
         dateOfMoment: data.data.dateOfMoment,
@@ -40,8 +40,8 @@ class PostsService {
         coverMediaId: data.data.media.coverId,
         uploadedBy: data.userId,
       }).returning({
-        id: posts.id,
-        title: posts.title,
+        id: events.id,
+        title: events.title,
       });
 
       const storedMedia = await tx.update(media).set({
@@ -71,17 +71,17 @@ class PostsService {
     const visibilityConditions = [
       or(
         and(
-          eq(posts.visibility, EventVisibility.PRIVATE),
-          eq(posts.uploadedBy, data.userId)
+          eq(events.visibility, EventVisibility.PRIVATE),
+          eq(events.uploadedBy, data.userId)
         ),
-        ne(posts.visibility, EventVisibility.PRIVATE),
+        ne(events.visibility, EventVisibility.PRIVATE),
       ),
-      isNull(posts.deletedAt)
+      isNull(events.deletedAt)
     ];
 
     if (data.userRole !== UserRole.ADMIN) {
       visibilityConditions.push(
-        ne(posts.visibility, EventVisibility.ADMIN_ONLY)
+        ne(events.visibility, EventVisibility.ADMIN_ONLY)
       )
     }
 
@@ -90,21 +90,21 @@ class PostsService {
     const { limit, page, search, visibility, categorySlug, date, sortBy } = data.filters;
     if (search) {
       filters.push(or(
-        ilike(posts.title, `%${search}%`),
-        ilike(posts.description, `%${search}%`)
+        ilike(events.title, `%${search}%`),
+        ilike(events.description, `%${search}%`)
       ));
     }
 
     if (visibility) {
-      filters.push(eq(posts.visibility, visibility));
+      filters.push(eq(events.visibility, visibility));
     }
 
     if (date.from) {
-      filters.push(gte(posts.dateOfMoment, date.from));
+      filters.push(gte(events.dateOfMoment, date.from));
     }
 
     if (date.to) {
-      filters.push(lte(posts.dateOfMoment, date.to));
+      filters.push(lte(events.dateOfMoment, date.to));
     }
 
     if (categorySlug) {
@@ -118,17 +118,17 @@ class PostsService {
         });
       }
 
-      filters.push(eq(posts.categoryId, category.id));
+      filters.push(eq(events.categoryId, category.id));
     }
 
     const orderCriteria = sortBy === "oldest"
-      ? [asc(posts.dateOfMoment), asc(posts.id)]
-      : [desc(posts.dateOfMoment), desc(posts.id)];
+      ? [asc(events.dateOfMoment), asc(events.id)]
+      : [desc(events.dateOfMoment), desc(events.id)];
 
     const offset = (page - 1) * limit;
 
     const [{ count }] = await db.select({ count: sql<number>`count(*)::int` })
-      .from(posts)
+      .from(events)
       .where(and(...filters));
 
     const result = await db.query.posts.findMany({
@@ -206,17 +206,17 @@ class PostsService {
     const visibilityConditions = [
       or(
         and(
-          eq(posts.visibility, EventVisibility.PRIVATE),
-          eq(posts.uploadedBy, data.userId)
+          eq(events.visibility, EventVisibility.PRIVATE),
+          eq(events.uploadedBy, data.userId)
         ),
-        ne(posts.visibility, EventVisibility.PRIVATE),
+        ne(events.visibility, EventVisibility.PRIVATE),
       ),
-      isNull(posts.deletedAt)
+      isNull(events.deletedAt)
     ];
 
     if (data.userRole !== UserRole.ADMIN) {
       visibilityConditions.push(
-        ne(posts.visibility, EventVisibility.ADMIN_ONLY)
+        ne(events.visibility, EventVisibility.ADMIN_ONLY)
       )
     }
 
@@ -233,7 +233,7 @@ class PostsService {
     } as const;
 
     const result = await db.query.posts.findFirst({
-      where: and(eq(posts.id, data.postId), ...visibilityConditions),
+      where: and(eq(events.id, data.postId), ...visibilityConditions),
       columns: {
         id: true,
         title: true,
@@ -314,23 +314,23 @@ class PostsService {
     const updateData = Object.fromEntries(updateEntries);
 
     const updateConditions = [
-      eq(posts.id, data.postId),
-      isNull(posts.deletedAt)
+      eq(events.id, data.postId),
+      isNull(events.deletedAt)
     ];
 
     if (data.userRole !== UserRole.ADMIN) {
       updateConditions.push(
-        eq(posts.uploadedBy, data.userId)
+        eq(events.uploadedBy, data.userId)
       )
     }
 
-    const [updatedPost] = await db.update(posts)
+    const [updatedPost] = await db.update(events)
       .set({
         ...updateData,
       })
       .where(and(...updateConditions))
       .returning({
-        id: posts.id
+        id: events.id
       });
     
     if (!updatedPost) {
@@ -344,20 +344,20 @@ class PostsService {
 
   async deleteOnePost(data: DeleteOnePostInput) {
     const deleteConditions = [
-      eq(posts.id, data.postId),
+      eq(events.id, data.postId),
     ];
 
     if (data.userRole !== UserRole.ADMIN) {
       deleteConditions.push(
-        eq(posts.uploadedBy, data.userId),
+        eq(events.uploadedBy, data.userId),
       );
     }
 
     return await db.transaction(async tx => {
-      const [deletedPost] = await softDelete(tx, posts, {
+      const [deletedPost] = await softDelete(tx, events, {
         actorId: data.userId,
         where: and(...deleteConditions)
-      }).returning({ id: posts.id });
+      }).returning({ id: events.id });
 
       if (!deletedPost) {
         throw new ForbiddenError("Invalid post deletion operation.", {

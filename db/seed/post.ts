@@ -1,4 +1,4 @@
-import { categories, media, posts } from "../schema";
+import { categories, media, events } from "../schema";
 import { faker } from "@faker-js/faker";
 import { isNull } from "drizzle-orm";
 import { DbClient } from "../types";
@@ -20,7 +20,7 @@ async function seedPosts(db: DbClient) {
     }),
   }));
 
-  await db.insert(posts)
+  await db.insert(events)
     .values(data);
 
   console.log("Posts seeded successfully.");

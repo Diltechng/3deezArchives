@@ -6,7 +6,7 @@ import { relations } from "drizzle-orm";
 
 export const visibilityEnum = pgEnum("visibility", EventVisibilityValues);
 
-export const posts = pgTable("events", {
+export const events = pgTable("events", {
   id: uuid("id").defaultRandom().primaryKey(),
   
   title: varchar("title", { length: 255 }).notNull(),
@@ -37,30 +37,30 @@ export const posts = pgTable("events", {
   index("events_date_of_moment_idx").on(table.dateOfMoment),
 ]);
 
-export const postRelations = relations(posts, ({ one, many }) => ({
+export const eventRelations = relations(events, ({ one, many }) => ({
   media: many(media, {
     relationName: "eventsMedia",
   }),
   
   category: one(categories, {
-    fields: [posts.categoryId],
+    fields: [events.categoryId],
     references: [categories.id],
   }),
 
   coverMedia: one(media, {
-    fields: [posts.coverMediaId],
+    fields: [events.coverMediaId],
     references: [media.id],
     relationName: "eventsCoverMedia",
   }),
 
   uploadedByUser: one(users, {
-    fields: [posts.uploadedBy],
+    fields: [events.uploadedBy],
     references: [users.id],
     relationName: "userEvents"
   }),
 
   deletedByUser: one(users, {
-    fields: [posts.deletedBy],
+    fields: [events.deletedBy],
     references: [users.id],
   }),
 }));

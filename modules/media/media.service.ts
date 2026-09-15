@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { media, posts } from "@/db/schema";
+import { media, events } from "@/db/schema";
 import { cloudinary } from "@/lib/cloudinary";
 import { ConflictError, ForbiddenError, InternalServerError } from "@/lib/errors";
 import { MediaNotFoundError } from "./media.errors";
@@ -25,12 +25,12 @@ export const mediaSelect = {
 
 async function assertPostOwnerShip(userId: string, postId: string) {
   const [validPost] = await db
-    .select({ id: posts.id })
-    .from(posts)
+    .select({ id: events.id })
+    .from(events)
     .where(and(
-      eq(posts.id, postId),
-      eq(posts.uploadedBy, userId),
-      isNull(posts.deletedAt),
+      eq(events.id, postId),
+      eq(events.uploadedBy, userId),
+      isNull(events.deletedAt),
     ));
   if (!validPost) {
     throw new ForbiddenError("Invalid post selection", {
@@ -131,13 +131,13 @@ class MediaService {
     if (data.postId) {
       await assertPostOwnerShip(data.userId, data.postId);
       const [coverReference] = await db
-        .select({ id: posts.id })
-        .from(posts)
+        .select({ id: events.id })
+        .from(events)
         .where(
           and(
-            eq(posts.id, data.postId),
-            eq(posts.coverMediaId, data.mediaId),
-            isNull(posts.deletedAt)
+            eq(events.id, data.postId),
+            eq(events.coverMediaId, data.mediaId),
+            isNull(events.deletedAt)
           )
         );
       

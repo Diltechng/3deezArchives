@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { and, asc, count, desc, eq, gte, ilike, lte, or, sql } from "drizzle-orm";
-import { users, posts } from "@/db/schema";
+import { users, events } from "@/db/schema";
 import { GetUsersInput, GetUsersOutput } from "./users.types";
 
 class UsersService {
@@ -43,9 +43,9 @@ class UsersService {
       email: users.email,
       role: users.role,
       status: users.status,
-      postsCount: count(posts.id)
+      postsCount: count(events.id)
     }).from(users)
-    .leftJoin(posts, eq(users.id, posts.uploadedBy))
+    .leftJoin(events, eq(users.id, events.uploadedBy))
     .groupBy(users.id)
     .offset(offset)
     .limit(limit)

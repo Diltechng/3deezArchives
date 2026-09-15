@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { categories, posts, users } from "@/db/schema";
+import { categories, events, users } from "@/db/schema";
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
 import { postsService } from "@/modules/posts/posts.service";
@@ -18,8 +18,8 @@ export const GET = withErrorHandler(
       [{ count: totalUsers }],
       [{ count: totalCategories }]
     ] = await Promise.all([
-      db.select({ count: count() }).from(posts).where(isNull(posts.deletedAt)),
-      db.select({ count: count() }).from(posts).where(and(gte(posts.createdAt, startOfThisMonth), isNull(posts.deletedAt))),
+      db.select({ count: count() }).from(events).where(isNull(events.deletedAt)),
+      db.select({ count: count() }).from(events).where(and(gte(events.createdAt, startOfThisMonth), isNull(events.deletedAt))),
       db.select({ count: count() }).from(users),
       db.select({ count: count() }).from(categories),
     ]);
