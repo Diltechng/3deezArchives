@@ -23,23 +23,23 @@ export const posts = pgTable("events", {
   ...timestamps,
 }, (table): PgTableExtraConfigValue[] => [
   foreignKey({
-    name: "posts_cover_image_id_media_id_fk",
+    name: "events_cover_image_id_media_id_fk",
     columns: [table.coverMediaId],
     foreignColumns: [media.id],
   }).onDelete("set null"),
 
   foreignKey({
-    name: "posts_cover_media_ownership_fk",
+    name: "events_cover_media_ownership_fk",
     columns: [table.coverMediaId, table.uploadedBy],
     foreignColumns: [media.id, media.uploadedBy],
   }),
-  index("posts_category_id_idx").on(table.categoryId),
-  index("posts_date_of_moment_idx").on(table.dateOfMoment),
+  index("events_category_id_idx").on(table.categoryId),
+  index("events_date_of_moment_idx").on(table.dateOfMoment),
 ]);
 
 export const postRelations = relations(posts, ({ one, many }) => ({
   media: many(media, {
-    relationName: "postMedia",
+    relationName: "eventsMedia",
   }),
   
   category: one(categories, {
@@ -50,13 +50,13 @@ export const postRelations = relations(posts, ({ one, many }) => ({
   coverMedia: one(media, {
     fields: [posts.coverMediaId],
     references: [media.id],
-    relationName: "postCoverMedia",
+    relationName: "eventsCoverMedia",
   }),
 
   uploadedByUser: one(users, {
     fields: [posts.uploadedBy],
     references: [users.id],
-    relationName: "userPosts"
+    relationName: "userEvents"
   }),
 
   deletedByUser: one(users, {
