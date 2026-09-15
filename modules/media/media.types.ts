@@ -1,6 +1,6 @@
 import { UserRole } from "@/shared/constants/enums";
 import {
-  PostIdInput,
+  EventId,
   CreateEventPayload,
   UpdatePostInput,
   GetPostsQueryInput,
@@ -45,20 +45,20 @@ export interface GetPostsInput {
 }
 
 export interface GetOnePostInput {
-  postId: PostIdInput;
+  postId: EventId;
   userId: string;
   userRole: UserRole;
 }
 
 export interface UpdateOnePostInput {
-  postId: PostIdInput;
+  postId: EventId;
   data: UpdatePostInput;
   userId: string;
   userRole: UserRole;
 }
 
 export interface DeleteOnePostInput {
-  postId: PostIdInput;
+  postId: EventId;
   userId: string;
   userRole: UserRole;
 }

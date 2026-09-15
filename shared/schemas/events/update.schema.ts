@@ -1,14 +1,14 @@
 import z from "zod";
 import { CoverMediaIdSchema } from "../media";
 import { CategoryIdSchema } from "../categories";
-import { PostDateOfMomentSchema, PostDescriptionSchema, PostTagsSchema, PostTitleSchema, PostVisibilitySchema } from ".";
+import { EventDateOfMomentSchema, EventDescriptionSchema, EventTagsSchema, EventTitleSchema, EventVisibilitySchema } from ".";
 
 export const UpdatePostSchema = z.object({
-  title: PostTitleSchema.optional(),
-  description: PostDescriptionSchema.optional(),
-  tags: PostTagsSchema.optional(),
-  visibility: PostVisibilitySchema.optional(),
-  dateOfMoment: PostDateOfMomentSchema.optional(),
+  title: EventTitleSchema.optional(),
+  description: EventDescriptionSchema.optional(),
+  tags: EventTagsSchema.optional(),
+  visibility: EventVisibilitySchema.optional(),
+  dateOfMoment: EventDateOfMomentSchema.optional(),
   categoryId: CategoryIdSchema.optional(),
   media: z.object({
     coverId: CoverMediaIdSchema.optional()

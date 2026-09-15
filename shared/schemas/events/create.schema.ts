@@ -1,15 +1,15 @@
 import z from "zod";
 import { CoverMediaIdSchema, MediaIdArraySchema } from "../media";
 import { CategoryIdSchema } from "../categories"
-import { PostDateOfMomentSchema, PostDescriptionSchema, PostTagsSchema, PostTitleSchema, PostVisibilitySchema } from ".";
+import { EventDateOfMomentSchema, EventDescriptionSchema, EventTagsSchema, EventTitleSchema, EventVisibilitySchema } from ".";
 
 export const CreateEventSchema = z.object({
-  title: PostTitleSchema,
-  description: PostDescriptionSchema,
-  visibility: PostVisibilitySchema,
-  dateOfMoment: PostDateOfMomentSchema,
+  title: EventTitleSchema,
+  description: EventDescriptionSchema,
+  visibility: EventVisibilitySchema,
+  dateOfMoment: EventDateOfMomentSchema,
   categoryId: CategoryIdSchema,
-  tags: PostTagsSchema,
+  tags: EventTagsSchema,
   media: z.object({
     ids: MediaIdArraySchema,
     coverId: CoverMediaIdSchema
