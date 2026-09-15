@@ -1,8 +1,8 @@
 import { UserRole } from "../enums";
-import { Permission, PERMISSIONS, PermissionValues } from "../permissions";
+import { Permission, PERMISSIONS, ALL_PERMISSIONS } from "../permissions.constants";
 
 const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
-  [UserRole.ADMIN]: PermissionValues,
+  [UserRole.ADMIN]: ALL_PERMISSIONS,
   [UserRole.STAFF]: [
     PERMISSIONS.POSTS_VIEW,
     PERMISSIONS.POSTS_CREATE,

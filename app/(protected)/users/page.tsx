@@ -5,7 +5,7 @@ import { useModal } from "@/features/common/hooks/useModal";
 import { useSearchFilters } from "@/features/common/hooks/useSearchFilters";
 import { api } from "@/features/common/lib/api";
 import { cn, getInitials } from "@/features/common/lib/utils";
-import { PERMISSIONS } from "@/shared/constants/permissions";
+import { PERMISSIONS } from "@/shared/constants/permissions.constants";
 import { GetUsersResponse } from "@/shared/contracts/users.contract";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";

@@ -6,7 +6,7 @@ import { validateMediaId, } from "@/modules/media/media.validation"
 import { validatePostId } from "@/modules/posts/posts.validation";
 import { NextResponse } from "next/server";
 import { withPermissionGuard } from "@/lib/api/permission-guard";
-import { PERMISSIONS } from "@/shared/constants/permissions";
+import { PERMISSIONS } from "@/shared/constants/permissions.constants";
 
 export const DELETE = withErrorHandler(
   withAuthGuard<{

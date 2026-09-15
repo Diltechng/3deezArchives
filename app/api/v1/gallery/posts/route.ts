@@ -6,7 +6,7 @@ import { validateCreatePost, validateGetPostsQuery } from "@/modules/posts/posts
 import { NextResponse } from "next/server";
 import { GetPostsMeta, PostDto } from "@/shared/contracts/posts.contract";
 import { withPermissionGuard } from "@/lib/api/permission-guard";
-import { PERMISSIONS } from "@/shared/constants/permissions";
+import { PERMISSIONS } from "@/shared/constants/permissions.constants";
 
 export const POST = withErrorHandler(
   withAuthGuard(

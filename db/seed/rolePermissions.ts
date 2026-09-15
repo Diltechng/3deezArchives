@@ -1,4 +1,4 @@
-import { Permission } from "@/shared/constants/permissions";
+import { Permission } from "@/shared/constants/permissions.constants";
 import { rolePermissions } from "../schema";
 import { DbClient } from "../types";
 

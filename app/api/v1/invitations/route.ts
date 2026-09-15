@@ -3,7 +3,7 @@ import { withErrorHandler } from "@/lib/api/error-handler"
 import { withPermissionGuard } from "@/lib/api/permission-guard"
 import { invitationsService } from "@/modules/invitations/invitations.service";
 import { validateGetInvitationsQuery } from "@/modules/invitations/invitations.validation";
-import { PERMISSIONS } from "@/shared/constants/permissions";
+import { PERMISSIONS } from "@/shared/constants/permissions.constants";
 import { GetInvitationsResponse } from "@/shared/contracts/invitations.contract";
 import { NextResponse } from "next/server";
 

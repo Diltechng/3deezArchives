@@ -5,7 +5,7 @@ import { postsService } from "@/modules/posts/posts.service";
 import { validatePostId, validateUpdatePost } from "@/modules/posts/posts.validation";
 import { NextResponse } from "next/server";
 import { withPermissionGuard } from "@/lib/api/permission-guard";
-import { PERMISSIONS } from "@/shared/constants/permissions";
+import { PERMISSIONS } from "@/shared/constants/permissions.constants";
 import { DeletePostByIdResponse, PostDto, UpdatePostByIdResponse } from "@/shared/contracts/posts.contract";
 
 export const GET = withErrorHandler(

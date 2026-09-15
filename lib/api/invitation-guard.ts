@@ -4,7 +4,7 @@ import { BadRequestError } from "../errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { invitationsService } from "@/modules/invitations/invitations.service";
 import { validateInvitationJwtPayload } from "@/modules/invitations/invitations.validation";
-import { INVITATION_TOKEN_HEADER } from "@/shared/constants";
+import { INVITATION_TOKEN_HEADER } from "@/shared/constants/headers.constants";
 
 export function withInvitationGuard<TParams>(handler: (req: NextRequest, context: InvitationReqContext<TParams>) => ApiResponse) {
   return async (req: NextRequest, context: RouteContext<TParams>) => {

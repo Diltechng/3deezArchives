@@ -4,7 +4,7 @@ import { ResponseData } from "@/shared/types/api";
 import { categoriesService } from "@/modules/categories/categories.service";
 import { NextResponse } from "next/server";
 import { withPermissionGuard } from "@/lib/api/permission-guard";
-import { PERMISSIONS } from "@/shared/constants/permissions";
+import { PERMISSIONS } from "@/shared/constants/permissions.constants";
 import { CategoryDto } from "@/shared/contracts/categories.contract";
 
 export const GET = withErrorHandler(

@@ -8,7 +8,7 @@ import { ResponseData } from "@/shared/types/api";
 import { GetUsersResponse } from "@/shared/contracts/users.contract";
 import { invitationsService } from "@/modules/invitations/invitations.service";
 import { withPermissionGuard } from "@/lib/api/permission-guard";
-import { PERMISSIONS } from "@/shared/constants/permissions";
+import { PERMISSIONS } from "@/shared/constants/permissions.constants";
 
 export const GET = withErrorHandler(
   withAuthGuard(
