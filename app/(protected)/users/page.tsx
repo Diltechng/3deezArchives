@@ -89,7 +89,7 @@ const UsersPage = () => {
             </tr>
           </thead>
           <tbody>
-            {usersData.data.map((user: any) => {
+            {usersData.data.map((user) => {
               const isAdmin = user.role === "admin";
               const isActive = user.status === "active";
 

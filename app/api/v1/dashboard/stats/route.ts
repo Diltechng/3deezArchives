@@ -13,8 +13,8 @@ export const GET = withErrorHandler(
     startOfThisMonth.setHours(0, 0, 0, 0);
 
     const [
-      [{ count: totalPosts }],
-      [{ count: totalPostsThisMonth }],
+      [{ count: totalEvents }],
+      [{ count: totalEventsThisMonth }],
       [{ count: totalUsers }],
       [{ count: totalCategories }]
     ] = await Promise.all([
@@ -24,7 +24,7 @@ export const GET = withErrorHandler(
       db.select({ count: count() }).from(categories),
     ]);
 
-    const { events: postsItems } = await eventsService.getEvents({
+    const { events: eventsList } = await eventsService.getEvents({
       filters: {
         limit: 4,
         page: 1,
@@ -39,11 +39,11 @@ export const GET = withErrorHandler(
       success: true,
       message: "Fetched dashboard stats successfully",
       data: {
-        totalPosts,
-        totalPostsThisMonth,
+        totalEvents,
+        totalEventsThisMonth,
         totalUsers,
         totalCategories,
-        recentPosts: postsItems,
+        recentEvents: eventsList,
       }
     });
   })

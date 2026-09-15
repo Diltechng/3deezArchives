@@ -2,18 +2,19 @@ import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";
 import { eventsService } from "@/modules/events/events.service";
-import { validateCreatePost, validateGetPostsQuery } from "@/modules/events/events.validation";
 import { NextResponse } from "next/server";
 import { GetEventsMeta, EventDto } from "@/shared/contracts/events.contract";
 import { withPermissionGuard } from "@/lib/api/permission-guard";
 import { PERMISSIONS } from "@/shared/constants/permissions.constants";
+import { CreateEventSchema, GetEventsQuerySchema } from "@/shared/schemas";
+import { validateRequest } from "@/lib/api/validation";
 
 export const POST = withErrorHandler(
   withAuthGuard(
     withPermissionGuard(PERMISSIONS.EVENTS_CREATE, async (req, ctx) => {
       const body = await req.json();
 
-      const validatedData = validateCreatePost(body);
+      const validatedData = validateRequest(CreateEventSchema, body);
 
       const result = await eventsService.createNewEvent(
         ctx.user.userId,
@@ -22,7 +23,7 @@ export const POST = withErrorHandler(
 
       return NextResponse.json<ResponseData>({
         success: true,
-        message: "Successfully uploaded a post",
+        message: "Successfully uploaded a events",
         data: result
       }, { status: 201 });
     })
@@ -41,20 +42,23 @@ export const GET = withErrorHandler(
       const dateFrom = searchParams.get("from");
       const dateTo = searchParams.get("to");
 
-      const validatedFilters = validateGetPostsQuery({
-        page: searchParams.get("page"),
-        limit: searchParams.get("limit"),
-        ...(search && { search }),
-        ...(visibility && { visibility }),
-        ...(categorySlug && { categorySlug }),
-        ...(sortBy && { sortBy }),
-        date: {
-          ...(dateFrom && { from: dateFrom }),
-          ...(dateTo && { to: dateTo }),
-        },
-      });
+      const validatedFilters = validateRequest(
+        GetEventsQuerySchema,
+        {
+          page: searchParams.get("page"),
+          limit: searchParams.get("limit"),
+          ...(search && { search }),
+          ...(visibility && { visibility }),
+          ...(categorySlug && { categorySlug }),
+          ...(sortBy && { sortBy }),
+          date: {
+            ...(dateFrom && { from: dateFrom }),
+            ...(dateTo && { to: dateTo }),
+          },
+        }
+      );
 
-      const { events: posts, meta } = await eventsService.getEvents({
+      const { events, meta } = await eventsService.getEvents({
         userId: ctx.user.userId,
         userRole: ctx.user.role,
         filters: validatedFilters,
@@ -62,8 +66,8 @@ export const GET = withErrorHandler(
 
       return NextResponse.json<ResponseData<EventDto[], GetEventsMeta>>({
         success: true,
-        message: `Fetched ${posts.length} posts successfully`,
-        data: posts,
+        message: `Fetched ${events.length} events successfully`,
+        data: events,
         meta,
       });
     })

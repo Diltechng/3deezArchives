@@ -10,7 +10,7 @@ export interface GetUsersMeta {
 
 export interface UserListItem {
  id: string;
- fullName: string | null;
+ fullName: string;
  email: string;
  role: UserRole;
  status: UserStatus;

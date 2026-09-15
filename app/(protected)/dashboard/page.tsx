@@ -38,7 +38,7 @@ const HomePage = () => {
     {
       icon: Calendar,
       label: "Total Events",
-      value: `${dashboardStats?.totalPosts ?? "-"}`,
+      value: `${dashboardStats?.totalEvents ?? "-"}`,
       href: "/gallery",
       linkName: "View all events",
     },
@@ -53,7 +53,7 @@ const HomePage = () => {
     {
       icon: CalendarClock,
       label: "This Month",
-      value: `${dashboardStats?.totalPostsThisMonth ?? "-"}`,
+      value: `${dashboardStats?.totalEventsThisMonth ?? "-"}`,
       accent: "info",
       href: "/gallery",
       linkName: "View events",
