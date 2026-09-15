@@ -5,7 +5,7 @@ import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { EventVisibility, UserRole } from "@/shared/constants/enums";
 import { and, asc, desc, eq, gte, ilike, inArray, isNull, lte, ne, or, sql } from "drizzle-orm";
 import { softDelete } from "../shared/helpers/soft-delete";
-import { DeleteOneEventInput, GetOneEventInput, GetEventsInput, UpdateOneEventInput } from "./posts.types";
+import { DeleteOneEventInput, GetOneEventInput, GetEventsInput, UpdateOneEventInput } from "./events.types";
 import { CreateEventPayload } from "@/shared/schemas";
 
 class EventsService {

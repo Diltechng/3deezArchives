@@ -3,7 +3,7 @@ import { withErrorHandler } from "@/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";
 import { mediaService } from "@/modules/media/media.service";
 import { validateUploadMedia } from "@/modules/media/media.validation";
-import { validatePostId } from "@/modules/posts/posts.validation";
+import { validatePostId } from "@/modules/events/events.validation";
 import { NextResponse } from "next/server";
 import { withPermissionGuard } from "@/lib/api/permission-guard";
 import { PERMISSIONS } from "@/shared/constants/permissions.constants";
@@ -23,7 +23,7 @@ export const POST = withErrorHandler(
       const result = await mediaService.uploadFile({
         userId: ctx.user.userId,
         file: validated.file,
-        postId: validatedId
+        eventId: validatedId
       });
 
       return NextResponse.json<ResponseData>({

@@ -3,7 +3,7 @@ import { withErrorHandler } from "@/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";
 import { mediaService, } from "@/modules/media/media.service"
 import { validateMediaId, } from "@/modules/media/media.validation"
-import { validatePostId } from "@/modules/posts/posts.validation";
+import { validatePostId } from "@/modules/events/events.validation";
 import { NextResponse } from "next/server";
 import { withPermissionGuard } from "@/lib/api/permission-guard";
 import { PERMISSIONS } from "@/shared/constants/permissions.constants";
@@ -21,7 +21,7 @@ export const DELETE = withErrorHandler(
       const result = await mediaService.deleteOneFile({
         userId: ctx.user.userId,
         mediaId: validatedMediaId,
-        postId: validatedPostId,
+        eventId: validatedPostId,
       });
 
       return NextResponse.json<ResponseData>({

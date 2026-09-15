@@ -1,13 +1,13 @@
 export interface UploadFileInput {
   file: File,
   userId: string;
-  postId?: string;
+  eventId?: string;
 }
 
 export interface DeleteOneFileInput {
   mediaId: string;
   userId: string;
-  postId?: string;
+  eventId?: string;
 }
 
 export interface DeleteFilesInput {

@@ -23,17 +23,17 @@ export const mediaSelect = {
   mimeType: media.mimeType,
 }
 
-async function assertPostOwnerShip(userId: string, postId: string) {
-  const [validPost] = await db
+async function assertEventOwnerShip(userId: string, eventId: string) {
+  const [validEvent] = await db
     .select({ id: events.id })
     .from(events)
     .where(and(
-      eq(events.id, postId),
+      eq(events.id, eventId),
       eq(events.uploadedBy, userId),
       isNull(events.deletedAt),
     ));
-  if (!validPost) {
-    throw new ForbiddenError("Invalid post selection", {
+  if (!validEvent) {
+    throw new ForbiddenError("Invalid event selection", {
       code: ApiErrorCode.INVALID_EVENT_SELECTION
     });
   }
@@ -41,8 +41,8 @@ async function assertPostOwnerShip(userId: string, postId: string) {
 
 class MediaService {
   async uploadFile(data: UploadFileInput) {
-    if (data.postId) {
-      await assertPostOwnerShip(data.userId, data.postId);
+    if (data.eventId) {
+      await assertEventOwnerShip(data.userId, data.eventId);
     }
 
 
@@ -73,8 +73,8 @@ class MediaService {
         publicId: uploadedFile.public_id,
         secureUrl: uploadedFile.secure_url,
         
-        ...(data.postId && {
-          postId: data.postId
+        ...(data.eventId && {
+          eventId: data.eventId
         }),
 
         mimeType: data.file.type,
@@ -128,14 +128,14 @@ class MediaService {
   }
 
   async deleteOneFile(data: DeleteOneFileInput) {
-    if (data.postId) {
-      await assertPostOwnerShip(data.userId, data.postId);
+    if (data.eventId) {
+      await assertEventOwnerShip(data.userId, data.eventId);
       const [coverReference] = await db
         .select({ id: events.id })
         .from(events)
         .where(
           and(
-            eq(events.id, data.postId),
+            eq(events.id, data.eventId),
             eq(events.coverMediaId, data.mediaId),
             isNull(events.deletedAt)
           )
@@ -152,9 +152,9 @@ class MediaService {
       eq(media.id, data.mediaId),
     ];
 
-    if (data.postId) {
+    if (data.eventId) {
       deleteConditions.push(
-        eq(media.eventId, data.postId)
+        eq(media.eventId, data.eventId)
       );
     } 
 

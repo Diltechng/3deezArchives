@@ -1,8 +1,8 @@
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";
-import { eventsService } from "@/modules/posts/posts.service";
-import { validateCreatePost, validateGetPostsQuery } from "@/modules/posts/posts.validation";
+import { eventsService } from "@/modules/events/events.service";
+import { validateCreatePost, validateGetPostsQuery } from "@/modules/events/events.validation";
 import { NextResponse } from "next/server";
 import { GetEventsMeta, EventDto } from "@/shared/contracts/events.contract";
 import { withPermissionGuard } from "@/lib/api/permission-guard";
