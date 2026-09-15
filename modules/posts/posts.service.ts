@@ -131,7 +131,7 @@ class PostsService {
       .from(events)
       .where(and(...filters));
 
-    const result = await db.query.posts.findMany({
+    const result = await db.query.events.findMany({
       where: and(...filters),
       orderBy: orderCriteria,
       offset,
@@ -232,7 +232,7 @@ class PostsService {
       }
     } as const;
 
-    const result = await db.query.posts.findFirst({
+    const result = await db.query.events.findFirst({
       where: and(eq(events.id, data.postId), ...visibilityConditions),
       columns: {
         id: true,
