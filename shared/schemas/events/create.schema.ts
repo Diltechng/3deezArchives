@@ -3,7 +3,7 @@ import { CoverMediaIdSchema, MediaIdArraySchema } from "../media";
 import { CategoryIdSchema } from "../categories"
 import { PostDateOfMomentSchema, PostDescriptionSchema, PostTagsSchema, PostTitleSchema, PostVisibilitySchema } from ".";
 
-export const CreatePostSchema = z.object({
+export const CreateEventSchema = z.object({
   title: PostTitleSchema,
   description: PostDescriptionSchema,
   visibility: PostVisibilitySchema,
@@ -16,4 +16,4 @@ export const CreatePostSchema = z.object({
   }),
 });
 
-export type CreatePostInput = z.infer<typeof CreatePostSchema>;
+export type CreateEventPayload = z.infer<typeof CreateEventSchema>;

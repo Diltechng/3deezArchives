@@ -4,7 +4,7 @@ import { useState } from "react";
 import { EventFormInitialData } from "../types";
 import { useController, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreatePostInput, CreatePostSchema } from "@/shared/schemas";
+import { CreateEventPayload, CreateEventSchema } from "@/shared/schemas";
 import { toast } from "react-toastify";
 import { api } from "@/features/common/lib/api";
 import { FormField } from "@/features/common/components/FormField";
@@ -33,7 +33,7 @@ export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventF
   const queryClient = useQueryClient();
   
   const uploadMutation = useMutation({
-    mutationFn: async (data: CreatePostInput) => {
+    mutationFn: async (data: CreateEventPayload) => {
       if (initialData) {
         const response = await api.patch(`/gallery/posts/${initialData.id}`, data);
 
@@ -60,7 +60,7 @@ export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventF
   const [tagInput, setTagInput] = useState("");
 
   const { watch, setValue, register, handleSubmit, control, formState: { errors, isSubmitting } } = useForm({
-    resolver: zodResolver(CreatePostSchema),
+    resolver: zodResolver(CreateEventSchema),
     defaultValues: {
       title: initialData?.title,
       description: initialData?.description,
@@ -106,7 +106,7 @@ export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventF
     setTagInput("");
   }
 
-  function onSubmit(data: CreatePostInput) {
+  function onSubmit(data: CreateEventPayload) {
     uploadMutation.mutate(data);
   }
 

@@ -1,7 +1,7 @@
 import { UserRole } from "@/shared/constants/enums";
 import {
   PostIdInput,
-  CreatePostInput,
+  CreateEventPayload,
   UpdatePostInput,
   GetPostsQueryInput,
 } from "@/shared/schemas";
@@ -34,7 +34,7 @@ export interface UpdateOneFileInput {
 }
 
 export interface CreateNewPostInput {
-  data: CreatePostInput;
+  data: CreateEventPayload;
   userId: string;
 }
 

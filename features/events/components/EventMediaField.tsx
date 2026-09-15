@@ -6,7 +6,7 @@ import { FieldError, Merge } from "react-hook-form"
 import { Media, MediaUploadItem } from "../types";
 import { cn, getErrorMessage } from "@/features/common/lib/utils";
 import { toast } from "react-toastify";
-import { CreatePostInput, UploadMediaSchema } from "@/shared/schemas";
+import { CreateEventPayload, UploadMediaSchema } from "@/shared/schemas";
 import z from "zod";
 import { api } from "@/features/common/lib/api";
 import { CldImage } from "next-cloudinary";
@@ -14,12 +14,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface EventMediaCardProps {
   error?: Merge<FieldError, (FieldError | undefined)[]> | FieldError;
-  value?: CreatePostInput["media"];
+  value?: CreateEventPayload["media"];
   initialData?: {
     eventId: string;
     media: Media[]
   };
-  onChange?: (next: CreatePostInput["media"]) => void;
+  onChange?: (next: CreateEventPayload["media"]) => void;
 }
 
 export const EventMediaField = ({ error, value, initialData, onChange }: EventMediaCardProps) => {
