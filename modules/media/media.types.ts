@@ -3,7 +3,7 @@ import {
   EventId,
   CreateEventPayload,
   UpdatePostInput,
-  GetPostsQueryInput,
+  GetEventsQueryInput,
 } from "@/shared/schemas";
 import { GetPostsMeta, PostDto } from "@/shared/contracts/posts.contract";
 
@@ -41,7 +41,7 @@ export interface CreateNewPostInput {
 export interface GetPostsInput {
   userId: string;
   userRole: UserRole;
-  filters: GetPostsQueryInput;
+  filters: GetEventsQueryInput;
 }
 
 export interface GetOnePostInput {

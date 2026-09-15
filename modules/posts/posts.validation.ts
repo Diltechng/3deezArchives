@@ -1,6 +1,6 @@
 import { BadRequestError } from "@/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
-import { CreateEventSchema, GetPostsQuerySchema, EventIdSchema, UpdatePostSchema } from "@/shared/schemas";
+import { CreateEventSchema, GetEventsQuerySchema, EventIdSchema, UpdatePostSchema } from "@/shared/schemas";
 import z from "zod";
 
 export function validateCreatePost(data: unknown) {
@@ -50,7 +50,7 @@ export function validateUpdatePost(data: unknown) {
 
 
 export function validateGetPostsQuery(data: unknown) {
-  const result = GetPostsQuerySchema.safeParse(data);
+  const result = GetEventsQuerySchema.safeParse(data);
 
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
