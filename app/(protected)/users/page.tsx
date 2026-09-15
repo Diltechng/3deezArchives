@@ -130,10 +130,10 @@ const UsersPage = () => {
                     isAdmin? "text-accent-primary"
                     : "text-text-2"
                   )}>
-                    {user.postsCount ?? "-"}
+                    {user.eventsCount ?? "-"}
                   </td>
                   <td className="py-2.5 px-3 text-[10px] text-text-3">
-                    {user.lastActive ?? "-"}
+                    {"-"}
                   </td>
                   <td className="py-2.5 px-3">
                     <div className={cn(

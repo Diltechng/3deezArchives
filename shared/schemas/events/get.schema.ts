@@ -34,4 +34,4 @@ export const GetEventsQuerySchema = z.object({
   visibility: EventVisibilitySchema.optional(),
 });
 
-export type GetEventsQueryInput = z.infer<typeof GetEventsQuerySchema>;
+export type GetEventsQuery = z.infer<typeof GetEventsQuerySchema>;

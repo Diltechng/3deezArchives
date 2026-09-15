@@ -1,7 +1,7 @@
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";
-import { postsService } from "@/modules/posts/posts.service";
+import { eventsService } from "@/modules/posts/posts.service";
 import { validateCreatePost, validateGetPostsQuery } from "@/modules/posts/posts.validation";
 import { NextResponse } from "next/server";
 import { GetEventsMeta, EventDto } from "@/shared/contracts/events.contract";
@@ -15,10 +15,10 @@ export const POST = withErrorHandler(
 
       const validatedData = validateCreatePost(body);
 
-      const result = await postsService.createNewPost({
-        data: validatedData,
-        userId: ctx.user.userId
-      });
+      const result = await eventsService.createNewEvent(
+        ctx.user.userId,
+        validatedData,
+      );
 
       return NextResponse.json<ResponseData>({
         success: true,
@@ -54,7 +54,7 @@ export const GET = withErrorHandler(
         },
       });
 
-      const { posts, meta } = await postsService.getPosts({
+      const { events: posts, meta } = await eventsService.getEvents({
         userId: ctx.user.userId,
         userRole: ctx.user.role,
         filters: validatedFilters,

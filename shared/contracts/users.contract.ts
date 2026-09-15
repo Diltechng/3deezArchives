@@ -14,7 +14,7 @@ export interface UserListItem {
  email: string;
  role: UserRole;
  status: UserStatus;
- postsCount: number;
+ eventsCount: number;
 };
 
 export type UserProfileData = {

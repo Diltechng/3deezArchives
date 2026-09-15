@@ -1,7 +1,7 @@
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";
-import { postsService } from "@/modules/posts/posts.service";
+import { eventsService } from "@/modules/posts/posts.service";
 import { validatePostId, validateUpdatePost } from "@/modules/posts/posts.validation";
 import { NextResponse } from "next/server";
 import { withPermissionGuard } from "@/lib/api/permission-guard";
@@ -15,8 +15,8 @@ export const GET = withErrorHandler(
 
       const validatedId = validatePostId(postId);
 
-      const result = await postsService.getOnePost({
-        postId: validatedId,
+      const result = await eventsService.getOneEvent({
+        eventId: validatedId,
         userId: ctx.user.userId,
         userRole: ctx.user.role,
       });
@@ -39,8 +39,8 @@ export const PATCH = withErrorHandler(
       const validatedId = validatePostId(postId);
       const validatedData = validateUpdatePost(body);
 
-      const result = await postsService.updateOnePost({
-        postId: validatedId,
+      const result = await eventsService.updateOneEvent({
+        eventId: validatedId,
         data: validatedData,
         userId: ctx.user.userId,
         userRole: ctx.user.role
@@ -62,8 +62,8 @@ export const DELETE = withErrorHandler(
 
       const validatedPostId = validatePostId(postId);
 
-      const result = await postsService.deleteOnePost({
-        postId: validatedPostId,
+      const result = await eventsService.deleteOneEvent({
+        eventId: validatedPostId,
         userId: ctx.user.userId,
         userRole: ctx.user.role,
       })

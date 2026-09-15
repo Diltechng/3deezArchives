@@ -43,7 +43,7 @@ class UsersService {
       email: users.email,
       role: users.role,
       status: users.status,
-      postsCount: count(events.id)
+      eventsCount: count(events.id)
     }).from(users)
     .leftJoin(events, eq(users.id, events.uploadedBy))
     .groupBy(users.id)

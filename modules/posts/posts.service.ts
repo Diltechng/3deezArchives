@@ -5,11 +5,12 @@ import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { EventVisibility, UserRole } from "@/shared/constants/enums";
 import { and, asc, desc, eq, gte, ilike, inArray, isNull, lte, ne, or, sql } from "drizzle-orm";
 import { softDelete } from "../shared/helpers/soft-delete";
-import { CreateNewPostInput, DeleteOnePostInput, GetOnePostInput, GetPostsInput, UpdateOnePostInput } from "../media/media.types";
+import { DeleteOneEventInput, GetOneEventInput, GetEventsInput, UpdateOneEventInput } from "./posts.types";
+import { CreateEventPayload } from "@/shared/schemas";
 
-class PostsService {
-  async createNewPost(data: CreateNewPostInput) {
-    if (!data.data.media.ids.includes(data.data.media.coverId))
+class EventsService {
+  async createNewEvent(userId: string, data: CreateEventPayload) {
+    if (!data.media.ids.includes(data.media.coverId))
       throw new ForbiddenError("Cover image must exist in attached media.", {
         code: ApiErrorCode.INVALID_COVER_IMAGE_REFERENCE
       })
@@ -18,8 +19,8 @@ class PostsService {
       .select({ id: media.id })
       .from(media)
       .where(and(
-        eq(media.id, data.data.media.coverId),
-        eq(media.uploadedBy, data.userId),
+        eq(media.id, data.media.coverId),
+        eq(media.uploadedBy, userId),
         isNull(media.eventId),
       ));
 
@@ -30,36 +31,36 @@ class PostsService {
     }
 
     const result = await db.transaction(async tx => {
-      const [storedPost] = await tx.insert(events).values({
-        title: data.data.title,
-        visibility: data.data.visibility,
-        dateOfMoment: data.data.dateOfMoment,
-        description: data.data.description,
-        tags: data.data.tags,
-        categoryId: data.data.categoryId,
-        coverMediaId: data.data.media.coverId,
-        uploadedBy: data.userId,
+      const [storedEvent] = await tx.insert(events).values({
+        title: data.title,
+        visibility: data.visibility,
+        dateOfMoment: data.dateOfMoment,
+        description: data.description,
+        tags: data.tags,
+        categoryId: data.categoryId,
+        coverMediaId: data.media.coverId,
+        uploadedBy: userId,
       }).returning({
         id: events.id,
         title: events.title,
       });
 
       const storedMedia = await tx.update(media).set({
-        postId: storedPost.id,
+        eventId: storedEvent.id,
       }).where(and(
-        inArray(media.id, data.data.media.ids),
-        eq(media.uploadedBy, data.userId),
+        inArray(media.id, data.media.ids),
+        eq(media.uploadedBy, userId),
         isNull(media.eventId),
       )).returning({
         id: media.id,
         secureUrl: media.secureUrl,
       });
 
-      if (storedMedia.length !== data.data.media.ids.length)
-        throw new InternalServerError("Some media could not be attached to this post.");
+      if (storedMedia.length !== data.media.ids.length)
+        throw new InternalServerError("Some media could not be attached to this event.");
 
       return {
-        ...storedPost,
+        ...storedEvent,
         uploadedMedia: storedMedia
       };
     });
@@ -67,7 +68,7 @@ class PostsService {
     return result;
   }
 
-  async getPosts(data: GetPostsInput) {
+  async getEvents(data: GetEventsInput) {
     const visibilityConditions = [
       or(
         and(
@@ -188,7 +189,7 @@ class PostsService {
     });
     
     return {
-      posts: result,
+      events: result,
       meta: {
         pagination: {
           page,
@@ -202,7 +203,7 @@ class PostsService {
     };
   }
 
-  async getOnePost(data: GetOnePostInput) {
+  async getOneEvent(data: GetOneEventInput) {
     const visibilityConditions = [
       or(
         and(
@@ -233,7 +234,7 @@ class PostsService {
     } as const;
 
     const result = await db.query.events.findFirst({
-      where: and(eq(events.id, data.postId), ...visibilityConditions),
+      where: and(eq(events.id, data.eventId), ...visibilityConditions),
       columns: {
         id: true,
         title: true,
@@ -266,7 +267,7 @@ class PostsService {
     });
 
     if (!result) {
-      throw new NotFoundError("Post does not exist or is not accessible to you.", {
+      throw new NotFoundError("Event does not exist or is not accessible to you.", {
         code: ApiErrorCode.EVENT_NOT_FOUND
       });
     }
@@ -274,13 +275,13 @@ class PostsService {
     return result;
   }
 
-  async updateOnePost(data: UpdateOnePostInput) {
+  async updateOneEvent(data: UpdateOneEventInput) {
     if (data.data.media.coverId) {
       const attachmentConditions = [
         eq(media.id, data.data.media.coverId),
         eq(media.uploadedBy, data.userId),
         isNull(media.deletedAt),
-        eq(media.eventId, data.postId),
+        eq(media.eventId, data.eventId),
       ];
 
       const [validCoverMedia] = await db
@@ -314,7 +315,7 @@ class PostsService {
     const updateData = Object.fromEntries(updateEntries);
 
     const updateConditions = [
-      eq(events.id, data.postId),
+      eq(events.id, data.eventId),
       isNull(events.deletedAt)
     ];
 
@@ -324,7 +325,7 @@ class PostsService {
       )
     }
 
-    const [updatedPost] = await db.update(events)
+    const [updatedEvent] = await db.update(events)
       .set({
         ...updateData,
       })
@@ -333,18 +334,18 @@ class PostsService {
         id: events.id
       });
     
-    if (!updatedPost) {
-      throw new NotFoundError("Could not update this post because it is not found", {
+    if (!updatedEvent) {
+      throw new NotFoundError("Could not update this event because it is not found", {
         code: ApiErrorCode.EVENT_NOT_FOUND,
       })
     }
 
-    return updatedPost;
+    return updatedEvent;
   }
 
-  async deleteOnePost(data: DeleteOnePostInput) {
+  async deleteOneEvent(data: DeleteOneEventInput) {
     const deleteConditions = [
-      eq(events.id, data.postId),
+      eq(events.id, data.eventId),
     ];
 
     if (data.userRole !== UserRole.ADMIN) {
@@ -354,13 +355,13 @@ class PostsService {
     }
 
     return await db.transaction(async tx => {
-      const [deletedPost] = await softDelete(tx, events, {
+      const [deletedEvent] = await softDelete(tx, events, {
         actorId: data.userId,
         where: and(...deleteConditions)
       }).returning({ id: events.id });
 
-      if (!deletedPost) {
-        throw new ForbiddenError("Invalid post deletion operation.", {
+      if (!deletedEvent) {
+        throw new ForbiddenError("Invalid event deletion operation.", {
           code: ApiErrorCode.INVALID_DELETE_OPERATION
         })
       }
@@ -368,16 +369,16 @@ class PostsService {
       const deletedMedia = await softDelete(tx, media, {
         actorId: data.userId,
         where: and(
-          eq(media.eventId, deletedPost.id)
+          eq(media.eventId, deletedEvent.id)
         )
       }).returning({ id: media.id });
 
       return {
-        ...deletedPost,
+        ...deletedEvent,
         media: deletedMedia
       }
     });
   }
 }
 
-export const postsService = new PostsService();
+export const eventsService = new EventsService();

@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { categories, events, users } from "@/db/schema";
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
-import { postsService } from "@/modules/posts/posts.service";
+import { eventsService } from "@/modules/posts/posts.service";
 import { and, count, gte, isNull } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
@@ -24,7 +24,7 @@ export const GET = withErrorHandler(
       db.select({ count: count() }).from(categories),
     ]);
 
-    const { posts: postsItems } = await postsService.getPosts({
+    const { events: postsItems } = await eventsService.getEvents({
       filters: {
         limit: 4,
         page: 1,
