@@ -1,6 +1,6 @@
 import { EntityId, TResponse } from "./common.contract";
 
-export class PostCategoryDto {
+export class EventCategoryDto {
   constructor (
     public readonly id: EntityId,
     public readonly name: string,

@@ -24,7 +24,7 @@ export type UserProfileData = {
   role: UserRole;
 }
 
-export class PostUserDto {
+export class EventUserDto {
   constructor(
     public readonly id: string,
     public readonly name: string | null,

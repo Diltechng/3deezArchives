@@ -6,7 +6,7 @@ import { validatePostId, validateUpdatePost } from "@/modules/posts/posts.valida
 import { NextResponse } from "next/server";
 import { withPermissionGuard } from "@/lib/api/permission-guard";
 import { PERMISSIONS } from "@/shared/constants/permissions.constants";
-import { DeletePostByIdResponse, PostDto, UpdatePostByIdResponse } from "@/shared/contracts/posts.contract";
+import { DeleteEventByIdResponse, EventDto, UpdateEventByIdResponse } from "@/shared/contracts/events.contract";
 
 export const GET = withErrorHandler(
   withAuthGuard<{ postId: string; }>(
@@ -21,7 +21,7 @@ export const GET = withErrorHandler(
         userRole: ctx.user.role,
       });
 
-      return NextResponse.json<ResponseData<PostDto>>({
+      return NextResponse.json<ResponseData<EventDto>>({
         success: true,
         message: "Fetched 1 post successfully",
         data: result,
@@ -46,7 +46,7 @@ export const PATCH = withErrorHandler(
         userRole: ctx.user.role
       });
 
-      return NextResponse.json<UpdatePostByIdResponse>({
+      return NextResponse.json<UpdateEventByIdResponse>({
         success: true,
         message: `Updated ${result ? 1: 0} posts successfully.`,
         data: result
@@ -68,7 +68,7 @@ export const DELETE = withErrorHandler(
         userRole: ctx.user.role,
       })
 
-      return NextResponse.json<DeletePostByIdResponse>({
+      return NextResponse.json<DeleteEventByIdResponse>({
         success: true,
         message: `Deleted ${result? 1: 0} posts successfully.`,
         data: result

@@ -1,8 +1,8 @@
 import { SerializeDates } from "@/shared/types/api";
-import { PostDto } from "@/shared/contracts/posts.contract";
+import { EventDto } from "@/shared/contracts/events.contract";
 import { EventVisibility } from "@/shared/constants/enums";
 
-export type GalleryEvent = SerializeDates<PostDto>;
+export type GalleryEvent = SerializeDates<EventDto>;
 
 export interface GalleryCategory {
   id: string;

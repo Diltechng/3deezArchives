@@ -1,6 +1,6 @@
 import { api } from "@/features/common/lib/api";
 import { EntityId } from "@/shared/contracts/common.contract";
-import { DeletePostByIdResponse, GetPostByIdResponse, GetPostsResponse } from "@/shared/contracts/posts.contract";
+import { DeleteEventByIdResponse, GetEventByIdResponse, GetEventsResponse } from "@/shared/contracts/events.contract";
 
 interface GetEventsQueryParams {
   limit: number;
@@ -38,19 +38,19 @@ export const eventsService = {
       searchParams.set("to", date.to);
     }
 
-    const response = await api.get<GetPostsResponse>(`/gallery/posts?${searchParams}`);
+    const response = await api.get<GetEventsResponse>(`/gallery/posts?${searchParams}`);
 
     return response.data;
   },
 
   async getEventById(id: EntityId) {
-    const response = await api.get<GetPostByIdResponse>(`/gallery/posts/${id}`);
+    const response = await api.get<GetEventByIdResponse>(`/gallery/posts/${id}`);
 
     return response.data;
   },
 
   async deleteEventById(id: EntityId) {
-    const response = await api.delete<DeletePostByIdResponse>(`/gallery/posts/${id}`);
+    const response = await api.delete<DeleteEventByIdResponse>(`/gallery/posts/${id}`);
 
     return response.data;
   }

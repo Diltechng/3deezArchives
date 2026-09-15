@@ -5,7 +5,7 @@ import {
   UpdateEventPayload,
   GetEventsQueryInput,
 } from "@/shared/schemas";
-import { GetPostsMeta, PostDto } from "@/shared/contracts/posts.contract";
+import { GetEventsMeta, EventDto } from "@/shared/contracts/events.contract";
 
 
 export interface UploadFileInput {
@@ -64,6 +64,6 @@ export interface DeleteOnePostInput {
 }
 
 export interface GetPostsOutput {
-  posts: PostDto[];
-  meta: GetPostsMeta;
+  posts: EventDto[];
+  meta: GetEventsMeta;
 }
