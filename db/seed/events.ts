@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 import { isNull } from "drizzle-orm";
 import { DbClient } from "../types";
 
-async function seedPosts(db: DbClient) {
+async function seedEvents(db: DbClient) {
   const categorIds = (await db.select().from(categories)).map(category => category.id);
   const coverMediaIds = (await db.select().from(media).where(isNull(media.deletedAt))).map(mediaItem => mediaItem.id);
   
@@ -23,5 +23,5 @@ async function seedPosts(db: DbClient) {
   await db.insert(events)
     .values(data);
 
-  console.log("Posts seeded successfully.");
+  console.log("Events seeded successfully.");
 }
