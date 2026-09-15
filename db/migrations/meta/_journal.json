@@ -120,6 +120,13 @@
       "when": 1789471472902,
       "tag": "0016_update_permissions_enum_with_organisations_and_roles_permissions",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1789476204240,
+      "tag": "0017_update_permissions_enum_new_events_permissions",
+      "breakpoints": true
     }
   ]
 }

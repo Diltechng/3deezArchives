@@ -1,0 +1,2 @@
+ALTER TYPE "public"."permission_enum" ADD VALUE 'events:update:any' BEFORE 'categories:create';--> statement-breakpoint
+ALTER TYPE "public"."permission_enum" ADD VALUE 'events:delete:any' BEFORE 'categories:create';
