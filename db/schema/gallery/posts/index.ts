@@ -6,7 +6,7 @@ import { relations } from "drizzle-orm";
 
 export const visibilityEnum = pgEnum("visibility", EventVisibilityValues);
 
-export const posts = pgTable("posts", {
+export const posts = pgTable("events", {
   id: uuid("id").defaultRandom().primaryKey(),
   
   title: varchar("title", { length: 255 }).notNull(),
