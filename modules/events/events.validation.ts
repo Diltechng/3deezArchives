@@ -3,13 +3,13 @@ import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { CreateEventSchema, GetEventsQuerySchema, EventIdSchema, UpdateEventSchema } from "@/shared/schemas";
 import z from "zod";
 
-export function validateCreatePost(data: unknown) {
+export function validateCreateEvent(data: unknown) {
   const result = CreateEventSchema.safeParse(data);
 
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
-    throw new BadRequestError("Invalid or malformed create post data", {
+    throw new BadRequestError("Invalid or malformed create event data", {
       code: ApiErrorCode.INVALID_CREATE_EVENT_DATA,
       details: flattenedError
     });
@@ -18,13 +18,13 @@ export function validateCreatePost(data: unknown) {
   return result.data;
 }
 
-export function validatePostId(data: unknown) {
+export function validateEventId(data: unknown) {
   const result = EventIdSchema.safeParse(data);
   
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).formErrors;
     
-    throw new BadRequestError("Invalid post ID", {
+    throw new BadRequestError("Invalid event ID", {
       code: ApiErrorCode.INVALID_EVENT_ID,
       details: flattenedError
     });
@@ -33,13 +33,13 @@ export function validatePostId(data: unknown) {
   return result.data;
 }
 
-export function validateUpdatePost(data: unknown) {
+export function validateUpdateEvent(data: unknown) {
   const result = UpdateEventSchema.safeParse(data);
 
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
-    throw new BadRequestError("Invalid or malformed update post data", {
+    throw new BadRequestError("Invalid or malformed update event data", {
       code: ApiErrorCode.INVALID_UPDATE_EVENT_DATA,
       details: flattenedError
     });
@@ -49,13 +49,13 @@ export function validateUpdatePost(data: unknown) {
 }
 
 
-export function validateGetPostsQuery(data: unknown) {
+export function validateGetEventsQuery(data: unknown) {
   const result = GetEventsQuerySchema.safeParse(data);
 
   if (!result.success) {
     const flattenedError = z.flattenError(result.error).fieldErrors;
 
-    throw new BadRequestError("Invalid or malformed get posts query", {
+    throw new BadRequestError("Invalid or malformed get events query", {
       code: ApiErrorCode.INVALID_FETCH_QUERY,
       details: flattenedError
     });
