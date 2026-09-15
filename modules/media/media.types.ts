@@ -2,7 +2,7 @@ import { UserRole } from "@/shared/constants/enums";
 import {
   EventId,
   CreateEventPayload,
-  UpdatePostInput,
+  UpdateEventPayload,
   GetEventsQueryInput,
 } from "@/shared/schemas";
 import { GetPostsMeta, PostDto } from "@/shared/contracts/posts.contract";
@@ -52,7 +52,7 @@ export interface GetOnePostInput {
 
 export interface UpdateOnePostInput {
   postId: EventId;
-  data: UpdatePostInput;
+  data: UpdateEventPayload;
   userId: string;
   userRole: UserRole;
 }

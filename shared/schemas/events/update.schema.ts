@@ -3,7 +3,7 @@ import { CoverMediaIdSchema } from "../media";
 import { CategoryIdSchema } from "../categories";
 import { EventDateOfMomentSchema, EventDescriptionSchema, EventTagsSchema, EventTitleSchema, EventVisibilitySchema } from ".";
 
-export const UpdatePostSchema = z.object({
+export const UpdateEventSchema = z.object({
   title: EventTitleSchema.optional(),
   description: EventDescriptionSchema.optional(),
   tags: EventTagsSchema.optional(),
@@ -15,4 +15,4 @@ export const UpdatePostSchema = z.object({
   }),
 });
 
-export type UpdatePostInput = z.infer<typeof UpdatePostSchema>;
+export type UpdateEventPayload = z.infer<typeof UpdateEventSchema>;
