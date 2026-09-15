@@ -21,6 +21,7 @@ import { Input } from "@/features/common/ui/Input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/features/common/ui/Select";
 import { Textarea } from "@/features/common/ui/Textarea";
 import { getErrorMessage } from "@/features/common/lib/utils";
+import { eventsService } from "../services/event.service";
 
 interface EventFormModalProps {
   title: string;
@@ -35,14 +36,10 @@ export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventF
   const uploadMutation = useMutation({
     mutationFn: async (data: CreateEventPayload) => {
       if (initialData) {
-        const response = await api.patch(`/gallery/posts/${initialData.id}`, data);
-
-        return response;
+        return await eventsService.updateEventById(initialData.id, data);
       }
 
-      const response = await api.post("/gallery/posts", data);
-
-      return await response.data;
+      return await eventsService.createEvent(data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["events"] });

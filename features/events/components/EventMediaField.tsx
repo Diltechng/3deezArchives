@@ -63,7 +63,7 @@ export const EventMediaField = ({ error, value, initialData, onChange }: EventMe
       formDataPayload.append("file", file);
 
       const { data } = initialData
-        ? await api.post(`/gallery/posts/${initialData.eventId}/media`, formDataPayload)
+        ? await api.post(`/gallery/events/${initialData.eventId}/media`, formDataPayload)
         : await api.post("/gallery/media", formDataPayload);
 
       return { localId, media: data.data }
