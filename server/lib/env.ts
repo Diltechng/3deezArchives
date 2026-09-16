@@ -4,9 +4,9 @@ const EnvSchema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]),
   FRONTEND_URL: z.url().default("http://localhost:3000"),
 
-  SUPER_ADMIN_NAME: z.string().min(1).default("Super Admin").optional(),
-  SUPER_ADMIN_EMAIL: z.email().default("super@admin.com").optional(),
-  SUPER_ADMIN_PASSWORD: z.string().min(1).default("admin123").optional(),
+  SUPER_ADMIN_NAME: z.string().min(1).default("Super Admin"),
+  SUPER_ADMIN_EMAIL: z.email().default("super@admin.com"),
+  SUPER_ADMIN_PASSWORD: z.string().min(1).default("admin123"),
 
   DATABASE_URL: z.url().optional(),
 
