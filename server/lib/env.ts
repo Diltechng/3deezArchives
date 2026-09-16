@@ -1,8 +1,8 @@
 import z from "zod"
 
 const EnvSchema = z.object({
-  NODE_ENV: z.enum(["development", "production", "test"]).optional(),
-  FRONTEND_URL: z.url().default("http://localhost:3000").optional(),
+  NODE_ENV: z.enum(["development", "production", "test"]),
+  FRONTEND_URL: z.url().default("http://localhost:3000"),
 
   SUPER_ADMIN_NAME: z.string().min(1).default("Super Admin").optional(),
   SUPER_ADMIN_EMAIL: z.email().default("super@admin.com").optional(),
