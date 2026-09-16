@@ -1,7 +1,7 @@
 import { foreignKey, index, pgEnum, pgTable, PgTableExtraConfigValue, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { EventVisibilityValues } from "@/shared/constants/enums";
-import { timestamps } from "@/db/schema/shared";
-import { media, users, categories } from "@/db/schema";
+import { timestamps } from "@/server/db/schema/shared";
+import { media, users, categories } from "@/server/db/schema";
 import { relations } from "drizzle-orm";
 
 export const visibilityEnum = pgEnum("visibility", EventVisibilityValues);

@@ -1,5 +1,5 @@
-import { db } from "@/db";
-import { categories } from "@/db/schema";
+import { db } from "@/server/db";
+import { categories } from "@/server/db/schema";
 
 export const categoriesSelect = {
   id: categories.id,

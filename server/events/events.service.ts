@@ -1,5 +1,5 @@
-import { db } from "@/db";
-import { categories, media, events } from "@/db/schema";
+import { db } from "@/server/db";
+import { categories, media, events } from "@/server/db/schema";
 import { BadRequestError, ForbiddenError, InternalServerError, NotFoundError } from "@/server/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { EventVisibility, UserRole } from "@/shared/constants/enums";

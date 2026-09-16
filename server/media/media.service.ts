@@ -1,5 +1,5 @@
-import { db } from "@/db";
-import { media, events } from "@/db/schema";
+import { db } from "@/server/db";
+import { media, events } from "@/server/db/schema";
 import { cloudinary } from "@/server/lib/cloudinary";
 import { ConflictError, ForbiddenError, InternalServerError } from "@/server/lib/errors";
 import { MediaNotFoundError } from "./media.errors";

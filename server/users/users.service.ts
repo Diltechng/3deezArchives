@@ -1,6 +1,6 @@
-import { db } from "@/db";
+import { db } from "@/server/db";
 import { and, asc, count, desc, eq, gte, ilike, lte, or, sql } from "drizzle-orm";
-import { users, events } from "@/db/schema";
+import { users, events } from "@/server/db/schema";
 import { GetUsersInput, GetUsersOutput } from "./users.types";
 
 class UsersService {

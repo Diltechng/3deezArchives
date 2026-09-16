@@ -1,5 +1,5 @@
-import { db as database } from "@/db";
-import { users } from "@/db/schema";
+import { db as database } from "@/server/db";
+import { users } from "@/server/db/schema";
 import { NotFoundError, UnauthorizedError } from "@/server/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { UpdateEmailInput, UpdateFullNameInput, UpdatePasswordInput } from "@/shared/schemas/account/update.schema";

@@ -1,5 +1,5 @@
-import { db } from "@/db";
-import { users } from "@/db/schema";
+import { db } from "@/server/db";
+import { users } from "@/server/db/schema";
 import { withAuthGuard } from "@/server/lib/api/auth-guard";
 import { withErrorHandler } from "@/server/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";

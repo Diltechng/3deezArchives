@@ -1,6 +1,6 @@
-import { db } from "@/db";
+import { db } from "@/server/db";
 import { eq } from "drizzle-orm";
-import { users } from "@/db/schema";
+import { users } from "@/server/db/schema";
 import { UnauthorizedError } from "@/server/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { SignInInput } from "@/shared/schemas";

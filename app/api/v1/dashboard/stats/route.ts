@@ -1,5 +1,5 @@
-import { db } from "@/db";
-import { categories, events, users } from "@/db/schema";
+import { db } from "@/server/db";
+import { categories, events, users } from "@/server/db/schema";
 import { withAuthGuard } from "@/server/lib/api/auth-guard";
 import { withErrorHandler } from "@/server/lib/api/error-handler";
 import { eventsService } from "@/server/events/events.service";

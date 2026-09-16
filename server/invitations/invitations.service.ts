@@ -1,5 +1,5 @@
-import { db } from "@/db";
-import { invitations, users } from "@/db/schema";
+import { db } from "@/server/db";
+import { invitations, users } from "@/server/db/schema";
 import { generateInvitationToken, generateOTP, sha256Hash } from "@/server/lib/crypto";
 import { BadRequestError, ConflictError, GoneError, InternalServerError, NotFoundError } from "@/server/lib/errors";
 import { AccountAlreadyExistsError } from "./invitations.errors";
