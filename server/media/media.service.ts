@@ -9,7 +9,6 @@ import { and, asc, desc, eq, inArray, isNotNull, isNull, lte, or } from "drizzle
 import { softDelete } from "../shared/helpers/soft-delete";
 import { DeleteFilesInput, DeleteOneFileInput, UploadFileInput } from "./media.types";
 import { days } from "@/shared/utils/time";
-import { env } from "../lib/env";
 
 
 export const mediaSelect = {
@@ -53,7 +52,7 @@ class MediaService {
   
     const uploadedFile = await new Promise<UploadApiResponse>((resolve, reject) => {
       cloudinary.uploader.upload_stream({
-        folder: env.CLOUDINARY_UPLOAD_FOLDER ?? (env.NODE_ENV === "production" ? "3deez-archives/prod": "3deez-archives/dev")
+        folder: process.env.CLOUDINARY_UPLOAD_FOLDER ?? (process.env.NODE_ENV === "production" ? "3deez-archives/prod": "3deez-archives/dev")
       },
       (error, uploadedFile) => { 
         if (error)

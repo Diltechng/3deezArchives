@@ -2,12 +2,11 @@ import { users } from "../schema";
 import bcrypt from "bcrypt";
 import { UserRole } from "@/shared/constants/enums";
 import { DbClient } from "../types";
-import { env } from "@/server/lib/env";
 
 export async function seedAdmin(db: DbClient) {
-  const adminEmail = env.SUPER_ADMIN_EMAIL;
-  const adminPassword = env.SUPER_ADMIN_PASSWORD;
-  const adminName = env.SUPER_ADMIN_NAME;
+  const adminEmail = process.env.ADMIN_EMAIL;
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  const adminName = process.env.ADMIN_NAME;
 
   if (!adminEmail || !adminPassword || !adminName)
     throw new Error("Missing or misconfigured admin credentials. Please configure them in your environment variables.");
