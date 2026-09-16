@@ -1,14 +1,14 @@
 import z from "zod"
 
 const EnvSchema = z.object({
-  NODE_ENV: z.enum(["development", "production", "test"]),
-  FRONTEND_URL: z.url().default("http://localhost:3000"),
+  NODE_ENV: z.enum(["development", "production", "test"]).optional(),
+  FRONTEND_URL: z.url().default("http://localhost:3000").optional(),
 
   SUPER_ADMIN_NAME: z.string().min(1).default("Super Admin"),
   SUPER_ADMIN_EMAIL: z.email().default("super@admin.com"),
   SUPER_ADMIN_PASSWORD: z.string().min(1).default("admin123"),
 
-  DATABASE_URL: z.url(),
+  DATABASE_URL: z.url().optional(),
 
   GOOGLE_MAIL_USER: z.email().optional(),
   GOOGLE_APP_PASSWORD: z.string().min(1).optional(),
@@ -17,9 +17,9 @@ const EnvSchema = z.object({
   INVITATION_JWT_SECRET: z.string().min(1).optional(),
   CRON_SECRET: z.string().min(1).optional(),
 
-  CLOUDINARY_CLOUD_NAME: z.string().min(1).optional(),
-  CLOUDINARY_API_KEY: z.string().min(1).optional(),
-  CLOUDINARY_API_SECRET: z.string().min(1).optional(),
+  CLOUDINARY_CLOUD_NAME: z.string().min(1),
+  CLOUDINARY_API_KEY: z.string().min(1),
+  CLOUDINARY_API_SECRET: z.string().min(1),
   CLOUDINARY_UPLOAD_FOLDER: z.string().min(1).optional(),
 });
 
