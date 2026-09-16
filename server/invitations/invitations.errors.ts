@@ -1,4 +1,4 @@
-import { ConflictError } from "@/lib/errors";
+import { ConflictError } from "@/server/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 
 export function AccountAlreadyExistsError() {

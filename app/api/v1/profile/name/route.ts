@@ -1,5 +1,5 @@
-import { withAuthGuard } from "@/lib/api/auth-guard";
-import { withErrorHandler } from "@/lib/api/error-handler";
+import { withAuthGuard } from "@/server/lib/api/auth-guard";
+import { withErrorHandler } from "@/server/lib/api/error-handler";
 import { accountService } from "@/server/account/account.service";
 import { validateUpdateFullName } from "@/server/account/account.validation";
 import { ResponseData } from "@/shared/types/api";

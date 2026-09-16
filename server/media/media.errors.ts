@@ -1,4 +1,4 @@
-import { NotFoundError } from "@/lib/errors";
+import { NotFoundError } from "@/server/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 
 export function MediaNotFoundError() {

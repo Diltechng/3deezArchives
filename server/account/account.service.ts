@@ -1,6 +1,6 @@
 import { db as database } from "@/db";
 import { users } from "@/db/schema";
-import { NotFoundError, UnauthorizedError } from "@/lib/errors";
+import { NotFoundError, UnauthorizedError } from "@/server/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { UpdateEmailInput, UpdateFullNameInput, UpdatePasswordInput } from "@/shared/schemas/account/update.schema";
 import { eq } from "drizzle-orm";

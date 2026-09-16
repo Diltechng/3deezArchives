@@ -1,5 +1,5 @@
-import { withErrorHandler } from "@/lib/api/error-handler";
-import { withInvitationGuard } from "@/lib/api/invitation-guard";
+import { withErrorHandler } from "@/server/lib/api/error-handler";
+import { withInvitationGuard } from "@/server/lib/api/invitation-guard";
 import { invitationsService } from "@/server/invitations/invitations.service";
 import { VerifyInvitationResponse } from "@/shared/contracts/invitations.contract";
 import { NextResponse } from "next/server";

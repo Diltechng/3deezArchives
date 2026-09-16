@@ -1,13 +1,13 @@
-import { withAuthGuard } from "@/lib/api/auth-guard";
-import { withErrorHandler } from "@/lib/api/error-handler";
+import { withAuthGuard } from "@/server/lib/api/auth-guard";
+import { withErrorHandler } from "@/server/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";
 import { eventsService } from "@/server/events/events.service";
 import { NextResponse } from "next/server";
 import { GetEventsMeta, EventDto } from "@/shared/contracts/events.contract";
-import { withPermissionGuard } from "@/lib/api/permission-guard";
+import { withPermissionGuard } from "@/server/lib/api/permission-guard";
 import { PERMISSIONS } from "@/shared/constants/permissions.constants";
 import { CreateEventSchema, GetEventsQuerySchema } from "@/shared/schemas";
-import { validateRequest } from "@/lib/api/validation";
+import { validateRequest } from "@/server/lib/api/validation";
 
 export const POST = withErrorHandler(
   withAuthGuard(

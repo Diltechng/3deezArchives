@@ -1,5 +1,5 @@
-import { withErrorHandler } from "@/lib/api/error-handler"
-import { withInvitationGuard } from "@/lib/api/invitation-guard"
+import { withErrorHandler } from "@/server/lib/api/error-handler"
+import { withInvitationGuard } from "@/server/lib/api/invitation-guard"
 import { invitationsService } from "@/server/invitations/invitations.service";
 import { validateAcceptInvite } from "@/server/invitations/invitations.validation";
 import { ResponseData } from "@/shared/types/api";

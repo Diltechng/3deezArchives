@@ -1,12 +1,12 @@
 import { db } from "@/db";
 import { invitations, users } from "@/db/schema";
-import { generateInvitationToken, generateOTP, sha256Hash } from "@/lib/crypto";
-import { BadRequestError, ConflictError, GoneError, InternalServerError, NotFoundError } from "@/lib/errors";
+import { generateInvitationToken, generateOTP, sha256Hash } from "@/server/lib/crypto";
+import { BadRequestError, ConflictError, GoneError, InternalServerError, NotFoundError } from "@/server/lib/errors";
 import { AccountAlreadyExistsError } from "./invitations.errors";
 import { GetInvitationsInput, InvitationJwtPayload, InviteUserInput } from "./invitations.types";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { and, asc, count, desc, eq, gt, gte, ilike, lte, or, sql } from "drizzle-orm";
-import { DUMMY_TOKEN_HASH } from "@/lib/constants";
+import { DUMMY_TOKEN_HASH } from "@/server/lib/constants";
 import { AcceptInviteInput } from "@/shared/schemas";
 import { days } from "../../shared/utils/time";
 import jwt from "jsonwebtoken";

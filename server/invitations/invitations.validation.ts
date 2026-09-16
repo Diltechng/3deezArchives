@@ -1,4 +1,4 @@
-import { BadRequestError } from "@/lib/errors";
+import { BadRequestError } from "@/server/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { AcceptInviteSchema, GetInvitationsQuerySchema, InvitationJwtPayloadSchema } from "@/shared/schemas";
 import z from "zod";

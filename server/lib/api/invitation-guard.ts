@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { ApiResponse, InvitationReqContext, RouteContext } from "../../shared/types/api";
+import { ApiResponse, InvitationReqContext, RouteContext } from "../../../shared/types/api";
 import { BadRequestError } from "../errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { invitationsService } from "@/server/invitations/invitations.service";

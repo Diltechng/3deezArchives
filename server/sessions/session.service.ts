@@ -1,10 +1,10 @@
-import { GoneError, InternalServerError, BadRequestError } from "@/lib/errors";
+import { GoneError, InternalServerError, BadRequestError } from "@/server/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { db } from "@/db";
 import { sessions, users } from "@/db/schema";
-import { sha256Hash } from "@/lib/crypto";
+import { sha256Hash } from "@/server/lib/crypto";
 import { days } from "@/shared/utils/time";
 import { eq, sql } from "drizzle-orm";
 import { AccessTokenPayload } from "@/shared/schemas";

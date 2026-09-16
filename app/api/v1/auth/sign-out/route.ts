@@ -1,4 +1,4 @@
-import { withErrorHandler } from "@/lib/api/error-handler";
+import { withErrorHandler } from "@/server/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";
 import { sessionService } from "@/server/sessions/session.service";
 import { validateRefreshToken } from "@/server/sessions/session.validation";

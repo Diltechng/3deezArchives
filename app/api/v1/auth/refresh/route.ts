@@ -1,5 +1,5 @@
-import { setRefreshTokenCookie } from "@/lib/api/cookies";
-import { withErrorHandler } from "@/lib/api/error-handler";
+import { setRefreshTokenCookie } from "@/server/lib/api/cookies";
+import { withErrorHandler } from "@/server/lib/api/error-handler";
 import { sessionService } from "@/server/sessions/session.service";
 import { validateRefreshToken } from "@/server/sessions/session.validation";
 import { cookies } from "next/headers"

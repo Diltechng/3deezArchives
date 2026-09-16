@@ -17,7 +17,7 @@ import { ModalFooter } from "@/features/common/components/ModalFooter";
 import { Button } from "@/features/common/ui/Button";
 import { ModalBody } from "@/features/common/components/ModalBody";
 import { Input } from "@/features/common/ui/Input";
-import { QUERY_KEYS } from "@/lib/client/query-keys";
+import { QUERY_KEYS } from "@/lib/query-keys";
 
 interface InviteUserFormModalProps {
   title: string;

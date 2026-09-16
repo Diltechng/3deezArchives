@@ -13,7 +13,7 @@ import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import Can from "@/features/permissions/components/Can";
 import { PERMISSIONS } from "@/shared/constants/permissions.constants";
-import { QUERY_KEYS } from "@/lib/client/query-keys";
+import { QUERY_KEYS } from "@/lib/query-keys";
 
 const InvitationsPage = () => {
   const LIMIT = 10;

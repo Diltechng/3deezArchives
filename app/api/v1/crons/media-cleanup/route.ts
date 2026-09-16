@@ -1,5 +1,5 @@
-import { withCronGuard } from "@/lib/api/cron-guard";
-import { withErrorHandler } from "@/lib/api/error-handler";
+import { withCronGuard } from "@/server/lib/api/cron-guard";
+import { withErrorHandler } from "@/server/lib/api/error-handler";
 import { mediaService } from "@/server/media/media.service";
 import { ResponseData } from "@/shared/types/api";
 import { NextResponse } from "next/server";

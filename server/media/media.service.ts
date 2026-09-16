@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { media, events } from "@/db/schema";
-import { cloudinary } from "@/lib/cloudinary";
-import { ConflictError, ForbiddenError, InternalServerError } from "@/lib/errors";
+import { cloudinary } from "@/server/lib/cloudinary";
+import { ConflictError, ForbiddenError, InternalServerError } from "@/server/lib/errors";
 import { MediaNotFoundError } from "./media.errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { UploadApiResponse } from "cloudinary";

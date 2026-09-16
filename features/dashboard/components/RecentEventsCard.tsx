@@ -9,7 +9,7 @@ import { useEventFormModal } from "../../events/hooks/useEventFormModal";
 import { useQuery } from "@tanstack/react-query";
 import { eventsService } from "../../events/services/event.service";
 import { Card } from "../../common/ui/Card";
-import { QUERY_KEYS } from "@/lib/client/query-keys";
+import { QUERY_KEYS } from "@/lib/query-keys";
 
 interface ErrorStateProps {
   onRetry?: () => void;

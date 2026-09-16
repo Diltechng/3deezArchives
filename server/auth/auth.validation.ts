@@ -1,5 +1,5 @@
 import z from "zod";
-import { BadRequestError } from "@/lib/errors";
+import { BadRequestError } from "@/server/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { AccessTokenPayloadSchema } from "@/shared/schemas";
 import { SignInSchema } from "@/shared/schemas";

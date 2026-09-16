@@ -1,4 +1,4 @@
-import { BadRequestError } from "@/lib/errors";
+import { BadRequestError } from "@/server/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { InviteUserSchema } from "@/shared/schemas";
 import { GetUsersQuerySchema } from "@/shared/schemas/users/get.schema";

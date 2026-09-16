@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { categories, media, events } from "@/db/schema";
-import { BadRequestError, ForbiddenError, InternalServerError, NotFoundError } from "@/lib/errors";
+import { BadRequestError, ForbiddenError, InternalServerError, NotFoundError } from "@/server/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { EventVisibility, UserRole } from "@/shared/constants/enums";
 import { and, asc, desc, eq, gte, ilike, inArray, isNull, lte, ne, or, sql } from "drizzle-orm";

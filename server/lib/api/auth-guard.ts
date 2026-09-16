@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { ApiResponse, AuthReqContext, RouteContext } from "../../shared/types/api";
+import { ApiResponse, AuthReqContext, RouteContext } from "../../../shared/types/api";
 import { ForbiddenError, UnauthorizedError } from "../errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { sessionService } from "@/server/sessions/session.service"

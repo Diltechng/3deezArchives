@@ -1,5 +1,5 @@
-import { setRefreshTokenCookie } from "@/lib/api/cookies";
-import { withErrorHandler } from "@/lib/api/error-handler";
+import { setRefreshTokenCookie } from "@/server/lib/api/cookies";
+import { withErrorHandler } from "@/server/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";
 import { authService } from "@/server/auth/auth.service";
 import { validateSignIn } from "@/server/auth/auth.validation";
