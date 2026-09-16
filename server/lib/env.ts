@@ -10,7 +10,7 @@ const EnvSchema = z.object({
 
   DATABASE_URL: z.url(),
 
-  GOOGLE_MAIL_USER: z.email().optional(),
+  GOOGLE_MAIL_USER: z.email(),
   GOOGLE_APP_PASSWORD: z.string().min(1).optional(),
 
   JWT_SECRET: z.string().min(1).optional(),
