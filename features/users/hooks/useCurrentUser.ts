@@ -1,6 +1,7 @@
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { api } from "@/features/common/lib/api";
 import { getErrorMessage } from "@/features/common/lib/utils";
+import { QUERY_KEYS } from "@/lib/client/query-keys";
 import { GetUserProfileResponse } from "@/shared/contracts/users.contract";
 import { useQuery } from "@tanstack/react-query";
 
@@ -18,7 +19,7 @@ export function useCurrentUser() {
   }
 
   const { data, isLoading } = useQuery({
-    queryKey: ["me"],
+    queryKey: [QUERY_KEYS.PROFILE],
     queryFn: getProfile,
     enabled: isAuthenticated
   });

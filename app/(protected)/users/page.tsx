@@ -12,6 +12,7 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
+import { QUERY_KEYS } from "@/lib/client/query-keys";
 
 const UsersPage = () => {
   const LIMIT = 10;
@@ -29,7 +30,7 @@ const UsersPage = () => {
   const [totalUsers, setTotalUsers] = useState(0);
 
   const { isLoading: isLoadingUsers, error: usersError, data: usersData } = useQuery({
-    queryKey: ["users", values],
+    queryKey: [QUERY_KEYS.USERS, values],
     queryFn: async () => {
       const searchParams = new URLSearchParams({
         ...values,

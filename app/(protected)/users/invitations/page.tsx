@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import Can from "@/features/permissions/components/Can";
 import { PERMISSIONS } from "@/shared/constants/permissions.constants";
+import { QUERY_KEYS } from "@/lib/client/query-keys";
 
 const InvitationsPage = () => {
   const LIMIT = 10;
@@ -28,7 +29,7 @@ const InvitationsPage = () => {
   }, 300);
 
   const { isLoading: isLoadingInvitations, error: invitationsError, data: invitationsData } = useQuery({
-    queryKey: ["invitations", values],
+    queryKey: [QUERY_KEYS.INVITATIONS, values],
     queryFn: async () => {
       console.log(values);
       const searchParams = new URLSearchParams({

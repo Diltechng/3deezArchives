@@ -22,6 +22,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/features/common/ui/Textarea";
 import { getErrorMessage } from "@/features/common/lib/utils";
 import { eventsService } from "../services/event.service";
+import { QUERY_KEYS } from "@/lib/client/query-keys";
 
 interface EventFormModalProps {
   title: string;
@@ -42,7 +43,7 @@ export const EventFormModal = ({ title, subtitle, onClose, initialData }: EventF
       return await eventsService.createEvent(data);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["events"] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.EVENTS] });
       
       if (onClose) onClose();
     },

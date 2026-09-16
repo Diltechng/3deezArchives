@@ -11,6 +11,7 @@ import z from "zod";
 import { api } from "@/features/common/lib/api";
 import { CldImage } from "next-cloudinary";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/lib/client/query-keys";
 
 interface EventMediaCardProps {
   error?: Merge<FieldError, (FieldError | undefined)[]> | FieldError;
@@ -88,7 +89,7 @@ export const EventMediaField = ({ error, value, initialData, onChange }: EventMe
       });
 
       if(initialData)
-        queryClient.invalidateQueries({  queryKey: ["events", initialData.eventId] });
+        queryClient.invalidateQueries({  queryKey: [QUERY_KEYS.EVENTS, initialData.eventId] });
     },
 
     onError: (error, localId) => {

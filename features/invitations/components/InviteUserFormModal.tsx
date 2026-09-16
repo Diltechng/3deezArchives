@@ -17,6 +17,7 @@ import { ModalFooter } from "@/features/common/components/ModalFooter";
 import { Button } from "@/features/common/ui/Button";
 import { ModalBody } from "@/features/common/components/ModalBody";
 import { Input } from "@/features/common/ui/Input";
+import { QUERY_KEYS } from "@/lib/client/query-keys";
 
 interface InviteUserFormModalProps {
   title: string;
@@ -34,7 +35,7 @@ export const InviteUserFormModal = ({ title, subtitle, onClose }: InviteUserForm
       return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["invitations"] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.INVITATIONS] });
       
       if (onClose) onClose();
     },
