@@ -11,7 +11,7 @@ import z from "zod";
 import { api } from "@/features/common/lib/api";
 import { CldImage } from "next-cloudinary";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { QUERY_KEYS } from "@/lib/client/query-keys";
+import { QUERY_KEYS } from "@/lib/query-keys";
 
 interface EventMediaCardProps {
   error?: Merge<FieldError, (FieldError | undefined)[]> | FieldError;

@@ -1,9 +1,9 @@
-import { withAuthGuard } from "@/lib/api/auth-guard";
-import { withErrorHandler } from "@/lib/api/error-handler";
+import { withAuthGuard } from "@/server/lib/api/auth-guard";
+import { withErrorHandler } from "@/server/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";
-import { categoriesService } from "@/modules/categories/categories.service";
+import { categoriesService } from "@/server/categories/categories.service";
 import { NextResponse } from "next/server";
-import { withPermissionGuard } from "@/lib/api/permission-guard";
+import { withPermissionGuard } from "@/server/lib/api/permission-guard";
 import { PERMISSIONS } from "@/shared/constants/permissions.constants";
 import { CategoryDto } from "@/shared/contracts/categories.contract";
 

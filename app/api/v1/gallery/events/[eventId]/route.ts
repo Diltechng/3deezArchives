@@ -1,12 +1,12 @@
-import { withAuthGuard } from "@/lib/api/auth-guard";
-import { withErrorHandler } from "@/lib/api/error-handler";
+import { withAuthGuard } from "@/server/lib/api/auth-guard";
+import { withErrorHandler } from "@/server/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";
-import { eventsService } from "@/modules/events/events.service";
+import { eventsService } from "@/server/events/events.service";
 import { NextResponse } from "next/server";
-import { withPermissionGuard } from "@/lib/api/permission-guard";
+import { withPermissionGuard } from "@/server/lib/api/permission-guard";
 import { PERMISSIONS } from "@/shared/constants/permissions.constants";
 import { DeleteEventByIdResponse, EventDto, UpdateEventByIdResponse } from "@/shared/contracts/events.contract";
-import { validateRequest } from "@/lib/api/validation";
+import { validateRequest } from "@/server/lib/api/validation";
 import { EventIdSchema, UpdateEventSchema } from "@/shared/schemas";
 
 export const GET = withErrorHandler(

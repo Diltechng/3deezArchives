@@ -1,5 +1,5 @@
 import { api } from "@/features/common/lib/api";
-import { QUERY_KEYS } from "@/lib/client/query-keys";
+import { QUERY_KEYS } from "@/lib/query-keys";
 import { useQuery } from "@tanstack/react-query"
 
 export function useCategories() {

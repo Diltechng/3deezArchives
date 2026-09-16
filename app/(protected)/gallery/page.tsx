@@ -9,7 +9,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { PageHeader } from "@/features/common/components/PageHeader";
 import { api } from "@/features/common/lib/api";
 import { GetCategoriesResponse } from "@/shared/contracts/categories.contract";
-import { QUERY_KEYS } from "@/lib/client/query-keys";
+import { QUERY_KEYS } from "@/lib/query-keys";
 import { Input } from "@/features/common/ui/Input";
 import { Button } from "@/features/common/ui/Button";
 import { DropdownMenu, DropdownMenuArrow, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/features/common/ui/Dropdown";

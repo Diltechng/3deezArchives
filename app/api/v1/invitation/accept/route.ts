@@ -1,7 +1,7 @@
-import { withErrorHandler } from "@/lib/api/error-handler"
-import { withInvitationGuard } from "@/lib/api/invitation-guard"
-import { invitationsService } from "@/modules/invitations/invitations.service";
-import { validateAcceptInvite } from "@/modules/invitations/invitations.validation";
+import { withErrorHandler } from "@/server/lib/api/error-handler"
+import { withInvitationGuard } from "@/server/lib/api/invitation-guard"
+import { invitationsService } from "@/server/invitations/invitations.service";
+import { validateAcceptInvite } from "@/server/invitations/invitations.validation";
 import { ResponseData } from "@/shared/types/api";
 import { NextResponse } from "next/server";
 

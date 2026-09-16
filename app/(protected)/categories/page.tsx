@@ -7,7 +7,7 @@ import { Button } from "@/features/common/ui/Button";
 import { DropdownMenu, DropdownMenuArrow, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/features/common/ui/Dropdown";
 import { Input } from "@/features/common/ui/Input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/features/common/ui/Select";
-import { QUERY_KEYS } from "@/lib/client/query-keys";
+import { QUERY_KEYS } from "@/lib/query-keys";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowUpDown, ListFilter, Plus, Search } from "lucide-react";
 import { useDebouncedCallback } from "use-debounce";

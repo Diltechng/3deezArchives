@@ -6,7 +6,7 @@ import { ModalHeader } from "@/features/common/components/ModalHeader";
 import { api } from "@/features/common/lib/api";
 import { getErrorMessage } from "@/features/common/lib/utils";
 import { Button } from "@/features/common/ui/Button";
-import { QUERY_KEYS } from "@/lib/client/query-keys";
+import { QUERY_KEYS } from "@/lib/query-keys";
 import { UpdateFullNameInput, UpdateFullNameSchema } from "@/shared/schemas/account/update.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

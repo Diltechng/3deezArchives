@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEventFormModal } from "@/features/events/hooks/useEventFormModal";
 import { eventsService } from "@/features/events/services/event.service";
-import { QUERY_KEYS } from "@/lib/client/query-keys";
+import { QUERY_KEYS } from "@/lib/query-keys";
 
 const EventDetailPage = () => {
   const params = useParams();
