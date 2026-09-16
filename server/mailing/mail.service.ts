@@ -2,13 +2,14 @@ import nodemailer from "nodemailer";
 import { SendInvitationEmailInput } from "./mailing.types";
 import { renderCompanyInviteEmail } from "@/server/utils/email";
 import { InternalServerError } from "@/server/lib/errors";
+import { env } from "../lib/env";
 
 
 class MailService {
   async sendInvitationEmail(data: SendInvitationEmailInput) {
-    const email = process.env.GOOGLE_MAIL_USER;
-    const appPassword = process.env.GOOGLE_APP_PASSWORD;
-    const frontedUrl = process.env.FRONTEND_URL;
+    const email = env.GOOGLE_MAIL_USER;
+    const appPassword = env.GOOGLE_APP_PASSWORD;
+    const frontedUrl = env.FRONTEND_URL;
     const service = "gmail";
 
     if (!email || !appPassword || !frontedUrl) {
