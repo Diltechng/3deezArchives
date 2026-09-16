@@ -1,26 +1,22 @@
-import z from "zod"
+export const env = {
+  NODE_ENV: process.env.NODE_ENV,
+  FRONTEND_URL: process.env.FRONTEND_URL,
 
-const EnvSchema = z.object({
-  NODE_ENV: z.enum(["development", "production", "test"]).optional(),
-  FRONTEND_URL: z.url().default("http://localhost:3000").optional(),
+  SUPER_ADMIN_NAME: process.env.ADMIN_NAME,
+  SUPER_ADMIN_EMAIL: process.env.ADMIN_EMAIL,
+  SUPER_ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
 
-  SUPER_ADMIN_NAME: z.string().min(1).default("Super Admin"),
-  SUPER_ADMIN_EMAIL: z.email().default("super@admin.com"),
-  SUPER_ADMIN_PASSWORD: z.string().min(1).default("admin123"),
+  DATABASE_URL: process.env.DATABASE_URL,
 
-  DATABASE_URL: z.url().optional(),
+  GOOGLE_MAIL_USER: process.env.GOOGLE_MAIL_USER,
+  GOOGLE_APP_PASSWORD: process.env.GOOGLE_APP_PASSWORD,
 
-  GOOGLE_MAIL_USER: z.email().optional(),
-  GOOGLE_APP_PASSWORD: z.string().min(1).optional(),
+  JWT_SECRET: process.env.JWT_SECRET,
+  INVITATION_JWT_SECRET: process.env.INVITATION_JWT_SECRET,
+  CRON_SECRET: process.env.CRON_SECRET,
 
-  JWT_SECRET: z.string().min(1).optional(),
-  INVITATION_JWT_SECRET: z.string().min(1).optional(),
-  CRON_SECRET: z.string().min(1).optional(),
-
-  CLOUDINARY_CLOUD_NAME: z.string().min(1),
-  CLOUDINARY_API_KEY: z.string().min(1),
-  CLOUDINARY_API_SECRET: z.string().min(1),
-  CLOUDINARY_UPLOAD_FOLDER: z.string().min(1).optional(),
-});
-
-export const env = EnvSchema.parse(process.env);
+  CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+  CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+  CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+  CLOUDINARY_UPLOAD_FOLDER: process.env.CLOUDINARY_UPLOAD_FOLDER,
+};
