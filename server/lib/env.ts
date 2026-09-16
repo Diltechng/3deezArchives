@@ -8,7 +8,7 @@ const EnvSchema = z.object({
   SUPER_ADMIN_EMAIL: z.email().default("super@admin.com"),
   SUPER_ADMIN_PASSWORD: z.string().min(1).default("admin123"),
 
-  DATABASE_URL: z.url().optional(),
+  DATABASE_URL: z.url(),
 
   GOOGLE_MAIL_USER: z.email().optional(),
   GOOGLE_APP_PASSWORD: z.string().min(1).optional(),
