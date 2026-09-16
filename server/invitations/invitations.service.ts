@@ -11,7 +11,6 @@ import { AcceptInviteInput } from "@/shared/schemas";
 import { days } from "../../shared/utils/time";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { env } from "../lib/env";
 
 class InvitationsService {
   async inviteUser(data: InviteUserInput) {
@@ -129,7 +128,7 @@ class InvitationsService {
   }
 
   signInvitationJwt(payload: InvitationJwtPayload) {
-    const secret = env.INVITATION_JWT_SECRET;
+    const secret = process.env.INVITATION_JWT_SECRET;
 
     if (!secret)
       throw new InternalServerError();
@@ -140,7 +139,7 @@ class InvitationsService {
   }
 
   verifyInvitationJwt(token: string) {
-    const secret = env.INVITATION_JWT_SECRET;
+    const secret = process.env.INVITATION_JWT_SECRET;
 
     if (!secret)
       throw new InternalServerError();

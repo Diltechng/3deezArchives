@@ -8,11 +8,10 @@ import { sha256Hash } from "@/server/lib/crypto";
 import { days } from "@/shared/utils/time";
 import { eq, sql } from "drizzle-orm";
 import { AccessTokenPayload } from "@/shared/schemas";
-import { env } from "../lib/env";
 
 class SessionService {
   signJwt(payload: AccessTokenPayload) {
-    const secret = env.JWT_SECRET;
+    const secret = process.env.JWT_SECRET;
 
     if (!secret)
       throw new InternalServerError();
@@ -25,7 +24,7 @@ class SessionService {
   }
 
   verifyJwt(token: string) {
-    const secret = env.JWT_SECRET;
+    const secret = process.env.JWT_SECRET;
 
     if (!secret)
       throw new InternalServerError();
