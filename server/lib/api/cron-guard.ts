@@ -8,7 +8,7 @@ export function withCronGuard(handler: (req: NextRequest) => ApiResponse) {
   return async (req: NextRequest) => {
     const bearerToken = req.headers.get("authorization");
 
-    const cron_secret = env.CRON_SECRET;
+    const cron_secret = process.env.CRON_SECRET;
 
     if (!cron_secret) {
       throw new InternalServerError("CRON_SECRET is not configured.", {
@@ -16,7 +16,7 @@ export function withCronGuard(handler: (req: NextRequest) => ApiResponse) {
       });
     }
 
-    if (bearerToken !== `Bearer ${env.CRON_SECRET}`) {
+    if (bearerToken !== `Bearer ${process.env.CRON_SECRET}`) {
       throw new UnauthorizedError("Invalid cron secret", {
         code: ApiErrorCode.INVALID_CRON_SECRET
       });
