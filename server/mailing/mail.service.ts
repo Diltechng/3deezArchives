@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import { SendInvitationEmailInput } from "./mailing.types";
-import { renderCompanyInviteEmail } from "@/modules/utils/email";
+import { renderCompanyInviteEmail } from "@/server/utils/email";
 import { InternalServerError } from "@/lib/errors";
 
 

@@ -1,7 +1,7 @@
 import { withAuthGuard } from "@/lib/api/auth-guard";
 import { withErrorHandler } from "@/lib/api/error-handler";
-import { accountService } from "@/modules/account/account.service";
-import { validateUpdateFullName } from "@/modules/account/account.validation";
+import { accountService } from "@/server/account/account.service";
+import { validateUpdateFullName } from "@/server/account/account.validation";
 import { ResponseData } from "@/shared/types/api";
 import { NextResponse } from "next/server";
 

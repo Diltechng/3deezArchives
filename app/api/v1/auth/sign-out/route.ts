@@ -1,7 +1,7 @@
 import { withErrorHandler } from "@/lib/api/error-handler";
 import { ResponseData } from "@/shared/types/api";
-import { sessionService } from "@/modules/sessions/session.service";
-import { validateRefreshToken } from "@/modules/sessions/session.validation";
+import { sessionService } from "@/server/sessions/session.service";
+import { validateRefreshToken } from "@/server/sessions/session.validation";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 

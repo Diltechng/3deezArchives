@@ -1,6 +1,6 @@
 import { withErrorHandler } from "@/lib/api/error-handler";
 import { withInvitationGuard } from "@/lib/api/invitation-guard";
-import { invitationsService } from "@/modules/invitations/invitations.service";
+import { invitationsService } from "@/server/invitations/invitations.service";
 import { VerifyInvitationResponse } from "@/shared/contracts/invitations.contract";
 import { NextResponse } from "next/server";
 
