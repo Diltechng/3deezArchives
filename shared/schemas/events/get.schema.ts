@@ -1,5 +1,5 @@
 import z from "zod";
-import { EventVisibilitySchema } from ".";
+import { EventVisibilitySchema } from "./fields.schema";
 
 export const GetEventsQuerySchema = z.object({
   page: z.coerce.number("Limit must be a valid number.")

@@ -1,5 +1,5 @@
 import z from "zod";
-import { EmailSchema, RoleSchema } from ".";
+import { EmailSchema, RoleSchema } from "./fields.schema";
 
 export const InviteUserSchema = z.object({
   email: EmailSchema,

@@ -1,5 +1,5 @@
 import z from "zod";
-import { InvitationIdSchema, InvitationTokenSchema } from ".";
+import { InvitationIdSchema, InvitationTokenSchema } from "./fields.schema";
 
 export const InvitationJwtPayloadSchema = z.object({
   invitationId: InvitationIdSchema,

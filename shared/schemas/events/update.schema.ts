@@ -1,7 +1,7 @@
 import z from "zod";
 import { CoverMediaIdSchema } from "../media";
 import { CategoryIdSchema } from "../categories";
-import { EventDateOfMomentSchema, EventDescriptionSchema, EventTagsSchema, EventTitleSchema, EventVisibilitySchema } from ".";
+import { EventDateOfMomentSchema, EventDescriptionSchema, EventTagsSchema, EventTitleSchema, EventVisibilitySchema } from "./fields.schema";
 
 export const UpdateEventSchema = z.object({
   title: EventTitleSchema.optional(),
