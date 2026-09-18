@@ -47,7 +47,7 @@ export async function backfillUsers(tx: DbTransaction) {
     }
     
     // Backfill platform super admin
-    await tx.update(users)
+    const [updatedSuperAdmin] = await tx.update(users)
       .set({
         organisationId: PLATFORM_ORGANISATION_ID,
         roleId: superAdminRole.id
@@ -56,6 +56,13 @@ export async function backfillUsers(tx: DbTransaction) {
         eq(users.email, env.SUPER_ADMIN_EMAIL),
         ...withoutRoleAndOrganisation,
       ))
+      .returning({ id: users.id });
+
+      if (!updatedSuperAdmin) {
+        throw new Error(
+          `Super admin user "${env.SUPER_ADMIN_EMAIL}" was not found or was not eligible for backfill`
+        );
+      }
   }
 
   // Backfill organisation admin
