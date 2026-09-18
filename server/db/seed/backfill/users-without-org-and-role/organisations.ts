@@ -1,7 +1,6 @@
 import { and, isNull, ne } from "drizzle-orm";
 import { organisations, users } from "../../../schema";
 import { DbTransaction } from "../../../types";
-import { PLATFORM_ORGANISATION_ID } from "../../organisations";
 
 const BACKFILL_ORGANISATION_ID = "39e036d8-927b-438d-a937-178fec32dfc3";
 const BACKFILL_ORGANISATION_NAME = "3Deez Global Investments Limited";
