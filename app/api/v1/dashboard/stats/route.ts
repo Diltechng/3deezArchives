@@ -25,8 +25,7 @@ export const GET = withErrorHandler(
     ]);
 
     const { events: eventsList } = await eventsService.getAllEvents(
-      ctx.user.userId,
-      ctx.user.role,
+      ctx.user,
       {
         limit: 4,
         page: 1,
