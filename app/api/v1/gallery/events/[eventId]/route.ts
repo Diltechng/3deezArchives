@@ -16,11 +16,10 @@ export const GET = withErrorHandler(
 
       const validatedId = validateRequest(EventIdSchema ,eventId);
 
-      const result = await eventsService.getOneEvent({
-        eventId: validatedId,
-        userId: ctx.user.userId,
-        userRole: ctx.user.role,
-      });
+      const result = await eventsService.getEventById(
+        ctx.user,
+        validatedId,
+      );
 
       return NextResponse.json<ResponseData<EventDto>>({
         success: true,
@@ -40,12 +39,11 @@ export const PATCH = withErrorHandler(
       const validatedId = validateRequest(EventIdSchema, eventId);
       const validatedData = validateRequest(UpdateEventSchema, body);
 
-      const result = await eventsService.updateOneEvent({
-        eventId: validatedId,
-        data: validatedData,
-        userId: ctx.user.userId,
-        userRole: ctx.user.role
-      });
+      const result = await eventsService.updateEventById(
+        ctx.user,
+        validatedId,
+        validatedData,
+      );
 
       return NextResponse.json<UpdateEventByIdResponse>({
         success: true,
@@ -63,11 +61,10 @@ export const DELETE = withErrorHandler(
 
       const validatedEventId = validateRequest(EventIdSchema, eventId);
 
-      const result = await eventsService.deleteOneEvent({
-        eventId: validatedEventId,
-        userId: ctx.user.userId,
-        userRole: ctx.user.role,
-      })
+      const result = await eventsService.deleteEventById(
+        ctx.user,
+        validatedEventId,
+      );
 
       return NextResponse.json<DeleteEventByIdResponse>({
         success: true,

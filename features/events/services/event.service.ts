@@ -28,15 +28,15 @@ export const eventsService = {
     }
 
     if (categorySlug &&  categorySlug !== "all") {
-      searchParams.set("category", categorySlug);
+      searchParams.set("categorySlug", categorySlug);
     }
 
     if (date?.from) {
-      searchParams.set("from", date.from);
+      searchParams.set("startDate", date.from);
     }
 
     if (date?.to) {
-      searchParams.set("to", date.to);
+      searchParams.set("endDate", date.to);
     }
 
     const response = await api.get<GetEventsResponse>(`/gallery/events?${searchParams}`);

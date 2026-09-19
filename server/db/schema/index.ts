@@ -14,6 +14,7 @@ import {
   rolePermissionsRelations,
 } from "./iam";
 import { media, categories, events, eventRelations, mediaRelations } from "./gallery";
+import { ExtractTablesWithRelations } from "drizzle-orm";
 
 export * from "./iam";
 export * from "./gallery";
@@ -40,3 +41,4 @@ export const schema = {
 } as const;
 
 export type DbSchema = typeof schema;
+export type DbRelationalSchema = ExtractTablesWithRelations<DbSchema>;
