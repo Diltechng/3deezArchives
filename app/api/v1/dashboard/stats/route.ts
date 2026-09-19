@@ -2,12 +2,11 @@ import { db } from "@/server/db";
 import { categories, events, users } from "@/server/db/schema";
 import { withAuthGuard } from "@/server/lib/api/auth-guard";
 import { withErrorHandler } from "@/server/lib/api/error-handler";
-import { eventsService } from "@/server/events/events.service";
 import { and, count, gte, isNull } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export const GET = withErrorHandler(
-  withAuthGuard(async (_, ctx) => {
+  withAuthGuard(async () => {
     const startOfThisMonth = new Date();
     startOfThisMonth.setDate(1);
     startOfThisMonth.setHours(0, 0, 0, 0);
@@ -20,18 +19,9 @@ export const GET = withErrorHandler(
     ] = await Promise.all([
       db.select({ count: count() }).from(events).where(isNull(events.deletedAt)),
       db.select({ count: count() }).from(events).where(and(gte(events.createdAt, startOfThisMonth), isNull(events.deletedAt))),
-      db.select({ count: count() }).from(users),
-      db.select({ count: count() }).from(categories),
+      db.select({ count: count() }).from(users).where(isNull(events.deletedAt)),
+      db.select({ count: count() }).from(categories).where(isNull(events.deletedAt)),
     ]);
-
-    const { events: eventsList } = await eventsService.getAllEvents(
-      ctx.user,
-      {
-        limit: 4,
-        page: 1,
-        sortBy: "latest",
-      },
-    );
 
     return NextResponse.json({
       success: true,
@@ -41,7 +31,6 @@ export const GET = withErrorHandler(
         totalEventsThisMonth,
         totalUsers,
         totalCategories,
-        recentEvents: eventsList,
       }
     });
   })
