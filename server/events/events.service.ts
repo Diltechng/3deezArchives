@@ -3,13 +3,15 @@ import { categories, media, events } from "@/server/db/schema";
 import { BadRequestError, ForbiddenError, InternalServerError, NotFoundError } from "@/server/lib/errors";
 import { ApiErrorCode } from "@/shared/errors/error-codes";
 import { EventVisibility, UserRole } from "@/shared/constants/enums";
-import { and, asc, desc, eq, gte, ilike, inArray, isNull, lte, ne, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, isNull, ne, or, sql } from "drizzle-orm";
 import { softDelete } from "../shared/helpers/soft-delete";
-import { DeleteOneEventInput, GetOneEventInput, GetEventsInput, UpdateOneEventInput } from "./events.types";
-import { CreateEventPayload } from "@/shared/schemas";
+import { CreateEventPayload, GetEventsQuery, UpdateEventPayload } from "@/shared/schemas";
+import { buildDateFilter, buildPaginationMeta, buildSearch, getPagination } from "../utils";
+import { eventDetailProjection, eventListProjection } from "./events.projections";
+import { Principal } from "../shared/types";
 
 class EventsService {
-  async createNewEvent(userId: string, data: CreateEventPayload) {
+  async createEvent(user: Principal, data: CreateEventPayload) {
     if (!data.media.ids.includes(data.media.coverId))
       throw new ForbiddenError("Cover image must exist in attached media.", {
         code: ApiErrorCode.INVALID_COVER_IMAGE_REFERENCE
@@ -20,7 +22,7 @@ class EventsService {
       .from(media)
       .where(and(
         eq(media.id, data.media.coverId),
-        eq(media.uploadedBy, userId),
+        eq(media.uploadedBy, user.userId),
         isNull(media.eventId),
       ));
 
@@ -39,7 +41,7 @@ class EventsService {
         tags: data.tags,
         categoryId: data.categoryId,
         coverMediaId: data.media.coverId,
-        uploadedBy: userId,
+        uploadedBy: user.userId,
       }).returning({
         id: events.id,
         title: events.title,
@@ -49,7 +51,7 @@ class EventsService {
         eventId: storedEvent.id,
       }).where(and(
         inArray(media.id, data.media.ids),
-        eq(media.uploadedBy, userId),
+        eq(media.uploadedBy, user.userId),
         isNull(media.eventId),
       )).returning({
         id: media.id,
@@ -68,50 +70,40 @@ class EventsService {
     return result;
   }
 
-  async getEvents(data: GetEventsInput) {
-    const visibilityConditions = [
+  async getAllEvents(user: Principal, query: GetEventsQuery) {
+    const conditions = [
       or(
         and(
           eq(events.visibility, EventVisibility.PRIVATE),
-          eq(events.uploadedBy, data.userId)
+          eq(events.uploadedBy, user.userId)
         ),
         ne(events.visibility, EventVisibility.PRIVATE),
       ),
+      buildSearch(
+        [events.title, events.description],
+        query.search,
+      ),
+      buildDateFilter(
+        events.dateOfMoment,
+        query.startDate,
+        query.endDate,
+      ),
+      user.role !== UserRole.ADMIN
+        ? ne(events.visibility, EventVisibility.ADMIN_ONLY)
+        : undefined,
+      query.visibility
+        ? eq(events.visibility, query.visibility)
+        : undefined,
       isNull(events.deletedAt)
-    ];
+    ].filter(Boolean);
 
-    if (data.userRole !== UserRole.ADMIN) {
-      visibilityConditions.push(
-        ne(events.visibility, EventVisibility.ADMIN_ONLY)
-      )
-    }
-
-    const filters = [...visibilityConditions];
-
-    const { limit, page, search, visibility, categorySlug, date, sortBy } = data.filters;
-    if (search) {
-      filters.push(or(
-        ilike(events.title, `%${search}%`),
-        ilike(events.description, `%${search}%`)
-      ));
-    }
-
-    if (visibility) {
-      filters.push(eq(events.visibility, visibility));
-    }
-
-    if (date.from) {
-      filters.push(gte(events.dateOfMoment, date.from));
-    }
-
-    if (date.to) {
-      filters.push(lte(events.dateOfMoment, date.to));
-    }
-
-    if (categorySlug) {
+    if (query.categorySlug) {
       const [category] = await db.select({ id: categories.id })
         .from(categories)
-        .where(eq(categories.slug, categorySlug));
+        .where(and(
+          eq(categories.slug, query.categorySlug),
+          isNull(categories.deletedAt)
+        ));
 
       if (!category) {
         throw new NotFoundError("No such category exists", {
@@ -119,151 +111,67 @@ class EventsService {
         });
       }
 
-      filters.push(eq(events.categoryId, category.id));
+      conditions.push(eq(events.categoryId, category.id));
     }
 
-    const orderCriteria = sortBy === "oldest"
+    const whereClause = and(...conditions);
+
+    const orderCriteria = query.sortBy === "oldest"
       ? [asc(events.dateOfMoment), asc(events.id)]
       : [desc(events.dateOfMoment), desc(events.id)];
 
-    const offset = (page - 1) * limit;
-
-    const [{ count }] = await db.select({ count: sql<number>`count(*)::int` })
-      .from(events)
-      .where(and(...filters));
-
-    const result = await db.query.events.findMany({
-      where: and(...filters),
-      orderBy: orderCriteria,
-      offset,
-      limit,
-      columns: {
-        id: true,
-        title: true,
-        description: true,
-        visibility: true,
-        tags: true,
-        dateOfMoment: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-      with: {
-        category: {
-          columns: {
-            id: true,
-            name: true,
-            slug: true,
-            description: true,
-          },
-        },
-        coverMedia: {
-          columns: {
-            id: true,
-            secureUrl: true,
-            createdAt: true,
-            bytes: true,
-            width: true,
-            height: true,
-            uploadedBy: true,
-          }
-        },
-        media: {
-          columns: {
-            id: true,
-            secureUrl: true,
-            createdAt: true,
-            bytes: true,
-            width: true,
-            height: true,
-            uploadedBy: true,
-          }
-        },
-        uploadedByUser: {
-          columns: {
-            id: true,
-            name: true,
-            role: true,
-          },
-        },
-      },
+    const paginationQuery = getPagination({
+      page: query.page,
+      limit: query.limit
     });
     
+    const [countResult, eventsResult] = await Promise.all([
+      db.select({ count: sql<number>`count(*)::int` })
+        .from(events)
+        .where(whereClause),
+        
+      db.query.events.findMany({
+        where: whereClause,
+        orderBy: orderCriteria,
+        offset: paginationQuery.offset,
+        limit: paginationQuery.limit,
+        ...eventListProjection,
+      }),
+    ]);
+
+    const count = countResult[0]?.count ?? 0;
+
+    const pagination = buildPaginationMeta(
+      paginationQuery.page,
+      paginationQuery.limit,
+      count,
+    );
+    
     return {
-      events: result,
-      meta: {
-        pagination: {
-          page,
-          limit,
-          total: count,
-          totalPages: Math.ceil(count / limit),
-          hasNextPage: page < Math.ceil(count / limit),
-          hasPreviousPage: page > 1,
-        }
-      },
+      events: eventsResult,
+      meta: { pagination },
     };
   }
 
-  async getOneEvent(data: GetOneEventInput) {
-    const visibilityConditions = [
+  async getEventById(user: Principal, eventId: string) {
+    const conditions = [
+      eq(events.id, eventId),
       or(
         and(
           eq(events.visibility, EventVisibility.PRIVATE),
-          eq(events.uploadedBy, data.userId)
+          eq(events.uploadedBy, user.userId)
         ),
         ne(events.visibility, EventVisibility.PRIVATE),
       ),
+      user.role !== UserRole.ADMIN
+        ? ne(events.visibility, EventVisibility.ADMIN_ONLY)
+        : undefined,
       isNull(events.deletedAt)
-    ];
-
-    if (data.userRole !== UserRole.ADMIN) {
-      visibilityConditions.push(
-        ne(events.visibility, EventVisibility.ADMIN_ONLY)
-      )
-    }
-
-    const mediaPreviewColumns = {
-      columns: {
-        id: true,
-        secureUrl: true,
-        width: true,
-        height: true,
-        bytes: true,
-        createdAt: true,
-        uploadedBy: true,
-      }
-    } as const;
+    ].filter(Boolean);
 
     const result = await db.query.events.findFirst({
-      where: and(eq(events.id, data.eventId), ...visibilityConditions),
-      columns: {
-        id: true,
-        title: true,
-        description: true,
-        visibility: true,
-        tags: true,
-        dateOfMoment: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-      with: {
-        category: {
-          columns: {
-            id: true,
-            name: true,
-            slug: true,
-            description: true,
-          },
-        },
-        coverMedia: mediaPreviewColumns,
-        media: mediaPreviewColumns,
-        uploadedByUser: {
-          columns: {
-            id: true,
-            name: true,
-            role: true,
-          }
-        },
-      },
+      where: and(...conditions),
+      ...eventDetailProjection,
     });
 
     if (!result) {
@@ -275,13 +183,13 @@ class EventsService {
     return result;
   }
 
-  async updateOneEvent(data: UpdateOneEventInput) {
-    if (data.data.media.coverId) {
+  async updateEventById(user: Principal, eventId: string, data: UpdateEventPayload) {
+    if (data.media.coverId) {
       const attachmentConditions = [
-        eq(media.id, data.data.media.coverId),
-        eq(media.uploadedBy, data.userId),
+        eq(media.id, data.media.coverId),
+        eq(media.uploadedBy, user.userId),
         isNull(media.deletedAt),
-        eq(media.eventId, data.eventId),
+        eq(media.eventId, eventId),
       ];
 
       const [validCoverMedia] = await db
@@ -297,13 +205,13 @@ class EventsService {
     }
 
     const updateEntries = Object.entries({
-      title: data.data.title,
-      categoryId: data.data.categoryId,
-      coverMediaId: data.data.media.coverId,
-      dateOfMoment: data.data.dateOfMoment,
-      description: data.data.description,
-      tags: data.data.tags,
-      visibility: data.data.visibility,
+      title: data.title,
+      categoryId: data.categoryId,
+      coverMediaId: data.media.coverId,
+      dateOfMoment: data.dateOfMoment,
+      description: data.description,
+      tags: data.tags,
+      visibility: data.visibility,
     }).filter(([_, value]) => value !== undefined);
 
     if (!updateEntries.length) {
@@ -315,13 +223,13 @@ class EventsService {
     const updateData = Object.fromEntries(updateEntries);
 
     const updateConditions = [
-      eq(events.id, data.eventId),
+      eq(events.id, eventId),
       isNull(events.deletedAt)
     ];
 
-    if (data.userRole !== UserRole.ADMIN) {
+    if (user.role !== UserRole.ADMIN) {
       updateConditions.push(
-        eq(events.uploadedBy, data.userId)
+        eq(events.uploadedBy, user.userId)
       )
     }
 
@@ -343,20 +251,21 @@ class EventsService {
     return updatedEvent;
   }
 
-  async deleteOneEvent(data: DeleteOneEventInput) {
+  async deleteEventById(user: Principal, eventId: string) {
     const deleteConditions = [
-      eq(events.id, data.eventId),
+      eq(events.id, eventId),
+      isNull(events.deletedAt),
     ];
 
-    if (data.userRole !== UserRole.ADMIN) {
+    if (user.role !== UserRole.ADMIN) {
       deleteConditions.push(
-        eq(events.uploadedBy, data.userId),
+        eq(events.uploadedBy, user.userId),
       );
     }
 
     return await db.transaction(async tx => {
       const [deletedEvent] = await softDelete(tx, events, {
-        actorId: data.userId,
+        actorId: user.userId,
         where: and(...deleteConditions)
       }).returning({ id: events.id });
 
@@ -367,7 +276,7 @@ class EventsService {
       }
 
       const deletedMedia = await softDelete(tx, media, {
-        actorId: data.userId,
+        actorId: user.userId,
         where: and(
           eq(media.eventId, deletedEvent.id)
         )

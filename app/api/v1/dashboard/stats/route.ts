@@ -24,16 +24,15 @@ export const GET = withErrorHandler(
       db.select({ count: count() }).from(categories),
     ]);
 
-    const { events: eventsList } = await eventsService.getEvents({
-      filters: {
+    const { events: eventsList } = await eventsService.getAllEvents(
+      ctx.user.userId,
+      ctx.user.role,
+      {
         limit: 4,
         page: 1,
-        date: {},
         sortBy: "latest",
       },
-      userId: ctx.user.userId,
-      userRole: ctx.user.role,
-    });
+    );
 
     return NextResponse.json({
       success: true,
