@@ -1,5 +1,16 @@
-import { getTableColumns, Table } from "drizzle-orm";
+import { DBQueryConfig, getTableColumns, Table } from "drizzle-orm";
 import { Columns, Prettify } from "./types";
+import { DbRelationalSchema } from "../db/schema";
+
+type RelationalProjection<
+  TTableName extends keyof DbRelationalSchema = keyof DbRelationalSchema,
+  TRelationType extends "one" | "many" = "one" | "many",
+> = DBQueryConfig<
+  TRelationType,
+  true,
+  DbRelationalSchema,
+  DbRelationalSchema[TTableName]
+>;
 
 /**
  * Conditional type that infers the return type for `buildCoreProjection`.
@@ -147,6 +158,7 @@ function buildRelationalProjection<
 }
 
 export {
+  type RelationalProjection,
   type InferCoreProjection,
   type InferRelationalProjection,
   buildCoreProjection,
