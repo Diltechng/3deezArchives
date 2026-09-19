@@ -2,13 +2,13 @@ import { days } from "@/shared/utils/time"
 import { and, gte, lt } from "drizzle-orm"
 import { PgColumn } from "drizzle-orm/pg-core"
 
-export function buildDateFilter(column: PgColumn, dateFrom?: Date, dateTo?: Date) {
+export function buildDateFilter(column: PgColumn, startDate?: Date, endDate?: Date) {
   const conditions = [
-    dateFrom
-      ? gte(column, dateFrom)
+    startDate
+      ? gte(column, startDate)
       : undefined,
-    dateTo
-      ? lt(column, new Date(dateTo.getTime() + days(1)))
+    endDate
+      ? lt(column, new Date(endDate.getTime() + days(1)))
       : undefined,
   ].filter(Boolean);
 
