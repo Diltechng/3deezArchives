@@ -7,16 +7,16 @@ import { Columns, Prettify } from "./types";
  */
 type InferCoreProjection<
   TTable extends Table,
-  TInclude extends (keyof Columns<TTable>)[] | undefined,
-  TExclude extends (keyof Columns<TTable>)[] | undefined,
-> = [TInclude] extends [(keyof Columns<TTable>)[]]
-  ? [TExclude] extends [(keyof Columns<TTable>)[]]
+  TInclude extends readonly (keyof Columns<TTable>)[] | undefined,
+  TExclude extends readonly (keyof Columns<TTable>)[] | undefined,
+> = [TInclude] extends [readonly (keyof Columns<TTable>)[]]
+  ? [TExclude] extends [readonly (keyof Columns<TTable>)[]]
     ? Prettify<Omit<
         Pick<Columns<TTable>, TInclude[number]>,
         TExclude[number]
       >>
     : Prettify<Pick<Columns<TTable>, TInclude[number]>>
-  : [TExclude] extends [(keyof Columns<TTable>)[]]
+  : [TExclude] extends [readonly (keyof Columns<TTable>)[]]
     ? Prettify<Omit<Columns<TTable>, TExclude[number]>>
     : Columns<TTable>;
 
@@ -26,13 +26,13 @@ type InferCoreProjection<
  */
 type InferRelationalProjection<
   TTable extends Table,
-  TInclude extends (keyof Columns<TTable>)[] | undefined,
-  TExclude extends (keyof Columns<TTable>)[] | undefined,
-> = [TInclude] extends [(keyof Columns<TTable>)[]]
-  ? [TExclude] extends [(keyof Columns<TTable>)[]]
+  TInclude extends readonly (keyof Columns<TTable>)[] | undefined,
+  TExclude extends readonly (keyof Columns<TTable>)[] | undefined,
+> = [TInclude] extends [readonly (keyof Columns<TTable>)[]]
+  ? [TExclude] extends [readonly (keyof Columns<TTable>)[]]
     ? { [K in Exclude<TInclude[number], TExclude[number]>]: true }
     : { [K in TInclude[number]]: true }
-  : [TExclude] extends [(keyof Columns<TTable>)[]]
+  : [TExclude] extends [readonly (keyof Columns<TTable>)[]]
     ? { [K in Exclude<keyof Columns<TTable>, TExclude[number]>]: true }
     : { [K in keyof Columns<TTable>]: true }
 
@@ -61,8 +61,8 @@ type InferRelationalProjection<
  */
 function buildCoreProjection<
   TTable extends Table,
-  TIncludeColumns extends (keyof Columns<TTable>)[] | undefined,
-  TExcludeColumns extends (keyof Columns<TTable>)[] | undefined,
+  const TIncludeColumns extends readonly (keyof Columns<TTable>)[] | undefined,
+  const TExcludeColumns extends readonly (keyof Columns<TTable>)[] | undefined,
 >(
   table: TTable,
   fields: {
@@ -116,8 +116,8 @@ function buildCoreProjection<
  */
 function buildRelationalProjection<
   TTable extends Table,
-  TIncludeColumns extends (keyof Columns<TTable>)[] | undefined,
-  TExcludeColumns extends (keyof Columns<TTable>)[] | undefined,
+  const TIncludeColumns extends readonly (keyof Columns<TTable>)[] | undefined,
+  const TExcludeColumns extends readonly (keyof Columns<TTable>)[] | undefined,
 >(
   table: TTable,
   fields: {
