@@ -1,4 +1,4 @@
-import { pgTable, text, boolean, pgEnum, uniqueIndex, uuid, foreignKey } from "drizzle-orm/pg-core";
+import { pgTable, text, boolean, pgEnum, uniqueIndex, uuid, foreignKey, unique } from "drizzle-orm/pg-core";
 import { userRoleEnum, timestamps, primaryId } from "../../shared";
 import { UserStatusValues } from "@/shared/constants/enums";
 import { relations, sql } from "drizzle-orm";
@@ -16,17 +16,22 @@ export const users = pgTable(
   "users",
   {
     id: primaryId("id"),
-    organisationId: uuid("organisation_id").references(() => organisations.id, { onDelete: "restrict" }),
-    roleId: uuid("role_id").references(() => roles.id, { onDelete: "restrict" }),
     email: text("email").notNull(),
     name: text("name").notNull(),
     passwordHash: text("password_hash").notNull(),
     role: userRoleEnum("role").default("staff").notNull(),
     status: statusEnum("status").default("active").notNull(),
     onboardingCompleted: boolean("onboarding_completed").default(false).notNull(),
+    
+    organisationId: uuid("organisation_id").references(() => organisations.id, { onDelete: "restrict" }),
+    roleId: uuid("role_id").references(() => roles.id, { onDelete: "restrict" }),
+
     ...timestamps,
   },
   (table) => [
+    unique("users_organisation_id_id_unique")
+      .on(table.organisationId, table.id),
+
     uniqueIndex("users_email_unique_idx")
       .on(table.email)
       .where(sql`${table.deletedAt} IS NULL`),

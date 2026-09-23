@@ -162,6 +162,34 @@
       "when": 1790154105212,
       "tag": "0022_change_permission_name_column_type_to_varchar",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1790191214458,
+      "tag": "0023_add_composite_unique_constraints_on_users_entity",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1790191800061,
+      "tag": "0024_add_composite_unique_constraints_on_gallery_entity",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1790192033753,
+      "tag": "0025_scope_gallery_content_entities_under_organisations",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1790192206346,
+      "tag": "0026_remove_ownership_constraint_on_media_and_event_entities",
+      "breakpoints": true
     }
   ]
 }

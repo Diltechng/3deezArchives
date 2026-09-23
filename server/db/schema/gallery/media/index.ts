@@ -1,5 +1,5 @@
-import { integer, pgTable, text, timestamp, unique, uuid, varchar } from "drizzle-orm/pg-core";
-import { users, events } from "@/server/db/schema";
+import { foreignKey, integer, pgTable, text, timestamp, unique, uuid, varchar } from "drizzle-orm/pg-core";
+import { users, events, organisations } from "@/server/db/schema";
 import { timestamps } from "@/server/db/schema/shared";
 import { relations } from "drizzle-orm";
 
@@ -17,6 +17,7 @@ export const media = pgTable("media", {
   width: integer("width"),
   height: integer("height"),
 
+  organisationId: uuid("organisation_id").references(() => organisations.id, { onDelete: "cascade" }),
   eventId: uuid("event_id").references(() => events.id, { onDelete: "cascade" }),
   uploadedBy: uuid("uploaded_by").references(() => users.id, { onDelete: "set null" }),
   deletedBy: uuid("deleted_by").references(() => users.id, { onDelete: "set null" }),
@@ -24,7 +25,26 @@ export const media = pgTable("media", {
   uploadedAt: timestamp("uploaded_at", { withTimezone: true }).notNull(),
   ...timestamps,
 }, (table) => [
-  unique("media_id_uploaded_by_uq").on(table.id, table.uploadedBy)
+  foreignKey({
+    name: "media_organisation_id_event_id_fk",
+    columns: [table.organisationId, table.eventId],
+    foreignColumns: [events.organisationId, events.id]
+  }),
+
+  foreignKey({
+    name: "media_organisation_id_uploaded_by_fk",
+    columns: [table.organisationId, table.uploadedBy],
+    foreignColumns: [users.organisationId, users.id]
+  }),
+
+  foreignKey({
+    name: "media_organisation_id_deleted_by_fk",
+    columns: [table.organisationId, table.deletedBy],
+    foreignColumns: [users.organisationId, users.id]
+  }),
+
+  unique("media_organisation_id_id_unique")
+    .on(table.organisationId, table.id),
 ]);
 
 export const mediaRelations = relations(media, ({ one }) => ({

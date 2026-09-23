@@ -11,20 +11,22 @@ export const invitationStatusEnum = pgEnum("invitation_status", InvitationStatus
 export const invitations = pgTable("invites", {
   // identity
   id: uuid().defaultRandom().primaryKey(),
-  organisationId: uuid("organisation_id").references(() => organisations.id, { onDelete: "cascade" }),
-  roleId: uuid("role_id").references(() => roles.id, { onDelete: "cascade" }),
   email: text("email").notNull(),
   role: userRoleEnum("role").default("staff").notNull(),
   
   // invitation details
   tokenHash: varchar("token_hash").unique().notNull(),
   otpHash: varchar("otp_hash").notNull(),
-  invitedBy: uuid("invited_by").references(() => users.id, { onDelete: "set null" }),
   
   // lifecycle
   emailVerified: boolean("email_verified").default(false).notNull(),
   status: invitationStatusEnum("status").default("pending").notNull(),
   
+  // Foreign keys
+  organisationId: uuid("organisation_id").references(() => organisations.id, { onDelete: "cascade" }),
+  roleId: uuid("role_id").references(() => roles.id, { onDelete: "cascade" }),
+  invitedBy: uuid("invited_by").references(() => users.id, { onDelete: "set null" }),
+
   // timestamps
   completedAt: timestamp("completed_at", { withTimezone: true }),
   acceptedAt: timestamp("accepted_at", { withTimezone: true }),
