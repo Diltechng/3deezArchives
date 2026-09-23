@@ -31,12 +31,6 @@ export const events = pgTable("events", {
   }).onDelete("set null"),
 
   foreignKey({
-    name: "events_cover_media_ownership_fk",
-    columns: [table.coverMediaId, table.uploadedBy],
-    foreignColumns: [media.id, media.uploadedBy],
-  }),
-
-  foreignKey({
     name: "events_organisation_id_category_id_fk",
     columns: [table.organisationId, table.categoryId],
     foreignColumns: [categories.organisationId, categories.id],

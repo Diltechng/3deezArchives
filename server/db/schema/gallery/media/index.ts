@@ -45,8 +45,6 @@ export const media = pgTable("media", {
 
   unique("media_organisation_id_id_unique")
     .on(table.organisationId, table.id),
-    
-  unique("media_id_uploaded_by_uq").on(table.id, table.uploadedBy),
 ]);
 
 export const mediaRelations = relations(media, ({ one }) => ({

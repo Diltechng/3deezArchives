@@ -183,6 +183,13 @@
       "when": 1790192033753,
       "tag": "0025_scope_gallery_content_entities_under_organisations",
       "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1790192206346,
+      "tag": "0026_remove_ownership_constraint_on_media_and_event_entities",
+      "breakpoints": true
     }
   ]
 }
