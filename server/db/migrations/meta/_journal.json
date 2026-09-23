@@ -162,6 +162,13 @@
       "when": 1790154105212,
       "tag": "0022_change_permission_name_column_type_to_varchar",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1790191214458,
+      "tag": "0023_add_composite_unique_constraints_on_users_entity",
+      "breakpoints": true
     }
   ]
 }

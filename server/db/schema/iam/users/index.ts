@@ -1,4 +1,4 @@
-import { pgTable, text, boolean, pgEnum, uniqueIndex, uuid, foreignKey } from "drizzle-orm/pg-core";
+import { pgTable, text, boolean, pgEnum, uniqueIndex, uuid, foreignKey, unique } from "drizzle-orm/pg-core";
 import { userRoleEnum, timestamps, primaryId } from "../../shared";
 import { UserStatusValues } from "@/shared/constants/enums";
 import { relations, sql } from "drizzle-orm";
@@ -29,6 +29,9 @@ export const users = pgTable(
     ...timestamps,
   },
   (table) => [
+    unique("users_organisation_id_id_unique")
+      .on(table.organisationId, table.id),
+
     uniqueIndex("users_email_unique_idx")
       .on(table.email)
       .where(sql`${table.deletedAt} IS NULL`),
