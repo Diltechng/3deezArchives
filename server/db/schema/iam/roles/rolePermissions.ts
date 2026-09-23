@@ -6,9 +6,11 @@ import { roles } from "./roles";
 
 export const rolePermissions = pgTable("role_permissions", {
   id: primaryId("id"),
-  roleId: uuid("role_id").references(() => roles.id).notNull(),
-  permissionId: uuid("permission_id").references(() => permissions.id).notNull(),
   isAllowed: boolean("is_allowed").notNull().default(false),
+
+  permissionId: uuid("permission_id").references(() => permissions.id).notNull(),
+  roleId: uuid("role_id").references(() => roles.id).notNull(),
+  
   ...timestamps,
 }, (table) => [
   uniqueIndex("role_permissions_role_id_permission_id_unique_idx")

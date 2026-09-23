@@ -7,10 +7,12 @@ import { users } from "../users";
 
 export const roles = pgTable("roles", {
   id: primaryId("id"),
-  organisationId: uuid("organisation_id").references(() => organisations.id).notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   code: varchar("code", { length: 128 }).notNull(),
   description: text("description"),
+
+  organisationId: uuid("organisation_id").references(() => organisations.id).notNull(),
+  
   ...timestamps
 }, (table) => [
   uniqueIndex("roles_organisation_id_name_unique_idx")
