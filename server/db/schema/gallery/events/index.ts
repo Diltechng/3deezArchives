@@ -1,7 +1,7 @@
-import { foreignKey, index, pgEnum, pgTable, PgTableExtraConfigValue, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { foreignKey, index, pgEnum, pgTable, PgTableExtraConfigValue, text, timestamp, unique, uuid, varchar } from "drizzle-orm/pg-core";
 import { EventVisibilityValues } from "@/shared/constants/enums";
 import { timestamps } from "@/server/db/schema/shared";
-import { media, users, categories } from "@/server/db/schema";
+import { media, users, categories, organisations } from "@/server/db/schema";
 import { relations } from "drizzle-orm";
 
 export const visibilityEnum = pgEnum("visibility", EventVisibilityValues);
@@ -11,12 +11,14 @@ export const events = pgTable("events", {
   
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
-  categoryId: uuid("category_id").references(() => categories.id, { onDelete: "set null" }),
-  coverMediaId: uuid("cover_media_id"),
   tags: varchar("tags").array(),
   visibility: visibilityEnum("visibility").notNull(),
 
   dateOfMoment: timestamp("date_of_moment", { withTimezone: true }).notNull(),
+  
+  organisationId: uuid("organisation_id").references(() => organisations.id, { onDelete: "cascade" }),
+  categoryId: uuid("category_id").references(() => categories.id, { onDelete: "set null" }),
+  coverMediaId: uuid("cover_media_id"),
   uploadedBy: uuid("uploaded_by").references(() => users.id, { onDelete: "set null" }),
   deletedBy: uuid("deleted_by").references(() => users.id, { onDelete: "set null" }),
 
@@ -33,6 +35,10 @@ export const events = pgTable("events", {
     columns: [table.coverMediaId, table.uploadedBy],
     foreignColumns: [media.id, media.uploadedBy],
   }),
+  
+  unique("events_organisation_id_id_unique")
+    .on(table.organisationId, table.id),
+
   index("events_category_id_idx").on(table.categoryId),
   index("events_date_of_moment_idx").on(table.dateOfMoment),
 ]);
