@@ -28,7 +28,7 @@ export async function seedCategories(db: DbClient) {
     slug: toSlug("Campaigns"),
     description: "Marketing campaigns, promotional initiatives, and brand activations.",
   }]).onConflictDoNothing({
-    target: categories.name
+    target: [categories.organisationId, categories.name]
   });
 
   console.log("Categories seeded successfully.");
