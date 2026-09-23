@@ -176,6 +176,13 @@
       "when": 1790191800061,
       "tag": "0024_add_composite_unique_constraints_on_gallery_entity",
       "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1790192033753,
+      "tag": "0025_scope_gallery_content_entities_under_organisations",
+      "breakpoints": true
     }
   ]
 }

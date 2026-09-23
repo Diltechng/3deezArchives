@@ -25,6 +25,24 @@ export const media = pgTable("media", {
   uploadedAt: timestamp("uploaded_at", { withTimezone: true }).notNull(),
   ...timestamps,
 }, (table) => [
+  foreignKey({
+    name: "media_organisation_id_event_id_fk",
+    columns: [table.organisationId, table.eventId],
+    foreignColumns: [events.organisationId, events.id]
+  }),
+
+  foreignKey({
+    name: "media_organisation_id_uploaded_by_fk",
+    columns: [table.organisationId, table.uploadedBy],
+    foreignColumns: [users.organisationId, users.id]
+  }),
+
+  foreignKey({
+    name: "media_organisation_id_deleted_by_fk",
+    columns: [table.organisationId, table.deletedBy],
+    foreignColumns: [users.organisationId, users.id]
+  }),
+
   unique("media_organisation_id_id_unique")
     .on(table.organisationId, table.id),
     

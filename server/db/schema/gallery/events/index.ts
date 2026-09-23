@@ -35,7 +35,31 @@ export const events = pgTable("events", {
     columns: [table.coverMediaId, table.uploadedBy],
     foreignColumns: [media.id, media.uploadedBy],
   }),
-  
+
+  foreignKey({
+    name: "events_organisation_id_category_id_fk",
+    columns: [table.organisationId, table.categoryId],
+    foreignColumns: [categories.organisationId, categories.id],
+  }),
+
+  foreignKey({
+    name: "events_organisation_id_media_id",
+    columns: [table.organisationId, table.coverMediaId],
+    foreignColumns: [media.organisationId, media.id]
+  }),
+
+  foreignKey({
+    name: "events_organisation_id_uploaded_by_fk",
+    columns: [table.organisationId, table.uploadedBy],
+    foreignColumns: [users.organisationId, users.id]
+  }),
+
+  foreignKey({
+    name: "events_organisation_id_deleted_by_fk",
+    columns: [table.organisationId, table.deletedBy],
+    foreignColumns: [users.organisationId, users.id]
+  }),
+
   unique("events_organisation_id_id_unique")
     .on(table.organisationId, table.id),
 
