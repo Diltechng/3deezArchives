@@ -19,8 +19,8 @@ export const GET = withErrorHandler(
     ] = await Promise.all([
       db.select({ count: count() }).from(events).where(isNull(events.deletedAt)),
       db.select({ count: count() }).from(events).where(and(gte(events.createdAt, startOfThisMonth), isNull(events.deletedAt))),
-      db.select({ count: count() }).from(users).where(isNull(events.deletedAt)),
-      db.select({ count: count() }).from(categories).where(isNull(events.deletedAt)),
+      db.select({ count: count() }).from(users).where(isNull(users.deletedAt)),
+      db.select({ count: count() }).from(categories).where(isNull(categories.deletedAt)),
     ]);
 
     return NextResponse.json({
