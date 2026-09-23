@@ -12,4 +12,6 @@ export async function backfillMedia(tx: DbTransaction) {
   await tx.update(media)
     .set({ organisationId: BACKFILL_ORGANISATION_ID })
     .where(and(...withoutOrgConditions));
+
+  console.log("Media organisation backfilled successfully");
 }

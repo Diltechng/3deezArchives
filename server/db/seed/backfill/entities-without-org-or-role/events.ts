@@ -12,4 +12,6 @@ export async function backfillEvents(tx: DbTransaction) {
   await tx.update(events)
     .set({ organisationId: BACKFILL_ORGANISATION_ID })
     .where(and(...withoutOrgConditions));
+
+  console.log("Events organisation backfilled successfully");
 }

@@ -8,8 +8,8 @@ import { DbClient } from "./types";
 import { seedRolePermissions } from "./seed/rolePermissions";
 
 async function seed(db: DbClient) {
-  if (process.argv.includes("--backfill-users")) {
-    return await import("./seed/backfill/users-without-org-and-role");
+  if (process.argv.includes("--backfill")) {
+    return await import("./seed/backfill/entities-without-org-or-role");
   }
 
   await seedOrganisations(db);

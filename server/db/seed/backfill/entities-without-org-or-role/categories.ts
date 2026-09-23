@@ -12,4 +12,6 @@ export async function backfillCategories(tx: DbTransaction) {
   await tx.update(categories)
     .set({ organisationId: BACKFILL_ORGANISATION_ID })
     .where(and(...withoutOrgConditions));
+
+  console.log("Categories organisation backfilled successfully");
 }
