@@ -5,13 +5,13 @@ import { eventsService } from "@/server/events/events.service";
 import { NextResponse } from "next/server";
 import { GetEventsMeta, EventDto } from "@/shared/contracts/events.contract";
 import { withPermissionGuard } from "@/server/lib/api/permission-guard";
-import { PERMISSIONS } from "@/shared/constants/permissions.constants";
+import { PERMISSION } from "@/shared/constants/permissions.constants";
 import { CreateEventSchema, GetEventsQuerySchema } from "@/shared/schemas";
 import { validateRequest } from "@/server/lib/api/validation";
 
 export const POST = withErrorHandler(
   withAuthGuard(
-    withPermissionGuard(PERMISSIONS.EVENTS_CREATE, async (req, ctx) => {
+    withPermissionGuard(PERMISSION.EVENTS_CREATE, async (req, ctx) => {
       const body = await req.json();
 
       const validatedData = validateRequest(CreateEventSchema, body);
@@ -32,7 +32,7 @@ export const POST = withErrorHandler(
 
 export const GET = withErrorHandler(
   withAuthGuard(
-    withPermissionGuard(PERMISSIONS.EVENTS_VIEW, async (req, ctx) => {
+    withPermissionGuard(PERMISSION.EVENTS_VIEW, async (req, ctx) => {
       const searchParams = Object.fromEntries(req.nextUrl.searchParams);
 
       const query = validateRequest(GetEventsQuerySchema, searchParams);

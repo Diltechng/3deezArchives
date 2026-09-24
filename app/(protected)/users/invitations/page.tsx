@@ -12,7 +12,7 @@ import { Inbox, SearchX, TriangleAlert } from "lucide-react";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import Can from "@/features/permissions/components/Can";
-import { PERMISSIONS } from "@/shared/constants/permissions.constants";
+import { PERMISSION } from "@/shared/constants/permissions.constants";
 import { QUERY_KEYS } from "@/lib/query-keys";
 
 const InvitationsPage = () => {
@@ -49,7 +49,7 @@ const InvitationsPage = () => {
   return (
     <div className="flex flex-col flex-1">
       <PageHeader title="Invitations" subtitle={`${totalInvitations} active invitations`}>
-        <Can permission={PERMISSIONS.USERS_INVITE}>
+        <Can permission={PERMISSION.USERS_INVITE}>
           <button 
             className="button-primary uppercase"
             onClick={() => openFormModal(InviteUserFormModal, {

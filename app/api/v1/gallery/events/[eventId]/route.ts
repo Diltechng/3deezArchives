@@ -4,14 +4,14 @@ import { ResponseData } from "@/shared/types/api";
 import { eventsService } from "@/server/events/events.service";
 import { NextResponse } from "next/server";
 import { withPermissionGuard } from "@/server/lib/api/permission-guard";
-import { PERMISSIONS } from "@/shared/constants/permissions.constants";
+import { PERMISSION } from "@/shared/constants/permissions.constants";
 import { DeleteEventByIdResponse, EventDto, UpdateEventByIdResponse } from "@/shared/contracts/events.contract";
 import { validateRequest } from "@/server/lib/api/validation";
 import { EventIdSchema, UpdateEventSchema } from "@/shared/schemas";
 
 export const GET = withErrorHandler(
   withAuthGuard<{ eventId: string; }>(
-    withPermissionGuard(PERMISSIONS.EVENTS_VIEW, async (req, ctx) => {
+    withPermissionGuard(PERMISSION.EVENTS_VIEW, async (req, ctx) => {
       const { eventId } = await ctx.params;
 
       const validatedId = validateRequest(EventIdSchema ,eventId);
@@ -32,7 +32,7 @@ export const GET = withErrorHandler(
 
 export const PATCH = withErrorHandler(
   withAuthGuard<{ eventId: string; }>(
-    withPermissionGuard(PERMISSIONS.EVENTS_UPDATE, async (req, ctx) => {
+    withPermissionGuard(PERMISSION.EVENTS_UPDATE, async (req, ctx) => {
       const { eventId } = await ctx.params;
       const body = await req.json();
       
@@ -56,7 +56,7 @@ export const PATCH = withErrorHandler(
 
 export const DELETE = withErrorHandler(
   withAuthGuard<{ eventId: unknown; }>(
-    withPermissionGuard(PERMISSIONS.EVENTS_DELETE, async (req, ctx) => {
+    withPermissionGuard(PERMISSION.EVENTS_DELETE, async (req, ctx) => {
       const { eventId } = await ctx.params;
 
       const validatedEventId = validateRequest(EventIdSchema, eventId);

@@ -8,11 +8,11 @@ import { ResponseData } from "@/shared/types/api";
 import { GetUsersResponse } from "@/shared/contracts/users.contract";
 import { invitationsService } from "@/server/invitations/invitations.service";
 import { withPermissionGuard } from "@/server/lib/api/permission-guard";
-import { PERMISSIONS } from "@/shared/constants/permissions.constants";
+import { PERMISSION } from "@/shared/constants/permissions.constants";
 
 export const GET = withErrorHandler(
   withAuthGuard(
-    withPermissionGuard(PERMISSIONS.USERS_VIEW, async req => {
+    withPermissionGuard(PERMISSION.USERS_VIEW, async req => {
       const { searchParams } = req.nextUrl;
 
       const search = searchParams.get("search");
@@ -49,7 +49,7 @@ export const GET = withErrorHandler(
 
 export const POST = withErrorHandler(
   withAuthGuard(
-    withPermissionGuard(PERMISSIONS.USERS_INVITE, async (req, ctx) => {
+    withPermissionGuard(PERMISSION.USERS_INVITE, async (req, ctx) => {
       const body = await req.json();
 
       const validatedData = validateInviteUser(body);
