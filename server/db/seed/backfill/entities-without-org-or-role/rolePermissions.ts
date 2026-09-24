@@ -1,7 +1,7 @@
 import { isNull } from "drizzle-orm";
 import { permissions, rolePermissions } from "@/server/db/schema";
 import { DbTransaction } from "@/server/db/types";
-import { PERMISSION_CATEGORIE, PERMISSION } from "@/shared/constants/permissions.constants";
+import { PERMISSION_CATEGORY, PERMISSION } from "@/shared/constants/permissions.constants";
 import { BACKFILL_ORGANISATION_ADMIN_ID, BACKFILL_ORGANISATION_MEMBER_ID } from "./roles";
 
 export async function backfillRolePermissions(tx: DbTransaction) {
@@ -11,11 +11,11 @@ export async function backfillRolePermissions(tx: DbTransaction) {
 
   const orgAdminPermissionList = permissionList.filter((permission) => {
     const allowedCategories = [
-      PERMISSION_CATEGORIE.CATEGORIES,
-      PERMISSION_CATEGORIE.EVENTS,
-      PERMISSION_CATEGORIE.INVITATIONS,
-      PERMISSION_CATEGORIE.ROLES,
-      PERMISSION_CATEGORIE.USERS,
+      PERMISSION_CATEGORY.CATEGORIES,
+      PERMISSION_CATEGORY.EVENTS,
+      PERMISSION_CATEGORY.INVITATIONS,
+      PERMISSION_CATEGORY.ROLES,
+      PERMISSION_CATEGORY.USERS,
     ] as string[];
 
     const allowedNames = [
