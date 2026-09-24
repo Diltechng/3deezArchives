@@ -4,12 +4,12 @@ import { ResponseData } from "@/shared/types/api";
 import { categoriesService } from "@/server/categories/categories.service";
 import { NextResponse } from "next/server";
 import { withPermissionGuard } from "@/server/lib/api/permission-guard";
-import { PERMISSIONS } from "@/shared/constants/permissions.constants";
+import { PERMISSION } from "@/shared/constants/permissions.constants";
 import { CategoryDto } from "@/shared/contracts/categories.contract";
 
 export const GET = withErrorHandler(
   withAuthGuard(
-    withPermissionGuard(PERMISSIONS.CATEGORIES_VIEW, async () => {
+    withPermissionGuard(PERMISSION.CATEGORIES_VIEW, async () => {
       const categories = await categoriesService.getCategories();
 
       return NextResponse.json<ResponseData<CategoryDto[]>>({

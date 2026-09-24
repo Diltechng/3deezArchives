@@ -5,13 +5,13 @@ import { mediaService } from "@/server/media/media.service";
 import { validateUploadMedia } from "@/server/media/media.validation";
 import { NextResponse } from "next/server";
 import { withPermissionGuard } from "@/server/lib/api/permission-guard";
-import { PERMISSIONS } from "@/shared/constants/permissions.constants";
+import { PERMISSION } from "@/shared/constants/permissions.constants";
 import { EventIdSchema } from "@/shared/schemas";
 import { validateRequest } from "@/server/lib/api/validation";
 
 export const POST = withErrorHandler(
   withAuthGuard<{ eventId: string; }>(
-    withPermissionGuard(PERMISSIONS.EVENTS_CREATE, async (req, ctx) => {
+    withPermissionGuard(PERMISSION.EVENTS_CREATE, async (req, ctx) => {
       const { eventId } = await ctx.params;
       const formData = await req.formData();
       

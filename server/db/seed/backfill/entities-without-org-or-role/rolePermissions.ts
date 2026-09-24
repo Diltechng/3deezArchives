@@ -1,7 +1,7 @@
 import { isNull } from "drizzle-orm";
 import { permissions, rolePermissions } from "@/server/db/schema";
 import { DbTransaction } from "@/server/db/types";
-import { PERMISSION_CATEGORIES, PERMISSIONS } from "@/shared/constants/permissions.constants";
+import { PERMISSION_CATEGORIE, PERMISSION } from "@/shared/constants/permissions.constants";
 import { BACKFILL_ORGANISATION_ADMIN_ID, BACKFILL_ORGANISATION_MEMBER_ID } from "./roles";
 
 export async function backfillRolePermissions(tx: DbTransaction) {
@@ -11,15 +11,15 @@ export async function backfillRolePermissions(tx: DbTransaction) {
 
   const orgAdminPermissionList = permissionList.filter((permission) => {
     const allowedCategories = [
-      PERMISSION_CATEGORIES.CATEGORIES,
-      PERMISSION_CATEGORIES.EVENTS,
-      PERMISSION_CATEGORIES.INVITATIONS,
-      PERMISSION_CATEGORIES.ROLES,
-      PERMISSION_CATEGORIES.USERS,
+      PERMISSION_CATEGORIE.CATEGORIES,
+      PERMISSION_CATEGORIE.EVENTS,
+      PERMISSION_CATEGORIE.INVITATIONS,
+      PERMISSION_CATEGORIE.ROLES,
+      PERMISSION_CATEGORIE.USERS,
     ] as string[];
 
     const allowedNames = [
-      PERMISSIONS.ORGANISATIONS_UPDATE
+      PERMISSION.ORGANISATIONS_UPDATE
     ] as string[];
 
     return (
@@ -30,13 +30,13 @@ export async function backfillRolePermissions(tx: DbTransaction) {
 
   const orgMemberPermissionList = permissionList.filter((permission) => {
     const allowedNames = [
-      PERMISSIONS.EVENTS_VIEW,
-      PERMISSIONS.EVENTS_CREATE,
-      PERMISSIONS.EVENTS_UPDATE,
-      PERMISSIONS.EVENTS_DELETE,
+      PERMISSION.EVENTS_VIEW,
+      PERMISSION.EVENTS_CREATE,
+      PERMISSION.EVENTS_UPDATE,
+      PERMISSION.EVENTS_DELETE,
 
-      PERMISSIONS.CATEGORIES_VIEW,
-      PERMISSIONS.USERS_VIEW,
+      PERMISSION.CATEGORIES_VIEW,
+      PERMISSION.USERS_VIEW,
     ] as string[];
 
     return allowedNames.includes(permission.name);

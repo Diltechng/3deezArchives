@@ -3,13 +3,13 @@ import { withErrorHandler } from "@/server/lib/api/error-handler"
 import { withPermissionGuard } from "@/server/lib/api/permission-guard"
 import { invitationsService } from "@/server/invitations/invitations.service";
 import { validateGetInvitationsQuery } from "@/server/invitations/invitations.validation";
-import { PERMISSIONS } from "@/shared/constants/permissions.constants";
+import { PERMISSION } from "@/shared/constants/permissions.constants";
 import { GetInvitationsResponse } from "@/shared/contracts/invitations.contract";
 import { NextResponse } from "next/server";
 
 export const GET = withErrorHandler(
   withAuthGuard(
-    withPermissionGuard(PERMISSIONS.INVITATIONS_VIEW, async (req) => {
+    withPermissionGuard(PERMISSION.INVITATIONS_VIEW, async (req) => {
       const { searchParams } = req.nextUrl;
       
       const search = searchParams.get("search");

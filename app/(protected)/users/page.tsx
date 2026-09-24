@@ -5,7 +5,7 @@ import { useModal } from "@/features/common/hooks/useModal";
 import { useSearchFilters } from "@/features/common/hooks/useSearchFilters";
 import { api } from "@/features/common/lib/api";
 import { cn, getInitials } from "@/features/common/lib/utils";
-import { PERMISSIONS } from "@/shared/constants/permissions.constants";
+import { PERMISSION } from "@/shared/constants/permissions.constants";
 import { GetUsersResponse } from "@/shared/contracts/users.contract";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
@@ -58,7 +58,7 @@ const UsersPage = () => {
   return (
     <div>
       <PageHeader title="Users" subtitle={`${totalUsers} members · ${totalAdmins} admins · ${totalStaffs} staff`}>
-        <Can permission={PERMISSIONS.INVITATIONS_VIEW}>
+        <Can permission={PERMISSION.INVITATIONS_VIEW}>
           <Link 
             className="button-primary uppercase"
             href="/users/invitations"
