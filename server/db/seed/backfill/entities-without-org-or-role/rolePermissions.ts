@@ -1,7 +1,7 @@
 import { isNull } from "drizzle-orm";
 import { permissions, rolePermissions } from "@/server/db/schema";
 import { DbTransaction } from "@/server/db/types";
-import { PERMISSION_CATEGORY, PERMISSION } from "@/shared/constants/permissions.constants";
+import { PERMISSION_CATEGORY, PERMISSION, PERMISSION_SCOPE } from "@/shared/constants/permissions.constants";
 import { BACKFILL_ORGANISATION_ADMIN_ID, BACKFILL_ORGANISATION_MEMBER_ID } from "./roles";
 
 export async function backfillRolePermissions(tx: DbTransaction) {
@@ -48,14 +48,15 @@ export async function backfillRolePermissions(tx: DbTransaction) {
         roleId: BACKFILL_ORGANISATION_ADMIN_ID,
         permissionId: permission.id,
         isAllowed: true,
+        scope: PERMISSION_SCOPE.ORGANISATION
       })),
       ...orgMemberPermissionList.map((permission) => ({
         roleId: BACKFILL_ORGANISATION_MEMBER_ID,
         permissionId: permission.id,
         isAllowed: true,
+        scope: PERMISSION_SCOPE.OWN
       })),
-    ]
-    );
+    ]);
 
   console.log("Permissions successfully assigned to backfilled roles");
 }

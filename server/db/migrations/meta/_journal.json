@@ -190,6 +190,13 @@
       "when": 1790192206346,
       "tag": "0026_remove_ownership_constraint_on_media_and_event_entities",
       "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1790227934320,
+      "tag": "0027_create_scope_column_on_role_permissions_table",
+      "breakpoints": true
     }
   ]
 }

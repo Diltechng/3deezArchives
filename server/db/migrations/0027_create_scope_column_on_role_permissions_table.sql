@@ -1,0 +1,3 @@
+DROP TYPE "public"."permission_enum";--> statement-breakpoint
+CREATE TYPE "public"."permission_enum" AS ENUM('events:create', 'events:view', 'events:update', 'events:delete', 'categories:create', 'categories:update', 'categories:delete', 'categories:view', 'users:invite', 'users:view', 'users:update', 'users:delete', 'users:suspend', 'invitations:view', 'organisations:view', 'organisations:create', 'organisations:update', 'organisations:delete', 'roles:view', 'roles:create', 'roles:update', 'roles:delete');--> statement-breakpoint
+ALTER TABLE "role_permissions" ADD COLUMN "scope" varchar(100) NOT NULL;
