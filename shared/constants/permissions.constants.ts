@@ -37,6 +37,12 @@ export const PERMISSION_CATEGORY = {
   USERS: "Users",
 } as const;
 
+export const PERMISSION_SCOPE = {
+  OWN: "own",
+  ORGANISATION: "organisation",
+  ANY: "any",
+} as const;
+
 export const PERMISSION_CATEGORY_MAP: Record<Permission, PermissionCategory> = {
   [PERMISSION.CATEGORIES_CREATE]: PERMISSION_CATEGORY.CATEGORIES,
   [PERMISSION.CATEGORIES_DELETE]: PERMISSION_CATEGORY.CATEGORIES,
@@ -105,3 +111,4 @@ export const ALL_PERMISSION_CATEGORIES = Object.values(PERMISSION_CATEGORY) as
 
 export type Permission = (typeof PERMISSION)[keyof typeof PERMISSION];
 export type PermissionCategory = (typeof PERMISSION_CATEGORY)[keyof typeof PERMISSION_CATEGORY];
+export type PermissionScope = (typeof PERMISSION_SCOPE)[keyof typeof PERMISSION_SCOPE];

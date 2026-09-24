@@ -1,4 +1,4 @@
-import { Permission } from "@/shared/constants/permissions.constants";
+import { Permission, PERMISSION_SCOPE } from "@/shared/constants/permissions.constants";
 import { rolePermissions } from "../schema";
 import { DbClient } from "../types";
 
@@ -16,6 +16,7 @@ export async function seedRolePermissions(
           roleId: superAdminRoleId,
           permissionId: permissionId,
           isAllowed: true,
+          scope: PERMISSION_SCOPE.ANY
         }))
     )
     .onConflictDoNothing();
